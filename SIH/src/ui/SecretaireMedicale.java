@@ -86,7 +86,7 @@ public class SecretaireMedicale extends javax.swing.JFrame {
         jLabel7.setText("Dossier Patient");
 
         jButton1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jButton1.setText("Créer le dossier médical");
+        jButton1.setText("Créer le séjour");
 
         jButton2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButton2.setText("Déconnexion");
