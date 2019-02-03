@@ -33,8 +33,109 @@ public class Patient {
         this.telephone = telephone;
        
     }
+
+    
+    // getteurs et setteurs
+ 
+    /**
+     * @return the ipp
+     */
+    public String getIpp() {
+        return ipp;
+    }
+
+    /**
+     * @param ipp the ipp to set
+     */
+    public void setIpp(String ipp) {
+        this.ipp = ipp;
+    }
+
+    /**
+     * @return the nom
+     */
+    public String getNom() {
+        return nom;
+    }
+
+    /**
+     * @param nom the nom to set
+     */
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    /**
+     * @return the prenom
+     */
+    public String getPrenom() {
+        return prenom;
+    }
+
+    /**
+     * @param prenom the prenom to set
+     */
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    /**
+     * @return the sexe
+     */
+    public Sexe getSexe() {
+        return sexe;
+    }
+
+    /**
+     * @param sexe the sexe to set
+     */
+    public void setSexe(Sexe sexe) {
+        this.sexe = sexe;
+    }
+
+    /**
+     * @return the dateDeNaissance
+     */
+    public Date getDateDeNaissance() {
+        return dateDeNaissance;
+    }
+
+    /**
+     * @param dateDeNaissance the dateDeNaissance to set
+     */
+    public void setDateDeNaissance(Date dateDeNaissance) {
+        this.dateDeNaissance = dateDeNaissance;
+    }
+
+    /**
+     * @return the adresse
+     */
+    public String getAdresse() {
+        return adresse;
+    }
+
+    /**
+     * @param adresse the adresse to set
+     */
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    /**
+     * @return the telephone
+     */
+    public String getTelephone() {
+        return telephone;
+    }
+
+    /**
+     * @param telephone the telephone to set
+     */
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
     
     
-    
+    //Fonctions à coder en dessous
     
 }
