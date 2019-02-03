@@ -53,6 +53,11 @@ public class Connexion extends javax.swing.JFrame {
 
         saisieMdp.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         saisieMdp.setText("jPasswordField1");
+        saisieMdp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saisieMdpActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Valider");
 
@@ -114,6 +119,10 @@ public class Connexion extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void saisieMdpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saisieMdpActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saisieMdpActionPerformed
 
     /**
      * @param args the command line arguments
