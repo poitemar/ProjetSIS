@@ -25,6 +25,9 @@ public class DM {
         this.listeDeSejour = new ArrayList<Sejour>();
     }
 
+    
+    
+    // getters et setters
     /**
      * @return the patient
      */
@@ -54,5 +57,6 @@ public class DM {
     }
    
     
+    // Fonctions à coder en dessous
    
 }
