@@ -35,7 +35,7 @@ public class Patient {
     }
 
     
-    // getteurs et setteurs
+    // getters et setters
  
     /**
      * @return the ipp

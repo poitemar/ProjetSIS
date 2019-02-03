@@ -31,7 +31,7 @@ public class DMA {
     
     
     
-    // getteurs et les setteurs
+    // getters et les setters
     /**
      * @return the patient
      */
