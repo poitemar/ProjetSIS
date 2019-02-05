@@ -47,7 +47,7 @@ public class Patient {
     /**
      * @param ipp the ipp to set
      */
-    public void setIpp(String ipp) {
+    public void setIpp(String ipp) { 
         this.ipp = ipp;
     }
 

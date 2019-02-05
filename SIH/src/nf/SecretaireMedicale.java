@@ -3,20 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package nf;
 
 /**
  *
- * @author poite
+ * @author PC
  */
-public class PH extends PersonnelMedical {
+public class SecretaireMedicale extends PersonnelMedical{
     
-    public PH(String nom, String prenom, int idMed, String specialite) {
+    public SecretaireMedicale(String nom, String prenom, int idMed, String specialite) {
         super(nom, prenom, idMed, specialite);
     }
-    
-    
-      
     
 }
