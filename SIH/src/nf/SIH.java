@@ -6,6 +6,8 @@
 
 package nf;
 
+import java.util.Date;
+
 
 
 
@@ -21,8 +23,10 @@ public class SIH {
     public static void main(String[] args) {
      // pour la BD 
         BDconnect bd = new BDconnect(); 
-      bd.getData2();
-      bd.ajouterDonnees();
+      //bd.getData2();
+      //bd.ajouterDonnees();
+        SecretaireAdministrative sm = new SecretaireAdministrative("MAURIOL", "Marine","087567");
+        sm.ajouterNouveauPatient("37849205","poitevin","margaux",Sexe.FEMME,new Date(11,8,1997),"2 impasse","060504");
        
     
     }

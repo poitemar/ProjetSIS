@@ -40,7 +40,7 @@ public class BDconnect {
         }
 
 //Exemple d’ajout de données 
-     public void ajouterDonnees(){
+     public void ajouterPatient(){
                
                
                String sql="insert into patients(IPP,NOM,PRENOM,SEXE,DATENAISSANCE,ADRESSE,TELEPHONE) values (?,?,?,?,?,?,?)";

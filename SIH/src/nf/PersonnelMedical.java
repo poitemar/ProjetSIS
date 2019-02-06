@@ -16,7 +16,7 @@ public class PersonnelMedical {
     public String  idMed;
     public String specialite;
 
-    public PersonnelMedical(String nom, String prenom, String idMed, String specialite) {
+    public PersonnelMedical(String nom, String prenom, String idMed) {
         this.nom = nom;
         this.prenom = prenom;
         this.idMed = idMed;

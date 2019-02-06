@@ -11,8 +11,9 @@ package nf;
  * @author poite
  */
 public enum Service {
-    CARDIOLOGIE,
-    NEUROLOGIE,
+    CLINIQUE,
+    MEDICO_TECHNIQUE,
     //...
-    OBSTETRIQUE;
+    ANESTHESISTE,
+    RADIOLOGUE;
 }
