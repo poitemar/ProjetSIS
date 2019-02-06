@@ -269,7 +269,7 @@ public class PH extends javax.swing.JFrame {
         jScrollPane4.setViewportView(jTextArea3);
 
         jLabel13.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel13.setText("Prescritpions :");
+        jLabel13.setText("Prescriptions :");
 
         jTextArea4.setColumns(20);
         jTextArea4.setRows(5);

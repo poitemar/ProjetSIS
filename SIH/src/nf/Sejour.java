@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package nf;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +16,10 @@ import java.util.List;
  * @author poite
  */
 public class Sejour {
-    private String idSejour ;
+    private Connection con;
+    private Statement st;
+
+    private String idSejour;
     private Patient patient;
     private PH phReferant;
     private List<String> listeObservations;
@@ -27,31 +32,40 @@ public class Sejour {
     private Date dateSortie;
     private String lettreDeSortie;
     private Localisation localisation;
-    
+
     // Constructeur Sejour
     // creation sejour implique un patient, un idSejour(auto), un phReferant, localisation
-    public Sejour(String idSejour, Patient patient, PH phReferant, Localisation localisation){
+    public Sejour(String idSejour, Patient patient, PH phReferant, Localisation localisation) {
         this.idSejour = idSejour;
         this.patient = patient;
         this.phReferant = phReferant;
         this.localisation = localisation;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
+            st = con.createStatement();
+
+        } catch (Exception ex) {
+            System.out.println("error :" + ex);
+
+        }
     }
 
     /*deuxième constructeur de Sejour pour rentrer les informations d'un séjour : prescriptions, observations, compte rendu,
-    résultats, titre des opérations, détails des opérations, et une lettre de sortie marquant la fin du séjour */
-    public Sejour (String prescription, String observation, String compteRendu, String resultat, String titreOperation,
-            String detailsOperation, String lettreDeSortie){
+     résultats, titre des opérations, détails des opérations, et une lettre de sortie marquant la fin du séjour */
+    public Sejour(String prescription, String observation, String compteRendu, String resultat, String titreOperation,
+            String detailsOperation, String lettreDeSortie) {
         this.listePrescriptions.add(prescription);
         this.listeObservations.add(observation);
         this.listeDeCompteRenduRadio.add(compteRendu);
         this.listeDeResultats.add(resultat);
         this.listeTitreOperations.add(titreOperation);
         this.listeDetailsOperations.add(detailsOperation);
-        this.lettreDeSortie = lettreDeSortie;        
+        this.lettreDeSortie = lettreDeSortie;
     }
-    
+
     // getters et setters
-   
     /**
      * @return the idSejour
      */
@@ -233,37 +247,33 @@ public class Sejour {
     public void setLocalisation(Localisation localisation) {
         this.localisation = localisation;
     }
-    
-        
-    
-    
-    
+
     // Fonctions a coder en dessous
-    public void ajouterPrescription(String prescription){
+    public void ajouterPrescription(String prescription) {
         this.listePrescriptions.add(prescription);
     }
-    
-    public void ajouterObservation(String observation){
+
+    public void ajouterObservation(String observation) {
         this.listeObservations.add(observation);
     }
-    
-    public void ajouterCompteRendu(String compteRendu){
+
+    public void ajouterCompteRendu(String compteRendu) {
         this.listeDeCompteRenduRadio.add(compteRendu);
     }
-    
-    public void ajouterResultat(String resultat){
+
+    public void ajouterResultat(String resultat) {
         this.listeDeResultats.add(resultat);
     }
-    
-    public void ajouterTitreOperation(String titreOperation){
+
+    public void ajouterTitreOperation(String titreOperation) {
         this.listeTitreOperations.add(titreOperation);
     }
-    
-    public void ajouterDetailsOperation(String detailsOperation){
+
+    public void ajouterDetailsOperation(String detailsOperation) {
         this.listeDetailsOperations.add(detailsOperation);
     }
-    
-    public void ajouterLettreDeSortie(String lettreDeSortie){
+
+    public void ajouterLettreDeSortie(String lettreDeSortie) {
         this.setLettreDeSortie(lettreDeSortie);
     }
     //
