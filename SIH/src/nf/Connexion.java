@@ -9,16 +9,14 @@ package nf;
  *
  * @author PC
  */
-public class Connexion extends PersonnelMedical{
+public class Connexion {
     
-    BDconnect bd = new BDconnect();
     
-    public Connexion(String nom, String prenom, String idMed, String specialite, String login, String password) {
-        super(nom, prenom, idMed, specialite,login,password);
+    
+    public Connexion(String id, String password) {
+     
     }
     
-    public void seConnecter(String login, String password){
-        
-    }
+    
     
 }

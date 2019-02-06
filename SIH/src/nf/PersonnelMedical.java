@@ -14,16 +14,13 @@ public class PersonnelMedical {
     public String nom;
     public String prenom;
     public String  idMed;
-    public String specialite;
-    public String login;
+
     public String password;
 
-    public PersonnelMedical(String nom, String prenom, String idMed, String specialite,String login,String password) {
+     public PersonnelMedical(String nom, String prenom, String idMed,String password) {
         this.nom = nom;
         this.prenom = prenom;
         this.idMed = idMed;
-        this.specialite = specialite;
-        this.login=login;
         this.password=password;
 
     }
@@ -44,10 +41,6 @@ public class PersonnelMedical {
         this.idMed = idMed;
     }
 
-    //to set the speciality of the medical staff 
-    public void setSpecialite(String specialite) {
-        this.specialite = specialite;
-    }
 
     //to get the last name of the medical staff
     public String getNom() {
@@ -61,9 +54,5 @@ public class PersonnelMedical {
     //to get the ID of the medical staff
     public String getIdMed(){
         return idMed; 
-    }
-    //to get the speciality of the medical staff
-    public String getSpecialite() {
-        return specialite;
     }
 }

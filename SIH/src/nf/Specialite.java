@@ -10,8 +10,8 @@ package nf;
  *
  * @author poite
  */
-public enum Sexe {
-    FEMME,
-    HOMME,
-    AUTRE;
+public enum Specialite {
+    CARDIOLOGIE,
+    //...
+    PNEUMOLOGIE;
 }

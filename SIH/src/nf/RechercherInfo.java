@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package nf;
 
 /**
  *
- * @author poite
+ * @author PC
  */
-public enum Sexe {
-    FEMME,
-    HOMME,
-    AUTRE;
+public class RechercherInfo {
+    
 }
