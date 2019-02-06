@@ -9,10 +9,10 @@ package nf;
  *
  * @author PC
  */
-public class SecretaireAdministrative extends PersonnelMedical{
+public class SecretaireAdministrative extends PersonnelMedical{ 
     
-    public SecretaireAdministrative(String nom, String prenom, String idMed, String specialite) {
-        super(nom, prenom, idMed, specialite);
+    public SecretaireAdministrative(String nom, String prenom, String idMed, String specialite,String login,String password) {
+        super(nom, prenom, idMed, specialite,login,password);
     }
     
 }

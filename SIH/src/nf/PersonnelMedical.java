@@ -15,12 +15,16 @@ public class PersonnelMedical {
     public String prenom;
     public String  idMed;
     public String specialite;
+    public String login;
+    public String password;
 
-    public PersonnelMedical(String nom, String prenom, String idMed, String specialite) {
+    public PersonnelMedical(String nom, String prenom, String idMed, String specialite,String login,String password) {
         this.nom = nom;
         this.prenom = prenom;
         this.idMed = idMed;
         this.specialite = specialite;
+        this.login=login;
+        this.password=password;
 
     }
 
