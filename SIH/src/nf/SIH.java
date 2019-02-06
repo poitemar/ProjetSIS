@@ -24,7 +24,7 @@ public class SIH {
      // pour la BD 
         BDconnect bd = new BDconnect(); 
       //bd.getData2();
-      //bd.ajouterDonnees();
+     
         SecretaireAdministrative sm = new SecretaireAdministrative("MAURIOL", "Marine","087567","pomme");
         sm.ajouterNouveauPatient("37849205","poitevin","margaux",Sexe.FEMME,new Date(13,02,1997),"2 impasse","060504");
        
