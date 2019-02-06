@@ -11,7 +11,7 @@ package nf;
  */
 public class SecretaireMedicale extends PersonnelMedical{
     
-    public SecretaireMedicale(String nom, String prenom, int idMed, String specialite) {
+    public SecretaireMedicale(String nom, String prenom, String idMed, String specialite) {
         super(nom, prenom, idMed, specialite);
     }
     

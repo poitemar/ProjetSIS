@@ -13,10 +13,10 @@ public class PersonnelMedical {
 
     public String nom;
     public String prenom;
-    public int idMed;
+    public String  idMed;
     public String specialite;
 
-    public PersonnelMedical(String nom, String prenom, int idMed, String specialite) {
+    public PersonnelMedical(String nom, String prenom, String idMed, String specialite) {
         this.nom = nom;
         this.prenom = prenom;
         this.idMed = idMed;
@@ -36,7 +36,7 @@ public class PersonnelMedical {
     }
 
     //to set the Id of  the medical staff
-    public void setIdMed(int idMed) {
+    public void setIdMed(String idMed) {
         this.idMed = idMed;
     }
 
@@ -55,7 +55,7 @@ public class PersonnelMedical {
         return prenom;
     }
     //to get the ID of the medical staff
-    public int getIdMed(){
+    public String getIdMed(){
         return idMed; 
     }
     //to get the speciality of the medical staff
