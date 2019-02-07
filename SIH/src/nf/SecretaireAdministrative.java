@@ -20,8 +20,8 @@ public class SecretaireAdministrative extends PersonnelMedical{
      private Connection con;
       private Statement st; 
      
-    public SecretaireAdministrative(String nom, String prenom, String idMed) {
-        super(nom, prenom, idMed);
+    public SecretaireAdministrative(String nom, String prenom, String idMed,String password) {
+        super(nom, prenom, idMed,password);
          try{
             Class.forName("com.mysql.jdbc.Driver");
             
@@ -50,7 +50,7 @@ public class SecretaireAdministrative extends PersonnelMedical{
             pstm.setString(2,nom);
             pstm.setString(3,prenom);
             pstm.setString(4,sexe.toString());            
-            pstm.setDate(5, dateDeNaissance);
+            pstm.setDate(5, new java.sql.Date(dateDeNaissance.getTime()));
             pstm.setString(6, adresse);
             pstm.setString(7, telephone);
             pstm.executeUpdate(); 
