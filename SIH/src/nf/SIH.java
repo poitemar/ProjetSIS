@@ -32,11 +32,11 @@ public class SIH {
         sm.ajouterNouveauPatient("37849205","poitevin","margaux",Sexe.FEMME,d1,"2 impasse","060504");
        
              
-//        PH ph = new PH("RACAMIER", "Axel", "16458A", "cardio", "login", "kiwi");
-//        ph.ajouterSejour("médicaments", "le patient est..", "compte rendu du patient", "résultat des examens",
-//                "operation du genou", "succes", "autorisé à sortir");
-//        
-//        SecretaireMedicale smed = new SecretaireMedicale("ABI CHACRA", "Lauren", "131174L", "poire");
-//        smed.ajouterSejour("S111", null, ph, null);
+////        PH ph = new PH("RACAMIER", "Axel", "16458A", "cardio", "login", "kiwi");
+////        ph.ajouterSejour("médicaments", "le patient est..", "compte rendu du patient", "résultat des examens",
+////                "operation du genou", "succes", "autorisé à sortir");
+////        
+////        SecretaireMedicale smed = new SecretaireMedicale("ABI CHACRA", "Lauren", "131174L", "poire");
+////        smed.ajouterSejour("S111", null, ph, null);
     }
 }
