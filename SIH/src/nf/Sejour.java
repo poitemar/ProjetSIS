@@ -56,6 +56,7 @@ public class Sejour {
      * @return the idSejour
      */
     public String getIdSejour() {
+        
         return idSejour;
     }
 

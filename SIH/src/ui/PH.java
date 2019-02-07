@@ -3,20 +3,80 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ui;
+
+import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.sql.*;
+import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author poite
  */
-public class PH extends javax.swing.JFrame {
+public class PH extends JFrame implements ActionListener {
+    
+    DefaultListModel m = new DefaultListModel();
 
     /**
      * Creates new form PH
      */
     public PH() {
         initComponents();
+        jButton1.addActionListener(this);
+        
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        bouton ok = new bouton();        
+        ResultSet rs = null;        
+        
+        String nom = jTextField1.getText();
+        String prenom = jTextField2.getText();        
+       rs = ok.rechercher(nom, prenom);
+        
+        try {
+            while (rs.next()) {
+                
+               
+               jList1.setModel(m);
+               
+                
+            }
+            
+        } catch (Exception ex) {
+            System.out.println("error :" + ex);
+            
+        }}
+     
+    
+    
+    
+
+    public class bouton {
+
+        Connection con = null;        
+        ResultSet rs = null;        
+        PreparedStatement pstm = null;        
+        
+        public ResultSet rechercher(String s1, String s2) {
+            try {
+                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
+                pstm = con.prepareStatement("select * from patients where nom= ?  and prenom= ?");
+                pstm.setString(1, s1);
+                pstm.setString(2, s2);
+                m.addElement(s1);
+                m.addElement(s2);
+            } catch (Exception ex) {
+                System.out.println("error :" + ex);
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+            return rs;            
+        }
     }
 
     /**
@@ -493,7 +553,8 @@ public class PH extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+//             // TODO add your handling code here:
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jFormattedTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField1ActionPerformed
@@ -520,6 +581,9 @@ public class PH extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        
+        new PH();
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -543,10 +607,12 @@ public class PH extends javax.swing.JFrame {
         }
         //</editor-fold>
 
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new PH().setVisible(true);
+                
             }
         });
     }
@@ -604,4 +670,5 @@ public class PH extends javax.swing.JFrame {
     private javax.swing.JTree jTree1;
     private javax.swing.JTree jTree2;
     // End of variables declaration//GEN-END:variables
+
 }

@@ -31,9 +31,8 @@ public class BDconnect {
             con= DriverManager.getConnection("jdbc:mysql://localhost:3306/bd","root",""); // chacun à un localHost different à voir pour chacun, 
             st = con.createStatement();
             
-        }catch(Exception ex) {
-            System.out.println("error :" +  ex );
-            
+        }  catch (Exception ex) {
+            System.out.println(ex);
         }
       
             

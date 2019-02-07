@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.Date;
+import java.sql.SQLException;
 
 /**
  *
@@ -34,7 +35,7 @@ public class SecretaireAdministrative extends PersonnelMedical{
     }
     
 
-    public void ajouterNouveauPatient(String ipp, String nom, String prenom, Sexe sexe, Date dateDeNaissance, String adresse, String telephone){
+    public void ajouterNouveauPatient(String ipp, String nom, String prenom, Sexe sexe, Date dateDeNaissance, String adresse, String telephone) throws SQLException, ClassNotFoundException{
         
         Patient p = new Patient(ipp,nom,prenom,sexe,dateDeNaissance,adresse,telephone);
         DMA dma = new DMA(p);

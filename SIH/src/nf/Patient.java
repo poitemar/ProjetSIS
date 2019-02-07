@@ -3,9 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package nf;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
 
 /**
@@ -13,7 +17,7 @@ import java.util.Date;
  * @author poite
  */
 public class Patient {
-    
+
     private String ipp;
     private String nom;
     private String prenom;
@@ -21,34 +25,60 @@ public class Patient {
     private Date dateDeNaissance;
     private String adresse;
     private String telephone;
+
+    private Connection con;
+    private Statement st;
+public Patient(){
     
+}
+    //Constructeur nom prenom pour rechercher le patient par nom et prenom 
+     public Patient (String nom, String prenom){
+         this.nom=nom; 
+         this.prenom=prenom; 
+         
+         
+     }
+
     // Constructeur de Patient
-    public Patient(String ipp, String nom, String prenom, Sexe sexe, Date dateDeNaissance, String adresse, String telephone){
+    public Patient(String ipp, String nom, String prenom, Sexe sexe, Date dateDeNaissance, String adresse, String telephone) throws ClassNotFoundException, SQLException {
         this.nom = nom;
-        this.ipp=ipp;
-        this.prenom=prenom;
+        this.ipp = ipp;
+        this.prenom = prenom;
         this.sexe = sexe;
         this.dateDeNaissance = dateDeNaissance;
         this.adresse = adresse;
         this.telephone = telephone;
-       
-    }
 
-    
-    // getters et setters
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
+            st = con.createStatement();
+
+        } catch (Exception ex) {
+
+            {
+                System.out.println("error :" + ex);
+
+            }
+
+        }}
+
  
-    /**
-     * @return the ipp
-     */
-    public String getIpp() {
+        // getters et setters
+        /**
+         * @return the ipp
+         */
+     public String getIpp() {
+
         return ipp;
-    }
+     }
 
     /**
      * @param ipp the ipp to set
      */
-    public void setIpp(String ipp) { 
-        this.ipp = ipp;
+    public void setIpp(String ipp) {
+       this.ipp=ipp;
     }
 
     /**
@@ -62,13 +92,15 @@ public class Patient {
      * @param nom the nom to set
      */
     public void setNom(String nom) {
-        this.nom = nom;
+     this.nom=nom;
+        
     }
 
     /**
      * @return the prenom
      */
     public String getPrenom() {
+        
         return prenom;
     }
 
@@ -76,8 +108,11 @@ public class Patient {
      * @param prenom the prenom to set
      */
     public void setPrenom(String prenom) {
-        this.prenom = prenom;
+                    
+      this.prenom=prenom;
+
     }
+    
 
     /**
      * @return the sexe
@@ -108,14 +143,14 @@ public class Patient {
     }
 
     /**
-     * @return the adresse
+     * @return the address
      */
     public String getAdresse() {
         return adresse;
     }
 
     /**
-     * @param adresse the adresse to set
+     * @param adresse the address to set
      */
     public void setAdresse(String adresse) {
         this.adresse = adresse;
@@ -134,8 +169,6 @@ public class Patient {
     public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
-    
-    
+
     //Fonctions à coder en dessous
-    
 }
