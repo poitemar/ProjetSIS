@@ -5,9 +5,6 @@
  */
 package nf;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
 import java.util.Date;
 import java.util.List;
 
@@ -16,9 +13,6 @@ import java.util.List;
  * @author poite
  */
 public class Sejour {
-    private Connection con;
-    private Statement st;
-
     private String idSejour;
     private Patient patient;
     private PH phReferant;
@@ -40,16 +34,6 @@ public class Sejour {
         this.patient = patient;
         this.phReferant = phReferant;
         this.localisation = localisation;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
-            st = con.createStatement();
-
-        } catch (Exception ex) {
-            System.out.println("error :" + ex);
-
-        }
     }
 
     /*deuxième constructeur de Sejour pour rentrer les informations d'un séjour : prescriptions, observations, compte rendu,
@@ -248,7 +232,24 @@ public class Sejour {
         this.localisation = localisation;
     }
 
+    
     // Fonctions a coder en dessous
+    public void ajouterIdSejour(String idSejour){
+        this.setIdSejour(idSejour);
+    }
+    
+    public void ajouterPhReferant(PH phReferant){
+        this.setPhReferant(phReferant);
+    }
+    
+    public void ajouterLocalisation(Localisation localisation){
+        this.setLocalisation(localisation);
+    }
+    
+    public void ajouterPatient(Patient patient){
+        this.setPatient(patient);
+    }
+            
     public void ajouterPrescription(String prescription) {
         this.listePrescriptions.add(prescription);
     }
