@@ -9,7 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.sql.Date;
+import java.util.Date;
 
 /**
  *
@@ -49,7 +49,7 @@ public class SecretaireAdministrative extends PersonnelMedical{
             pstm.setString(2,nom);
             pstm.setString(3,prenom);
             pstm.setString(4,sexe.toString());            
-            pstm.setDate(5, dateDeNaissance);
+            pstm.setDate(5, new java.sql.Date(dateDeNaissance.getTime()));
             pstm.setString(6, adresse);
             pstm.setString(7, telephone);
             pstm.executeUpdate(); 
