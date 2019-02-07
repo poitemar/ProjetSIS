@@ -41,19 +41,19 @@ public class SecretaireMedicale extends PersonnelMedical {
         s.ajouterPhReferant(phReferant);
         s.ajouterLocalisation(localisation);
 
-////        String sql = "insert into ph(ID_PH,IPP_PATIENT,ID_SEJOUR,OBSERVATION,RESULTAT,"
-////                + "LETTRE_SORTIE,PRESCRIPTION,OPERATION,TITRE_OPERATION,COMPTE_RENDU,) "
-////                + "values (?,?,?,?,?,?,?,?,?,?)";
-////
-////        try {
-////            PreparedStatement pstm = con.prepareStatement(sql);
-////
-////            pstm.setString(1, phReferant.idMed);
-////            pstm.setString(2, patient.getIpp());
-////            pstm.setString(3, idSejour);
-////            pstm.executeUpdate();
-////        } catch (Exception ex) {
-////            System.out.println(ex);
-////        }
+        String sql = "insert into ph(ID_PH,IPP_PATIENT,ID_SEJOUR,OBSERVATION,RESULTAT,"
+                + "LETTRE_SORTIE,PRESCRIPTION,OPERATION,TITRE_OPERATION,COMPTE_RENDU,) "
+                + "values (?,?,?,?,?,?,?,?,?,?)";
+
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+
+            pstm.setString(1, phReferant.idMed);
+            pstm.setString(2, patient.getIpp());
+            pstm.setString(3, idSejour);
+            pstm.executeUpdate();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
     }
 }
