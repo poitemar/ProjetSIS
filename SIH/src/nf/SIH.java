@@ -6,7 +6,7 @@
 
 package nf;
 
-import java.sql.Date;
+import java.util.Date;
 
 
 
@@ -27,8 +27,9 @@ public class SIH {
       Connexion cx = new Connexion();
       cx.seConnecter("HYVES","YHEGEY");
      
-        //SecretaireAdministrative sm = new SecretaireAdministrative("MAURIOL", "Marine","087567","pomme");
-        //sm.ajouterNouveauPatient("37849205","poitevin","margaux",Sexe.FEMME,new Date(13,02,1997),"2 impasse","060504");
+        SecretaireAdministrative sm = new SecretaireAdministrative("MAURIOL", "Marine","087567","pomme");
+        Date d1 = new Date(11,8,1997);
+        sm.ajouterNouveauPatient("37849205","poitevin","margaux",Sexe.FEMME,d1,"2 impasse","060504");
        
     
     }
