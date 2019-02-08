@@ -16,6 +16,7 @@ public class nouveauPatient extends javax.swing.JFrame {
      */
     public nouveauPatient() {
         initComponents();
+        setSize(700,600);
     }
 
     /**

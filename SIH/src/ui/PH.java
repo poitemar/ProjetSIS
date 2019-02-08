@@ -29,7 +29,9 @@ public class PH extends JFrame implements ActionListener {
      */
     public PH() {
         initComponents();
+        setSize(700,600);
         jButton1.addActionListener(this);
+        
         
     }
 

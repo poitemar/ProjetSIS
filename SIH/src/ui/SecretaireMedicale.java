@@ -16,6 +16,7 @@ public class SecretaireMedicale extends javax.swing.JFrame {
      */
     public SecretaireMedicale() {
         initComponents();
+        setSize(700,600);
     }
 
     /**

@@ -12,11 +12,13 @@ package ui;
  */
 public class Connexion extends javax.swing.JFrame {
 
+      nf.Connexion cx = new nf.Connexion();
     /**
      * Creates new form Connexion
      */
     public Connexion() {
         initComponents();
+         setSize(700,600);
     }
 
     /**
@@ -53,6 +55,11 @@ public class Connexion extends javax.swing.JFrame {
 
         saisieMdp.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         saisieMdp.setText("jPasswordField1");
+        saisieMdp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                saisieMdpMouseClicked(evt);
+            }
+        });
         saisieMdp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saisieMdpActionPerformed(evt);
@@ -60,6 +67,11 @@ public class Connexion extends javax.swing.JFrame {
         });
 
         jButton3.setText("Valider");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -123,6 +135,25 @@ public class Connexion extends javax.swing.JFrame {
     private void saisieMdpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saisieMdpActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_saisieMdpActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if(cx.seConnecter(saisieId.getText(),saisieMdp.getText()).equals("SECRETAIRE ADMINISTRATIVE")){
+             new SecretaireAdministrative().setVisible(true);
+             this.dispose();
+       }
+       if(cx.seConnecter(saisieId.getText(),saisieMdp.getText()).equals("SECRETAIRE MEDICALE")){
+             new SecretaireMedicale().setVisible(true);
+             this.dispose();
+       }
+       if(cx.seConnecter(saisieId.getText(),saisieMdp.getText()).equals("DOCTEUR")){
+             new PH().setVisible(true);
+             this.dispose();
+       }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void saisieMdpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saisieMdpMouseClicked
+        saisieMdp.setText("");
+    }//GEN-LAST:event_saisieMdpMouseClicked
 
     /**
      * @param args the command line arguments

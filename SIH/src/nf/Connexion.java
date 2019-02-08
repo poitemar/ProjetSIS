@@ -37,7 +37,7 @@ public class Connexion {
         }
     }
 
-    public boolean seConnecter(String idLogin, String passwordLogin) {
+    public String seConnecter(String idLogin, String passwordLogin) {
         List<String> listLogin = new ArrayList<String>();
         List<String> listPassword = new ArrayList<String>();
         List<String> listTypeMed = new ArrayList<String>();
@@ -54,20 +54,28 @@ public class Connexion {
                 listPassword.add(password);
                 String typeMed = rs.getString("TYPE_P");
                 listTypeMed.add(typeMed);
+                  
             }
             for (int i = 0; i < listLogin.size(); i++) {
+               
                 if (idLogin.equals(listLogin.get(i))) {
                     System.out.println("login bon");
                     if (passwordLogin.equals(listPassword.get(i))) {
                         System.out.println("password bon");
                         System.out.println("c'est un(e)" + listTypeMed.get(i));
-                        return true;
+                        return listTypeMed.get(i);
                     }
                 } 
+                 
             }
+               System.out.println("Identifiant ou mot de passe incorrect");
+            return "Identifiant ou mot de passe incorrect";
+         
         } catch (Exception ex) {
             System.out.println(ex);
         }
-        return false;
+        System.out.println("Erreur de connexion");
+        return "Erreur de connexion";
+        
     }
 }

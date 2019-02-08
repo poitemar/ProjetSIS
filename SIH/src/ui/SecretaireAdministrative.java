@@ -17,6 +17,7 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
      */
     public SecretaireAdministrative() {
         initComponents();
+        setSize(700,600);
     }
 
     /**

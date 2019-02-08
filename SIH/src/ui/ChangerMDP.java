@@ -17,6 +17,7 @@ public class ChangerMDP extends javax.swing.JFrame {
      */
     public ChangerMDP() {
         initComponents();
+        setSize(700,600);
     }
 
     /**
