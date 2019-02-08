@@ -7,9 +7,7 @@ package nf;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 
@@ -56,7 +54,7 @@ public class Patient {
     }}
 
     // Constructeur de Patient
-    public Patient(String ipp, String nom, String prenom, Sexe sexe, Date dateDeNaissance, String adresse, String telephone) throws ClassNotFoundException, SQLException {
+    public Patient(String ipp, String nom, String prenom, Sexe sexe, Date dateDeNaissance, String adresse, String telephone){
         this.nom = nom;
         this.ipp = ipp;
         this.prenom = prenom;
