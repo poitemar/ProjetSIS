@@ -54,7 +54,6 @@ public class Connexion extends javax.swing.JFrame {
         jLabel3.setText("Mot de passe :");
 
         saisieMdp.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        saisieMdp.setText("jPasswordField1");
         saisieMdp.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 saisieMdpMouseClicked(evt);
