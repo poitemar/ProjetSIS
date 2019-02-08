@@ -23,29 +23,25 @@ public class PH extends PersonnelMedical {
         super(nom, prenom, idMed, password);
     }
 
-    public void ajouterSejour(String prescription, String observation, String compteRendu,
-            String resultat, String titreOperation, String detailsOperation, String lettreDeSortie) {
+    public void ajouterSejour(String idSejour, Patient patient, PH phReferant, Localisation localisation, String prescription, String observation, String compteRendu, String resultat, String titreOperation,String detailsOperation, String lettreDeSortie){
+       // Sejour s = new Sejour(idSejour, patient, phReferant, localisation, prescription, observation, compteRendu, resultat, titreOperation, detailsOperation, lettreDeSortie);
+//        s.setPhReferant(this);
+//        s.getListePrescriptions().add(prescription);
+//        s.getListeObservations().add(observation);
+//        s.getListeTitreOperations().add(titreOperation);
+//        s.getListeDetailsOperations().add(detailsOperation);
+//        s.getListeDeCompteRenduRadio().add(compteRendu);
+//        s.getListeDeResultats().add(resultat);
+//        s.setLettreDeSortie(lettreDeSortie);
 
-        Sejour s = new Sejour(prescription, observation, compteRendu, resultat,
-                titreOperation, detailsOperation, lettreDeSortie);
-        s.ajouterPrescription(prescription);
-        s.ajouterObservation(observation);
-        s.ajouterTitreOperation(titreOperation);
-        s.ajouterDetailsOperation(detailsOperation);
-        s.ajouterCompteRendu(compteRendu);
-        s.ajouterResultat(resultat);
-        s.ajouterLettreDeSortie(lettreDeSortie);
-
-        String sql = "insert into ph(ID_PH,IPP_PATIENT,ID_SEJOUR,OBSERVATION,RESULTAT,"
-                + "LETTRE_SORTIE,PRESCRIPTION,OPERATION,TITRE_OPERATION,COMPTE_RENDU,) "
-                + "values (?,?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into ph(ID_PH,IPP_PATIENT,ID_SEJOUR,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,OPERATION,TITRE_OPERATION,COMPTE_RENDU) values (?,?,?,?,?,?,?,?,?,?)";
 
         try {
             PreparedStatement pstm = con.prepareStatement(sql);
 
-            pstm.setString(1, idMed);
-            pstm.setString(2, "ippPatient");
-            pstm.setString(3, "idSejour");            
+            pstm.setString(1, phReferant.idMed);
+            pstm.setString(2, patient.getIpp());
+            pstm.setString(3, idSejour);            
             pstm.setString(4, observation);
             pstm.setString(5, resultat);
             pstm.setString(6, lettreDeSortie);
