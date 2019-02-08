@@ -17,6 +17,8 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
      */
     public SecretaireAdministrative() {
         initComponents();
+        setSize(700,600);
+        
     }
 
     /**
@@ -224,11 +226,13 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+           
+        this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+       new nouveauPatient().setVisible(true);
+      
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

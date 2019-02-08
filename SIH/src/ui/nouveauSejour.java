@@ -17,6 +17,7 @@ public class nouveauSejour extends javax.swing.JFrame {
      */
     public nouveauSejour() {
         initComponents();
+        setSize(700,600);
     }
 
     /**

@@ -33,17 +33,14 @@ public class SecretaireMedicale extends PersonnelMedical {
         }
     }
 
-    public void ajouterSejour(String idSejour, Patient patient, PH phReferant,
-            Localisation localisation) {
-        Sejour s = new Sejour(idSejour, patient, phReferant, localisation);
-        s.ajouterIdSejour(idSejour);
-        s.ajouterPatient(patient);
-        s.ajouterPhReferant(phReferant);
-        s.ajouterLocalisation(localisation);
+    public void ajouterSejour(String idSejour, Patient patient, PH phReferant, Localisation localisation, String prescription, String observation, String compteRendu, String resultat, String titreOperation,String detailsOperation, String lettreDeSortie){
+        Sejour s = new Sejour(idSejour, patient, phReferant, localisation, prescription, observation, compteRendu, resultat,titreOperation, detailsOperation, lettreDeSortie);
+//        s.setIdSejour(idSejour);
+//        s.setPatient(patient);
+//        s.setPhReferant(phReferant);
+//        s.setLocalisation(localisation);
 
-        String sql = "insert into ph(ID_PH,IPP_PATIENT,ID_SEJOUR,OBSERVATION,RESULTAT,"
-                + "LETTRE_SORTIE,PRESCRIPTION,OPERATION,TITRE_OPERATION,COMPTE_RENDU,) "
-                + "values (?,?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into ph(ID_PH,IPP_PATIENT,ID_SEJOUR,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,OPERATION,TITRE_OPERATION,COMPTE_RENDU) values (?,?,?,?,?,?,?,?,?,?)";
 
         try {
             PreparedStatement pstm = con.prepareStatement(sql);
@@ -51,6 +48,13 @@ public class SecretaireMedicale extends PersonnelMedical {
             pstm.setString(1, phReferant.idMed);
             pstm.setString(2, patient.getIpp());
             pstm.setString(3, idSejour);
+            pstm.setString(4, observation);
+            pstm.setString(5, resultat);
+            pstm.setString(6, lettreDeSortie);
+            pstm.setString(7, prescription);
+            pstm.setString(8, detailsOperation);
+            pstm.setString(9, titreOperation);
+            pstm.setString(10, compteRendu);
             pstm.executeUpdate();
         } catch (Exception ex) {
             System.out.println(ex);
