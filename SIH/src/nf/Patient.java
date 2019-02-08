@@ -8,6 +8,7 @@ package nf;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
@@ -28,16 +29,31 @@ public class Patient {
 
     private Connection con;
     private Statement st;
-public Patient(){
+    private ResultSet rs; 
     
-}
+    
+    public Patient() {
+
+    }
+
     //Constructeur nom prenom pour rechercher le patient par nom et prenom 
-     public Patient (String nom, String prenom){
-         this.nom=nom; 
-         this.prenom=prenom; 
-         
-         
-     }
+    public Patient(String nom, String prenom) {
+        this.nom = nom;
+        this.prenom = prenom;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
+            st = con.createStatement();
+
+        } catch (Exception ex) {
+
+            {
+                System.out.println("error :" + ex);
+
+            }
+
+    }}
 
     // Constructeur de Patient
     public Patient(String ipp, String nom, String prenom, Sexe sexe, Date dateDeNaissance, String adresse, String telephone) throws ClassNotFoundException, SQLException {
@@ -62,46 +78,73 @@ public Patient(){
 
             }
 
-        }}
+        }
+    }
 
- 
-        // getters et setters
-        /**
-         * @return the ipp
-         */
-     public String getIpp() {
+    // getters et setters
+    /**
+     * @return the ipp
+     */
+    public String getIpp() {
+     
+        try{
+              String query = "select ipp from PATIENTS "; // la query à entrer pour accéder aux données de nos tables 
+              rs= st.executeQuery(query);
+              System.out.println("contenue de la base de donnée"); 
+              while (rs.next()){
+              String ipp = rs.getString("IPP");
+              }
+               }catch(Exception ex){
+              System.out.println(ex);
+          }
 
         return ipp;
-     }
+    }
 
     /**
      * @param ipp the ipp to set
      */
     public void setIpp(String ipp) {
-       this.ipp=ipp;
+        this.ipp = ipp;
     }
 
     /**
      * @return the nom
      */
     public String getNom() {
-           nom="xxx";
-        return nom;
+        String name=null; 
+        try{
+             
+              String query = "select * from patients"; // la query à entrer pour accéder aux données de nos tables 
+              rs= st.executeQuery(query); 
+              System.out.println("contenue de la base de donnée"); 
+              
+              while (rs.next()){
+              name = rs.getString("nom");
+              }
+              
+               }catch(Exception ex){
+              System.out.println(ex);
+          }
+
+      System.out.println( name);
+      return name;
     }
+    
 
     /**
      * @param nom the nom to set
      */
     public void setNom(String nom) {
-     this.nom=nom;
-        
+        this.nom = nom;
+
     }
 
     /**
      * @return the prenom
      */
     public String getPrenom() {
-        
+
         return prenom;
     }
 
@@ -109,11 +152,10 @@ public Patient(){
      * @param prenom the prenom to set
      */
     public void setPrenom(String prenom) {
-                    
-      this.prenom=prenom;
+
+        this.prenom = prenom;
 
     }
-    
 
     /**
      * @return the sexe

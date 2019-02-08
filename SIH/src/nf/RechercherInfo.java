@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
+import javax.swing.DefaultListModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -26,6 +28,8 @@ public class RechercherInfo {
     private Calendar DateNaissance;
     private ResultSet rs;
     public ArrayList<Patient> Lp;
+
+    Patient p = null;
 
     public RechercherInfo() {
 
@@ -44,8 +48,9 @@ public class RechercherInfo {
         }
     }
 
-    public Patient recherchePatientNomPrenom (String nom, String prenom) {
-         Patient p=null; 
+    public ArrayList<Patient> recherchePatientNomPrenom(String nom, String prenom) {
+      Lp= new  ArrayList<Patient> ();
+        Patient p = null;
         try {
 
             String query = "select * from patients where nom='" + nom + "'and prenom='" + prenom + "'";
@@ -54,7 +59,7 @@ public class RechercherInfo {
             rs = st.executeQuery(query);
 
             while (rs.next()) {
-               // Patient p = new Patient(nom, prenom);
+                // Patient p = new Patient(nom, prenom);
                 String ipp = rs.getString("ipp");
 
                 String x = rs.getString("nom");// pour avoir accès a la colonne de ma table 
@@ -64,17 +69,19 @@ public class RechercherInfo {
                 String adresse = rs.getString("adresse");
                 String role = rs.getString("telephone");
                 System.out.println("ipp : " + ipp + " ;   nom :   " + x + ";   prenom :  " + prenom);
-                //rs.updateRow();
-                //Lp.add(p);
-                //System.out.println(Lp.get(0).getNom());
-                p=new Patient(nom,prenom);
-            }
+
+                p = new Patient(nom, prenom);
+                Lp.add(p);
+
+                }
+            
             rs.close();
             st.close();
         } catch (Exception ex) {
             System.out.println(ex);
         }
-        return p;
+        System.out.println(Lp);
+        return Lp;
 
     }
 
@@ -87,5 +94,21 @@ public class RechercherInfo {
 //                + " where nom='" + nom + "' and date_naissance ='" + datedenaiss + "' and prenom='" + prenom + "'");
 //        //r.first();
 //        return r;
+//    }
+//    //affichage de La Liste des Patients par nom et prenom 
+//    public ArrayList <Patient> afficherListPatient() {
+//     DefaultTableModel DTM = new DefaultTableModel();
+//     DTM = (DefaultTableModel) rechercheTable.getModel();
+//        DTM.setRowCount(0);
+//      if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty()){
+//                    
+//            ArrayList<Patient> lp;
+//            lp= inf.recherchePatientsNomPrenom(jTextField1.getText(), jTextField2.getText());
+//            for(int i=0 ; i<Lp.size(); i++){  
+//            Lp.get(i);
+//            DTM.addRow(new Object[]{Lp.get(i).getNom(), Lp.get(i).getPrenom(),});
+//        }
+//                jList1.setModel(DTM);
+//    } 
 //    }
 }

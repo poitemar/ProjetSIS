@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.ListModel;
 import javax.swing.table.DefaultTableModel;
 import nf.Patient;
 import nf.RechercherInfo;
@@ -23,19 +24,20 @@ import nf.RechercherInfo;
 public class PH extends JFrame implements ActionListener {
 
     DefaultListModel m = new DefaultListModel();
-   RechercherInfo inf = new RechercherInfo(); 
+    RechercherInfo inf = new RechercherInfo();
+    ArrayList <Patient> Lp; 
     /**
      * Creates new form PH
      */
     public PH() {
         initComponents();
         jButton1.addActionListener(this);
-        
+
     }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-         bouton ok = new bouton();
+        bouton ok = new bouton();
         ResultSet rs = null;
 
         String nom = jTextField1.getText();
@@ -53,46 +55,61 @@ public class PH extends JFrame implements ActionListener {
 //            System.out.println("error :" + ex);
 //
 //        }
-     }
+    }
+    
+    
+    public void afficherListPatient(){
+         DefaultTableModel DTM = new DefaultTableModel();
+     DTM = (DefaultTableModel) jList1.getModel();
+        DTM.setRowCount(0);
+      if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty()){
+                    
+            Lp= inf.recherchePatientNomPrenom(jTextField1.getText(), jTextField2.getText());
+            for(int i=0 ; i<Lp.size(); i++){  
+            Lp.get(i);
+            DTM.addRow(new Object[]{Lp.get(i).getNom(), Lp.get(i).getPrenom(),});
+              jList1.setModel((ListModel) DTM);
+        }
+              
+    } 
+    }
 
     public class bouton {
 
-         Connection con = null;
-         ResultSet rs = null;
+        Connection con = null;
+        ResultSet rs = null;
         PreparedStatement ptsm = null;
-    
 
-    public ResultSet rechercher() {
-        
-        try {
-            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
-            //pstm = con.prepareStatement("select * from patients where nom= ?  and prenom= ?");
+        public ResultSet rechercher() {
 
-            String query = "select * from patients where nom= ?  and prenom= ?";
-            ptsm = con.prepareStatement(query);
-            rs = ptsm.executeQuery();
+            try {
+                //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
+                //pstm = con.prepareStatement("select * from patients where nom= ?  and prenom= ?");
 
-            while (rs.next()) {
-                String name = rs.getString("nom");
-                String lastName = rs.getString("prenom");
-                m.addElement(name);
-                m.addElement(lastName);
-                // pstm.setString(1, s1);
-                //pstm.setString(2, s2);
-                //m.addElement(s1);
-                //m.addElement(s2);
+                String query = "select * from patients where nom= ?  and prenom= ?";
+                ptsm = con.prepareStatement(query);
+                rs = ptsm.executeQuery();
 
+                while (rs.next()) {
+                    String name = rs.getString("nom");
+                    String lastName = rs.getString("prenom");
+                    m.addElement(name);
+                    m.addElement(lastName);
+                    // pstm.setString(1, s1);
+                    //pstm.setString(2, s2);
+                    //m.addElement(s1);
+                    //m.addElement(s2);
+
+                }
+                jList1.setModel(m);
+            } catch (Exception ex) {
+                System.out.println("error :" + ex);
+                JOptionPane.showMessageDialog(null, ex.getMessage());
             }
-            jList1.setModel(m);
-        } catch (Exception ex) {
-            System.out.println("error :" + ex);
-            JOptionPane.showMessageDialog(null, ex.getMessage());
+            return rs;
         }
- return rs; 
+
     }
-    
-    }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -182,7 +199,7 @@ public class PH extends JFrame implements ActionListener {
         jLabel3.setText("Liste de patients");
 
         jToggleButton1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jToggleButton1.setText("OK");
+        jToggleButton1.setText("Suivant");
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton1ActionPerformed(evt);
@@ -241,10 +258,6 @@ public class PH extends JFrame implements ActionListener {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jToggleButton1))
                     .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -271,7 +284,11 @@ public class PH extends JFrame implements ActionListener {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -568,16 +585,14 @@ public class PH extends JFrame implements ActionListener {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        bouton ok = new bouton();
-        ResultSet rs = null;
-        rs = ok.rechercher();
+//       
+        Lp= inf.recherchePatientNomPrenom(jTextField1.getText(), jTextField2.getText());
         DefaultListModel DLM = new DefaultListModel();
-       // ArrayList<Patient> Lp= inf.recherchePatientNomPrenom(jTextField1.getText(), jTextField2.getText());
-       // for (int i=0; i<Lp.size(); i++){
-        DLM.addElement(inf.recherchePatientNomPrenom(jTextField1.getText(), jTextField2.getText()).getNom());
-        
+        for (int i=0; i<Lp.size();i++){
+        String element = "" + Lp.get(i).getNom()+ "   " + Lp.get(i).getPrenom();
+        DLM.addElement(element);
         jList1.setModel(DLM);
-        
+        } 
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
