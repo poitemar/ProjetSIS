@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -24,6 +25,7 @@ public class RechercherInfo {
     private String prenom;
     private Calendar DateNaissance;
     private ResultSet rs;
+    public ArrayList<Patient> Lp;
 
     public RechercherInfo() {
 
@@ -42,28 +44,30 @@ public class RechercherInfo {
         }
     }
 
-    public Patient recherchePatientNomPrenom(String nom, String prenom) {
-        Patient p = null;
-
+    public Patient recherchePatientNomPrenom (String nom, String prenom) {
+         Patient p=null; 
         try {
 
-            String query = "select * from patients where nom= ' " + nom + " ' and prenom= ' " + prenom + "'";
+            String query = "select * from patients where nom='" + nom + "'and prenom='" + prenom + "'";
 
             st = con.createStatement();
             rs = st.executeQuery(query);
 
             while (rs.next()) {
-                System.out.println("nodata");
+               // Patient p = new Patient(nom, prenom);
                 String ipp = rs.getString("ipp");
-                nom = rs.getString("nom");// pour avoir accès a la colonne de ma table 
+
+                String x = rs.getString("nom");// pour avoir accès a la colonne de ma table 
                 prenom = rs.getString("prenom");
                 String sexe = rs.getString("sexe");
                 String datenaissance = rs.getString("datenaissance");
                 String adresse = rs.getString("adresse");
                 String role = rs.getString("telephone");
-                System.out.println("ipp : " + ipp + "nom :" + nom + "prenom :" + prenom + "sexe :" + sexe);
-                p = new Patient(nom, prenom);
-                rs.updateRow();
+                System.out.println("ipp : " + ipp + " ;   nom :   " + x + ";   prenom :  " + prenom);
+                //rs.updateRow();
+                //Lp.add(p);
+                //System.out.println(Lp.get(0).getNom());
+                p=new Patient(nom,prenom);
             }
             rs.close();
             st.close();

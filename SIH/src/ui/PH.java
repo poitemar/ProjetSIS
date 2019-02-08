@@ -8,19 +8,22 @@ package ui;
 import java.awt.event.ActionListener;
 import java.awt.event.*;
 import java.sql.*;
+import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import nf.Patient;
+import nf.RechercherInfo;
 
 /**
  *
  * @author poite
  */
 public class PH extends JFrame implements ActionListener {
-    
-    DefaultListModel m = new DefaultListModel();
 
+    DefaultListModel m = new DefaultListModel();
+   RechercherInfo inf = new RechercherInfo(); 
     /**
      * Creates new form PH
      */
@@ -29,55 +32,67 @@ public class PH extends JFrame implements ActionListener {
         jButton1.addActionListener(this);
         
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent ae) {
-        bouton ok = new bouton();        
-        ResultSet rs = null;        
-        
+         bouton ok = new bouton();
+        ResultSet rs = null;
+
         String nom = jTextField1.getText();
-        String prenom = jTextField2.getText();        
-       rs = ok.rechercher(nom, prenom);
-        
-        try {
-            while (rs.next()) {
-                
-               
-               jList1.setModel(m);
-               
-                
-            }
-            
-        } catch (Exception ex) {
-            System.out.println("error :" + ex);
-            
-        }}
-     
-    
-    
-    
+        String prenom = jTextField2.getText();
+        //  rs = ok.rechercher(nom, prenom);
+//
+//        try {
+//            while (rs.next()) {
+//
+//                jList1.setModel(m);
+//
+//            }
+//
+//        } catch (Exception ex) {
+//            System.out.println("error :" + ex);
+//
+//        }
+     }
 
     public class bouton {
 
-        Connection con = null;        
-        ResultSet rs = null;        
-        PreparedStatement pstm = null;        
+         Connection con = null;
+         ResultSet rs = null;
+        PreparedStatement ptsm = null;
+    
+
+    public ResultSet rechercher() {
         
-        public ResultSet rechercher(String s1, String s2) {
-            try {
-                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
-                pstm = con.prepareStatement("select * from patients where nom= ?  and prenom= ?");
-                pstm.setString(1, s1);
-                pstm.setString(2, s2);
-                m.addElement(s1);
-                m.addElement(s2);
-            } catch (Exception ex) {
-                System.out.println("error :" + ex);
-                JOptionPane.showMessageDialog(null, ex.getMessage());
+        try {
+            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
+            //pstm = con.prepareStatement("select * from patients where nom= ?  and prenom= ?");
+
+            String query = "select * from patients where nom= ?  and prenom= ?";
+            ptsm = con.prepareStatement(query);
+            rs = ptsm.executeQuery();
+
+            while (rs.next()) {
+                String name = rs.getString("nom");
+                String lastName = rs.getString("prenom");
+                m.addElement(name);
+                m.addElement(lastName);
+                // pstm.setString(1, s1);
+                //pstm.setString(2, s2);
+                //m.addElement(s1);
+                //m.addElement(s2);
+
             }
-            return rs;            
+            jList1.setModel(m);
+        } catch (Exception ex) {
+            System.out.println("error :" + ex);
+            JOptionPane.showMessageDialog(null, ex.getMessage());
         }
+ return rs; 
     }
+    
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -553,7 +568,16 @@ public class PH extends JFrame implements ActionListener {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//             // TODO add your handling code here:
+        bouton ok = new bouton();
+        ResultSet rs = null;
+        rs = ok.rechercher();
+        DefaultListModel DLM = new DefaultListModel();
+       // ArrayList<Patient> Lp= inf.recherchePatientNomPrenom(jTextField1.getText(), jTextField2.getText());
+       // for (int i=0; i<Lp.size(); i++){
+        DLM.addElement(inf.recherchePatientNomPrenom(jTextField1.getText(), jTextField2.getText()).getNom());
+        
+        jList1.setModel(DLM);
+        
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -581,7 +605,7 @@ public class PH extends JFrame implements ActionListener {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
+
         new PH();
 
         /* Set the Nimbus look and feel */
@@ -612,10 +636,11 @@ public class PH extends JFrame implements ActionListener {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new PH().setVisible(true);
-                
+
             }
         });
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

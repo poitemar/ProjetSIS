@@ -85,6 +85,7 @@ public Patient(){
      * @return the nom
      */
     public String getNom() {
+           nom="xxx";
         return nom;
     }
 

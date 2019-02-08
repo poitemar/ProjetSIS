@@ -13,9 +13,6 @@ import java.sql.SQLException;
 
 
 
-
-
-
 /**
  *
  * @author poite
@@ -25,25 +22,17 @@ public class SIH {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
      // pour la BD 
-      //BDconnect bd = new BDconnect(); 
-      //bd.getData2();
-
-      //bd.ajouterDonnees();
-//        SecretaireAdministrative sm = new SecretaireAdministrative("MAURIOL", "Marine","087567");
-//        sm.ajouterNouveauPatient("37849205","poitevin","margaux",Sexe.FEMME,new Date(13,02,1997),"2 impasse","060504");
-       RechercherInfo inf= new RechercherInfo();
-
-//      Connexion cx = new Connexion();
-//      cx.seConnecter("HYVES","YHEGEY");
-//     
-//        SecretaireAdministrative sm = new SecretaireAdministrative("MAURIOL", "Marine","087567","pomme");
-//        Date d1 = new Date((1997-1900),(8-1),11);
-//        sm.ajouterNouveauPatient("37849205","poitevin","margaux",Sexe.FEMME,d1,"2 impasse","060504");
-//       
-
-        System.out.println(inf.recherchePatientNomPrenom("Abichacra", "Lauren"));
+        BDconnect bd = new BDconnect(); 
+     // bd.getData2();
+     // bd.ajouterDonnees();
+      // SecretaireAdministrative sm = new SecretaireAdministrative("MAURIOL", "Marine","087567","123");
+       // sm.ajouterNouveauPatient("521","Longchamp","Juliette",Sexe.FEMME,new Date(15,01,1996),"78 boulevard","46000");
+      
+        RechercherInfo inf= new RechercherInfo();
+       
+       System.out.println(inf.recherchePatientNomPrenom("Longchamp", "Juliette"));
 
 //           while (info.next()){
 //               try{
@@ -56,13 +45,3 @@ public class SIH {
 //           }
         
 }}
-
-             
-////        PH ph = new PH("RACAMIER", "Axel", "16458A", "cardio", "login", "kiwi");
-////        ph.ajouterSejour("médicaments", "le patient est..", "compte rendu du patient", "résultat des examens",
-////                "operation du genou", "succes", "autorisé à sortir");
-////        
-////        SecretaireMedicale smed = new SecretaireMedicale("ABI CHACRA", "Lauren", "131174L", "poire");
-////        smed.ajouterSejour("S111", null, ph, null);
-    
-
