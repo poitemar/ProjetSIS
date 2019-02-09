@@ -31,6 +31,7 @@ public class BDconnect {
 
         } catch (Exception ex) {
             System.out.println("error :" + ex);
+            ex.printStackTrace();
 
         }
 
@@ -55,6 +56,7 @@ public class BDconnect {
 
         } catch (Exception ex) {
             System.out.println(ex);
+            ex.printStackTrace();
         }
     }
 
@@ -78,6 +80,7 @@ public class BDconnect {
             pstm.executeUpdate();
         } catch (Exception ex) {
             System.out.println(ex);
+            ex.printStackTrace();
         }
     }
 
@@ -106,6 +109,7 @@ public class BDconnect {
             }
         } catch (Exception ex) {
             System.out.println(ex);
+            ex.printStackTrace(); 
         }
 
     }

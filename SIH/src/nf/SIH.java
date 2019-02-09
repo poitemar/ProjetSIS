@@ -34,8 +34,8 @@ public class SIH {
        // sm.ajouterNouveauPatient("37849875","poitevin","margaux",Sexe.FEMME,d1,"2 impasse","060504");
     
      // pour la BD 
-//       BDconnect bd = new BDconnect(); 
-//     bd.getData2();
+       BDconnect bd = new BDconnect(); 
+     bd.getData2();
      // bd.ajouterDonnees();
       // SecretaireAdministrative sm = new SecretaireAdministrative("MAURIOL", "Marine","087567","123");
        // sm.ajouterNouveauPatient("521","Longchamp","Juliette",Sexe.FEMME,new Date(15,01,1996),"78 boulevard","46000");
@@ -65,6 +65,7 @@ public class SIH {
         System.out.println(ph.nom);
 //        smed.ajouterSejour("S111", p, ph, loc, "//", "//", "//", "//","//", "//", "//");
 //        ph.ajouterSejour("//", p, ph, loc, "médicaments", "le patient est", "compte rendu du patient", "résultat des examens","opération du genou", "succes", "autorisé à sortir");
-                
+          SecretaireMedicale test = new SecretaireMedicale("null","null","null","null");
+          test.afficherListePatients();
     }
 }
