@@ -6,8 +6,10 @@
 package nf;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 /**
@@ -18,9 +20,22 @@ public class PH extends PersonnelMedical {
 
     private Connection con;
     private Statement st;
+    private ResultSet rs;
 
     public PH(String nom, String prenom, String idMed, String specialite, String login, String password) {
+        
         super(nom, prenom, idMed, password);
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
+            st = con.createStatement();
+
+        } catch (Exception ex) {
+            System.out.println("error :" + ex);
+            ex.printStackTrace();
+
+        }
     }
 
     public void ajouterSejour(String idSejour, Patient patient, PH phReferant, Localisation localisation, String prescription, String observation, String compteRendu, String resultat, String titreOperation,String detailsOperation, String lettreDeSortie){
@@ -54,5 +69,42 @@ public class PH extends PersonnelMedical {
             System.out.println(ex);
         }
     }
-
-}
+    
+    public int nombrePatients() {
+        int compteur = 0;
+        try {
+            String query = "select * from PATIENTS";
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                compteur++;
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+            ex.printStackTrace();
+        }
+        System.out.println("compteur = " + compteur);
+        return compteur;
+    }
+    
+    public String[] afficherListePatients(){
+        int compteur = nombrePatients();
+        int i=0;
+        String[] listePatients = new String[compteur];
+        try {
+            String query = "select * from PATIENTS natural join SEJOUR natural join PH_REFERENT join PERSONNEL_MEDICAL on (id_p = id_phr) where (login = 'macman' and mdp = 'manucron')"; // la query à entrer pour accéder aux données de nos tables 
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                String nom = rs.getString("NOM");
+                String prenom = rs.getString("PRENOM");
+                String nomEntier = nom + " " + prenom;
+                listePatients[i]=nomEntier;
+                System.out.println(listePatients[i]);
+                i++;
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+            ex.printStackTrace();
+        }
+        return listePatients;
+    }
+    }

@@ -25,11 +25,14 @@ public class PH extends JFrame implements ActionListener {
 
     DefaultListModel m = new DefaultListModel();
     RechercherInfo inf = new RechercherInfo();
-    ArrayList <Patient> Lp; 
+    ArrayList <Patient> Lp;
+    nf.PH ph = new nf.PH("null", "null", "null", "null","null","null");
+    String[] liste = new String[ph.nombrePatients()];
     /**
      * Creates new form PH
      */
     public PH() {
+        liste = ph.afficherListePatients();
         initComponents();
         setSize(700,600);
         jButton1.addActionListener(this);
@@ -191,7 +194,7 @@ public class PH extends JFrame implements ActionListener {
 
         jList1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "ABI CHACRA Lauren", "RACAMIER Axel", "MAURIOL Marine", "POITEVIN Margaux" };
+            String[] strings = liste;
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
