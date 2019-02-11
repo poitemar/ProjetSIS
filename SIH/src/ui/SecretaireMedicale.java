@@ -15,7 +15,11 @@ public class SecretaireMedicale extends javax.swing.JFrame {
     /**
      * Creates new form SecretaireMedicale
      */
+    nf.SecretaireMedicale secrMed = new nf.SecretaireMedicale("null","null", "null", "null", "null");
+    String[] liste = new String[secrMed.nombrePatients()];
+
     public SecretaireMedicale(nf.PersonnelMedical p) {
+        liste = secrMed.afficherListePatients();
         initComponents();
         setSize(700,600);
         this.p = p;
@@ -75,7 +79,7 @@ public class SecretaireMedicale extends javax.swing.JFrame {
 
         jList1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "ABI CHACRA Lauren", "MAURIOL Marine", "POITEVIN Margaux", "RACAMIER Axel" };
+            String[] strings = liste;
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
@@ -152,7 +156,7 @@ public class SecretaireMedicale extends javax.swing.JFrame {
                                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
                                     .addComponent(jFormattedTextField1))
                                 .addGap(63, 63, 63)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)

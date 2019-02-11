@@ -5,9 +5,15 @@
  */
 package ui;
 
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import java.awt.event.ActionListener;
 import java.awt.event.*;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -16,9 +22,9 @@ import javax.swing.ListModel;
 import javax.swing.table.DefaultTableModel;
 import nf.Patient;
 import nf.RechercherInfo;
-
+import nf.Sejour;
 /**
- *
+ *!!
  * @author poite
  */
 public class PH extends JFrame implements ActionListener {
@@ -27,12 +33,17 @@ public class PH extends JFrame implements ActionListener {
     RechercherInfo inf = new RechercherInfo();
     ArrayList <Patient> Lp; 
     nf.PersonnelMedical perso;
+
+    nf.PH ph = new nf.PH("null", "null",  "null",nf.Specialite.CARDIOLOGIE,"null","null");
+    String[] liste = new String[ph.nombrePatients()];
     /**
      * Creates new form PH
      */
     public PH(nf.PersonnelMedical p) {
+    
+        liste = ph.afficherListePatients();
         initComponents();
-        setSize(700,600);
+        setSize(700, 600);
         jButton1.addActionListener(this);
      this.perso =  p;
     String s = "Mme/M. "+p.getNom()+" "+p.getPrenom();
@@ -41,51 +52,43 @@ public class PH extends JFrame implements ActionListener {
         
     }
 
+    /**
+     *
+     * @param ae
+     */
     @Override
     public void actionPerformed(ActionEvent ae) {
-        bouton ok = new bouton();
-        ResultSet rs = null;
+    }
 
-        String nom = jTextField1.getText();
-        String prenom = jTextField2.getText();
-        //  rs = ok.rechercher(nom, prenom);
+//    public  void afficherListePatient() {
+//        DefaultListModel DTM = new DefaultListModel();
+//        DTM = (DefaultListModel) jList1.getModel();
 //
-//        try {
-//            while (rs.next()) {
+//      //  if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty()) {
 //
-//                jList1.setModel(m);
-//
-//            }
-//
-//        } catch (Exception ex) {
-//            System.out.println("error :" + ex);
+//            Lp = inf.afficherListPatient();
+//            for (int i = 0; i < Lp.size(); i++) {
+//                Lp.get(i);
+//                DTM.addElement(new Object[]{Lp.get(i).getNom(), Lp.get(i).getPrenom(),});
+//                jList1.setModel(DTM);
+//            //}
 //
 //        }
-    }
-    
-    
-    public void afficherListPatient(){
-         DefaultTableModel DTM = new DefaultTableModel();
-     DTM = (DefaultTableModel) jList1.getModel();
-        DTM.setRowCount(0);
-      if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty()){
-                    
-            Lp= inf.recherchePatientNomPrenom(jTextField1.getText(), jTextField2.getText());
-            for(int i=0 ; i<Lp.size(); i++){  
-            Lp.get(i);
-            DTM.addRow(new Object[]{Lp.get(i).getNom(), Lp.get(i).getPrenom(),});
-              jList1.setModel((ListModel) DTM);
-        }
-              
-    } 
-    }
+//    }
 
+    /**
+     *
+     */
     public class bouton {
 
         Connection con = null;
         ResultSet rs = null;
         PreparedStatement ptsm = null;
 
+        /**
+         *
+         * @return
+         */
         public ResultSet rechercher() {
 
             try {
@@ -181,7 +184,7 @@ public class PH extends JFrame implements ActionListener {
         jLabel17 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
         jTextArea5 = new javax.swing.JTextArea();
-        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -199,7 +202,7 @@ public class PH extends JFrame implements ActionListener {
 
         jList1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "ABI CHACRA Lauren", "RACAMIER Axel", "MAURIOL Marine", "POITEVIN Margaux" };
+            String[] strings = liste;
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
@@ -237,6 +240,7 @@ public class PH extends JFrame implements ActionListener {
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel7.setText("Date de naissance");
 
+        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
         jFormattedTextField1.setToolTipText("");
         jFormattedTextField1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jFormattedTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -302,12 +306,12 @@ public class PH extends JFrame implements ActionListener {
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                                 .addComponent(jButton1))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -340,7 +344,7 @@ public class PH extends JFrame implements ActionListener {
                     .addComponent(jToggleButton1)
                     .addComponent(jButton3)
                     .addComponent(jButton5))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("ACCUEIL", jPanel1);
@@ -563,17 +567,15 @@ public class PH extends JFrame implements ActionListener {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jButton4)
-                        .addGroup(jPanel4Layout.createSequentialGroup()
-                            .addComponent(jLabel20)
-                            .addGap(454, 454, 454)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel15)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(24, Short.MAX_VALUE))
+                    .addComponent(jLabel20)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                            .addComponent(jLabel15)
+                            .addGap(18, 18, 18)
+                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING)))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -586,9 +588,9 @@ public class PH extends JFrame implements ActionListener {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
                     .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(257, 257, 257)
+                .addGap(34, 34, 34)
                 .addComponent(jButton4)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(259, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("DEMANDE PRESTATION", jPanel4);
@@ -600,9 +602,9 @@ public class PH extends JFrame implements ActionListener {
         jTextArea5.setRows(5);
         jScrollPane8.setViewportView(jTextArea5);
 
-        jButton6.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jButton6.setText("OK");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        jButton7.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jButton7.setText("OK");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
             }
@@ -615,7 +617,7 @@ public class PH extends JFrame implements ActionListener {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton6)
+                    .addComponent(jButton7)
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 637, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel17)))
@@ -629,7 +631,7 @@ public class PH extends JFrame implements ActionListener {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton6)
+                .addComponent(jButton7)
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -650,7 +652,26 @@ public class PH extends JFrame implements ActionListener {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+      
+//        ArrayList<Sejour> sej=null;
+//        String t = jTextArea1.getText();
+//        for (int i=0; i<sej.size(); i++){
+//           sej.get(i).ajouterObservation(t);
+//          
+//            jTextArea1.replaceSelection(t);
+//        
+//        }
+//           
+//                
+        
+      
+
+
+
+
+
+
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
@@ -658,15 +679,32 @@ public class PH extends JFrame implements ActionListener {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//       
-        Lp= inf.recherchePatientNomPrenom(jTextField1.getText(), jTextField2.getText());
+
+        String date = jFormattedTextField1.getText();
         DefaultListModel DLM = new DefaultListModel();
-        for (int i=0; i<Lp.size();i++){
-        String element = "" + Lp.get(i).getNom()+ "   " + Lp.get(i).getPrenom();
-        DLM.addElement(element);
-        jList1.setModel(DLM);
+        if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty() && jFormattedTextField1.getText() != null) {
+            Lp = inf.recherchePatientNomPrenomDate(jTextField1.getText(), jTextField2.getText(), date);
+
+            for (int i = 0; i < Lp.size(); i++) {
+                String element = "" + Lp.get(i).getNom() + "   " + Lp.get(i).getPrenom() + "    " + Lp.get(i).getDateDeNaissance();
+                DLM.addElement(element);
+
+            }
+              //jList1.setModel(DLM);
+
         } 
-        
+            if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty()) {
+            Lp = inf.rechercheListPatientNomPrenom(jTextField1.getText(), jTextField2.getText());
+            // DefaultListModel DLM = new DefaultListModel();
+            for (int i = 0; i < Lp.size(); i++) {
+                String element = "" + Lp.get(i).getNom() + "   " + Lp.get(i).getPrenom() + "  " + Lp.get(i).getDateDeNaissance();
+                DLM.addElement(element);
+
+            }
+         
+        }
+        jList1.setModel(DLM);
+        jList1.repaint();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jFormattedTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField1ActionPerformed
@@ -693,9 +731,11 @@ public class PH extends JFrame implements ActionListener {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-            new Connexion().setVisible(true);
-            this.dispose();
+        new Connexion().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
+
+//   
 
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
         // TODO add your handling code here:
@@ -705,8 +745,9 @@ public class PH extends JFrame implements ActionListener {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField5ActionPerformed
 
+//supprimer
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
+     // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
@@ -756,7 +797,7 @@ public class PH extends JFrame implements ActionListener {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

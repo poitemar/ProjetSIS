@@ -8,6 +8,7 @@ package nf;
 
 //import java.util.Date;
 import java.sql.Date;
+import java.sql.SQLException;
 
 
 
@@ -21,7 +22,7 @@ public class SIH {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
       //pour la BD 
 //      BDconnect bd = new BDconnect(); 
 //      bd.ajouterSejour();
@@ -36,8 +37,8 @@ public class SIH {
 //    Patient p = new Patient("21","Longchamp","Juliette",Sexe.FEMME,new Date(15,01,1996),"78 boulevard","46000");
 //        System.out.println(p.creationIPP_pour_ajout_patient());
      // pour la BD 
-//       BDconnect bd = new BDconnect(); 
-//     bd.getData2();
+       BDconnect bd = new BDconnect(); 
+     bd.getData2();
      // bd.ajouterDonnees();
       // SecretaireAdministrative sm = new SecretaireAdministrative("MAURIOL", "Marine","087567","123");
        // sm.ajouterNouveauPatient("521","Longchamp","Juliette",Sexe.FEMME,new Date(15,01,1996),"78 boulevard","46000");
@@ -67,11 +68,7 @@ public class SIH {
 //        System.out.println(ph.nom);
 //        smed.ajouterSejour("S111", p, ph, loc, "//", "//", "//", "//","//", "//", "//");
 //        ph.ajouterSejour("//", p, ph, loc, "médicaments", "le patient est", "compte rendu du patient", "résultat des examens","opération du genou", "succes", "autorisé à sortir");
-                
-//    PersonnelMedical perso = new PersonnelMedical("","","","");
-//        System.out.println(perso.nomPersonnel("2386579"));
-// 
-//        System.out.println(perso.prenomPersonnel("2386579"));
-//
+          SecretaireMedicale test = new SecretaireMedicale("null","null","null","null","null");
+          test.afficherListePatients();
     }
 }

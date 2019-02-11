@@ -52,6 +52,26 @@ public class Patient {
             }
 
     }}
+    
+    //Constructeur utilisé pour rechercher les patients par nom, prenom et date --> pour bien gérer les doublons
+     public Patient(String nom, String prenom, String date) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.dateDeNaissance=date;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
+            st = con.createStatement();
+
+        } catch (Exception ex) {
+
+            {
+                System.out.println("error :" + ex);
+
+            }
+
+    }}
 
     // Constructeur de Patient
     public Patient(String ipp, String nom, String prenom, Sexe sexe, String dateDeNaissance, String adresse, String telephone){
@@ -114,23 +134,7 @@ public class Patient {
      * @return the nom
      */
     public String getNom() {
-        String name=null; 
-        try{
-             
-              String query = "select * from patients"; // la query à entrer pour accéder aux données de nos tables 
-              rs= st.executeQuery(query); 
-              System.out.println("contenue de la base de donnée"); 
-              
-              while (rs.next()){
-              name = rs.getString("nom");
-              }
-              
-               }catch(Exception ex){
-              System.out.println(ex);
-          }
-
-      System.out.println( name);
-      return name;
+        return nom;  
     }
     
 

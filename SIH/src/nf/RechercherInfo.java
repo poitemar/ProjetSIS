@@ -6,14 +6,17 @@
 package nf;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
+import nf.Sexe;
 
 /**
  *
@@ -48,8 +51,8 @@ public class RechercherInfo {
         }
     }
 
-    public ArrayList<Patient> recherchePatientNomPrenom(String nom, String prenom) {
-      Lp= new  ArrayList<Patient> ();
+    public ArrayList<Patient> rechercheListPatientNomPrenom(String nom, String prenom) {
+        Lp = new ArrayList<Patient>();
         Patient p = null;
         try {
 
@@ -64,17 +67,57 @@ public class RechercherInfo {
 
                 String x = rs.getString("nom");// pour avoir accès a la colonne de ma table 
                 prenom = rs.getString("prenom");
+
+                String datenaissance = rs.getString("datenaissance");
+                String adresse = rs.getString("adresse");
+                String tel = rs.getString("telephone");
+                System.out.println("ipp : " + ipp + " ;   nom :   " + x + ";   prenom :  " + prenom);
+                System.out.print(Lp.size());
+
+                p = new Patient(x, prenom, datenaissance);
+                Lp.add(p);
+
+            }
+
+            rs.close();
+            st.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        System.out.println(Lp.size());
+        return Lp;
+
+    }
+
+    public ArrayList<Patient> recherchePatientListNomPrenomDate(String nom, String prenom, String date) {
+//       SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//            String d = format.format(date);  
+        Lp = new ArrayList<Patient>();
+        Patient p = null;
+        try {
+
+            String query = "select * from patients where nom='" + nom + "'and prenom='" + prenom + "'and datenaissance='" + date + "';";
+            System.out.println(query);
+            st = con.createStatement();
+            rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                // Patient p = new Patient(nom, prenom);
+                String ipp = rs.getString("ipp");
+
+                String x = rs.getString("nom");// pour avoir accès a la colonne de ma table 
+                prenom = rs.getString("prenom");
                 String sexe = rs.getString("sexe");
                 String datenaissance = rs.getString("datenaissance");
                 String adresse = rs.getString("adresse");
                 String role = rs.getString("telephone");
-                System.out.println("ipp : " + ipp + " ;   nom :   " + x + ";   prenom :  " + prenom);
+                System.out.println("ipp : " + ipp + " ;   nom :   " + x + ";   prenom :  " + prenom + "   dateNaissance" + date);
 
-                p = new Patient(nom, prenom);
+                p = new Patient(nom, prenom, date);
                 Lp.add(p);
+                System.out.println(Lp.size());
+            }
 
-                }
-            
             rs.close();
             st.close();
         } catch (Exception ex) {
@@ -82,9 +125,123 @@ public class RechercherInfo {
         }
         System.out.println(Lp);
         return Lp;
+    }
+
+    //affichage de la Liste des patients 
+    public ArrayList<Patient> afficherListPatient() {
+        ArrayList<Patient> patients = null;
+        Patient p = null;
+        try {
+
+            String query = "select * from patients";
+
+            st = con.createStatement();
+            rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                // Patient p = new Patient(nom, prenom);
+                String ipp = rs.getString("ipp");
+
+                String x = rs.getString("nom");// pour avoir accès a la colonne de ma table 
+                String y = rs.getString("prenom");
+                String sexe = rs.getString("sexe");
+                String datenaissance = rs.getString("datenaissance");
+                String adresse = rs.getString("adresse");
+                String role = rs.getString("telephone");
+
+                p = new Patient(x, y, datenaissance);
+                System.out.println("Patient p" + p);
+                System.out.println("1");
+                patients.add(1, p);
+
+            }
+
+            rs.close();
+            st.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+
+        return patients;
 
     }
 
+    public Patient recherchePatientNomPrenom(String nom, String prenom) {
+        p = new Patient(null, null);
+
+        try {
+
+            String query = "select * from patients where nom='" + nom + "'and prenom='" + prenom + "'";
+
+            st = con.createStatement();
+            rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                // Patient p = new Patient(nom, prenom);
+                String ipp = rs.getString("ipp");
+
+                String x = rs.getString("nom");// pour avoir accès a la colonne de ma table 
+                prenom = rs.getString("prenom");
+
+                String datenaissance = rs.getString("datenaissance");
+                String adresse = rs.getString("adresse");
+                String tel = rs.getString("telephone");
+                System.out.println("ipp : " + ipp + " ;   nom :   " + x + ";   prenom :  " + prenom);
+                // System.out.print(Lp.size());
+
+                p = new Patient(x, prenom, datenaissance);
+                //  Lp.add(p);
+
+            }
+
+            rs.close();
+            st.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        System.out.println(p);
+        return p;
+
+    }
+
+    public ArrayList<Patient> recherchePatientNomPrenomDate(String nom, String prenom, String date) {
+//       SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//            String d = format.format(date);  
+        Lp = new ArrayList<Patient>();
+        Patient p = null;
+        try {
+
+            String query = "select * from patients where nom='" + nom + "'and prenom='" + prenom + "'and datenaissance='" + date + "';";
+            System.out.println(query);
+            st = con.createStatement();
+            rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                // Patient p = new Patient(nom, prenom);
+                String ipp = rs.getString("ipp");
+
+                String x = rs.getString("nom");// pour avoir accès a la colonne de ma table 
+                prenom = rs.getString("prenom");
+                String sexe = rs.getString("sexe");
+                String datenaissance = rs.getString("datenaissance");
+                String adresse = rs.getString("adresse");
+                String role = rs.getString("telephone");
+                System.out.println("ipp : " + ipp + " ;   nom :   " + x + ";   prenom :  " + prenom + "   dateNaissance" + date);
+
+                p = new Patient(nom, prenom, date);
+                Lp.add(p);
+
+            }
+            rs.close();
+            st.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        System.out.println(Lp.size());
+        return Lp;
+
+    }
+}
 //    public ResultSet recherchePatientNomPrenomDate(String nom, String prenom, Calendar date) throws SQLException {
 //        String datedenaiss = date.get(date.YEAR) + "-" + (date.get(date.MONTH) + 1) + "-" + date.get(date.DAY_OF_MONTH);
 //        Connection c = new Connection();
@@ -111,4 +268,4 @@ public class RechercherInfo {
 //                jList1.setModel(DTM);
 //    } 
 //    }
-}
+

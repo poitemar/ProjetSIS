@@ -59,5 +59,5 @@ public class SecretaireAdministrative extends PersonnelMedical{
            catch (Exception ex) {
             System.out.println(ex);
         }
-    }
-}
+    } }
+

@@ -26,6 +26,7 @@ public class Sejour {
     private Date dateSortie;
     private String lettreDeSortie;
     private Localisation localisation;
+    private String observation; 
 
     // Constructeur Sejour
     // creation sejour implique un patient, un idSejour(auto), un phReferant, localisation
@@ -49,6 +50,14 @@ public class Sejour {
 //        this.lettreDeSortie = lettreDeSortie;
 //    }
 
+    //constructeru ajouter pour test d'affichage du sejour, à effacer une fois fini 11
+    public Sejour( String obs){
+        this.observation=obs;
+        
+        
+    }
+    
+    
     public Sejour(String idSejour, Patient patient, PH phReferant, Localisation localisation, String prescription, String observation, String compteRendu, String resultat, String titreOperation,String detailsOperation, String lettreDeSortie) {
         this.idSejour = idSejour;
         this.patient = patient;
@@ -291,5 +300,7 @@ public class Sejour {
     public void ajouterLettreDeSortie(String lettreDeSortie) {
         this.setLettreDeSortie(lettreDeSortie);
     }
-    //
+ 
+    
+    
 }
