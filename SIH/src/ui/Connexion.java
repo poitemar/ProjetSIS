@@ -13,12 +13,15 @@ package ui;
 public class Connexion extends javax.swing.JFrame {
 
       nf.Connexion cx = new nf.Connexion();
+      nf.PersonnelMedical personnel ;
     /**
      * Creates new form Connexion
      */
     public Connexion() {
         initComponents();
          setSize(700,600);
+         
+        
     }
 
     /**
@@ -136,16 +139,19 @@ public class Connexion extends javax.swing.JFrame {
     }//GEN-LAST:event_saisieMdpActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        //Je cree un personnel qui recupere les infos de celui qui se connecte pour le faire passer aux prochaines interfaces par le constructeur 
+        personnel = new nf.PersonnelMedical(cx.choixPersonnel(saisieId.getText(),saisieMdp.getText()),cx.nomPersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())),cx.prenomPersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())), saisieId.getText(), saisieMdp.getText());
+       //  System.out.println(personnel.getIdMed()+";"+personnel.getNom()+";"+personnel.getPrenom());
         if(cx.seConnecter(saisieId.getText(),saisieMdp.getText()).equals("SECRETAIRE ADMINISTRATIVE")){
-             new SecretaireAdministrative().setVisible(true);
+             new SecretaireAdministrative(personnel).setVisible(true);
              this.dispose();
        }
        if(cx.seConnecter(saisieId.getText(),saisieMdp.getText()).equals("SECRETAIRE MEDICALE")){
-             new SecretaireMedicale().setVisible(true);
+             new SecretaireMedicale(personnel).setVisible(true);
              this.dispose();
        }
        if(cx.seConnecter(saisieId.getText(),saisieMdp.getText()).equals("DOCTEUR")){
-             new PH().setVisible(true);
+             new PH(personnel).setVisible(true);
              this.dispose();
        }
     }//GEN-LAST:event_jButton3ActionPerformed

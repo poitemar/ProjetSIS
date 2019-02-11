@@ -21,8 +21,8 @@ public class SecretaireMedicale extends PersonnelMedical {
     private Statement st;
     private ResultSet rs;
 
-    public SecretaireMedicale(String nom, String prenom, String idMed, String password) {
-        super(nom, prenom, idMed, password);
+    public SecretaireMedicale(String idMed, String nom, String prenom,String login, String password) {
+        super(idMed,nom, prenom, login, password);
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
@@ -47,7 +47,7 @@ public class SecretaireMedicale extends PersonnelMedical {
         try {
             PreparedStatement pstm = con.prepareStatement(sql);
 
-            pstm.setString(1, phReferant.idMed);
+            pstm.setString(1, phReferant.getIdMed());
             pstm.setString(2, patient.getIpp());
             pstm.setString(3, idSejour);
             pstm.setString(4, observation);
