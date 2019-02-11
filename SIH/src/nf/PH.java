@@ -16,11 +16,27 @@ import java.sql.Statement;
  */
 public class PH extends PersonnelMedical {
 
+    /**
+     * @return the specialite
+     */
+    public Specialite getSpecialite() {
+        return specialite;
+    }
+
+    /**
+     * @param specialite the specialite to set
+     */
+    public void setSpecialite(Specialite specialite) {
+        this.specialite = specialite;
+    }
+
     private Connection con;
     private Statement st;
+    private Specialite specialite;
 
-    public PH(String nom, String prenom, String idMed, String specialite, String login, String password) {
-        super(nom, prenom, idMed, password);
+    public PH(String nom, String prenom, String idMed, Specialite specialite, String login, String password) {
+        super(nom, prenom, idMed, password,login);
+        this.specialite = specialite;
     }
 
     public void ajouterSejour(String idSejour, Patient patient, PH phReferant, Localisation localisation, String prescription, String observation, String compteRendu, String resultat, String titreOperation,String detailsOperation, String lettreDeSortie){
@@ -38,8 +54,7 @@ public class PH extends PersonnelMedical {
 
         try {
             PreparedStatement pstm = con.prepareStatement(sql);
-
-            pstm.setString(1, phReferant.idMed);
+            pstm.setString(1, phReferant.getIdMed());
             pstm.setString(2, patient.getIpp());
             pstm.setString(3, idSejour);            
             pstm.setString(4, observation);

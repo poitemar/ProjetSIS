@@ -11,13 +11,16 @@ package ui;
  * @author poite
  */
 public class SecretaireAdministrative extends javax.swing.JFrame {
-
+    nf.PersonnelMedical p ;
     /**
      * Creates new form SecretaireAdministrative
      */
-    public SecretaireAdministrative() {
+    public SecretaireAdministrative(nf.PersonnelMedical p) {
         initComponents();
         setSize(700,600);
+        this.p = p;
+       String s = "Mme/M. "+p.getNom()+" "+p.getPrenom();
+        jLabel3.setText(s);
         
     }
 
@@ -265,7 +268,7 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SecretaireAdministrative().setVisible(true);
+             //   new SecretaireAdministrative().setVisible(true);
             }
         });
     }

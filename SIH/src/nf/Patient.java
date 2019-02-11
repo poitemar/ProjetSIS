@@ -21,7 +21,7 @@ public class Patient {
     private String nom;
     private String prenom;
     private Sexe sexe;
-    private Date dateDeNaissance;
+    private String dateDeNaissance;
     private String adresse;
     private String telephone;
 
@@ -54,7 +54,7 @@ public class Patient {
     }}
 
     // Constructeur de Patient
-    public Patient(String ipp, String nom, String prenom, Sexe sexe, Date dateDeNaissance, String adresse, String telephone){
+    public Patient(String ipp, String nom, String prenom, Sexe sexe, String dateDeNaissance, String adresse, String telephone){
         this.nom = nom;
         this.ipp = ipp;
         this.prenom = prenom;
@@ -77,6 +77,10 @@ public class Patient {
             }
 
         }
+    }
+    //Cette methode genere un ipp pour l'ajout d'un nouveau patient
+    public String creationIPP_pour_ajout_patient (){
+        return "098765";
     }
 
     // getters et setters
@@ -172,14 +176,14 @@ public class Patient {
     /**
      * @return the dateDeNaissance
      */
-    public Date getDateDeNaissance() {
+    public String getDateDeNaissance() {
         return dateDeNaissance;
     }
 
     /**
      * @param dateDeNaissance the dateDeNaissance to set
      */
-    public void setDateDeNaissance(Date dateDeNaissance) {
+    public void setDateDeNaissance(String dateDeNaissance) {
         this.dateDeNaissance = dateDeNaissance;
     }
 
