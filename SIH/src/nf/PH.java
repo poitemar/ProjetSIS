@@ -19,19 +19,27 @@ import nf.Sejour;
  */
 public class PH extends PersonnelMedical {
 
-    private Connection con;
-    private Statement st;
-    private ResultSet rs;
-    Sejour sejour = null;
-    ArrayList<Sejour> sej = null;
-    
-    public PH() {
-
+    /**
+     * @return the specialite
+     */
+    public Specialite getSpecialite() {
+        return specialite;
     }
 
-    public PH(String nom, String prenom, String idMed, String specialite, String login, String password) {
-        super(nom, prenom, idMed, password);
+    /**
+     * @param specialite the specialite to set
+     */
+    public void setSpecialite(Specialite specialite) {
+        this.specialite = specialite;
+    }
 
+    private Connection con;
+    private Statement st;
+    private Specialite specialite;
+
+    public PH(String nom, String prenom, String idMed, Specialite specialite, String login, String password) {
+        super(nom, prenom, idMed, password,login);
+        this.specialite = specialite;
     }
 
     public void ajouterSejour(String idSejour, Patient patient, PH phReferant, Localisation localisation, String prescription, String observation, String compteRendu, String resultat, String titreOperation, String detailsOperation, String lettreDeSortie) {
@@ -49,8 +57,7 @@ public class PH extends PersonnelMedical {
 
         try {
             PreparedStatement pstm = con.prepareStatement(sql);
-
-            pstm.setString(1, phReferant.idMed);
+            pstm.setString(1, phReferant.getIdMed());
             pstm.setString(2, patient.getIpp());
             pstm.setString(3, idSejour);
             pstm.setString(4, observation);
@@ -66,42 +73,42 @@ public class PH extends PersonnelMedical {
         }
     }
 
-    public ArrayList<Sejour> afficherSejour() {
-
-        sej = new ArrayList<Sejour>();
-
-        try {
-
-            String query = "select * from ph";
-            System.out.println(query);
-            st = con.createStatement();
-            rs = st.executeQuery(query);
-
-            while (rs.next()) {
-
-                String idSej = rs.getString("ID_SEJOUR");
-                String patient = rs.getString("ipp");// pour avoir accès a la colonne de ma table 
-                String medecin = rs.getString("ID_PH");
-                String obs = rs.getString("OBSERVATION");
-                String resultat = rs.getString("RESULTAT");
-                String lettre = rs.getString("LETTRE_SORTIE");
-                String presc = rs.getString("PRESCRIPTION");
-                String op = rs.getString("OPERATION");
-                String titreOp = rs.getString("TITRE_OPERATION");
-                String comptreRendu = rs.getString("COMPTE_RENDU");
-                System.out.println("ipp : " + patient + " obs   :  " + obs + "resultat   :  " + resultat);
-
-                sejour = new Sejour(obs);
-                sej.add(sejour);
-
-            }
-            rs.close();
-            st.close();
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
-        System.out.println(sej.size());
-        return sej;
-    }
+//    public ArrayList<Sejour> afficherSejour() {
+//
+//        sej = new ArrayList<Sejour>();
+//
+//        try {
+//
+//            String query = "select * from ph";
+//            System.out.println(query);
+//            st = con.createStatement();
+//            rs = st.executeQuery(query);
+//
+//            while (rs.next()) {
+//
+//                String idSej = rs.getString("ID_SEJOUR");
+//                String patient = rs.getString("ipp");// pour avoir accès a la colonne de ma table 
+//                String medecin = rs.getString("ID_PH");
+//                String obs = rs.getString("OBSERVATION");
+//                String resultat = rs.getString("RESULTAT");
+//                String lettre = rs.getString("LETTRE_SORTIE");
+//                String presc = rs.getString("PRESCRIPTION");
+//                String op = rs.getString("OPERATION");
+//                String titreOp = rs.getString("TITRE_OPERATION");
+//                String comptreRendu = rs.getString("COMPTE_RENDU");
+//                System.out.println("ipp : " + patient + " obs   :  " + obs + "resultat   :  " + resultat);
+//
+//                sejour = new Sejour(obs);
+//                sej.add(sejour);
+//
+//            }
+//            rs.close();
+//            st.close();
+//        } catch (Exception ex) {
+//            System.out.println(ex);
+//        }
+//        System.out.println(sej.size());
+//        return sej;
+//    }
 
 }

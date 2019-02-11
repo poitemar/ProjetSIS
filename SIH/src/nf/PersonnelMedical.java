@@ -5,29 +5,58 @@
  */
 package nf;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.sql.SQLException;
+
 /**
  *
  * @author PC
  */
 public class PersonnelMedical {
 
-    public String nom;
-    public String prenom;
-    public String idMed;
+    private String nom;
+    private String prenom;
+    private String idMed;
+    private Specialite specialite;
+    private Service service;
+    private String login;
+   
+    private String password;
 
-    public String password;
+    private Connection con;
+    private Statement st;
+    private ResultSet rs;
 
-  public PersonnelMedical(){
-      
-  }
-    public PersonnelMedical(String nom, String prenom, String idMed, String password) {
+   
+    public PersonnelMedical(String idMed, String nom, String prenom, String login, String password){
         this.nom = nom;
         this.prenom = prenom;
-        this.idMed = idMed;
+        this.idMed =idMed;
+        this.login = login;
         this.password = password;
+         try {
+            Class.forName("com.mysql.jdbc.Driver");
 
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
+            st = con.createStatement();
+
+        } catch (Exception ex) {
+            System.out.println("error :" + ex);
+
+        }
     }
-
+    public String nouvelId(){
+      return "1234";
+      
+    }
+    
+  
+   
     //to set the last name of the medical staff
     public void setNom(String nom) {
         this.nom = nom;
@@ -57,5 +86,19 @@ public class PersonnelMedical {
     //to get the ID of the medical staff
     public String getIdMed() {
         return idMed;
+    }
+
+    /**
+     * @return the login
+     */
+    public String getLogin() {
+        return login;
+    }
+
+    /**
+     * @param login the login to set
+     */
+    public void setLogin(String login) {
+        this.login = login;
     }
 }

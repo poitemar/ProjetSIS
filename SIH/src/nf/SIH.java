@@ -32,21 +32,21 @@ public class SIH {
      
 //        SecretaireAdministrative sm = new SecretaireAdministrative("MAURIOL", "Marine","087567","pomme");
 //        Date d1 = new Date((1997-1900),(8-1),11);
-//        sm.ajouterNouveauPatient("37849875","poitevin","margaux",Sexe.FEMME,d1,"2 impasse","060504");
+//        sm.ajouterNouveauPatient("1212122","HELLE","margaux",Sexe.FEMME,d1,"2 impasse","060504");
     
+//    Patient p = new Patient("21","Longchamp","Juliette",Sexe.FEMME,new Date(15,01,1996),"78 boulevard","46000");
+//        System.out.println(p.creationIPP_pour_ajout_patient());
      // pour la BD 
 //       BDconnect bd = new BDconnect(); 
 //     bd.getData2();
      // bd.ajouterDonnees();
-     //  SecretaireAdministrative sm = new SecretaireAdministrative("MAURIOL", "Marine","087567","123");
-//        sm.ajouterNouveauPatient("521","Longchamp","Juliette",Sexe.FEMME,new Date(15,01,1996),"78 boulevard","46000");
+      // SecretaireAdministrative sm = new SecretaireAdministrative("MAURIOL", "Marine","087567","123");
+       // sm.ajouterNouveauPatient("521","Longchamp","Juliette",Sexe.FEMME,new Date(15,01,1996),"78 boulevard","46000");
 //      
-       // RechercherInfo inf= new RechercherInfo();
-        PH ph = new PH();
-      System.out.println(ph.afficherSejour());
-        //System.out.println(inf.recherchePatientListNomPrenomDate("ducoque", "juliette" , "10/07/1972") );
-     //  System.out.println(inf.recherchePatientNomPrenomDate("Poitevin", "Margaux","1997-08-11"));
-      //Patient p= new Patient ("21","Longchamp","Juliette",Sexe.FEMME,new Date(15,01,1996),"78 boulevard","46000");
+//        RechercherInfo inf= new RechercherInfo();
+//       
+//       System.out.println(inf.recherchePatientNomPrenom("Longchamp", "Juliette"));
+//      Patient p= new Patient ("21","Longchamp","Juliette",Sexe.FEMME,new Date(15,01,1996),"78 boulevard","46000");
       //p.getNom();
 ////           while (info.next()){
 //               try{
@@ -69,5 +69,10 @@ public class SIH {
 //        smed.ajouterSejour("S111", p, ph, loc, "//", "//", "//", "//","//", "//", "//");
 //        ph.ajouterSejour("//", p, ph, loc, "médicaments", "le patient est", "compte rendu du patient", "résultat des examens","opération du genou", "succes", "autorisé à sortir");
                 
+//    PersonnelMedical perso = new PersonnelMedical("","","","");
+//        System.out.println(perso.nomPersonnel("2386579"));
+// 
+//        System.out.println(perso.prenomPersonnel("2386579"));
+//
     }
 }

@@ -10,7 +10,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.Date;
-import java.sql.SQLException;
 
 /**
  *
@@ -20,8 +19,8 @@ public class SecretaireAdministrative extends PersonnelMedical{
      private Connection con;
       private Statement st; 
      
-    public SecretaireAdministrative(String nom, String prenom, String idMed,String password) {
-        super(nom, prenom, idMed,password);
+    public SecretaireAdministrative(String idMed,String nom, String prenom, String login, String password) {
+        super(idMed,nom, prenom,login,password);
          try{
             Class.forName("com.mysql.jdbc.Driver");
             
@@ -35,6 +34,30 @@ public class SecretaireAdministrative extends PersonnelMedical{
     }
     
 
-    
-    }
+    public void ajouterNouveauPatient(String ipp, String nom, String prenom, Sexe sexe, String dateDeNaissance, String adresse, String telephone){
+        
+        Patient p = new Patient(ipp,nom,prenom,sexe,dateDeNaissance,adresse,telephone);
+        DMA dma = new DMA(p);
+        DM dm = new DM(p);
+        
+              String sql="insert into patients(IPP,NOM,PRENOM,SEXE,DATENAISSANCE,ADRESSE,TELEPHONE) values (?,?,?,?,?,?,?)";
+           
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+        
+            pstm.setString(1,ipp);
+            pstm.setString(2,nom);
+            pstm.setString(3,prenom);
+            pstm.setString(4,sexe.toString());            
+            pstm.setString(5, dateDeNaissance);
+            pstm.setString(6, adresse);
+            pstm.setString(7, telephone);
+            pstm.executeUpdate(); 
+            
+            
+           }
+           catch (Exception ex) {
+            System.out.println(ex);
+        }
+    } }
 

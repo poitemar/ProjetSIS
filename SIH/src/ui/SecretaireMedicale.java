@@ -11,12 +11,16 @@ package ui;
  */
 public class SecretaireMedicale extends javax.swing.JFrame {
 
+    nf.PersonnelMedical p;
     /**
      * Creates new form SecretaireMedicale
      */
-    public SecretaireMedicale() {
+    public SecretaireMedicale(nf.PersonnelMedical p) {
         initComponents();
         setSize(700,600);
+        this.p = p;
+        String s = "Mme/M. "+p.getNom()+" "+p.getPrenom();
+         jLabel2.setText(s);
     }
 
     /**
@@ -252,7 +256,7 @@ public class SecretaireMedicale extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SecretaireMedicale().setVisible(true);
+                //new SecretaireMedicale().setVisible(true);
             }
         });
     }
