@@ -11,6 +11,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import nf.Sejour;
 
 /**
  *
@@ -42,8 +44,8 @@ public class PH extends PersonnelMedical {
         this.specialite = specialite;
     }
 
-    public void ajouterSejour(String idSejour, Patient patient, PH phReferant, Localisation localisation, String prescription, String observation, String compteRendu, String resultat, String titreOperation,String detailsOperation, String lettreDeSortie){
-       // Sejour s = new Sejour(idSejour, patient, phReferant, localisation, prescription, observation, compteRendu, resultat, titreOperation, detailsOperation, lettreDeSortie);
+    public void ajouterSejour(String idSejour, Patient patient, PH phReferant, Localisation localisation, String prescription, String observation, String compteRendu, String resultat, String titreOperation, String detailsOperation, String lettreDeSortie) {
+        // Sejour s = new Sejour(idSejour, patient, phReferant, localisation, prescription, observation, compteRendu, resultat, titreOperation, detailsOperation, lettreDeSortie);
 //        s.setPhReferant(this);
 //        s.getListePrescriptions().add(prescription);
 //        s.getListeObservations().add(observation);
@@ -59,7 +61,7 @@ public class PH extends PersonnelMedical {
             PreparedStatement pstm = con.prepareStatement(sql);
             pstm.setString(1, phReferant.getIdMed());
             pstm.setString(2, patient.getIpp());
-            pstm.setString(3, idSejour);            
+            pstm.setString(3, idSejour);
             pstm.setString(4, observation);
             pstm.setString(5, resultat);
             pstm.setString(6, lettreDeSortie);

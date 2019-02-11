@@ -8,6 +8,7 @@ package nf;
 
 //import java.util.Date;
 import java.sql.Date;
+import java.sql.SQLException;
 
 
 
@@ -21,7 +22,7 @@ public class SIH {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
       //pour la BD 
 //      BDconnect bd = new BDconnect(); 
 //      bd.ajouterSejour();
