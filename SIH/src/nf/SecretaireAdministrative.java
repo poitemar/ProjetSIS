@@ -35,30 +35,6 @@ public class SecretaireAdministrative extends PersonnelMedical{
     }
     
 
-    public void ajouterNouveauPatient(String ipp, String nom, String prenom, Sexe sexe, Date dateDeNaissance, String adresse, String telephone) throws SQLException, ClassNotFoundException{
-        
-        Patient p = new Patient(ipp,nom,prenom,sexe,dateDeNaissance,adresse,telephone);
-        DMA dma = new DMA(p);
-        DM dm = new DM(p);
-        
-              String sql="insert into patients(IPP,NOM,PRENOM,SEXE,DATENAISSANCE,ADRESSE,TELEPHONE) values (?,?,?,?,?,?,?)";
-           
-        try {
-            PreparedStatement pstm = con.prepareStatement(sql);
-        
-            pstm.setString(1,ipp);
-            pstm.setString(2,nom);
-            pstm.setString(3,prenom);
-            pstm.setString(4,sexe.toString());            
-            pstm.setDate(5, new java.sql.Date(dateDeNaissance.getTime()));
-            pstm.setString(6, adresse);
-            pstm.setString(7, telephone);
-            pstm.executeUpdate(); 
-            
-            
-           }
-           catch (Exception ex) {
-            System.out.println(ex);
-        }
+    
     }
-}
+

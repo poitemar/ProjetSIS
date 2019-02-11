@@ -8,7 +8,10 @@ package nf;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import nf.Sejour;
 
 /**
  *
@@ -18,13 +21,21 @@ public class PH extends PersonnelMedical {
 
     private Connection con;
     private Statement st;
+    private ResultSet rs;
+    Sejour sejour = null;
+    ArrayList<Sejour> sej = null;
+    
+    public PH() {
+
+    }
 
     public PH(String nom, String prenom, String idMed, String specialite, String login, String password) {
         super(nom, prenom, idMed, password);
+
     }
 
-    public void ajouterSejour(String idSejour, Patient patient, PH phReferant, Localisation localisation, String prescription, String observation, String compteRendu, String resultat, String titreOperation,String detailsOperation, String lettreDeSortie){
-       // Sejour s = new Sejour(idSejour, patient, phReferant, localisation, prescription, observation, compteRendu, resultat, titreOperation, detailsOperation, lettreDeSortie);
+    public void ajouterSejour(String idSejour, Patient patient, PH phReferant, Localisation localisation, String prescription, String observation, String compteRendu, String resultat, String titreOperation, String detailsOperation, String lettreDeSortie) {
+        // Sejour s = new Sejour(idSejour, patient, phReferant, localisation, prescription, observation, compteRendu, resultat, titreOperation, detailsOperation, lettreDeSortie);
 //        s.setPhReferant(this);
 //        s.getListePrescriptions().add(prescription);
 //        s.getListeObservations().add(observation);
@@ -41,7 +52,7 @@ public class PH extends PersonnelMedical {
 
             pstm.setString(1, phReferant.idMed);
             pstm.setString(2, patient.getIpp());
-            pstm.setString(3, idSejour);            
+            pstm.setString(3, idSejour);
             pstm.setString(4, observation);
             pstm.setString(5, resultat);
             pstm.setString(6, lettreDeSortie);
@@ -53,6 +64,44 @@ public class PH extends PersonnelMedical {
         } catch (Exception ex) {
             System.out.println(ex);
         }
+    }
+
+    public ArrayList<Sejour> afficherSejour() {
+
+        sej = new ArrayList<Sejour>();
+
+        try {
+
+            String query = "select * from ph";
+            System.out.println(query);
+            st = con.createStatement();
+            rs = st.executeQuery(query);
+
+            while (rs.next()) {
+
+                String idSej = rs.getString("ID_SEJOUR");
+                String patient = rs.getString("ipp");// pour avoir accès a la colonne de ma table 
+                String medecin = rs.getString("ID_PH");
+                String obs = rs.getString("OBSERVATION");
+                String resultat = rs.getString("RESULTAT");
+                String lettre = rs.getString("LETTRE_SORTIE");
+                String presc = rs.getString("PRESCRIPTION");
+                String op = rs.getString("OPERATION");
+                String titreOp = rs.getString("TITRE_OPERATION");
+                String comptreRendu = rs.getString("COMPTE_RENDU");
+                System.out.println("ipp : " + patient + " obs   :  " + obs + "resultat   :  " + resultat);
+
+                sejour = new Sejour(obs);
+                sej.add(sejour);
+
+            }
+            rs.close();
+            st.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        System.out.println(sej.size());
+        return sej;
     }
 
 }

@@ -23,7 +23,7 @@ public class Patient {
     private String nom;
     private String prenom;
     private Sexe sexe;
-    private Date dateDeNaissance;
+    private String dateDeNaissance;
     private String adresse;
     private String telephone;
 
@@ -54,9 +54,29 @@ public class Patient {
             }
 
     }}
+    
+    //Constructeur utilisé pour rechercher les patients par nom, prenom et date --> pour bien gérer les doublons
+     public Patient(String nom, String prenom, String date) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.dateDeNaissance=date;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
+            st = con.createStatement();
+
+        } catch (Exception ex) {
+
+            {
+                System.out.println("error :" + ex);
+
+            }
+
+    }}
 
     // Constructeur de Patient
-    public Patient(String ipp, String nom, String prenom, Sexe sexe, Date dateDeNaissance, String adresse, String telephone) throws ClassNotFoundException, SQLException {
+    public Patient(String ipp, String nom, String prenom, Sexe sexe, String dateDeNaissance, String adresse, String telephone) throws ClassNotFoundException, SQLException {
         this.nom = nom;
         this.ipp = ipp;
         this.prenom = prenom;
@@ -112,23 +132,7 @@ public class Patient {
      * @return the nom
      */
     public String getNom() {
-        String name=null; 
-        try{
-             
-              String query = "select * from patients"; // la query à entrer pour accéder aux données de nos tables 
-              rs= st.executeQuery(query); 
-              System.out.println("contenue de la base de donnée"); 
-              
-              while (rs.next()){
-              name = rs.getString("nom");
-              }
-              
-               }catch(Exception ex){
-              System.out.println(ex);
-          }
-
-      System.out.println( name);
-      return name;
+        return nom;  
     }
     
 
@@ -174,14 +178,16 @@ public class Patient {
     /**
      * @return the dateDeNaissance
      */
-    public Date getDateDeNaissance() {
-        return dateDeNaissance;
+    public String getDateDeNaissance() {
+     return dateDeNaissance;
+     
+        
     }
 
     /**
      * @param dateDeNaissance the dateDeNaissance to set
      */
-    public void setDateDeNaissance(Date dateDeNaissance) {
+    public void setDateDeNaissance(String dateDeNaissance) {
         this.dateDeNaissance = dateDeNaissance;
     }
 

@@ -13,15 +13,18 @@ public class PersonnelMedical {
 
     public String nom;
     public String prenom;
-    public String  idMed;
+    public String idMed;
 
     public String password;
 
-     public PersonnelMedical(String nom, String prenom, String idMed,String password) {
+  public PersonnelMedical(){
+      
+  }
+    public PersonnelMedical(String nom, String prenom, String idMed, String password) {
         this.nom = nom;
         this.prenom = prenom;
         this.idMed = idMed;
-        this.password=password;
+        this.password = password;
 
     }
 
@@ -41,7 +44,6 @@ public class PersonnelMedical {
         this.idMed = idMed;
     }
 
-
     //to get the last name of the medical staff
     public String getNom() {
         return nom;
@@ -51,8 +53,9 @@ public class PersonnelMedical {
     public String getPrenom() {
         return prenom;
     }
+
     //to get the ID of the medical staff
-    public String getIdMed(){
-        return idMed; 
+    public String getIdMed() {
+        return idMed;
     }
 }
