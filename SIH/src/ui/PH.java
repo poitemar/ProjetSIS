@@ -694,7 +694,7 @@ public class PH extends JFrame implements ActionListener {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
             new Connexion().setVisible(true);
-        this.dispose();
+            this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
