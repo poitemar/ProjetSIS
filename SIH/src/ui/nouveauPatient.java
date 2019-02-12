@@ -9,7 +9,9 @@ package ui;
 import java.sql.Date;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import nf.Service;
 import nf.Sexe;
+import nf.Specialite;
 
 /**
  *
@@ -17,7 +19,7 @@ import nf.Sexe;
  */
 public class nouveauPatient extends javax.swing.JFrame {
 
-    nf.SecretaireAdministrative secretaireAdministrativeCourante = new nf.SecretaireAdministrative("1234","MAURIOL","Marine","087567","123");
+    nf.SecretaireAdministrative secretaireAdministrativeCourante = new nf.SecretaireAdministrative("1234","MAURIOL","Marine","087567","123",Specialite.ACCUEIL,Service.ANESTHESISTE);
     //nf.Patient p = new nf.Patient("21","Longchamp","Juliette",Sexe.FEMME,"11/03"),"78 boulevard","46000");
     
     /**

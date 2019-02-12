@@ -5,6 +5,9 @@
  */
 package ui;
 
+import nf.Service;
+import nf.Specialite;
+
 /**
  *
  * @author Marine
@@ -15,8 +18,8 @@ public class SecretaireMedicale extends javax.swing.JFrame {
     /**
      * Creates new form SecretaireMedicale
      */
-       ///// nf.SecretaireMedicale secrMed = new nf.SecretaireMedicale("null","null", "null", "null", "null");
-        /////String[] liste = new String[secrMed.nombrePatients()];
+      nf.SecretaireMedicale secrMed = new nf.SecretaireMedicale("null","null", "null", "null", "null",Specialite.ACCUEIL,Service.ANESTHESISTE);
+     String[] liste = new String[secrMed.nombrePatients()];
 
     public SecretaireMedicale(nf.PersonnelMedical p) {
             /////liste = secrMed.afficherListePatients();

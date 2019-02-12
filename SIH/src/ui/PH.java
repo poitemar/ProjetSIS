@@ -34,7 +34,7 @@ public class PH extends JFrame implements ActionListener {
     ArrayList <Patient> Lp; 
     nf.PersonnelMedical perso;
 
-    nf.PH ph = new nf.PH("null", "null",  "null",nf.Specialite.CARDIOLOGIE,"null","null");
+    nf.PH ph = new nf.PH("null", "null","null","null","null",nf.Specialite.CARDIOLOGIE,nf.Service.CLINIQUE);
     String[] liste = new String[ph.nombrePatients()];
     /**
      * Creates new form PH
@@ -196,7 +196,7 @@ public class PH extends JFrame implements ActionListener {
         jLabel1.setText("Dr DUPONT Laurent");
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel2.setText("CARDIOLOGIE");
+        jLabel2.setText("ONCOLOGIE");
 
         jScrollPane1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
@@ -288,7 +288,7 @@ public class PH extends JFrame implements ActionListener {
                         .addComponent(jToggleButton1))
                     .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -344,7 +344,7 @@ public class PH extends JFrame implements ActionListener {
                     .addComponent(jToggleButton1)
                     .addComponent(jButton3)
                     .addComponent(jButton5))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("ACCUEIL", jPanel1);

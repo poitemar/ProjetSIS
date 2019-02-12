@@ -6,6 +6,9 @@
 
 package ui;
 
+import nf.Service;
+import nf.Specialite;
+
 /**
  *
  * @author poite
@@ -140,7 +143,7 @@ public class Connexion extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         //Je cree un personnel qui recupere les infos de celui qui se connecte pour le faire passer aux prochaines interfaces par le constructeur 
-    /////   // personnel = new nf.PersonnelMedical(cx.choixPersonnel(saisieId.getText(),saisieMdp.getText()),cx.nomPersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())),cx.prenomPersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())), saisieId.getText(), saisieMdp.getText());
+    personnel = new nf.PersonnelMedical(cx.choixPersonnel(saisieId.getText(),saisieMdp.getText()),cx.nomPersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())),cx.prenomPersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())), saisieId.getText(), saisieMdp.getText(),Specialite.ONCOLOGIE,Service.CLINIQUE);
        //  System.out.println(personnel.getIdMed()+";"+personnel.getNom()+";"+personnel.getPrenom());
         if(cx.seConnecter(saisieId.getText(),saisieMdp.getText()).equals("SECRETAIRE ADMINISTRATIVE")){
              new SecretaireAdministrative(personnel).setVisible(true);
