@@ -17,10 +17,12 @@ import java.sql.Date;
  */
 public class SecretaireAdministrative extends PersonnelMedical{
      private Connection con;
-      private Statement st; 
+      private Statement st;
+      private Specialite specialite;
      
-    public SecretaireAdministrative(String idMed,String nom, String prenom, String login, String password) {
-        super(idMed,nom, prenom,login,password);
+    public SecretaireAdministrative(String idMed,String nom, String prenom, String login, String password, Specialite spe,Service service) {
+        super(idMed,nom, prenom,login,password,spe,service);
+        this.specialite = Specialite.ACCUEIL;
          try{
             Class.forName("com.mysql.jdbc.Driver");
             

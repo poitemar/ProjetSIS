@@ -20,9 +20,10 @@ public class SecretaireMedicale extends PersonnelMedical {
     private Connection con;
     private Statement st;
     private ResultSet rs;
+    private Specialite specialite;
 
-    public SecretaireMedicale(String idMed, String nom, String prenom,String login, String password) {
-        super(idMed,nom, prenom, login, password);
+    public SecretaireMedicale(String idMed, String nom, String prenom,String login, String password,Specialite spe,Service service) {
+        super(idMed,nom, prenom, login, password,spe,service);
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
@@ -63,11 +64,15 @@ public class SecretaireMedicale extends PersonnelMedical {
             ex.printStackTrace();
         }
     }
+    
+    public Specialite getSpecialite() {
+        return specialite;
+    }
 
     public int nombrePatients() {
         int compteur = 0;
         try {
-            String query = "select * from PATIENTS";
+            String query = "select * from PATIENTS join PH on (IPP=IPP_PATIENT) join PERSONNEL_MEDICAL on (ID_PH = ID_P) join LOCALISATION using (ID_SEJOUR) where LOCALISATION.service = 'Oncologie'"; // la query à entrer pour accéder aux données de nos tables 
             rs = st.executeQuery(query);
             while (rs.next()) {
                 compteur++;
@@ -85,7 +90,7 @@ public class SecretaireMedicale extends PersonnelMedical {
         int i=0;
         String[] listePatients = new String[compteur];
         try {
-            String query = "select * from PATIENTS "; // la query à entrer pour accéder aux données de nos tables 
+            String query = "select * from PATIENTS join PH on (IPP=IPP_PATIENT) join PERSONNEL_MEDICAL on (ID_PH = ID_P) join LOCALISATION using (ID_SEJOUR) where LOCALISATION.service = '"+getSpecialite()+"'"; // la query à entrer pour accéder aux données de nos tables 
             rs = st.executeQuery(query);
             while (rs.next()) {
                 String nom = rs.getString("NOM");

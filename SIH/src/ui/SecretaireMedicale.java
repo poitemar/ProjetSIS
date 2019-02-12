@@ -15,11 +15,11 @@ public class SecretaireMedicale extends javax.swing.JFrame {
     /**
      * Creates new form SecretaireMedicale
      */
-    nf.SecretaireMedicale secrMed = new nf.SecretaireMedicale("null","null", "null", "null", "null");
-    String[] liste = new String[secrMed.nombrePatients()];
+       ///// nf.SecretaireMedicale secrMed = new nf.SecretaireMedicale("null","null", "null", "null", "null");
+        /////String[] liste = new String[secrMed.nombrePatients()];
 
     public SecretaireMedicale(nf.PersonnelMedical p) {
-        liste = secrMed.afficherListePatients();
+            /////liste = secrMed.afficherListePatients();
         initComponents();
         setSize(700,600);
         this.p = p;

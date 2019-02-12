@@ -33,12 +33,14 @@ public class PersonnelMedical {
     private ResultSet rs;
 
    
-    public PersonnelMedical(String idMed, String nom, String prenom, String login, String password){
+    public PersonnelMedical(String idMed, String nom, String prenom, String login, String password, Specialite spe, Service service){
         this.nom = nom;
         this.prenom = prenom;
         this.idMed =idMed;
         this.login = login;
         this.password = password;
+        this.specialite=spe;
+        this.service=service;
          try {
             Class.forName("com.mysql.jdbc.Driver");
 

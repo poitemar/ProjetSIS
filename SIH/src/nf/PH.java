@@ -39,9 +39,18 @@ public class PH extends PersonnelMedical {
     private ResultSet rs;
     private Specialite specialite;
 
-    public PH(String nom, String prenom, String idMed, Specialite specialite, String login, String password) {
-        super(nom, prenom, idMed, password,login);
-        this.specialite = specialite;
+    public PH(String nom, String prenom, String idMed, String login, String password,Specialite spe,Service service) {
+        super(nom, prenom, idMed, password,login,spe,service);
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
+            st = con.createStatement();
+
+        } catch (Exception ex) {
+            System.out.println("error :" + ex);
+            ex.printStackTrace();
+
+        }
     }
 
     public void ajouterSejour(String idSejour, Patient patient, PH phReferant, Localisation localisation, String prescription, String observation, String compteRendu, String resultat, String titreOperation, String detailsOperation, String lettreDeSortie) {
@@ -77,8 +86,9 @@ public class PH extends PersonnelMedical {
     
     public int nombrePatients() {
         int compteur = 0;
+        System.out.println(getSpecialite());
         try {
-            String query = "select * from PATIENTS";
+            String query = "select * from PATIENTS join PH on (IPP=IPP_PATIENT) join PERSONNEL_MEDICAL on (ID_PH = ID_P) join LOCALISATION using (ID_SEJOUR) where UPPER(LOCALISATION.service) = UPPER('"+getSpecialite()+"')";
             rs = st.executeQuery(query);
             while (rs.next()) {
                 compteur++;
@@ -96,7 +106,7 @@ public class PH extends PersonnelMedical {
         int i=0;
         String[] listePatients = new String[compteur];
         try {
-            String query = "select * from PATIENTS natural join SEJOUR natural join PH_REFERENT join PERSONNEL_MEDICAL on (id_p = id_phr) where (login = 'macman' and mdp = 'manucron')"; // la query à entrer pour accéder aux données de nos tables 
+            String query = "select * from PATIENTS join PH on (IPP=IPP_PATIENT) join PERSONNEL_MEDICAL on (ID_PH = ID_P) join LOCALISATION using (ID_SEJOUR) where UPPER(LOCALISATION.service)= UPPER('"+getSpecialite()+"')";// la query à entrer pour accéder aux données de nos tables 
             rs = st.executeQuery(query);
             while (rs.next()) {
                 String nom = rs.getString("NOM");

@@ -68,7 +68,7 @@ public class SIH {
 //        System.out.println(ph.nom);
 //        smed.ajouterSejour("S111", p, ph, loc, "//", "//", "//", "//","//", "//", "//");
 //        ph.ajouterSejour("//", p, ph, loc, "médicaments", "le patient est", "compte rendu du patient", "résultat des examens","opération du genou", "succes", "autorisé à sortir");
-          SecretaireMedicale test = new SecretaireMedicale("null","null","null","null","null");
+          PH test = new PH("null","null","null","null","null",Specialite.ONCOLOGIE,Service.CLINIQUE);
           test.afficherListePatients();
     }
 }

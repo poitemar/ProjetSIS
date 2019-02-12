@@ -13,5 +13,7 @@ package nf;
 public enum Specialite {
     CARDIOLOGIE,
     //...
-    PNEUMOLOGIE;
+    PNEUMOLOGIE, 
+    ONCOLOGIE,
+    ACCUEIL;
 }
