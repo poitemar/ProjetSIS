@@ -15,6 +15,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
+import static java.util.Optional.empty;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -34,7 +35,7 @@ public class PH extends JFrame implements ActionListener {
     ArrayList <Patient> Lp; 
     nf.PersonnelMedical perso;
 
-    nf.PH ph = new nf.PH("null", "null","null","null","null",nf.Specialite.CARDIOLOGIE,nf.Service.CLINIQUE);
+    nf.PH ph = new nf.PH("null", "null","null","null","null",nf.Specialite.ONCOLOGIE,nf.Service.CLINIQUE);
     String[] liste = new String[ph.nombrePatients()];
     /**
      * Creates new form PH
@@ -679,7 +680,9 @@ public class PH extends JFrame implements ActionListener {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       
 
+        
         String date = jFormattedTextField1.getText();
         DefaultListModel DLM = new DefaultListModel();
         if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty() && jFormattedTextField1.getText() != null) {
@@ -704,6 +707,7 @@ public class PH extends JFrame implements ActionListener {
          
         }
         jList1.setModel(DLM);
+        empty();
         jList1.repaint();
     }//GEN-LAST:event_jButton1ActionPerformed
 

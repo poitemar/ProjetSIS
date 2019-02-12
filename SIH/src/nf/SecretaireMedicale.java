@@ -24,6 +24,7 @@ public class SecretaireMedicale extends PersonnelMedical {
 
     public SecretaireMedicale(String idMed, String nom, String prenom,String login, String password,Specialite spe,Service service) {
         super(idMed,nom, prenom, login, password,spe,service);
+        this.specialite = spe;
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 

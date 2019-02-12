@@ -23,9 +23,7 @@ public class PH extends PersonnelMedical {
     /**
      * @return the specialite
      */
-    public Specialite getSpecialite() {
-        return specialite;
-    }
+    
 
     /**
      * @param specialite the specialite to set
@@ -41,6 +39,7 @@ public class PH extends PersonnelMedical {
 
     public PH(String nom, String prenom, String idMed, String login, String password,Specialite spe,Service service) {
         super(nom, prenom, idMed, password,login,spe,service);
+        this.specialite = spe;
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
@@ -53,6 +52,9 @@ public class PH extends PersonnelMedical {
         }
     }
 
+    public Specialite getSpecialite() {
+        return specialite;
+    }
     public void ajouterSejour(String idSejour, Patient patient, PH phReferant, Localisation localisation, String prescription, String observation, String compteRendu, String resultat, String titreOperation, String detailsOperation, String lettreDeSortie) {
         // Sejour s = new Sejour(idSejour, patient, phReferant, localisation, prescription, observation, compteRendu, resultat, titreOperation, detailsOperation, lettreDeSortie);
 //        s.setPhReferant(this);

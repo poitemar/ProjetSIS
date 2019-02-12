@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.Date;
+import java.sql.ResultSet;
 
 /**
  *
@@ -19,6 +20,7 @@ public class SecretaireAdministrative extends PersonnelMedical{
      private Connection con;
       private Statement st;
       private Specialite specialite;
+      private ResultSet rs;
      
     public SecretaireAdministrative(String idMed,String nom, String prenom, String login, String password, Specialite spe,Service service) {
         super(idMed,nom, prenom,login,password,spe,service);
@@ -61,5 +63,43 @@ public class SecretaireAdministrative extends PersonnelMedical{
            catch (Exception ex) {
             System.out.println(ex);
         }
-    } }
+    } 
+public int nombrePatients() {
+        int compteur = 0;
+        try {
+            String query = "select * from PATIENTS"; // la query à entrer pour accéder aux données de nos tables 
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                compteur++;
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+            ex.printStackTrace();
+        }
+        System.out.println("compteur = " + compteur);
+        return compteur;
+    }
+
+    public String[] afficherListePatients() {
+        int compteur = nombrePatients();
+        int i=0;
+        String[] listePatients = new String[compteur];
+        try {
+            String query = "select * from PATIENTS"; // la query à entrer pour accéder aux données de nos tables 
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                String nom = rs.getString("NOM");
+                String prenom = rs.getString("PRENOM");
+                String nomEntier = nom + " " + prenom;
+                listePatients[i]=nomEntier;
+                System.out.println(listePatients[i]);
+                i++;
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+            ex.printStackTrace();
+        }
+        return listePatients;
+    }
+}
 
