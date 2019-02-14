@@ -7,9 +7,12 @@
 package ui;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JList;
 import nf.Lit;
 import nf.Orientation;
 import nf.Specialite;
+import nf.SecretaireMedicale;
+import nf.Service;
 
 /**
  *
@@ -17,12 +20,18 @@ import nf.Specialite;
  */
 public class nouveauSejour extends javax.swing.JFrame {
 
+    SecretaireMedicale secMed = new SecretaireMedicale("null", "null", "null", "null", "null", Specialite.ONCOLOGIE, Service.ANESTHESISTE);
+    String[] listMed = new String[secMed.nombrePH()+1];
+    
     /**
      * Creates new form nouveauSejour
      */
     public nouveauSejour() {
         initComponents();
         setSize(700,600);
+        
+        listMed = secMed.afficherListePH();
+        
     }
 
     /**
@@ -55,19 +64,23 @@ public class nouveauSejour extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        jList1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jList1.setFont(new java.awt.Font("Arial", 0, 48)); // NOI18N
         jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "ABI CHACRA Lauren", "MAURIOL Marine", "RACAMIER Axel", "POITEVIN Margaux" };
+            String[] strings = listMed;
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
+        jList1.setFixedCellHeight(3);
+        jList1.setMaximumSize(new java.awt.Dimension(2000, 2000));
+        jList1.setMinimumSize(new java.awt.Dimension(500, 500));
+        jList1.setPreferredSize(new java.awt.Dimension(100, 1000));
         jScrollPane1.setViewportView(jList1);
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         jLabel1.setText("Enregistrement patient");
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel2.setText("Médecin référant :");
+        jLabel2.setText("Médecin référent :");
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel3.setText("Localisation :");
@@ -124,9 +137,10 @@ public class nouveauSejour extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jButton1))))
+                                .addComponent(jButton1)))
+                        .addGap(243, 243, 243))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(175, 175, 175)
                         .addComponent(jLabel1))
@@ -151,7 +165,7 @@ public class nouveauSejour extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
                             .addComponent(boxLit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(133, Short.MAX_VALUE))
+                .addGap(133, 133, 133))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,7 +175,7 @@ public class nouveauSejour extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1)
                 .addGap(29, 29, 29)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -180,7 +194,7 @@ public class nouveauSejour extends javax.swing.JFrame {
                     .addComponent(boxService, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(40, 40, 40)
                 .addComponent(jButton1)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addGap(49, 49, 49))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -255,4 +269,6 @@ public class nouveauSejour extends javax.swing.JFrame {
     private javax.swing.JTextField textChambre;
     private javax.swing.JTextField textEtage;
     // End of variables declaration//GEN-END:variables
+//JList.HORIZONTAL_WRAP;
+
 }
