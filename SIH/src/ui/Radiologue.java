@@ -5,6 +5,11 @@
  */
 package ui;
 
+import java.util.ArrayList;
+import javax.swing.DefaultListModel;
+import nf.Patient;
+import nf.RechercherInfo;
+
 /**
  *
  * @author poite
@@ -300,7 +305,34 @@ public class Radiologue extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+       ArrayList<Patient> Lp=null;
+       RechercherInfo inf = new RechercherInfo();
+        String date = jFormattedTextField1.getText();
+        DefaultListModel DLM = new DefaultListModel();
+        if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty() && jFormattedTextField1.getText() != null) {
+            Lp = inf.recherchePatientNomPrenomDate(jTextField1.getText(), jTextField2.getText(), date);
+
+            for (int i = 0; i < Lp.size(); i++) {
+                String element = "" + Lp.get(i).getNom() + "   " + Lp.get(i).getPrenom() + "    " + Lp.get(i).getDateDeNaissance();
+                DLM.addElement(element);
+
+            }
+              //jList1.setModel(DLM);
+
+        } 
+            if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty()) {
+            Lp = inf.rechercheListPatientNomPrenom(jTextField1.getText(), jTextField2.getText());
+            // DefaultListModel DLM = new DefaultListModel();
+            for (int i = 0; i < Lp.size(); i++) {
+                String element = "" + Lp.get(i).getNom() + "   " + Lp.get(i).getPrenom() + "  " + Lp.get(i).getDateDeNaissance();
+                DLM.addElement(element);
+
+            }
+         
+        }
+        jList1.setModel(DLM);
+        jList1.repaint();
+                                           
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
