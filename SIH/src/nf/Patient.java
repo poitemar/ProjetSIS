@@ -100,7 +100,7 @@ public class Patient {
     }
     //Cette methode genere un ipp pour l'ajout d'un nouveau patient
     public String creationIPP_pour_ajout_patient (){
-        return "098765";
+        return "0566973";
     }
 
     // getters et setters
