@@ -107,4 +107,42 @@ public class SecretaireMedicale extends PersonnelMedical {
         }
         return listePatients;
     }
+    
+    public int nombrePH() {
+        int compteur = 0;
+        try {
+            String query = "select * from PERSONNEL_MEDICAL where TYPE_P = 'DOCTEUR' and SPE = '"+getSpecialite()+"'"; // la query à entrer pour accéder aux données de nos tables 
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                compteur++;
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+            ex.printStackTrace();
+        }
+        System.out.println("compteur = " + compteur);
+        return compteur;
+    }
+    
+    public String[] afficherListePH() {
+        int compteur = nombrePH();
+        int i=0;
+        String[] listePH = new String[compteur];
+        try {
+            String query = "select * from PERSONNEL_MEDICAL where TYPE_P = 'DOCTEUR' and SPE = '"+getSpecialite()+"'"; // la query à entrer pour accéder aux données de nos tables 
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                String nom = rs.getString("NOM");
+                String prenom = rs.getString("PRENOM");
+                String nomEntier = nom + " " + prenom;
+                listePH[i]=nomEntier;
+                System.out.println(listePH[i]);
+                i++;
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+            ex.printStackTrace();
+        }
+        return listePH;
+    }
 }

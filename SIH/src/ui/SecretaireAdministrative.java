@@ -31,6 +31,7 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
         this.p = p;
        String s = "Mme/M. "+p.getNom()+" "+p.getPrenom();
         jLabel3.setText(s);
+         
         
     }
 
@@ -65,6 +66,11 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setPreferredSize(new java.awt.Dimension(666, 476));
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel1MouseClicked(evt);
+            }
+        });
 
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
@@ -73,6 +79,26 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
             String[] strings = liste;
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
+        });
+        jList1.addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                jList1ComponentAdded(evt);
+            }
+        });
+        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jList1MouseReleased(evt);
+            }
+        });
+        jList1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jList1PropertyChange(evt);
+            }
+        });
+        jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jList1ValueChanged(evt);
+            }
         });
         jScrollPane1.setViewportView(jList1);
 
@@ -88,6 +114,50 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
         });
 
         jTree1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        if(jList1.isSelectionEmpty()){
+            javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Selectionnez un patient");
+            jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode3));
+        }
+        else{
+            javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("DUCOQUE Juliette");
+            javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("FEMME");
+            treeNode1.add(treeNode2);
+            treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("10/07/1972");
+            treeNode1.add(treeNode2);
+            treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("12 route du champion");
+            treeNode1.add(treeNode2);
+            treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("63000, Clermont Ferrand");
+            treeNode1.add(treeNode2);
+            treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("0712395145");
+            treeNode1.add(treeNode2);
+            treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Séjours");
+            javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("12/08/18");
+            javax.swing.tree.DefaultMutableTreeNode treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("Operations");
+            javax.swing.tree.DefaultMutableTreeNode treeNode5 = new javax.swing.tree.DefaultMutableTreeNode("Consulation 1");
+            javax.swing.tree.DefaultMutableTreeNode treeNode6 = new javax.swing.tree.DefaultMutableTreeNode("Dr DUPONT");
+            treeNode5.add(treeNode6);
+            treeNode4.add(treeNode5);
+            treeNode5 = new javax.swing.tree.DefaultMutableTreeNode("Sortie 11/09/18");
+            treeNode4.add(treeNode5);
+            treeNode3.add(treeNode4);
+            treeNode2.add(treeNode3);
+            treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("12/12/18");
+            treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("Operations");
+            treeNode5 = new javax.swing.tree.DefaultMutableTreeNode("Consulation 1");
+            treeNode4.add(treeNode5);
+            treeNode5 = new javax.swing.tree.DefaultMutableTreeNode("Consultation 2");
+            treeNode4.add(treeNode5);
+            treeNode3.add(treeNode4);
+            treeNode2.add(treeNode3);
+            treeNode1.add(treeNode2);
+            jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        }
+        jTree1.setToolTipText("");
+        jTree1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTree1MouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTree1);
 
         jButton3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -293,6 +363,75 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
         jList1.setModel(DLM);
         jList1.repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
+        // TODO add your handling code here:
+        
+         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("DUCOQUE Juliette");
+            javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("FEMME");
+            treeNode1.add(treeNode2);
+            treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("10/07/1972");
+            treeNode1.add(treeNode2);
+            treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("12 route du champion");
+            treeNode1.add(treeNode2);
+            treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("63000, Clermont Ferrand");
+            treeNode1.add(treeNode2);
+            treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("0712395145");
+            treeNode1.add(treeNode2);
+            treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Séjours");
+            javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("12/08/18");
+            javax.swing.tree.DefaultMutableTreeNode treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("Operations");
+            javax.swing.tree.DefaultMutableTreeNode treeNode5 = new javax.swing.tree.DefaultMutableTreeNode("Consulation 1");
+            javax.swing.tree.DefaultMutableTreeNode treeNode6 = new javax.swing.tree.DefaultMutableTreeNode("Dr DUPONT");
+            treeNode5.add(treeNode6);
+            treeNode4.add(treeNode5);
+            treeNode5 = new javax.swing.tree.DefaultMutableTreeNode("Sortie 11/09/18");
+            treeNode4.add(treeNode5);
+            treeNode3.add(treeNode4);
+            treeNode2.add(treeNode3);
+            treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("12/12/18");
+            treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("Operations");
+            treeNode5 = new javax.swing.tree.DefaultMutableTreeNode("Consulation 1");
+            treeNode4.add(treeNode5);
+            treeNode5 = new javax.swing.tree.DefaultMutableTreeNode("Consultation 2");
+            treeNode4.add(treeNode5);
+            treeNode3.add(treeNode4);
+            treeNode2.add(treeNode3);
+            treeNode1.add(treeNode2);
+            jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+    }//GEN-LAST:event_jList1ValueChanged
+
+    private void jList1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jList1PropertyChange
+        // TODO add your handling code here:
+     
+    }//GEN-LAST:event_jList1PropertyChange
+
+    private void jList1ComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_jList1ComponentAdded
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_jList1ComponentAdded
+
+    private void jList1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseReleased
+         
+    }//GEN-LAST:event_jList1MouseReleased
+
+    private void jTree1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTree1MouseClicked
+    
+    }//GEN-LAST:event_jTree1MouseClicked
+
+    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
+        String[] liste2 = new String[secrAdm.nombrePatients()];
+        liste2 = secrAdm.afficherListePatients();
+        DefaultListModel DLM = new DefaultListModel();
+    for (int i = 0; i < liste2.length; i++) {
+                String element = liste2[i];
+                DLM.addElement(element);
+
+            }
+     jList1.setModel(DLM);
+        jList1.repaint();
+       
+    }//GEN-LAST:event_jPanel1MouseClicked
 
     /**
      * @param args the command line arguments
