@@ -11,9 +11,12 @@ package nf;
  * @author poite
  */
 public enum Specialite {
+    Sélectionner,
+    ACCUEIL,
     CARDIOLOGIE,
     //...
+    GYNECOLOGIE,
+    PEDIATRIE,
     PNEUMOLOGIE, 
-    ONCOLOGIE,
-    ACCUEIL;
+    ONCOLOGIE;
 }

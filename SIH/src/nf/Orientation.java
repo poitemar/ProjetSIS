@@ -11,6 +11,7 @@ package nf;
  * @author poite
  */
 public enum Orientation {
+    Sélectionner,
     NORD,
     SUD,
     EST,
