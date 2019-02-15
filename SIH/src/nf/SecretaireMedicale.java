@@ -111,7 +111,7 @@ public class SecretaireMedicale extends PersonnelMedical {
     public int nombrePH() {
         int compteur = 0;
         try {
-            String query = "select * from PERSONNEL_MEDICAL where TYPE_P = 'DOCTEUR' and SPE = '"+getSpecialite()+"'"; // la query à entrer pour accéder aux données de nos tables 
+            String query = "select * from PERSONNEL_MEDICAL where TYPE_P = 'DOCTEUR' and SPE = 'ONCOLOGIE'"; // la query à entrer pour accéder aux données de nos tables 
             rs = st.executeQuery(query);
             while (rs.next()) {
                 compteur++;
@@ -125,11 +125,12 @@ public class SecretaireMedicale extends PersonnelMedical {
     }
     
     public String[] afficherListePH() {
-        int compteur = nombrePH();
-        int i=0;
+        int compteur = nombrePH()+1;
+        int i=1;
         String[] listePH = new String[compteur];
+        listePH[0]="test";
         try {
-            String query = "select * from PERSONNEL_MEDICAL where TYPE_P = 'DOCTEUR' and SPE = '"+getSpecialite()+"'"; // la query à entrer pour accéder aux données de nos tables 
+            String query = "select * from PERSONNEL_MEDICAL where TYPE_P = 'DOCTEUR' and SPE = 'ONCOLOGIE'"; // la query à entrer pour accéder aux données de nos tables 
             rs = st.executeQuery(query);
             while (rs.next()) {
                 String nom = rs.getString("NOM");
