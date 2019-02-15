@@ -10,6 +10,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -38,9 +40,7 @@ public class SecretaireMedicale extends PersonnelMedical {
     }
 
     public void ajouterSejour(String idSejour, Patient patient, PH phReferant, Localisation localisation, String prescription, String observation, String compteRendu, String resultat, String titreOperation, String detailsOperation, String lettreDeSortie) {
-        Sejour s = new Sejour(idSejour, patient, phReferant, localisation, prescription, observation, compteRendu, resultat, titreOperation, detailsOperation, lettreDeSortie);
-   /* ajouter une méthode pour implémenter les identifiants séjours */
-        
+        Sejour s = new Sejour(idSejour, patient, phReferant, localisation, prescription, observation, compteRendu, resultat, titreOperation, detailsOperation, lettreDeSortie);        
         s.setIdSejour(idSejour);
         s.setPatient(patient);
         s.setPhReferant(phReferant);
@@ -70,9 +70,23 @@ public class SecretaireMedicale extends PersonnelMedical {
     
     public String creationID_Sejour (){
         /*création séjour : sous le format YYMMxxxxx où YY est l’année de la consultation ou de
-        l’hospitalisation sur deux positions, MM le mois et xxxxx un compteur sur cinq positions.*/
-        return "0566973";
+        l’hospitalisation sur deux positions, MM le mois et xxxxx un compteur aléatoire sur cinq positions.*/
+    Date maDate;
+    SimpleDateFormat maDateLongue;
+    maDate= new Date();
+    maDateLongue= new SimpleDateFormat("yyMM");
+    //System.out.println("Date :"+ maDateLongue.format(maDate));
+        
+        int num5 = (int) Math.round(Math.random()*10);
+        int num6 = (int) Math.round(Math.random()*10);
+        int num7 = (int) Math.round(Math.random()*10);
+        int num8 = (int) Math.round(Math.random()*10);
+        int num9 = (int) (Math.random()*10);
+        
+        String ID_Sejour = ""+maDateLongue.format(maDate)+Integer.valueOf(num5)+Integer.valueOf(num6)+Integer.valueOf(num7)+Integer.valueOf(num8)+Integer.valueOf(num9);
+        return ID_Sejour;
     }
+    
     
     public Specialite getSpecialite() {
         return specialite;

@@ -204,16 +204,18 @@ public class nouveauSejour extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void boutonEnregistrerPatient(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonEnregistrerPatient
-        // TODO add your handling code here:
         nf.Patient p = new nf.Patient("bluff","bluff") ;
         //récupération de la localisation du patient en fonction des données entrées par la Secretaire Médicale dans l'interface
         nf.Localisation localisationCourante;
         int etageCourant = Integer.parseInt(textEtage.getText());
         int chambreCourante = Integer.parseInt(textChambre.getText());
         localisationCourante = new nf.Localisation ((Service)boxService.getSelectedItem(), (Orientation)boxOrientation.getSelectedItem(), etageCourant, chambreCourante, (Lit)boxLit.getSelectedItem());
+       
+        //attribution d'un nouvel identifiant de séjour dès l'enregistrement du patient dans le service
+        String nouvel_ID_Sejour = new String();
+        nouvel_ID_Sejour = secretaireMedicaleCourante.creationID_Sejour();
         
-        secretaireMedicaleCourante.ajouterSejour("ID Séjour pas encore implémenté", p, (nf.PH)listeMedecinsService.getSelectedValue(), localisationCourante, "null", "null", "null", "null", "null", "null", "null");
-        
+        secretaireMedicaleCourante.ajouterSejour(nouvel_ID_Sejour, p, (nf.PH)listeMedecinsService.getSelectedValue(), localisationCourante, "null", "null", "null", "null", "null", "null", "null");
         this.dispose();
     }//GEN-LAST:event_boutonEnregistrerPatient
 
