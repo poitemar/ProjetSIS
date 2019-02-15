@@ -145,14 +145,18 @@ public class Connexion extends javax.swing.JFrame {
         //Je cree un personnel qui recupere les infos de celui qui se connecte pour le faire passer aux prochaines interfaces par le constructeur 
     personnel = new nf.PersonnelMedical(cx.choixPersonnel(saisieId.getText(),saisieMdp.getText()),cx.nomPersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())),cx.prenomPersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())), saisieId.getText(), saisieMdp.getText(),Specialite.ONCOLOGIE,Service.CLINIQUE);
        //  System.out.println(personnel.getIdMed()+";"+personnel.getNom()+";"+personnel.getPrenom());
+       
+       //connexion d'une secretaire administrative
         if(cx.seConnecter(saisieId.getText(),saisieMdp.getText()).equals("SECRETAIRE ADMINISTRATIVE")){
              new SecretaireAdministrative(personnel).setVisible(true);
              this.dispose();
        }
+        //connexion d'une secretaire medicale
        if(cx.seConnecter(saisieId.getText(),saisieMdp.getText()).equals("SECRETAIRE MEDICALE")){
              new SecretaireMedicale(personnel).setVisible(true);
              this.dispose();
        }
+       //connexion d'un ph
        if(cx.seConnecter(saisieId.getText(),saisieMdp.getText()).equals("DOCTEUR")){
              new PH(personnel).setVisible(true);
              this.dispose();
