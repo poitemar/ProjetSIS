@@ -706,7 +706,7 @@ public class PH extends JFrame implements ActionListener {
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
        jLabel14.setText(""+jList1.getSelectedValue().toString());
        jLabel16.setText(""+jList1.getSelectedValue().toString());
-       /* ATTENTION à la place mettre une méthode qui nous retourne ce string mais dans un patient qui correspond au patient 
+       /*ATTENTION à la place mettre une méthode qui nous retourne ce string mais dans un patient qui correspond au patient 
        courant sélectionné dans la liste des patients du service du PH connecté*/
        
        //cliquer sur le bouton "Suivant" ouvre l'onglet où le médecin peut compléter les données du patient courant
