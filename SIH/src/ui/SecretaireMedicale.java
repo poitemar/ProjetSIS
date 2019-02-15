@@ -31,7 +31,7 @@ public class SecretaireMedicale extends javax.swing.JFrame {
         setSize(700,600);
         this.p = p;
         String s = "Mme/M. "+p.getNom()+" "+p.getPrenom();
-         jLabel2.setText(s);
+        jLabel2.setText(s);
     }
 
     /**

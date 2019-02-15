@@ -3,25 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ui;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JList;
 import nf.Lit;
 import nf.Orientation;
-import nf.Specialite;
-import nf.SecretaireMedicale;
 import nf.Service;
+import nf.Specialite;
 
 /**
  *
- * @author poite
+ * @author Marine
  */
 public class nouveauSejour extends javax.swing.JFrame {
-
-    SecretaireMedicale secMed = new SecretaireMedicale("null", "null", "null", "null", "null", Specialite.ONCOLOGIE, Service.ANESTHESISTE);
-    String[] listMed = new String[secMed.nombrePH()+1];
+    nf.SecretaireMedicale secretaireMedicaleCourante = new nf.SecretaireMedicale("null", "null", "null", "null", "null", Specialite.ONCOLOGIE, Service.ANESTHESISTE);
+    String[] listMed = new String[secretaireMedicaleCourante.nombrePH()+1];
     
     /**
      * Creates new form nouveauSejour
@@ -30,8 +26,7 @@ public class nouveauSejour extends javax.swing.JFrame {
         initComponents();
         setSize(700,600);
         
-        listMed = secMed.afficherListePH();
-        
+        listMed = secretaireMedicaleCourante.afficherListePH();
     }
 
     /**
@@ -44,176 +39,183 @@ public class nouveauSejour extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        listeMedecinsService = new javax.swing.JList();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        textEtage = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        boxOrientation = new javax.swing.JComboBox();
-        textChambre = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        boxService = new javax.swing.JComboBox();
+        boxOrientation = new javax.swing.JComboBox();
         boxLit = new javax.swing.JComboBox();
         jButton1 = new javax.swing.JButton();
-        boxService = new javax.swing.JComboBox();
+        textEtage = new javax.swing.JTextField();
+        textChambre = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
+        setPreferredSize(new java.awt.Dimension(693, 476));
 
-        jList1.setFont(new java.awt.Font("Arial", 0, 48)); // NOI18N
-        jList1.setModel(new javax.swing.AbstractListModel() {
+        jPanel1.setPreferredSize(new java.awt.Dimension(693, 476));
+
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
+        jLabel1.setText("Enregistrement du patient");
+
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        jLabel2.setText("Médecin référent");
+
+        listeMedecinsService.setModel(new javax.swing.AbstractListModel() {
             String[] strings = listMed;
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jList1.setFixedCellHeight(3);
-        jList1.setMaximumSize(new java.awt.Dimension(2000, 2000));
-        jList1.setMinimumSize(new java.awt.Dimension(500, 500));
-        jList1.setPreferredSize(new java.awt.Dimension(100, 1000));
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(listeMedecinsService);
 
-        jLabel1.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
-        jLabel1.setText("Enregistrement patient");
-
-        jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel2.setText("Médecin référent :");
-
-        jLabel3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel3.setText("Localisation :");
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        jLabel3.setText("Localisation");
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel4.setText("Service :");
-
-        textEtage.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel4.setText("Service : ");
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel5.setText("Etage :");
+        jLabel5.setText("Orientation :");
 
         jLabel6.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel6.setText("Orientation :");
-
-        Orientation labels2[] = Orientation.values();
-        DefaultComboBoxModel model2 = new DefaultComboBoxModel(labels2);
-        boxOrientation.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        boxOrientation.setModel(model2);
-        boxOrientation.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                boxOrientationActionPerformed(evt);
-            }
-        });
-
-        textChambre.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel6.setText("Etage :");
 
         jLabel7.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel7.setText("Chambre :");
 
         jLabel8.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel8.setText("Lit :");
-
-        Lit labels3[] = Lit.values();
-        DefaultComboBoxModel model3 = new DefaultComboBoxModel(labels3);
-        boxLit.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        boxLit.setModel(model3);
-
-        jButton1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jButton1.setText("OK");
+        jLabel8.setText("Lit : ");
 
         Specialite labels[] = Specialite.values();
         DefaultComboBoxModel model = new DefaultComboBoxModel(labels);
         boxService.setModel(model);
+        boxService.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        boxService.setModel(model);
+
+        Orientation labels2[] = Orientation.values();
+        DefaultComboBoxModel model2 = new DefaultComboBoxModel(labels2);
+        boxOrientation.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        boxOrientation.setModel(model2);
+
+        Lit labels3[] = Lit.values();
+        DefaultComboBoxModel model3 = new DefaultComboBoxModel(labels3);
+        boxLit.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        boxLit.setModel(model3);
+
+        jButton1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jButton1.setText("OK");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boutonEnregistrerPatient(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(46, 46, 46)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jButton1)))
-                        .addGap(243, 243, 243))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(175, 175, 175)
-                        .addComponent(jLabel1))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
-                            .addComponent(boxService, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                            .addComponent(boxService, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(34, 34, 34)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(boxOrientation, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(36, 36, 36)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel5)
-                            .addComponent(textEtage, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(41, 41, 41)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(textChambre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(42, 42, 42)
+                            .addComponent(boxOrientation, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(27, 27, 27)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(textEtage))
+                        .addGap(38, 38, 38)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(textChambre))
+                        .addGap(53, 53, 53)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
-                            .addComponent(boxLit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(133, 133, 133))
+                            .addComponent(boxLit, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(38, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(136, 136, 136))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(302, 302, 302))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(28, 28, 28)
+                .addGap(35, 35, 35)
                 .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1)
-                .addGap(29, 29, 29)
-                .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel5)
                     .addComponent(jLabel6)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel7))
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(boxService, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(boxOrientation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textEtage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textChambre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(boxLit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(boxService, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
+                    .addComponent(textEtage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textChambre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34)
                 .addComponent(jButton1)
-                .addGap(49, 49, 49))
+                .addGap(41, 41, 41))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 694, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void boxOrientationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxOrientationActionPerformed
+    private void boutonEnregistrerPatient(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonEnregistrerPatient
         // TODO add your handling code here:
-    }//GEN-LAST:event_boxOrientationActionPerformed
+        nf.Patient p = new nf.Patient("bluff","bluff") ;
+        //récupération de la localisation du patient en fonction des données entrées par la Secretaire Médicale dans l'interface
+        nf.Localisation localisationCourante;
+        int etageCourant = Integer.parseInt(textEtage.getText());
+        int chambreCourante = Integer.parseInt(textChambre.getText());
+        localisationCourante = new nf.Localisation ((Service)boxService.getSelectedItem(), (Orientation)boxOrientation.getSelectedItem(), etageCourant, chambreCourante, (Lit)boxLit.getSelectedItem());
+        
+        secretaireMedicaleCourante.ajouterSejour("ID Séjour pas encore implémenté", p, (nf.PH)listeMedecinsService.getSelectedValue(), localisationCourante, "null", "null", "null", "null", "null", "null", "null");
+        
+        this.dispose();
+    }//GEN-LAST:event_boutonEnregistrerPatient
 
     /**
      * @param args the command line arguments
@@ -263,12 +265,10 @@ public class nouveauSejour extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JList jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JList listeMedecinsService;
     private javax.swing.JTextField textChambre;
     private javax.swing.JTextField textEtage;
     // End of variables declaration//GEN-END:variables
-//JList.HORIZONTAL_WRAP;
-
 }

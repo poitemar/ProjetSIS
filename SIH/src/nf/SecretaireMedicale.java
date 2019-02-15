@@ -39,10 +39,12 @@ public class SecretaireMedicale extends PersonnelMedical {
 
     public void ajouterSejour(String idSejour, Patient patient, PH phReferant, Localisation localisation, String prescription, String observation, String compteRendu, String resultat, String titreOperation, String detailsOperation, String lettreDeSortie) {
         Sejour s = new Sejour(idSejour, patient, phReferant, localisation, prescription, observation, compteRendu, resultat, titreOperation, detailsOperation, lettreDeSortie);
-//        s.setIdSejour(idSejour);
-//        s.setPatient(patient);
-//        s.setPhReferant(phReferant);
-//        s.setLocalisation(localisation);
+   /* ajouter une méthode pour implémenter les identifiants séjours */
+        
+        s.setIdSejour(idSejour);
+        s.setPatient(patient);
+        s.setPhReferant(phReferant);
+        s.setLocalisation(localisation);
 
         String sql = "insert into ph(ID_PH,IPP_PATIENT,ID_SEJOUR,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,OPERATION,TITRE_OPERATION,COMPTE_RENDU) values (?,?,?,?,?,?,?,?,?,?)";
 
@@ -64,6 +66,12 @@ public class SecretaireMedicale extends PersonnelMedical {
             System.out.println(ex);
             ex.printStackTrace();
         }
+    }
+    
+    public String creationID_Sejour (){
+        /*sous le format YYMMxxxxx où YY est l’année de la consultation ou de
+        l’hospitalisation sur deux positions, MM le mois et xxxxx un compteur sur cinq positions.*/
+        return "0566973";
     }
     
     public Specialite getSpecialite() {

@@ -56,15 +56,15 @@ public class PH extends PersonnelMedical {
         return specialite;
     }
     public void ajouterSejour(String idSejour, Patient patient, PH phReferant, Localisation localisation, String prescription, String observation, String compteRendu, String resultat, String titreOperation, String detailsOperation, String lettreDeSortie) {
-        // Sejour s = new Sejour(idSejour, patient, phReferant, localisation, prescription, observation, compteRendu, resultat, titreOperation, detailsOperation, lettreDeSortie);
-//        s.setPhReferant(this);
-//        s.getListePrescriptions().add(prescription);
-//        s.getListeObservations().add(observation);
-//        s.getListeTitreOperations().add(titreOperation);
-//        s.getListeDetailsOperations().add(detailsOperation);
-//        s.getListeDeCompteRenduRadio().add(compteRendu);
-//        s.getListeDeResultats().add(resultat);
-//        s.setLettreDeSortie(lettreDeSortie);
+        Sejour s = new Sejour(idSejour, patient, phReferant, localisation, prescription, observation, compteRendu, resultat, titreOperation, detailsOperation, lettreDeSortie);
+        s.setPhReferant(this);
+        s.getListePrescriptions().add(prescription);
+        s.getListeObservations().add(observation);
+        s.getListeTitreOperations().add(titreOperation);
+        s.getListeDetailsOperations().add(detailsOperation);
+        s.getListeDeCompteRenduRadio().add(compteRendu);
+        s.getListeDeResultats().add(resultat);
+        s.setLettreDeSortie(lettreDeSortie);
 
         String sql = "insert into ph(ID_PH,IPP_PATIENT,ID_SEJOUR,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,OPERATION,TITRE_OPERATION,COMPTE_RENDU) values (?,?,?,?,?,?,?,?,?,?)";
 
