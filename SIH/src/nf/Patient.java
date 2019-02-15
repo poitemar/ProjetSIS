@@ -5,12 +5,14 @@
  */
 package nf;
 
+import static java.lang.Math.random;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Date;
-
+import java.text.SimpleDateFormat;
+ 
 /**
  *
  * @author poite
@@ -100,7 +102,26 @@ public class Patient {
     }
     //Cette methode genere un ipp pour l'ajout d'un nouveau patient
     public String creationIPP_pour_ajout_patient (){
-        return "0566973";
+ 
+    Date maDate;
+    SimpleDateFormat maDateLongue;
+    maDate= new Date();
+    maDateLongue= new SimpleDateFormat("yy");
+    System.out.println("Année :"+ maDateLongue.format(maDate));
+
+        
+        int num3 = (int) Math.round(Math.random()*10);
+        int num4 = (int) Math.round(Math.random()*10);
+        int num5 = (int) Math.round(Math.random()*10);
+        int num6 = (int) Math.round(Math.random()*10);
+        int num7 = (int) Math.round(Math.random()*10);
+        int num8 = (int) Math.round(Math.random()*10);
+        int num9 = (int) (Math.random()*10);
+        
+        String IPP = ""+maDateLongue.format(maDate)+Integer.valueOf(num3)+Integer.valueOf(num4)+Integer.valueOf(num5)+Integer.valueOf(num6)+Integer.valueOf(num7)+Integer.valueOf(num8)+Integer.valueOf(num9);
+     
+        //System.out.println(IPP);
+        return IPP;
     }
 
     // getters et setters

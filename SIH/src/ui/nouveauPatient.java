@@ -86,9 +86,14 @@ public class nouveauPatient extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel7.setText("Numéro de téléphone :");
 
-        Sexe labels[] = {Sexe.FEMME,Sexe.HOMME,Sexe.AUTRE};
+        Sexe labels[] = Sexe.values();
         DefaultComboBoxModel model = new DefaultComboBoxModel(labels);
         sexe.setModel(model);
+        sexe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sexeActionPerformed(evt);
+            }
+        });
 
         jButton1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButton1.setText("Annuler");
@@ -199,8 +204,9 @@ public class nouveauPatient extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
           nf.Patient p = new nf.Patient("bluff","bluff") ;
-        secretaireAdministrativeCourante.ajouterNouveauPatient(p.creationIPP_pour_ajout_patient(), nom.getText(), prenom.getText(),(nf.Sexe) sexe.getSelectedItem(), dateN.getText(), adresse.getText(), nTel.getText());
-  
+          String ipp = p.creationIPP_pour_ajout_patient();
+        secretaireAdministrativeCourante.ajouterNouveauPatient(ipp, nom.getText(), prenom.getText(),(nf.Sexe) sexe.getSelectedItem(), dateN.getText(), adresse.getText(), nTel.getText());
+        System.out.println(ipp);
     this.dispose();
       
         
@@ -211,6 +217,10 @@ public class nouveauPatient extends javax.swing.JFrame {
         
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void sexeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sexeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_sexeActionPerformed
 
     /**
      * @param args the command line arguments
