@@ -69,7 +69,7 @@ public class SecretaireMedicale extends PersonnelMedical {
     }
     
     public String creationID_Sejour (){
-        /*sous le format YYMMxxxxx où YY est l’année de la consultation ou de
+        /*création séjour : sous le format YYMMxxxxx où YY est l’année de la consultation ou de
         l’hospitalisation sur deux positions, MM le mois et xxxxx un compteur sur cinq positions.*/
         return "0566973";
     }
