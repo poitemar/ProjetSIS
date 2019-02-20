@@ -90,8 +90,10 @@ public int nombrePatients() {
             while (rs.next()) {
                 String nom = rs.getString("NOM");
                 String prenom = rs.getString("PRENOM");
-                String nomEntier = nom + " " + prenom;
+                String date = rs.getString("DATENAISSANCE");
+                String nomEntier = nom + "         " + prenom+ "         " +date;
                 listePatients[i]=nomEntier;
+              
                 System.out.println(listePatients[i]);
                 i++;
             }

@@ -16,12 +16,11 @@ public enum Specialite {
     Sélectionner,
     ACCUEIL,
     CARDIOLOGIE,
-    //...
+    ANESTHESIE,
+    RADIOLOGIE,
     GYNECOLOGIE,
     PEDIATRIE,
     PNEUMOLOGIE,
-    RADIOLOGIE,
-    ANESTHESIE,
     ONCOLOGIE;
 
     private static Specialite[] value() {

@@ -5,12 +5,14 @@
  */
 package nf;
 
+import static java.lang.Math.random;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Date;
-
+import java.text.SimpleDateFormat;
+ 
 /**
  *
  * @author poite
@@ -72,6 +74,40 @@ public class Patient {
             }
 
     }}
+     //Fonction qui retourne l'id du patient lu dans une liste
+    public String ippPatientListe(String lecture){
+        String p ="";
+         try {
+             String nomLu ="";
+             String prenomLu="";
+             String dateLue="";
+             String[] result = lecture.split("\\s\\s\\s\\s\\s\\s\\s\\s\\s");
+             
+        for (int x=0; x<result.length; x++){
+         nomLu =result[0];
+            System.out.println(nomLu);
+         prenomLu = result[1];
+         System.out.println(prenomLu);
+         dateLue =result[2];
+         System.out.println(dateLue);
+         
+        }
+            String query = "select * from patients where NOM='"+nomLu+"' and PRENOM='"+prenomLu+"'and DATENAISSANCE='"+dateLue+"'"; // la query à entrer pour accéder aux données de nos tables 
+             System.out.println(query);
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                p = rs.getString("IPP");
+                
+        
+               
+                
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+           
+        }
+        return p;
+    }
 
     // Constructeur de Patient
     public Patient(String ipp, String nom, String prenom, Sexe sexe, String dateDeNaissance, String adresse, String telephone){
@@ -100,7 +136,26 @@ public class Patient {
     }
     //Cette methode genere un ipp pour l'ajout d'un nouveau patient
     public String creationIPP_pour_ajout_patient (){
-        return "0566973";
+ 
+    Date maDate;
+    SimpleDateFormat maDateLongue;
+    maDate= new Date();
+    maDateLongue= new SimpleDateFormat("yy");
+    System.out.println("Année :"+ maDateLongue.format(maDate));
+
+        
+        int num3 = (int) Math.round(Math.random()*10);
+        int num4 = (int) Math.round(Math.random()*10);
+        int num5 = (int) Math.round(Math.random()*10);
+        int num6 = (int) Math.round(Math.random()*10);
+        int num7 = (int) Math.round(Math.random()*10);
+        int num8 = (int) Math.round(Math.random()*10);
+        int num9 = (int) (Math.random()*10);
+        
+        String IPP = ""+maDateLongue.format(maDate)+Integer.valueOf(num3)+Integer.valueOf(num4)+Integer.valueOf(num5)+Integer.valueOf(num6)+Integer.valueOf(num7)+Integer.valueOf(num8)+Integer.valueOf(num9);
+     
+        //System.out.println(IPP);
+        return IPP;
     }
 
     // getters et setters

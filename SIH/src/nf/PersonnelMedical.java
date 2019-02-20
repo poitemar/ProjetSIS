@@ -6,7 +6,9 @@
 package nf;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -19,29 +21,36 @@ import java.sql.SQLException;
  */
 public class PersonnelMedical {
 
+    /**
+     * @return the specialite
+     */
+    public Specialite getSpecialite() {
+        return specialite;
+    }
+
     private String nom;
     private String prenom;
     private String idMed;
     private Specialite specialite;
     private Service service;
     private String login;
-   
+
     private String password;
 
     private Connection con;
     private Statement st;
     private ResultSet rs;
 
-   
-    public PersonnelMedical(String idMed, String nom, String prenom, String login, String password, Specialite spe, Service service){
+    public PersonnelMedical(String idMed, String nom, String prenom, String login, String password, Specialite spe, Service service) {
+        this.idMed = idMed;
         this.nom = nom;
         this.prenom = prenom;
-        this.idMed =idMed;
+        
         this.login = login;
         this.password = password;
-        this.specialite=spe;
-        this.service=service;
-         try {
+        this.specialite = spe;
+        this.service = service;
+        try {
             Class.forName("com.mysql.jdbc.Driver");
 
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
@@ -52,14 +61,34 @@ public class PersonnelMedical {
 
         }
     }
-    public String nouvelId(){
-      return "1234";
-      
+
+    public String nouvelId() {
+        return "1234";
+
     }
+
+    public void changerMotDePasse(String loginTest, String mdpTest,String newmdp) {
+//Exemple de modification de donnees dans la BD:
+//"update reservation set busname='"+jTextField10.getText()+"',busno='"+jTextField9.getText()+"',cusname='"+jTextField8.getText()+"',noofpass='"+jTextField7.getText()+"',amount='"+jTextField6.getText()+"' where cusname='"+jTextField8.getText()+"' ")
+           
+//   Remplacement du nouveau mdp
+        
+         String sql = "update personnel_medical set MDP='"+newmdp+"' where LOGIN='"+loginTest+"' and MDP='"+mdpTest+"'";
+
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+
+             pstm.executeUpdate(); 
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+            ex.printStackTrace();
+        }
+        }
     
-  
-   
-    //to set the last name of the medical staff
+    
+    
+        //to set the last name of the medical staff
     public void setNom(String nom) {
         this.nom = nom;
 

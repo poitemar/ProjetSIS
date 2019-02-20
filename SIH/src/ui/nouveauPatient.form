@@ -206,8 +206,11 @@
               <Connection code="model" type="code"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="sexeActionPerformed"/>
+          </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="Sexe labels[] = {Sexe.FEMME,Sexe.HOMME,Sexe.AUTRE};&#xa;      DefaultComboBoxModel model = new DefaultComboBoxModel(labels);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="Sexe labels[] = Sexe.values();&#xa;      DefaultComboBoxModel model = new DefaultComboBoxModel(labels);"/>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
           </AuxValues>
         </Component>

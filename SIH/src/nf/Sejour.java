@@ -6,12 +6,12 @@
 package nf;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -22,15 +22,15 @@ import javax.swing.JOptionPane;
  */
 public class Sejour {
     private String idSejour;
-    private Patient patient;
-    private PH phReferant;
+    private String idPatient;
+    private String idPHReferant;
     private List<String> listeObservations;
     private ArrayList<String> listePrescriptions;
     private List<String> listeTitreOperations;
     private List<String> listeDetailsOperations;
     private List<String> listeDeResultats;
     private List<String> listeDeCompteRenduRadio;
-    private Date dateEntree;
+    private List<String>  listeDateSaisie;
     private Date dateSortie;
     private String lettreDeSortie;
     private Localisation localisation;
@@ -40,61 +40,79 @@ public class Sejour {
     Statement st;
     String IPP; 
     String phRef;
-   //  Constructeur Sejour
-    // creation sejour implique un patient, un idSejour(auto), un phReferant, localisation
-    public Sejour(String idSejour, Patient patient, PH phReferant, Localisation localisation) {
-        this.idSejour = idSejour;
-        this.patient = patient;
-        this.phReferant = phReferant;
-        this.localisation = localisation;
-    }
+   
+   
     
-       public Sejour(String idSejour, String IPP, String phRef, Localisation localisation) {
+ 
+    
+    public Sejour(String idSejour, String idPatient, String idphReferant, Localisation localisation) {
         this.idSejour = idSejour;
-        this.IPP=IPP; 
-        this.phRef=phRef;
+        this.idPatient = idPatient;
+        this.idPHReferant = idphReferant;
         this.localisation = localisation;
-    }
-//
-//    /*deuxième constructeur de Sejour pour rentrer les informations d'un séjour : prescriptions, observations, compte rendu,
-//     résultats, titre des opérations, détails des opérations, et une lettre de sortie marquant la fin du séjour */
-//    public Sejour(String prescription, String observation, String compteRendu, String resultat, String titreOperation,
-//            String detailsOperation, String lettreDeSortie) {
-//        this.listePrescriptions.add(prescription);
-//        this.listeObservations.add(observation);
-//        this.listeDeCompteRenduRadio.add(compteRendu);
-//        this.listeDeResultats.add(resultat);
-//        this.listeTitreOperations.add(titreOperation);
-//        this.listeDetailsOperations.add(detailsOperation);
-//        this.lettreDeSortie = lettreDeSortie;
-//    }
+        listeObservations = new ArrayList<String>();
+        listePrescriptions = new ArrayList<String>();
+        listeTitreOperations = new ArrayList<String>();
+        listeDetailsOperations = new ArrayList<String>();
+        listeDeResultats = new ArrayList<String>();
+        listeDeCompteRenduRadio = new ArrayList<String>();
+         listeDateSaisie = new ArrayList<String>();
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
+            st = con.createStatement();
 
-    //constructeru ajouter pour test d'affichage du sejour, à effacer une fois fini 11
-    public Sejour( String obs){
-        this.observation=obs;   
+        } catch (Exception ex) {
+            System.out.println("error :" + ex);
+            ex.printStackTrace();
+
+        }
     }
     
     
  
     
-    
-    public Sejour(String idSejour, Patient patient, PH phReferant, Localisation localisation, String prescription, String observation, String compteRendu, String resultat, String titreOperation,String detailsOperation, String lettreDeSortie) {
-        this.idSejour = idSejour;
-        this.patient = patient;
-        this.phReferant = phReferant;
-        this.localisation = localisation;
-        this.listePrescriptions.add(prescription);
-        this.listeObservations.add(observation);
-        this.listeDeCompteRenduRadio.add(compteRendu);
-        this.listeDeResultats.add(resultat);
-        this.listeTitreOperations.add(titreOperation);
-        this.listeDetailsOperations.add(detailsOperation);
-        this.lettreDeSortie = lettreDeSortie;
-    }
-
-    public Sejour(){
-        
-        
+    //Completer la base de données avec les informations, cette fonction est pour un PH clinique
+    public void completerSejour(String idSejour, String idMed,String Ipp, String observations,String titreOperations,String detailsOperations,String resultats,String prescriptions){
+       if(sejourEnCours(idSejour)) {
+           String sql ="insert into ph (ID_PH,IPP_PATIENT,ID_SEJOUR,DATE_SAISIE,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,TITRE_OPERATION,OPERATION,COMPTE_RENDU) values (?,?,?,?,?,?,?,?,?,?,?)";
+       
+        System.out.println(sql);
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+           Date maDate;
+            SimpleDateFormat maDateLongue;
+            maDate= new Date();
+             maDateLongue= new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            //on insere les donnees dans la classe ph_referent ce qui correspond a la requete 1
+            pstm.setString(1, idMed);
+            pstm.setString(2, Ipp);
+             pstm.setString(3, idSejour);
+              pstm.setString(4,maDateLongue.format(maDate));
+             System.out.println(maDateLongue.format(maDate));
+             pstm.setString(5, observations);
+             System.out.println(observations);
+             listeObservations.add(observations);
+             pstm.setString(6, resultats);
+             listeDeResultats.add(resultats);
+             pstm.setString(7, "");
+              
+             
+             pstm.setString(8, prescriptions);
+             listePrescriptions.add(prescriptions);
+             pstm.setString(9, titreOperations);
+             listeTitreOperations.add(titreOperations);
+              pstm.setString(10, detailsOperations);
+             listeDetailsOperations.add(detailsOperations);
+                 pstm.setString(11, "");
+           pstm.executeUpdate();
+            
+            
+        } catch (Exception ex) {
+            System.out.println(ex);
+           
+        }}
+       else {System.out.println("Le séjour est clos et non modifiable");}
     }
     
     // getters et setters
@@ -106,39 +124,32 @@ public class Sejour {
     }
 
     /**
-     * @param idSejour the idSejour to set
-     */
-    public void setIdSejour(String idSejour) {
-        this.idSejour = idSejour;
-    }
-
-    /**
      * @return the patient
      */
-    public Patient getPatient() {
-        return patient;
-    }
-
-    /**
-     * @param patient the patient to set
-     */
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
-
-    /**
-     * @return the phReferant
-     */
-    public PH getPhReferant() {
-        return phReferant;
-    }
-
-    /**
-     * @param phReferant the phReferant to set
-     */
-    public void setPhReferant(PH phReferant) {
-        this.phReferant = phReferant;
-    }
+//    public Patient getPatient() {
+//        return patient;
+//    }
+//
+//    /**
+//     * @param patient the patient to set
+//     */
+//    public void setPatient(Patient patient) {
+//        this.patient = patient;
+//    }
+//
+//    /**
+//     * @return the phReferant
+//     */
+//    public PH getPhReferant() {
+//        return phReferant;
+//    }
+//
+//    /**
+//     * @param phReferant the phReferant to set
+//     */
+//    public void setPhReferant(PH phReferant) {
+//        this.phReferant = phReferant;
+//    }
 
     /**
      * @return the listeObservations
@@ -227,16 +238,7 @@ public class Sejour {
     /**
      * @return the dateEntree
      */
-    public Date getDateEntree() {
-        return dateEntree;
-    }
-
-    /**
-     * @param dateEntree the dateEntree to set
-     */
-    public void setDateEntree(Date dateEntree) {
-        this.dateEntree = dateEntree;
-    }
+   
 
     /**
      * @return the dateSortie
@@ -282,51 +284,253 @@ public class Sejour {
 
     
     // Fonctions a coder en dessous
-    public void ajouterIdSejour(String idSejour){
-        this.setIdSejour(idSejour);
-    }
-    
-    public void ajouterPhReferant(PH phReferant){
-        this.setPhReferant(phReferant);
-    }
-    
-    public void ajouterLocalisation(Localisation localisation){
-        this.setLocalisation(localisation);
-    }
-    
-    public void ajouterPatient(Patient patient){
-        this.setPatient(patient);
-    }
+ 
+  public void ajouterPrescription(String idSejour, String idMed,String Ipp,String prescription) {
+         this.listePrescriptions.add(prescription);
+        {if(sejourEnCours(idSejour)) {
+           String sql ="insert into ph (ID_PH,IPP_PATIENT,ID_SEJOUR,DATE_SAISIE,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,TITRE_OPERATION,OPERATION,COMPTE_RENDU) values (?,?,?,?,?,?,?,?,?,?,?)";
+       
+        System.out.println(sql);
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+           Date maDate;
+            SimpleDateFormat maDateLongue;
+            maDate= new Date();
+             maDateLongue= new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            //on insere les donnees dans la classe ph ce qui correspond a la requete 1
+            pstm.setString(1, idMed);
+            pstm.setString(2, Ipp);
+             pstm.setString(3, idSejour);
+              pstm.setString(4,maDateLongue.format(maDate));
+             System.out.println(maDateLongue.format(maDate));
+             pstm.setString(5, "");
+                        
+             pstm.setString(6, "");
+          
+             pstm.setString(7, "");
+              
+             pstm.setString(8, prescription);
+             pstm.setString(9, "");
+              pstm.setString(10, "");
+             pstm.setString(11, "");
+             pstm.executeUpdate();
             
-    public void ajouterPrescription(String prescription) {
-        this.listePrescriptions.add(prescription);
+            
+        } catch (Exception ex) {
+            System.out.println(ex);
+           
+        }}
+       else {System.out.println("Le séjour est clos et non modifiable");}
     }
-
-    public void ajouterObservation(String observation) {
-        this.listeObservations.add(observation);
-    }
-
-    public void ajouterCompteRendu(String compteRendu) {
-        this.listeDeCompteRenduRadio.add(compteRendu);
-    }
-
-    public void ajouterResultat(String resultat) {
-        this.listeDeResultats.add(resultat);
-    }
-
-    public void ajouterTitreOperation(String titreOperation) {
-        this.listeTitreOperations.add(titreOperation);
-    }
-
-    public void ajouterDetailsOperation(String detailsOperation) {
-        this.listeDetailsOperations.add(detailsOperation);
-    }
-
-    public void ajouterLettreDeSortie(String lettreDeSortie) {
-        this.setLettreDeSortie(lettreDeSortie);
     }
     
-      public boolean sejourEnCours(String idSejour){
+ 
+    public void ajouterObservation(String idSejour, String idMed,String Ipp,String observation) {
+        this.listeObservations.add(observation);
+        {if(sejourEnCours(idSejour)) {
+           String sql ="insert into ph (ID_PH,IPP_PATIENT,ID_SEJOUR,DATE_SAISIE,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,TITRE_OPERATION,OPERATION,COMPTE_RENDU) values (?,?,?,?,?,?,?,?,?,?,?)";
+       
+        System.out.println(sql);
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+           Date maDate;
+            SimpleDateFormat maDateLongue;
+            maDate= new Date();
+             maDateLongue= new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            //on insere les donnees dans la classe ph ce qui correspond a la requete 1
+            pstm.setString(1, idMed);
+            pstm.setString(2, Ipp);
+             pstm.setString(3, idSejour);
+              pstm.setString(4,maDateLongue.format(maDate));
+             System.out.println(maDateLongue.format(maDate));
+             pstm.setString(5, observation);
+                        
+             pstm.setString(6, "");
+          
+             pstm.setString(7, "");
+              
+             pstm.setString(8, "");
+             pstm.setString(9, "");
+              pstm.setString(10, "");
+             pstm.setString(11, "");
+             pstm.executeUpdate();
+            
+            
+        } catch (Exception ex) {
+            System.out.println(ex);
+           
+        }}
+       else {System.out.println("Le séjour est clos et non modifiable");}
+    }
+    }
+
+    public void ajouterCompteRendu(String idSejour, String idMed,String Ipp,String compterendu) {
+        listeDeCompteRenduRadio.add(compterendu);
+        {if(sejourEnCours(idSejour)) {
+           String sql ="insert into ph (ID_PH,IPP_PATIENT,ID_SEJOUR,DATE_SAISIE,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,TITRE_OPERATION,OPERATION,COMPTE_RENDU) values (?,?,?,?,?,?,?,?,?,?,?)";
+       
+        System.out.println(sql);
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+           Date maDate;
+            SimpleDateFormat maDateLongue;
+            maDate= new Date();
+             maDateLongue= new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            //on insere les donnees dans la classe ph ce qui correspond a la requete 1
+            pstm.setString(1, idMed);
+            pstm.setString(2, Ipp);
+             pstm.setString(3, idSejour);
+              pstm.setString(4,maDateLongue.format(maDate));
+             System.out.println(maDateLongue.format(maDate));
+             pstm.setString(5, "");
+             
+             
+             pstm.setString(6, "");
+          
+             pstm.setString(7, "");
+              
+             pstm.setString(8, "");
+             pstm.setString(9, "");
+              pstm.setString(10, "");
+             pstm.setString(11, compterendu);
+             pstm.executeUpdate();
+            
+            
+        } catch (Exception ex) {
+            System.out.println(ex);
+           
+        }}
+       else {System.out.println("Le séjour est clos et non modifiable");}
+    }
+    }
+    public void ajouterResultat(String idSejour, String idMed,String Ipp,String resultat) {
+        this.listeDeResultats.add(resultat);
+        {if(sejourEnCours(idSejour)) {
+           String sql ="insert into ph (ID_PH,IPP_PATIENT,ID_SEJOUR,DATE_SAISIE,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,TITRE_OPERATION,OPERATION,COMPTE_RENDU) values (?,?,?,?,?,?,?,?,?,?,?)";
+       
+        System.out.println(sql);
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+           Date maDate;
+            SimpleDateFormat maDateLongue;
+            maDate= new Date();
+             maDateLongue= new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            //on insere les donnees dans la classe ph ce qui correspond a la requete 1
+            pstm.setString(1, idMed);
+            pstm.setString(2, Ipp);
+             pstm.setString(3, idSejour);
+              pstm.setString(4,maDateLongue.format(maDate));
+             System.out.println(maDateLongue.format(maDate));
+             pstm.setString(5, "");
+             
+             
+             pstm.setString(6, resultat);
+          
+             pstm.setString(7, "");
+              
+             pstm.setString(8, "");
+             pstm.setString(9, "");
+              pstm.setString(10, "");
+             pstm.setString(11, "");
+             pstm.executeUpdate();
+            
+            
+        } catch (Exception ex) {
+            System.out.println(ex);
+           
+        }}
+       else {System.out.println("Le séjour est clos et non modifiable");}
+    }
+    }
+   
+    
+    public void editerLettreDeSortie(String idSejour, String idMed,String Ipp,String lettre) {
+        this.setLettreDeSortie(lettre);
+        {if(sejourEnCours(idSejour)) {
+           String sql ="insert into ph (ID_PH,IPP_PATIENT,ID_SEJOUR,DATE_SAISIE,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,TITRE_OPERATION,OPERATION,COMPTE_RENDU) values (?,?,?,?,?,?,?,?,?,?,?)";
+       
+        System.out.println(sql);
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+           Date maDate;
+            SimpleDateFormat maDateLongue;
+            maDate= new Date();
+             maDateLongue= new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            //on insere les donnees dans la classe ph ce qui correspond a la requete 1
+            pstm.setString(1, idMed);
+            pstm.setString(2, Ipp);
+             pstm.setString(3, idSejour);
+              pstm.setString(4,maDateLongue.format(maDate));
+             System.out.println(maDateLongue.format(maDate));
+             pstm.setString(5, "");
+             
+             
+             pstm.setString(6, "");
+          
+             pstm.setString(7, lettre);
+              
+             pstm.setString(8, "");
+             pstm.setString(9, "");
+              pstm.setString(10, "");
+             pstm.setString(11, "");
+             pstm.executeUpdate();
+            
+            
+        } catch (Exception ex) {
+            System.out.println(ex);
+           
+        }}
+       else {System.out.println("Le séjour est déja clos");}
+    }
+    }
+    public void ajouterOperations(String idSejour, String idMed,String Ipp,String titreOperation,String detailOperation) {
+          this.listeTitreOperations.add(titreOperation);
+         this.listeDetailsOperations.add(detailOperation);
+        {if(sejourEnCours(idSejour)) {
+           String sql ="insert into ph (ID_PH,IPP_PATIENT,ID_SEJOUR,DATE_SAISIE,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,TITRE_OPERATION,OPERATION,COMPTE_RENDU) values (?,?,?,?,?,?,?,?,?,?,?)";
+       
+        System.out.println(sql);
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+           Date maDate;
+            SimpleDateFormat maDateLongue;
+            maDate= new Date();
+             maDateLongue= new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            //on insere les donnees dans la classe ph ce qui correspond a la requete 1
+            pstm.setString(1, idMed);
+            pstm.setString(2, Ipp);
+             pstm.setString(3, idSejour);
+              pstm.setString(4,maDateLongue.format(maDate));
+             System.out.println(maDateLongue.format(maDate));
+             pstm.setString(5, "");
+             
+             
+             pstm.setString(6, "");
+          
+             pstm.setString(7, "");
+              
+             pstm.setString(8, "");
+             pstm.setString(9, titreOperation);
+              pstm.setString(10, detailOperation);
+             pstm.setString(11, "");
+             pstm.executeUpdate();
+            
+            
+        } catch (Exception ex) {
+            System.out.println(ex);
+           
+        }}
+       else {System.out.println("Le séjour est clos et non modifiable");}
+    }
+    }
+    
+
+   
+
+  
+ 
+    // Retourne true si le sejour correspondant à l'id rentré est en cours = si il n'y a pas de lettre de sorties
+     public boolean sejourEnCours(String idSejour){
            Boolean rep=true;
          try {
            
@@ -350,94 +554,6 @@ public class Sejour {
         }
          
          return rep;
-    }
-
-    
-    //Completer la base de données avec les informations, cette fonction est pour un PH clinique
-    public void completerSejour(String idSejour, String idMed,String Ipp, String observations,String titreOperations,String detailsOperations,String resultats,String prescriptions){
-       if(sejourEnCours(idSejour)) {
-           String sql ="insert into ph (ID_PH,IPP_PATIENT,ID_SEJOUR,DATE_SAISIE,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,TITRE_OPERATION,OPERATION,COMPTE_RENDU) values (?,?,?,?,?,?,?,?,?,?,?)";
-       
-        System.out.println(sql);
-        try {
-            PreparedStatement pstm = con.prepareStatement(sql);
-           Date maDate;
-            SimpleDateFormat maDateLongue;
-            maDate= new Date();
-             maDateLongue= new SimpleDateFormat("dd/MM/yyyy HH:mm");
-            //on insere les donnees dans la classe ph_referent ce qui correspond a la requete 1
-            pstm.setString(1, idMed);
-            pstm.setString(2, Ipp);
-             pstm.setString(3, idSejour);
-              pstm.setString(4,maDateLongue.format(maDate));
-             System.out.println(maDateLongue.format(maDate));
-             pstm.setString(5, observations);
-             System.out.println(observations);
-             ajouterObservation(observations);
-             pstm.setString(6, resultats);
-             listeDeResultats.add(resultats);
-             pstm.setString(7, "");
-              
-             
-             pstm.setString(8, prescriptions);
-             listePrescriptions.add(prescriptions);
-             pstm.setString(9, titreOperations);
-             listeTitreOperations.add(titreOperations);
-              pstm.setString(10, detailsOperations);
-             listeDetailsOperations.add(detailsOperations);
-                 pstm.setString(11, "");
-           pstm.executeUpdate();
-            
-            
-        } catch (Exception ex) {
-            System.out.println(ex);
-           
-        }}
-       else {System.out.println("Le séjour est clos et non modifiable");}
-    }
-
-
-//Retroune l'id du dernier sejour crée pour le patient
-    public String idSejourPatientSelection(String iPP){
-        
-        String idSejour ="";
-        String dateLaPlusRecente="01/01/0001";
-        String date="";
-        //On recherche le sejour le plus recent
-        try {
-            String query = "select DATE_CREATION_SEJOUR from ph_referent where IPP='"+iPP+"'";
-            System.out.println(query);
-            rs = st.executeQuery(query);
-            
-            while (rs.next()) {
-               date = rs.getString("DATE_CREATION_SEJOUR");
-               if(date.compareTo(dateLaPlusRecente)>0){
-                   dateLaPlusRecente = date;
-             
-               }
-                System.out.println(date);
-                   System.out.println(dateLaPlusRecente);   
-            }
-        } catch (Exception ex) {
-            System.out.println(ex);
-           
-        }
-        //On récupère l'id associé au sejour le plus ancien
-        try {
-            String query = "select ID_SEJOUR from ph_referent where IPP='"+iPP+"' and DATE_CREATION_SEJOUR='"+dateLaPlusRecente+"'";
-            System.out.println(query);
-            rs = st.executeQuery(query);
-            
-            while (rs.next()) {
-               idSejour = rs.getString("ID_SEJOUR");
-              
-            }
-        } catch (Exception ex) {
-            System.out.println(ex);
-           
-        }
-        
-        return idSejour;
     }
     
 }

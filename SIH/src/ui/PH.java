@@ -5,23 +5,17 @@
  */
 package ui;
 
-import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
-import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
-import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import java.awt.event.ActionListener;
 import java.awt.event.*;
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.ArrayList;
 import static java.util.Optional.empty;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.ListModel;
-import javax.swing.table.DefaultTableModel;
+import nf.Lit;
+import nf.Orientation;
 import nf.Patient;
 import nf.PersonnelMedical;
 import nf.Prestation;
@@ -42,26 +36,36 @@ public class PH extends JFrame implements ActionListener {
     DefaultListModel m = new DefaultListModel();
     RechercherInfo inf = new RechercherInfo();
     ArrayList<Patient> Lp;
+    ArrayList<Patient> listePatient;
     nf.PersonnelMedical perso;
-    Connection con;
-    ResultSet rs;
-    Statement st;
+    String PatientSelection = "";
+    DefaultListModel DLM = new DefaultListModel();
     nf.PH ph = new nf.PH("null", "null", "null", "null", "null", nf.Specialite.ONCOLOGIE, nf.Service.CLINIQUE);
-    String[] liste = new String[ph.nombrePatients()];
+    nf.Patient patient = new nf.Patient("bluff", "bluff");
+    nf.SecretaireMedicale secrMed = new nf.SecretaireMedicale("null", "null", "null", "null", "null", Specialite.ONCOLOGIE, Service.CLINIQUE);
+    nf.Localisation locCourant = new nf.Localisation(Specialite.ACCUEIL, Orientation.OUEST, 1, 133, Lit.PORTE);
+    nf.Sejour sejourCourant = new nf.Sejour("bluff", "bluff", "bluff", locCourant);
 
     /**
      * Creates new form PH
      */
     public PH(nf.PersonnelMedical p) {
 
-        liste = ph.afficherListePatients();
         initComponents();
         setSize(700, 600);
+
         jButton1.addActionListener(this);
         this.perso = p;
         String s = "Mme/M. " + p.getNom() + " " + p.getPrenom();
         jLabel1.setText(s);
+        listePatient = secrMed.afficherListePatientParService(perso.getSpecialite());
 
+        for (int i = 0; i < listePatient.size(); i++) {
+            String element = "" + listePatient.get(i).getNom() + "         " + listePatient.get(i).getPrenom() + "         " + listePatient.get(i).getDateDeNaissance();
+            DLM.addElement(element);
+        }
+        jList1.setModel(DLM);
+        jList1.repaint();
     }
 
     /**
@@ -95,17 +99,16 @@ public class PH extends JFrame implements ActionListener {
         Connection con = null;
         ResultSet rs = null;
         PreparedStatement ptsm = null;
+        Patient patientSelection;
 
         /**
          *
          * @return
          */
         public ResultSet rechercher() {
-
             try {
                 //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
                 //pstm = con.prepareStatement("select * from patients where nom= ?  and prenom= ?");
-
                 String query = "select * from patients where nom= ?  and prenom= ?";
                 ptsm = con.prepareStatement(query);
                 rs = ptsm.executeQuery();
@@ -128,7 +131,6 @@ public class PH extends JFrame implements ActionListener {
             }
             return rs;
         }
-
     }
 
     /**
@@ -141,8 +143,8 @@ public class PH extends JFrame implements ActionListener {
     private void initComponents() {
 
         jScrollBar1 = new javax.swing.JScrollBar();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
+        interfacePH = new javax.swing.JTabbedPane();
+        panelAccueil = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -159,25 +161,26 @@ public class PH extends JFrame implements ActionListener {
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
+        jButton6 = new javax.swing.JButton();
+        panelCompleter = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        textObservations = new javax.swing.JTextArea();
         jLabel8 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        textTitreOperation = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        textDetailsOperations = new javax.swing.JTextArea();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
+        textResultats = new javax.swing.JTextArea();
         jLabel13 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTextArea4 = new javax.swing.JTextArea();
-        jButton2 = new javax.swing.JButton();
+        textPrescriptions = new javax.swing.JTextArea();
+        boutonPaneCompleter = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
+        panelInformationsPatient = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
         jScrollPane7 = new javax.swing.JScrollPane();
@@ -185,7 +188,12 @@ public class PH extends JFrame implements ActionListener {
         jLabel16 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
+        panelSortie = new javax.swing.JPanel();
+        jLabel17 = new javax.swing.JLabel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        textLettreDeSortie = new javax.swing.JTextArea();
+        jButton7 = new javax.swing.JButton();
+        panelDemandeDePrestation = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
         jTextField4 = new javax.swing.JTextField();
@@ -195,17 +203,17 @@ public class PH extends JFrame implements ActionListener {
         jScrollPane9 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList<>();
         jLabel21 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel17 = new javax.swing.JLabel();
-        jScrollPane8 = new javax.swing.JScrollPane();
-        jTextArea5 = new javax.swing.JTextArea();
-        jButton7 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTabbedPane1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        interfacePH.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
-        jPanel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        panelAccueil.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        panelAccueil.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelAccueilMouseClicked(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel1.setText("Dr DUPONT Laurent");
@@ -216,11 +224,6 @@ public class PH extends JFrame implements ActionListener {
         jScrollPane1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         jList1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = liste;
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(jList1);
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -288,64 +291,73 @@ public class PH extends JFrame implements ActionListener {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jButton6.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jButton6.setText("Mdp");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed1(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelAccueilLayout = new javax.swing.GroupLayout(panelAccueil);
+        panelAccueil.setLayout(panelAccueilLayout);
+        panelAccueilLayout.setHorizontalGroup(
+            panelAccueilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelAccueilLayout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton3)
-                        .addGap(31, 31, 31)
-                        .addComponent(jButton5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jToggleButton1))
+                .addGroup(panelAccueilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelAccueilLayout.createSequentialGroup()
+                        .addGroup(panelAccueilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelAccueilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(panelAccueilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelAccueilLayout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(panelAccueilLayout.createSequentialGroup()
                                 .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                                 .addComponent(jButton1))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelAccueilLayout.createSequentialGroup()
+                        .addComponent(jButton5)
+                        .addGap(30, 30, 30)
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jToggleButton1))
+                    .addGroup(panelAccueilLayout.createSequentialGroup()
+                        .addGroup(panelAccueilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton6))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(panelAccueilLayout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        panelAccueilLayout.setVerticalGroup(
+            panelAccueilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelAccueilLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelAccueilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelAccueilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7))
                 .addGap(1, 1, 1)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelAccueilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField2)
                     .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -354,31 +366,28 @@ public class PH extends JFrame implements ActionListener {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jToggleButton1)
+                .addGap(10, 10, 10)
+                .addGroup(panelAccueilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton5)
                     .addComponent(jButton3)
-                    .addComponent(jButton5))
-                .addContainerGap(30, Short.MAX_VALUE))
+                    .addComponent(jToggleButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton6)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("ACCUEIL", jPanel1);
+        interfacePH.addTab("ACCUEIL", panelAccueil);
 
-        jPanel2.setPreferredSize(new java.awt.Dimension(666, 476));
+        panelCompleter.setPreferredSize(new java.awt.Dimension(666, 476));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        textObservations.setColumns(20);
+        textObservations.setRows(5);
+        jScrollPane2.setViewportView(textObservations);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel8.setText("Observations :");
 
-        jTextField3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
-            }
-        });
+        textTitreOperation.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         jLabel9.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel9.setText("Opérations :");
@@ -386,9 +395,9 @@ public class PH extends JFrame implements ActionListener {
         jLabel10.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel10.setText("Titre :");
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane3.setViewportView(jTextArea2);
+        textDetailsOperations.setColumns(20);
+        textDetailsOperations.setRows(5);
+        jScrollPane3.setViewportView(textDetailsOperations);
 
         jLabel11.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel11.setText("Détails :");
@@ -396,70 +405,75 @@ public class PH extends JFrame implements ActionListener {
         jLabel12.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel12.setText("Résultats :");
 
-        jTextArea3.setColumns(20);
-        jTextArea3.setRows(5);
-        jScrollPane4.setViewportView(jTextArea3);
+        textResultats.setColumns(20);
+        textResultats.setRows(5);
+        jScrollPane4.setViewportView(textResultats);
 
         jLabel13.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel13.setText("Prescriptions :");
 
-        jTextArea4.setColumns(20);
-        jTextArea4.setRows(5);
-        jScrollPane5.setViewportView(jTextArea4);
+        textPrescriptions.setColumns(20);
+        textPrescriptions.setRows(5);
+        jScrollPane5.setViewportView(textPrescriptions);
 
-        jButton2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jButton2.setText("OK");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        boutonPaneCompleter.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        boutonPaneCompleter.setText("OK");
+        boutonPaneCompleter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                completerSejour(evt);
             }
         });
 
         jLabel14.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel14.setText("ABI CHACRA");
+        jLabel14.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                voirLesInfosPatient(evt);
+            }
+        });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelCompleterLayout = new javax.swing.GroupLayout(panelCompleter);
+        panelCompleter.setLayout(panelCompleterLayout);
+        panelCompleterLayout.setHorizontalGroup(
+            panelCompleterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelCompleterLayout.createSequentialGroup()
+                .addGroup(panelCompleterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelCompleterLayout.createSequentialGroup()
                         .addGap(20, 20, 20)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelCompleterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane4)
                             .addComponent(jScrollPane2)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCompleterLayout.createSequentialGroup()
                                 .addGap(0, 40, Short.MAX_VALUE)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(panelCompleterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel10)
                                     .addComponent(jLabel11))
                                 .addGap(18, 18, 18)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(panelCompleterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE)
-                                    .addComponent(jTextField3)))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textTitreOperation)))
+                            .addGroup(panelCompleterLayout.createSequentialGroup()
+                                .addGroup(panelCompleterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel12)
                                     .addComponent(jLabel9)
                                     .addComponent(jLabel13))
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(jScrollPane5)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGroup(panelCompleterLayout.createSequentialGroup()
                                 .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel14)
                                 .addGap(70, 70, 70))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCompleterLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)))
+                        .addComponent(boutonPaneCompleter)))
                 .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        panelCompleterLayout.setVerticalGroup(
+            panelCompleterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelCompleterLayout.createSequentialGroup()
                 .addGap(9, 9, 9)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelCompleterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(jLabel14))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -467,11 +481,11 @@ public class PH extends JFrame implements ActionListener {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelCompleterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textTitreOperation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelCompleterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -483,11 +497,11 @@ public class PH extends JFrame implements ActionListener {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(boutonPaneCompleter)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("COMPLETER", jPanel2);
+        interfacePH.addTab("COMPLETER", panelCompleter);
 
         jTree1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jScrollPane6.setViewportView(jTree1);
@@ -504,46 +518,88 @@ public class PH extends JFrame implements ActionListener {
         jLabel19.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel19.setText("Dossier médical administratif :");
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelInformationsPatientLayout = new javax.swing.GroupLayout(panelInformationsPatient);
+        panelInformationsPatient.setLayout(panelInformationsPatientLayout);
+        panelInformationsPatientLayout.setHorizontalGroup(
+            panelInformationsPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelInformationsPatientLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelInformationsPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel19)
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(panelInformationsPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelInformationsPatientLayout.createSequentialGroup()
                         .addGap(0, 322, Short.MAX_VALUE)
                         .addComponent(jLabel16)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGroup(panelInformationsPatientLayout.createSequentialGroup()
+                        .addGroup(panelInformationsPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelInformationsPatientLayout.createSequentialGroup()
                                 .addComponent(jLabel18)
                                 .addGap(0, 315, Short.MAX_VALUE))
                             .addComponent(jScrollPane7))
                         .addContainerGap())))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+        panelInformationsPatientLayout.setVerticalGroup(
+            panelInformationsPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelInformationsPatientLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel16)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelInformationsPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
                     .addComponent(jLabel19))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(panelInformationsPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
                     .addComponent(jScrollPane7))
                 .addGap(35, 35, 35))
         );
 
-        jTabbedPane1.addTab("INFORMATIONS PATIENT", jPanel3);
+        interfacePH.addTab("INFORMATIONS PATIENT", panelInformationsPatient);
+
+        jLabel17.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel17.setText("Lettre de sortie :");
+
+        textLettreDeSortie.setColumns(20);
+        textLettreDeSortie.setRows(5);
+        jScrollPane8.setViewportView(textLettreDeSortie);
+
+        jButton7.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jButton7.setText("OK");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelSortieLayout = new javax.swing.GroupLayout(panelSortie);
+        panelSortie.setLayout(panelSortieLayout);
+        panelSortieLayout.setHorizontalGroup(
+            panelSortieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSortieLayout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(panelSortieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton7)
+                    .addGroup(panelSortieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 637, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel17)))
+                .addContainerGap(45, Short.MAX_VALUE))
+        );
+        panelSortieLayout.setVerticalGroup(
+            panelSortieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSortieLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(jLabel17)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton7)
+                .addContainerGap(61, Short.MAX_VALUE))
+        );
+
+        interfacePH.addTab("SORTIE", panelSortie);
 
         jLabel20.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel20.setText("Demande de prestation");
@@ -581,38 +637,28 @@ public class PH extends JFrame implements ActionListener {
         DefaultComboBoxModel model = new DefaultComboBoxModel(spe);
         jComboBox1.setModel(model);
         jComboBox1.setToolTipText("");
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
 
         jList2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jList2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jList2MouseClicked(evt);
-            }
-        });
         jScrollPane9.setViewportView(jList2);
 
         jLabel21.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel21.setText("Liste des Medecins : ");
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelDemandeDePrestationLayout = new javax.swing.GroupLayout(panelDemandeDePrestation);
+        panelDemandeDePrestation.setLayout(panelDemandeDePrestationLayout);
+        panelDemandeDePrestationLayout.setHorizontalGroup(
+            panelDemandeDePrestationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelDemandeDePrestationLayout.createSequentialGroup()
                 .addGap(32, 32, 32)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelDemandeDePrestationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel20)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(panelDemandeDePrestationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDemandeDePrestationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelDemandeDePrestationLayout.createSequentialGroup()
                                 .addComponent(jLabel21)
                                 .addGap(173, 173, 173))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
+                            .addGroup(panelDemandeDePrestationLayout.createSequentialGroup()
                                 .addComponent(jScrollPane9)
                                 .addGap(128, 128, 128)
                                 .addComponent(jLabel15)
@@ -624,9 +670,9 @@ public class PH extends JFrame implements ActionListener {
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        panelDemandeDePrestationLayout.setVerticalGroup(
+            panelDemandeDePrestationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelDemandeDePrestationLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(jLabel20)
                 .addGap(18, 18, 18)
@@ -636,8 +682,8 @@ public class PH extends JFrame implements ActionListener {
                 .addGap(34, 34, 34)
                 .addComponent(jLabel21)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelDemandeDePrestationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelDemandeDePrestationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel15)
                         .addComponent(jButton4))
@@ -645,82 +691,124 @@ public class PH extends JFrame implements ActionListener {
                 .addContainerGap(38, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("DEMANDE PRESTATION", jPanel4);
-
-        jLabel17.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel17.setText("Lettre de sortie :");
-
-        jTextArea5.setColumns(20);
-        jTextArea5.setRows(5);
-        jScrollPane8.setViewportView(jTextArea5);
-
-        jButton7.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jButton7.setText("OK");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton7)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 637, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel17)))
-                .addContainerGap(45, Short.MAX_VALUE))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jLabel17)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton7)
-                .addContainerGap(21, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("SORTIE", jPanel5);
+        interfacePH.addTab("DEMANDE PRESTATION", panelDemandeDePrestation);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(interfacePH)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 482, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(interfacePH, javax.swing.GroupLayout.PREFERRED_SIZE, 522, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void completerSejour(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_completerSejour
+        PatientSelection = jList1.getSelectedValue().toString();
+        
+        
+        //On ajoute une observation seule
+        if (textTitreOperation.getText().isEmpty() && (textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty()) && textResultats.getText().isEmpty() && textPrescriptions.getText().isEmpty()) {
+            sejourCourant.ajouterObservation(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText());
+            System.out.println("1");
+        } 
 
-//        ArrayList<Sejour> sej=null;
-//        String t = jTextArea1.getText();
-//        for (int i=0; i<sej.size(); i++){
-//           sej.get(i).ajouterObservation(t);
-//          
-//            jTextArea1.replaceSelection(t);
-//        
-//        }
-//           
-//                
+        //On ajoute une operation seule
+        //il faut que titre ET details soient remplis
+        else if ((!textTitreOperation.getText().isEmpty() && textDetailsOperations.getText().isEmpty()) || (textTitreOperation.getText().isEmpty() && !textDetailsOperations.getText().isEmpty())) {
+            System.out.println("il faudra mettre un pop-up car titre ou details non rempli");
 
-    }//GEN-LAST:event_jButton2ActionPerformed
+        } else if (textDetailsOperations.getText().isEmpty() && textResultats.getText().isEmpty() && textPrescriptions.getText().isEmpty()) {
+            sejourCourant.ajouterOperations(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textTitreOperation.getText(), textDetailsOperations.getText());
+            System.out.println("2");
+        } 
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+        //On ajoute un resultat seul
+        else if (textTitreOperation.getText().isEmpty() && (textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty()) && textObservations.getText().isEmpty() && textPrescriptions.getText().isEmpty()) {
+            sejourCourant.ajouterResultat(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textResultats.getText());
+            System.out.println("3");
+        } 
+
+
+        // On ajoute une prescription seule
+        else if (textTitreOperation.getText().isEmpty() && (textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty()) && textObservations.getText().isEmpty() && textResultats.getText().isEmpty()) {
+            sejourCourant.ajouterPrescription(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textPrescriptions.getText());
+            System.out.println("4");
+        } 
+
+        //On ajoute une observation et une operation
+        else if (textResultats.getText().isEmpty() && textPrescriptions.getText().isEmpty()) {
+            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), textTitreOperation.getText(), textDetailsOperations.getText(), "", "");
+            System.out.println("5");
+        }
+        
+        //On ajoute une observation et un resultat
+        else if (textResultats.getText().isEmpty() && (textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty())) {
+            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), "", "", textResultats.getText(), "");
+            System.out.println("6");
+        }
+        
+        //On ajoute une observation et un prescription
+        else if (textResultats.getText().isEmpty() && (textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty())) {
+            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), "", "", "", textPrescriptions.getText());
+            System.out.println("7");
+        } 
+
+        //On ajoute une operation et un resultat
+        else if ((textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty()) && textObservations.getText().isEmpty()) {
+            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), "", textTitreOperation.getText(), textDetailsOperations.getText(), textResultats.getText(), "");
+            System.out.println("8");
+        } 
+
+        //On ajoute une operation et une prescription
+        else if (textResultats.getText().isEmpty() && textObservations.getText().isEmpty()) {
+            System.out.println("9");
+            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), "", textTitreOperation.getText(), textDetailsOperations.getText(), "", textPrescriptions.getText());
+        } 
+
+        //On ajoute une prescription et un resultat
+        else if ((textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty()) && textObservations.getText().isEmpty()) {
+            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), "", "", "", textResultats.getText(), textPrescriptions.getText());
+            System.out.println("10");
+        } 
+
+        // On ajoute une observation, une operation, un resultat
+        else if (textPrescriptions.getText().isEmpty()) {
+            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), textTitreOperation.getText(), textDetailsOperations.getText(), textResultats.getText(), "");
+            System.out.println("11");
+        }
+        
+        // On ajoute une observation, une operation, une prescription
+        else if (textPrescriptions.getText().isEmpty()) {
+            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), textTitreOperation.getText(), textDetailsOperations.getText(), "", textPrescriptions.getText());
+            System.out.println("12");
+        } 
+
+        // On ajoute une observation, un resultat, une prescription
+        else if (textPrescriptions.getText().isEmpty()) {
+            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), "", "", textResultats.getText(), textPrescriptions.getText());
+            System.out.println("13");
+        }
+        
+        //On ajoute une operation, un resultat et une prescription
+        else if (textPrescriptions.getText().isEmpty() && (textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty())) {
+            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), "", textTitreOperation.getText(), textDetailsOperations.getText(), textResultats.getText(), textPrescriptions.getText());
+            System.out.println("14");
+        } 
+
+        //On complete l'integralité du sejour
+        else {
+            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), textTitreOperation.getText(), textDetailsOperations.getText(), textResultats.getText(), textPrescriptions.getText());
+            System.out.println("15");
+        }
+
+    }//GEN-LAST:event_completerSejour
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
@@ -731,21 +819,18 @@ public class PH extends JFrame implements ActionListener {
             Lp = inf.recherchePatientNomPrenomDate(jTextField1.getText(), jTextField2.getText(), date);
 
             for (int i = 0; i < Lp.size(); i++) {
-                String element = "" + Lp.get(i).getNom() + "   " + Lp.get(i).getPrenom() + "    " + Lp.get(i).getDateDeNaissance();
+                String element = "" + Lp.get(i).getNom() + "         " + Lp.get(i).getPrenom() + "         " + Lp.get(i).getDateDeNaissance();
                 DLM.addElement(element);
-
             }
-            jList1.setModel(DLM);
+            //jList1.setModel(DLM);
         }
-
-        if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty() && jFormattedTextField1.getText().isEmpty()) {
+        if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty()) {
             Lp = inf.rechercheListPatientNomPrenom(jTextField1.getText(), jTextField2.getText());
             // DefaultListModel DLM = new DefaultListModel();
             for (int i = 0; i < Lp.size(); i++) {
-                String element = "" + Lp.get(i).getNom() + "   " + Lp.get(i).getPrenom() + "  " + Lp.get(i).getDateDeNaissance();
+                String element = "" + Lp.get(i).getNom() + "         " + Lp.get(i).getPrenom() + "         " + Lp.get(i).getDateDeNaissance();
                 DLM.addElement(element);
             }
-            jList1.setModel(DLM);
         }
 
 
@@ -760,10 +845,12 @@ public class PH extends JFrame implements ActionListener {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-
         jLabel14.setText("" + jList1.getSelectedValue().toString());
         jLabel16.setText("" + jList1.getSelectedValue().toString());
 
+        PatientSelection = jList1.getSelectedValue().toString();
+        //cliquer sur le bouton "Suivant" ouvre l'onglet où le médecin peut compléter les données du patient courant
+        interfacePH.setSelectedIndex(1);
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -777,7 +864,7 @@ public class PH extends JFrame implements ActionListener {
         String idp = medecin.iPPMedecinListe(s);
         System.out.println("IPP MEDECIN EST : " + idp);
         System.out.println(sej.getIdSejour());
-        ph.ajouterPrestations(sej.getIdSejour(),perso.getIdMed(), medecin.iPPMedecinListe(s),jTextField4.getText());
+      //  ph.ajouterPrestations(sej.getIdSejour(),perso.getIdMed(), medecin.iPPMedecinListe(s),jTextField4.getText());
         System.out.println("Prestation  AJOUTER");
 //        String idph = medecin.iDPH(medecin.iPPMedecinListe(s));
 //        System.out.println("ID PH DANS PH : " + idph);
@@ -817,46 +904,25 @@ public class PH extends JFrame implements ActionListener {
 
 //supprimer
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
+        // edition de la lettre de sortie  = cloture du sejour
+        
+        sejourCourant.editerLettreDeSortie(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection),textLettreDeSortie.getText());
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    //utiliser la comboBox pour afficher la liste des medecins dans le service pour faire une prestation  
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        jComboBox1.getSelectedItem();
-        DefaultListModel list = new DefaultListModel();
-        nf.PH phAnes = new nf.PH("null", "null", "null", "null", "null", Specialite.ANESTHESIE, Service.MEDICO_TECHNIQUE);
-        nf.PH phRadio = new nf.PH("null", "null", "null", "null", "null", Specialite.RADIOLOGIE, Service.MEDICO_TECHNIQUE);
-        String[] listMedAnes = new String[phAnes.nombrePHAnes()];
-        listMedAnes = phAnes.afficherListePHAnes();
-        String[] listMedRadio = new String[phRadio.nombrePHRadio()];
-        listMedRadio = phRadio.afficherListePHRadio();
+    private void jButton6ActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed1
+        // TODO add your handling code here:
+        new ChangerMDP(this.perso).setVisible(true);
+    }//GEN-LAST:event_jButton6ActionPerformed1
 
-        if (jComboBox1.getSelectedItem().equals(Specialite.ANESTHESIE)) {
+    private void voirLesInfosPatient(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_voirLesInfosPatient
+        interfacePH.setSelectedIndex(2);
+    }//GEN-LAST:event_voirLesInfosPatient
 
-            for (int i = 0; i < listMedAnes.length; i++) {
-
-                String s = listMedAnes[i];
-                list.addElement(s);
-            }
-
-            jList2.setModel(list);
-        }
-        if (jComboBox1.getSelectedItem().equals(Specialite.RADIOLOGIE)) {
-
-            for (int i = 0; i < listMedRadio.length; i++) {
-
-                String s = listMedRadio[i];
-                list.addElement(s);
-
-            }
-            jList2.setModel(list);
-        }
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
-    private void jList2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList2MouseClicked
-        String selected = jList2.getSelectedValue().toString();
-        jTextField5.setText(selected);
-    }//GEN-LAST:event_jList2MouseClicked
+    private void panelAccueilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelAccueilMouseClicked
+        // Mise à jour de la liste des patients
+        
+        
+    }//GEN-LAST:event_panelAccueilMouseClicked
 
     /**
      * @param args the command line arguments
@@ -900,11 +966,13 @@ public class PH extends JFrame implements ActionListener {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton boutonPaneCompleter;
+    private javax.swing.JTabbedPane interfacePH;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JFormattedTextField jFormattedTextField1;
@@ -931,11 +999,6 @@ public class PH extends JFrame implements ActionListener {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList jList1;
     private javax.swing.JList<String> jList2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -946,20 +1009,24 @@ public class PH extends JFrame implements ActionListener {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextArea jTextArea3;
-    private javax.swing.JTextArea jTextArea4;
-    private javax.swing.JTextArea jTextArea5;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JTree jTree1;
     private javax.swing.JTree jTree2;
+    private javax.swing.JPanel panelAccueil;
+    private javax.swing.JPanel panelCompleter;
+    private javax.swing.JPanel panelDemandeDePrestation;
+    private javax.swing.JPanel panelInformationsPatient;
+    private javax.swing.JPanel panelSortie;
+    private javax.swing.JTextArea textDetailsOperations;
+    private javax.swing.JTextArea textLettreDeSortie;
+    private javax.swing.JTextArea textObservations;
+    private javax.swing.JTextArea textPrescriptions;
+    private javax.swing.JTextArea textResultats;
+    private javax.swing.JTextField textTitreOperation;
     // End of variables declaration//GEN-END:variables
 
 }

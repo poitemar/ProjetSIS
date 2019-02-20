@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package nf;
 
 //import java.util.Date;
@@ -13,6 +12,7 @@ import static nf.Specialite.ANESTHESIE;
 
 
 
+import java.util.ArrayList;
 
 /**
  *
@@ -24,6 +24,12 @@ public class SIH {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        String idSejour = "190221999";
+        String iPP = "idPatient";
+        String idPH ="idphtestonc";
+        Patient p =new Patient("bluff","bluff");
+        Localisation localisationbluff = new Localisation(Specialite.CARDIOLOGIE,Orientation.CENTRE,1,123,Lit.FENETRE);
+       Sejour sejourbluff = new Sejour("idSejour","idPatient","idPhReferent",localisationbluff);
       //pour la BD 
 //      BDconnect bd = new BDconnect(); 
 //      bd.ajouterSejour();
@@ -74,10 +80,10 @@ public class SIH {
 //        System.out.println(ph.nom);
 //        smed.ajouterSejour("S111", p, ph, loc, "//", "//", "//", "//","//", "//", "//");
 //        ph.ajouterSejour("//", p, ph, loc, "médicaments", "le patient est", "compte rendu du patient", "résultat des examens","opération du genou", "succes", "autorisé à sortir");
-          PH test = new PH("bono","jean","hello","i am","here",Specialite.ANESTHESIE,Service.MEDICO_TECHNIQUE);
-          Sejour sej = new Sejour(); 
-          sej.idSejourPatientSelection("37849205");
-          test.ajouterPrestations("123","456","789","101112");
+//          PH test = new PH("bono","jean","hello","i am","here",Specialite.ANESTHESIE,Service.MEDICO_TECHNIQUE);
+//          Sejour sej = new Sejour(); 
+//          sej.idSejourPatientSelection("37849205");
+//          test.ajouterPrestations("123","456","789","101112");
           
           //test.ajouterPrestations();
           
@@ -91,8 +97,30 @@ public class SIH {
 //         if(ph.iDPH(ph.iPPMedecinListe(s))==ph.iPPMedecinListe(s)){
 //             System.out.println("yes--------------------------------------");
 //    }
-}
 
        
 
-}
+//       sejourbluff.ajouterOperations(idSejour, idPH, iPP, "titre", "details");
+//     //  sejourbluff.completerSejour(idSejour, idPH, iPP, "ff", "ff", "fff", "nn", "hnh");
+//     SecretaireMedicale sm = new SecretaireMedicale("bluff", "bluff", "bluff", "bluff", "bluff", Specialite.ACCUEIL, Service.CLINIQUE);
+//        PH perso = new PH("bluff", "bluff", "bluff", "bluff", "bluff", Specialite.ACCUEIL, Service.CLINIQUE); 
+//   //     System.out.println(perso.idSejourPatientSelection("1234"));
+//             ArrayList <Patient> listeP = new ArrayList <Patient>();
+//               listeP = sm.afficherListePatientParService(Specialite.ONCOLOGIE);
+//                      for(int i =0; i<listeP.size();i++){
+//  0                        System.out.println(listeP.get(i).getNom());
+//                      }
+     
+//               ArrayList <PH> liste = new ArrayList <PH>();
+//               liste = perso.afficherListeMedecinParService(Specialite.ANESTHESIE);
+//               
+//                      for(int i =0; i<liste.size();i++){
+//                          System.out.println(liste.get(i).getNom());
+//                      }
+//        perso.iPPMedecinListe("CALABRESE         Julie");
+           
+        //System.out.println(p.ippPatientListe("TEST         ONCOLOGIE         1980-06-06"));
+    
+    
+     //sejourbluff.sejourEnCours("190221999");
+}}

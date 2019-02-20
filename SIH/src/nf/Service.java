@@ -12,8 +12,8 @@ package nf;
  */
 public enum Service {
     CLINIQUE,
-    MEDICO_TECHNIQUE,
-    //...
-    ANESTHESISTE,
-    RADIOLOGUE;
+    ACCUEIL,
+    URGENCE,
+    MEDICO_TECHNIQUE;
+  
 }
