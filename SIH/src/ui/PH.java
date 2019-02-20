@@ -23,37 +23,45 @@ import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.table.DefaultTableModel;
 import nf.Patient;
+import nf.PersonnelMedical;
 import nf.Prestation;
 import nf.RechercherInfo;
 import nf.Sejour;
 import nf.Specialite;
+import nf.Prestation;
+import nf.SecretaireMedicale;
+import nf.Service;
+
 /**
- *!!
+ * !!
+ *
  * @author poite
  */
 public class PH extends JFrame implements ActionListener {
 
     DefaultListModel m = new DefaultListModel();
     RechercherInfo inf = new RechercherInfo();
-    ArrayList <Patient> Lp; 
+    ArrayList<Patient> Lp;
     nf.PersonnelMedical perso;
-
-    nf.PH ph = new nf.PH("null", "null","null","null","null",nf.Specialite.ONCOLOGIE,nf.Service.CLINIQUE);
+    Connection con;
+    ResultSet rs;
+    Statement st;
+    nf.PH ph = new nf.PH("null", "null", "null", "null", "null", nf.Specialite.ONCOLOGIE, nf.Service.CLINIQUE);
     String[] liste = new String[ph.nombrePatients()];
+
     /**
      * Creates new form PH
      */
     public PH(nf.PersonnelMedical p) {
-    
+
         liste = ph.afficherListePatients();
         initComponents();
         setSize(700, 600);
         jButton1.addActionListener(this);
-     this.perso =  p;
-    String s = "Mme/M. "+p.getNom()+" "+p.getPrenom();
-         jLabel1.setText(s);
-         
-        
+        this.perso = p;
+        String s = "Mme/M. " + p.getNom() + " " + p.getPrenom();
+        jLabel1.setText(s);
+
     }
 
     /**
@@ -79,7 +87,6 @@ public class PH extends JFrame implements ActionListener {
 //
 //        }
 //    }
-
     /**
      *
      */
@@ -314,7 +321,7 @@ public class PH extends JFrame implements ActionListener {
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                                 .addComponent(jButton1))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -423,7 +430,7 @@ public class PH extends JFrame implements ActionListener {
                             .addComponent(jScrollPane4)
                             .addComponent(jScrollPane2)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addGap(0, 20, Short.MAX_VALUE)
+                                .addGap(0, 40, Short.MAX_VALUE)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel10)
                                     .addComponent(jLabel11))
@@ -509,14 +516,14 @@ public class PH extends JFrame implements ActionListener {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 295, Short.MAX_VALUE)
+                        .addGap(0, 322, Short.MAX_VALUE)
                         .addComponent(jLabel16)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel18)
-                                .addGap(0, 285, Short.MAX_VALUE))
+                                .addGap(0, 315, Short.MAX_VALUE))
                             .addComponent(jScrollPane7))
                         .addContainerGap())))
         );
@@ -561,7 +568,6 @@ public class PH extends JFrame implements ActionListener {
         jLabel15.setText("à :");
 
         jTextField5.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jTextField5.setText("DUPONT Alexandre");
         jTextField5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField5ActionPerformed(evt);
@@ -569,8 +575,10 @@ public class PH extends JFrame implements ActionListener {
         });
 
         jComboBox1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        Prestation pres [] = Prestation.values();
-        DefaultComboBoxModel model = new DefaultComboBoxModel(pres);
+        //Prestation pres [] = Prestation.values();
+        Specialite spe[]={Specialite.Sélectionner , Specialite.ANESTHESIE , Specialite.RADIOLOGIE};
+
+        DefaultComboBoxModel model = new DefaultComboBoxModel(spe);
         jComboBox1.setModel(model);
         jComboBox1.setToolTipText("");
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -580,10 +588,10 @@ public class PH extends JFrame implements ActionListener {
         });
 
         jList2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "DUPONT Alexandre" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        jList2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList2MouseClicked(evt);
+            }
         });
         jScrollPane9.setViewportView(jList2);
 
@@ -614,7 +622,7 @@ public class PH extends JFrame implements ActionListener {
                                 .addComponent(jButton4)
                                 .addGap(40, 40, 40))))
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -629,14 +637,12 @@ public class PH extends JFrame implements ActionListener {
                 .addComponent(jLabel21)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel15)
-                            .addComponent(jButton4))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel15)
+                        .addComponent(jButton4))
+                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("DEMANDE PRESTATION", jPanel4);
@@ -667,7 +673,7 @@ public class PH extends JFrame implements ActionListener {
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 637, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel17)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -698,7 +704,7 @@ public class PH extends JFrame implements ActionListener {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-      
+
 //        ArrayList<Sejour> sej=null;
 //        String t = jTextArea1.getText();
 //        for (int i=0; i<sej.size(); i++){
@@ -709,14 +715,6 @@ public class PH extends JFrame implements ActionListener {
 //        }
 //           
 //                
-        
-      
-
-
-
-
-
-
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -725,11 +723,10 @@ public class PH extends JFrame implements ActionListener {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       
 
-        
         String date = jFormattedTextField1.getText();
         DefaultListModel DLM = new DefaultListModel();
+
         if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty() && jFormattedTextField1.getText() != null) {
             Lp = inf.recherchePatientNomPrenomDate(jTextField1.getText(), jTextField2.getText(), date);
 
@@ -738,22 +735,20 @@ public class PH extends JFrame implements ActionListener {
                 DLM.addElement(element);
 
             }
-              //jList1.setModel(DLM);
+            jList1.setModel(DLM);
+        }
 
-        } 
-            if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty()) {
+        if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty() && jFormattedTextField1.getText().isEmpty()) {
             Lp = inf.rechercheListPatientNomPrenom(jTextField1.getText(), jTextField2.getText());
             // DefaultListModel DLM = new DefaultListModel();
             for (int i = 0; i < Lp.size(); i++) {
                 String element = "" + Lp.get(i).getNom() + "   " + Lp.get(i).getPrenom() + "  " + Lp.get(i).getDateDeNaissance();
                 DLM.addElement(element);
-
             }
-         
+            jList1.setModel(DLM);
         }
-        jList1.setModel(DLM);
-        
-        jList1.repaint();
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jFormattedTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField1ActionPerformed
@@ -765,10 +760,10 @@ public class PH extends JFrame implements ActionListener {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        
-       jLabel14.setText(""+jList1.getSelectedValue().toString());
-       jLabel16.setText(""+jList1.getSelectedValue().toString());
-               
+
+        jLabel14.setText("" + jList1.getSelectedValue().toString());
+        jLabel16.setText("" + jList1.getSelectedValue().toString());
+
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -776,7 +771,33 @@ public class PH extends JFrame implements ActionListener {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+          Sejour sej = null; 
+        nf.PH medecin = new nf.PH("jean", "bono", "helloo", "iam", "here", nf.Specialite.ONCOLOGIE, nf.Service.CLINIQUE);
+        String s = jTextField5.getText();
+        String idp = medecin.iPPMedecinListe(s);
+        System.out.println("IPP MEDECIN EST : " + idp);
+        System.out.println(sej.getIdSejour());
+        ph.ajouterPrestations(sej.getIdSejour(),perso.getIdMed(), medecin.iPPMedecinListe(s),jTextField4.getText());
+        System.out.println("Prestation  AJOUTER");
+//        String idph = medecin.iDPH(medecin.iPPMedecinListe(s));
+//        System.out.println("ID PH DANS PH : " + idph);
+//        if (idp.equals(idph)) {
+//            System.out.println("yes---------------------------------------123");
+//            String sql = "UPDATE `ph` SET PRESTATION='" + jTextField4.getText() + "' WHERE ID_PH=" + idph + ";";
+//            System.out.println(sql);
+//            try {
+//                System.out.println("CONTENUE DE SQL");
+//                PreparedStatement pstm = con.prepareStatement(sql);
+//
+//                System.out.println("contenue de la base de donnée");
+//
+//                pstm.executeUpdate();
+//                pstm.close();
+//            } catch (Exception ex) {
+//                System.out.println(ex);
+//
+//            }
+//        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -796,20 +817,53 @@ public class PH extends JFrame implements ActionListener {
 
 //supprimer
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-     // TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    //utiliser la comboBox pour afficher la liste des medecins dans le service pour faire une prestation  
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         jComboBox1.getSelectedItem();
-        
+        DefaultListModel list = new DefaultListModel();
+        nf.PH phAnes = new nf.PH("null", "null", "null", "null", "null", Specialite.ANESTHESIE, Service.MEDICO_TECHNIQUE);
+        nf.PH phRadio = new nf.PH("null", "null", "null", "null", "null", Specialite.RADIOLOGIE, Service.MEDICO_TECHNIQUE);
+        String[] listMedAnes = new String[phAnes.nombrePHAnes()];
+        listMedAnes = phAnes.afficherListePHAnes();
+        String[] listMedRadio = new String[phRadio.nombrePHRadio()];
+        listMedRadio = phRadio.afficherListePHRadio();
+
+        if (jComboBox1.getSelectedItem().equals(Specialite.ANESTHESIE)) {
+
+            for (int i = 0; i < listMedAnes.length; i++) {
+
+                String s = listMedAnes[i];
+                list.addElement(s);
+            }
+
+            jList2.setModel(list);
+        }
+        if (jComboBox1.getSelectedItem().equals(Specialite.RADIOLOGIE)) {
+
+            for (int i = 0; i < listMedRadio.length; i++) {
+
+                String s = listMedRadio[i];
+                list.addElement(s);
+
+            }
+            jList2.setModel(list);
+        }
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jList2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList2MouseClicked
+        String selected = jList2.getSelectedValue().toString();
+        jTextField5.setText(selected);
+    }//GEN-LAST:event_jList2MouseClicked
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
 
-     //   new PH();
+        //   new PH();
 
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -838,7 +892,7 @@ public class PH extends JFrame implements ActionListener {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-            //    new PH().setVisible(true);
+                //    new PH().setVisible(true);
 
             }
         });

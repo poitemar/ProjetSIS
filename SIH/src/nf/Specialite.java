@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package nf;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -17,6 +19,19 @@ public enum Specialite {
     //...
     GYNECOLOGIE,
     PEDIATRIE,
-    PNEUMOLOGIE, 
+    PNEUMOLOGIE,
+    RADIOLOGIE,
+    ANESTHESIE,
     ONCOLOGIE;
+
+    private static Specialite[] value() {
+        Specialite[] pres = {ANESTHESIE, RADIOLOGIE};
+
+        return pres;
+    }
+
+ 
+    
+  
 }
+

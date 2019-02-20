@@ -10,7 +10,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 /**
  *
  * @author PC
@@ -36,6 +37,8 @@ public class SecretaireMedicale extends PersonnelMedical {
 
         }
     }
+
+   
 
     public void ajouterSejour(String idSejour, Patient patient, PH phReferant, Localisation localisation, String prescription, String observation, String compteRendu, String resultat, String titreOperation, String detailsOperation, String lettreDeSortie) {
         Sejour s = new Sejour(idSejour, patient, phReferant, localisation, prescription, observation, compteRendu, resultat, titreOperation, detailsOperation, lettreDeSortie);
@@ -130,7 +133,7 @@ public class SecretaireMedicale extends PersonnelMedical {
         String[] listePH = new String[compteur];
         listePH[0]="test";
         try {
-            String query = "select * from PERSONNEL_MEDICAL where TYPE_P = 'DOCTEUR' and SPE = 'ONCOLOGIE'"; // la query à entrer pour accéder aux données de nos tables 
+            String query = "select * from PERSONNEL_MEDICAL where TYPE_P = 'DOCTEUR' and SPE = ONCOLOGIE"; // la query à entrer pour accéder aux données de nos tables 
             rs = st.executeQuery(query);
             while (rs.next()) {
                 String nom = rs.getString("NOM");
@@ -145,5 +148,43 @@ public class SecretaireMedicale extends PersonnelMedical {
             ex.printStackTrace();
         }
         return listePH;
+    }
+    
+    //On cree un nouveau sejour mais on ne le remplit pas, l'operation creer le sejour et le remplir ne se deroulent pas dans la meme methode
+    public void ajouterSejour(String idSejour, String iPP, String idPHReferent, Localisation localisation) {
+       Sejour s = new Sejour(idSejour, iPP, idPHReferent, localisation);        
+       String sql = "insert into ph_referent(ID_PHR,ID_SEJOUR,IPP,DATE_CREATION_SEJOUR) values (?,?,?,?)";
+       String sql2 ="insert into localisation (ID_SEJOUR,SERVICE,ORIENTATION,ETAGE,CHAMBRE,LIT) values (?,?,?,?,?,?)";
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+            PreparedStatement pstm2 = con.prepareStatement(sql2);
+            Date maDate = new Date();
+            SimpleDateFormat maDateLongue= new SimpleDateFormat("dd/MM/yyyy");
+            
+            //on insere les donnees dans la classe ph_referent ce qui correspond a la requete 1
+            pstm.setString(1, idPHReferent);
+            pstm.setString(2, idSejour);
+            pstm.setString(3, iPP);
+            pstm.setString(4, maDateLongue.format(maDate));
+            pstm.executeUpdate();
+            
+            //On insere les donnees dans le classe localisation ce qui correspond a la requete 2
+             pstm2.setString(1, idSejour);
+            pstm2.setString(2, localisation.getService().toString());
+           
+             pstm2.setString(3, localisation.getOrientation().toString());
+              pstm2.setInt(4, localisation.getEtage());
+            pstm2.setInt(5, localisation.getChambre());
+            pstm2.setString(6, localisation.getLit().toString());
+           
+            pstm2.executeUpdate();
+        } catch (Exception ex) {
+            System.out.println(ex);
+           
+        }
+    }
+    
+    public void ajouterPrestattion(String prestation){
+        
     }
 }
