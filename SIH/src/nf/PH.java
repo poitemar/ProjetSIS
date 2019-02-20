@@ -37,8 +37,8 @@ public class PH extends PersonnelMedical {
     private ResultSet rs;
     private Specialite specialite;
 
-    public PH(String nom, String prenom, String idMed, String login, String password,Specialite spe,Service service) {
-        super(nom, prenom, idMed, password,login,spe,service);
+    public PH(String idMed, String nom, String prenom, String login, String password,Specialite spe,Service service) {
+        super(idMed, nom, prenom, login,password,spe,service);
         this.specialite = spe;
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -52,39 +52,85 @@ public class PH extends PersonnelMedical {
         }
     }
 
+    //Retroune l'id du dernier sejour crée pour le patient
+    public String idSejourPatientSelection(String iPP){
+        
+        String idSejour ="";
+        String dateLaPlusRecente="01/01/0001";
+        String date="";
+        //On recherche le sejour le plus recent
+        try {
+            String query = "select DATE_CREATION_SEJOUR from ph_referent where IPP='"+iPP+"'";
+            System.out.println(query);
+            rs = st.executeQuery(query);
+            
+            while (rs.next()) {
+               date = rs.getString("DATE_CREATION_SEJOUR");
+               if(date.compareTo(dateLaPlusRecente)>0){
+                   dateLaPlusRecente = date;
+             
+               }
+                System.out.println(date);
+                   System.out.println(dateLaPlusRecente);   
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+           
+        }
+        //On récupère l'id associé au sejour le plus ancien
+        try {
+            String query = "select ID_SEJOUR from ph_referent where IPP='"+iPP+"' and DATE_CREATION_SEJOUR='"+dateLaPlusRecente+"'";
+            System.out.println(query);
+            rs = st.executeQuery(query);
+            
+            while (rs.next()) {
+               idSejour = rs.getString("ID_SEJOUR");
+              
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+           
+        }
+        
+        return idSejour;
+    }
+    
+    
+    
+    
     public Specialite getSpecialite() {
         return specialite;
     }
-    public void ajouterSejour(String idSejour, Patient patient, PH phReferant, Localisation localisation, String prescription, String observation, String compteRendu, String resultat, String titreOperation, String detailsOperation, String lettreDeSortie) {
-        Sejour s = new Sejour(idSejour, patient, phReferant, localisation, prescription, observation, compteRendu, resultat, titreOperation, detailsOperation, lettreDeSortie);
-        s.setPhReferant(this);
-        s.getListePrescriptions().add(prescription);
-        s.getListeObservations().add(observation);
-        s.getListeTitreOperations().add(titreOperation);
-        s.getListeDetailsOperations().add(detailsOperation);
-        s.getListeDeCompteRenduRadio().add(compteRendu);
-        s.getListeDeResultats().add(resultat);
-        s.setLettreDeSortie(lettreDeSortie);
-
-        String sql = "insert into ph(ID_PH,IPP_PATIENT,ID_SEJOUR,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,OPERATION,TITRE_OPERATION,COMPTE_RENDU) values (?,?,?,?,?,?,?,?,?,?)";
-
-        try {
-            PreparedStatement pstm = con.prepareStatement(sql);
-            pstm.setString(1, phReferant.getIdMed());
-            pstm.setString(2, patient.getIpp());
-            pstm.setString(3, idSejour);
-            pstm.setString(4, observation);
-            pstm.setString(5, resultat);
-            pstm.setString(6, lettreDeSortie);
-            pstm.setString(7, prescription);
-            pstm.setString(8, detailsOperation);
-            pstm.setString(9, titreOperation);
-            pstm.setString(10, compteRendu);
-            pstm.executeUpdate();
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
-    }
+//    public void ajouterSejour(String idSejour, Patient patient, PH phReferant, Localisation localisation, String prescription, String observation, String compteRendu, String resultat, String titreOperation, String detailsOperation, String lettreDeSortie) {
+//        Sejour s = new Sejour(idSejour, patient, phReferant, localisation, prescription, observation, compteRendu, resultat, titreOperation, detailsOperation, lettreDeSortie);
+//        s.setPhReferant(this);
+//        s.getListePrescriptions().add(prescription);
+//        s.getListeObservations().add(observation);
+//        s.getListeTitreOperations().add(titreOperation);
+//        s.getListeDetailsOperations().add(detailsOperation);
+//        s.getListeDeCompteRenduRadio().add(compteRendu);
+//        s.getListeDeResultats().add(resultat);
+//        s.setLettreDeSortie(lettreDeSortie);
+//
+//        String sql = "insert into ph(ID_PH,IPP_PATIENT,ID_SEJOUR,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,OPERATION,TITRE_OPERATION,COMPTE_RENDU) values (?,?,?,?,?,?,?,?,?,?)";
+//
+//        try {
+//            PreparedStatement pstm = con.prepareStatement(sql);
+//            pstm.setString(1, phReferant.getIdMed());
+//            pstm.setString(2, patient.getIpp());
+//            pstm.setString(3, idSejour);
+//            pstm.setString(4, observation);
+//            pstm.setString(5, resultat);
+//            pstm.setString(6, lettreDeSortie);
+//            pstm.setString(7, prescription);
+//            pstm.setString(8, detailsOperation);
+//            pstm.setString(9, titreOperation);
+//            pstm.setString(10, compteRendu);
+//            pstm.executeUpdate();
+//        } catch (Exception ex) {
+//            System.out.println(ex);
+//        }
+//    }
     
     public int nombrePatients() {
         int compteur = 0;

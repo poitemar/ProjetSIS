@@ -202,7 +202,7 @@ PersonnelMedical perso;
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                PersonnelMedical persoMed = new PersonnelMedical("bluff", "bluff", "bluff", "bluff", "bluff", nf.Specialite.ACCUEIL, nf.Service.ANESTHESISTE);
+                PersonnelMedical persoMed = new PersonnelMedical("bluff", "bluff", "bluff", "bluff", "bluff", nf.Specialite.ACCUEIL, nf.Service.MEDICO_TECHNIQUE);
                new ChangerMDP(persoMed).setVisible(true);
             }
         });

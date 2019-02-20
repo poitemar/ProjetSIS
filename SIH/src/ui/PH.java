@@ -13,33 +13,53 @@ import static java.util.Optional.empty;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import nf.Lit;
+import nf.Orientation;
 import nf.Patient;
 import nf.RechercherInfo;
+import nf.Service;
+import nf.Specialite;
+
 /**
- *!!
+ * !!
+ *
  * @author poite
  */
 public class PH extends JFrame implements ActionListener {
 
     DefaultListModel m = new DefaultListModel();
     RechercherInfo inf = new RechercherInfo();
-    ArrayList <Patient> Lp; 
+    ArrayList<Patient> Lp;
+    ArrayList<Patient> listePatient;
     nf.PersonnelMedical perso;
+    String PatientSelection = "";
+    DefaultListModel DLM = new DefaultListModel();
+    nf.PH ph = new nf.PH("null", "null", "null", "null", "null", nf.Specialite.ONCOLOGIE, nf.Service.CLINIQUE);
+    nf.Patient patient = new nf.Patient("bluff", "bluff");
+    nf.SecretaireMedicale secrMed = new nf.SecretaireMedicale("null", "null", "null", "null", "null", Specialite.ONCOLOGIE, Service.CLINIQUE);
+    nf.Localisation locCourant = new nf.Localisation(Specialite.ACCUEIL, Orientation.OUEST, 1, 133, Lit.PORTE);
+    nf.Sejour sejourCourant = new nf.Sejour("bluff", "bluff", "bluff", locCourant);
 
-    nf.PH ph = new nf.PH("null", "null","null","null","null",nf.Specialite.ONCOLOGIE,nf.Service.CLINIQUE);
-    String[] liste = new String[ph.nombrePatients()];
     /**
      * Creates new form PH
      */
     public PH(nf.PersonnelMedical p) {
-    
-        liste = ph.afficherListePatients();
+
         initComponents();
         setSize(700, 600);
+
         jButton1.addActionListener(this);
-        this.perso =  p;
-        String s = "Mme/M. "+p.getNom()+" "+p.getPrenom();
+        this.perso = p;
+        String s = "Mme/M. " + p.getNom() + " " + p.getPrenom();
         jLabel1.setText(s);
+        listePatient = secrMed.afficherListePatientParService(perso.getSpecialite());
+
+        for (int i = 0; i < listePatient.size(); i++) {
+            String element = "" + listePatient.get(i).getNom() + "         " + listePatient.get(i).getPrenom() + "         " + listePatient.get(i).getDateDeNaissance();
+            DLM.addElement(element);
+        }
+        jList1.setModel(DLM);
+        jList1.repaint();
     }
 
     /**
@@ -65,14 +85,16 @@ public class PH extends JFrame implements ActionListener {
 //
 //        }
 //    }
-
     /**
      *
      */
     public class bouton {
+
         Connection con = null;
         ResultSet rs = null;
         PreparedStatement ptsm = null;
+        Patient patientSelection;
+
         /**
          *
          * @return
@@ -177,6 +199,11 @@ public class PH extends JFrame implements ActionListener {
         interfacePH.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         panelAccueil.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        panelAccueil.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelAccueilMouseClicked(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel1.setText("Dr DUPONT Laurent");
@@ -187,11 +214,6 @@ public class PH extends JFrame implements ActionListener {
         jScrollPane1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         jList1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = liste;
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(jList1);
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -587,7 +609,7 @@ public class PH extends JFrame implements ActionListener {
                     .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34)
                 .addComponent(jButton4)
-                .addContainerGap(259, Short.MAX_VALUE))
+                .addContainerGap(299, Short.MAX_VALUE))
         );
 
         interfacePH.addTab("DEMANDE PRESTATION", panelDemandeDePrestation);
@@ -629,7 +651,7 @@ public class PH extends JFrame implements ActionListener {
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton7)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         interfacePH.addTab("SORTIE", panelSortie);
@@ -642,51 +664,133 @@ public class PH extends JFrame implements ActionListener {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(interfacePH, javax.swing.GroupLayout.PREFERRED_SIZE, 482, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(interfacePH, javax.swing.GroupLayout.PREFERRED_SIZE, 522, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void completerSejour(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_completerSejour
-//        ArrayList<Sejour> sej=null;
-//        String t = jTextArea1.getText();
-//        for (int i=0; i<sej.size(); i++){
-//           sej.get(i).ajouterObservation(t);
-//          
-//            jTextArea1.replaceSelection(t);
-//        
-//        }
-  
-        nf.Patient patientCourant = new nf.Patient("bluff","bluff") ;
-        //récupération des informations entrées par le PH référent dans l'interface
-        ph.ajouterSejour("id_séjour du séjour en cours", patientCourant, ph, null, textPrescriptions.getText(), 
-                textObservations.getText(), "compte rendu à ajouter", textResultats.getText(), textTitreOperation.getText(), 
-                textDetailsOperations.getText(), textLettreDeSortie.getText());
-        //ATTENTION : relier les infos relatives au séjour en cours qu'on modifie !! : ID_Sejour + Localisation + Patient concerné
-        //ATTENTION : ajouter le compte rendu !       
+        PatientSelection = jList1.getSelectedValue().toString();
         
-        this.dispose();
+        
+        //On ajoute une observation seule
+        if (textTitreOperation.getText().isEmpty() && (textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty()) && textResultats.getText().isEmpty() && textPrescriptions.getText().isEmpty()) {
+            sejourCourant.ajouterObservation(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText());
+            System.out.println("1");
+        } 
+
+        //On ajoute une operation seule
+        //il faut que titre ET details soient remplis
+        else if ((!textTitreOperation.getText().isEmpty() && textDetailsOperations.getText().isEmpty()) || (textTitreOperation.getText().isEmpty() && !textDetailsOperations.getText().isEmpty())) {
+            System.out.println("il faudra mettre un pop-up car titre ou details non rempli");
+
+        } else if (textDetailsOperations.getText().isEmpty() && textResultats.getText().isEmpty() && textPrescriptions.getText().isEmpty()) {
+            sejourCourant.ajouterOperations(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textTitreOperation.getText(), textDetailsOperations.getText());
+            System.out.println("2");
+        } 
+
+        //On ajoute un resultat seul
+        else if (textTitreOperation.getText().isEmpty() && (textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty()) && textObservations.getText().isEmpty() && textPrescriptions.getText().isEmpty()) {
+            sejourCourant.ajouterResultat(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textResultats.getText());
+            System.out.println("3");
+        } 
+
+
+        // On ajoute une prescription seule
+        else if (textTitreOperation.getText().isEmpty() && (textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty()) && textObservations.getText().isEmpty() && textResultats.getText().isEmpty()) {
+            sejourCourant.ajouterPrescription(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textPrescriptions.getText());
+            System.out.println("4");
+        } 
+
+        //On ajoute une observation et une operation
+        else if (textResultats.getText().isEmpty() && textPrescriptions.getText().isEmpty()) {
+            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), textTitreOperation.getText(), textDetailsOperations.getText(), "", "");
+            System.out.println("5");
+        }
+        
+        //On ajoute une observation et un resultat
+        else if (textResultats.getText().isEmpty() && (textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty())) {
+            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), "", "", textResultats.getText(), "");
+            System.out.println("6");
+        }
+        
+        //On ajoute une observation et un prescription
+        else if (textResultats.getText().isEmpty() && (textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty())) {
+            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), "", "", "", textPrescriptions.getText());
+            System.out.println("7");
+        } 
+
+        //On ajoute une operation et un resultat
+        else if ((textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty()) && textObservations.getText().isEmpty()) {
+            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), "", textTitreOperation.getText(), textDetailsOperations.getText(), textResultats.getText(), "");
+            System.out.println("8");
+        } 
+
+        //On ajoute une operation et une prescription
+        else if (textResultats.getText().isEmpty() && textObservations.getText().isEmpty()) {
+            System.out.println("9");
+            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), "", textTitreOperation.getText(), textDetailsOperations.getText(), "", textPrescriptions.getText());
+        } 
+
+        //On ajoute une prescription et un resultat
+        else if ((textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty()) && textObservations.getText().isEmpty()) {
+            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), "", "", "", textResultats.getText(), textPrescriptions.getText());
+            System.out.println("10");
+        } 
+
+        // On ajoute une observation, une operation, un resultat
+        else if (textPrescriptions.getText().isEmpty()) {
+            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), textTitreOperation.getText(), textDetailsOperations.getText(), textResultats.getText(), "");
+            System.out.println("11");
+        }
+        
+        // On ajoute une observation, une operation, une prescription
+        else if (textPrescriptions.getText().isEmpty()) {
+            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), textTitreOperation.getText(), textDetailsOperations.getText(), "", textPrescriptions.getText());
+            System.out.println("12");
+        } 
+
+        // On ajoute une observation, un resultat, une prescription
+        else if (textPrescriptions.getText().isEmpty()) {
+            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), "", "", textResultats.getText(), textPrescriptions.getText());
+            System.out.println("13");
+        }
+        
+        //On ajoute une operation, un resultat et une prescription
+        else if (textPrescriptions.getText().isEmpty() && (textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty())) {
+            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), "", textTitreOperation.getText(), textDetailsOperations.getText(), textResultats.getText(), textPrescriptions.getText());
+            System.out.println("14");
+        } 
+
+        //On complete l'integralité du sejour
+        else {
+            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), textTitreOperation.getText(), textDetailsOperations.getText(), textResultats.getText(), textPrescriptions.getText());
+            System.out.println("15");
+        }
+
     }//GEN-LAST:event_completerSejour
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-             
+
         String date = jFormattedTextField1.getText();
         DefaultListModel DLM = new DefaultListModel();
         if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty() && jFormattedTextField1.getText() != null) {
             Lp = inf.recherchePatientNomPrenomDate(jTextField1.getText(), jTextField2.getText(), date);
 
             for (int i = 0; i < Lp.size(); i++) {
-                String element = "" + Lp.get(i).getNom() + "   " + Lp.get(i).getPrenom() + "    " + Lp.get(i).getDateDeNaissance();
+                String element = "" + Lp.get(i).getNom() + "         " + Lp.get(i).getPrenom() + "         " + Lp.get(i).getDateDeNaissance();
                 DLM.addElement(element);
             }
-              //jList1.setModel(DLM);
-        } 
-            if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty()) {
+            //jList1.setModel(DLM);
+        }
+        if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty()) {
             Lp = inf.rechercheListPatientNomPrenom(jTextField1.getText(), jTextField2.getText());
             // DefaultListModel DLM = new DefaultListModel();
             for (int i = 0; i < Lp.size(); i++) {
-                String element = "" + Lp.get(i).getNom() + "   " + Lp.get(i).getPrenom() + "  " + Lp.get(i).getDateDeNaissance();
+                String element = "" + Lp.get(i).getNom() + "         " + Lp.get(i).getPrenom() + "         " + Lp.get(i).getDateDeNaissance();
                 DLM.addElement(element);
             }
         }
@@ -704,13 +808,12 @@ public class PH extends JFrame implements ActionListener {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-       jLabel14.setText(""+jList1.getSelectedValue().toString());
-       jLabel16.setText(""+jList1.getSelectedValue().toString());
-       /*ATTENTION à la place mettre une méthode qui nous retourne ce string mais dans un patient qui correspond au patient 
-       courant sélectionné dans la liste des patients du service du PH connecté*/
-       
-       //cliquer sur le bouton "Suivant" ouvre l'onglet où le médecin peut compléter les données du patient courant
-       interfacePH.setSelectedIndex(1); 
+        jLabel14.setText("" + jList1.getSelectedValue().toString());
+        jLabel16.setText("" + jList1.getSelectedValue().toString());
+
+        PatientSelection = jList1.getSelectedValue().toString();
+        //cliquer sur le bouton "Suivant" ouvre l'onglet où le médecin peut compléter les données du patient courant
+        interfacePH.setSelectedIndex(1);
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -738,24 +841,32 @@ public class PH extends JFrame implements ActionListener {
 
 //supprimer
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-     // TODO add your handling code here:
+        // edition de la lettre de sortie  = cloture du sejour
+        
+        sejourCourant.editerLettreDeSortie(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection),textLettreDeSortie.getText());
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton6ActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed1
         // TODO add your handling code here:
-         new ChangerMDP(this.perso).setVisible(true);
+        new ChangerMDP(this.perso).setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed1
 
     private void voirLesInfosPatient(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_voirLesInfosPatient
         interfacePH.setSelectedIndex(2);
     }//GEN-LAST:event_voirLesInfosPatient
 
+    private void panelAccueilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelAccueilMouseClicked
+        // Mise à jour de la liste des patients
+        
+        
+    }//GEN-LAST:event_panelAccueilMouseClicked
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
 
-     //   new PH();
+        //   new PH();
 
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -784,7 +895,7 @@ public class PH extends JFrame implements ActionListener {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-            //    new PH().setVisible(true);
+                //    new PH().setVisible(true);
 
             }
         });

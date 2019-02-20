@@ -19,7 +19,7 @@ import nf.Specialite;
  */
 public class nouveauPatient extends javax.swing.JFrame {
 
-    nf.SecretaireAdministrative secretaireAdministrativeCourante = new nf.SecretaireAdministrative("1234","MAURIOL","Marine","087567","123",Specialite.ACCUEIL,Service.ANESTHESISTE);
+    nf.SecretaireAdministrative secretaireAdministrativeCourante = new nf.SecretaireAdministrative("1234","MAURIOL","Marine","087567","123",Specialite.ACCUEIL,Service.ACCUEIL);
     //nf.Patient p = new nf.Patient("21","Longchamp","Juliette",Sexe.FEMME,"11/03"),"78 boulevard","46000");
     
     /**

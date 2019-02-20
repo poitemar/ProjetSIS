@@ -12,7 +12,7 @@ package nf;
  */
 public class Localisation {
     
-    private Service service;
+    private Specialite service;
     private Orientation orientation;
     private int etage;
     private int chambre;
@@ -21,7 +21,7 @@ public class Localisation {
     
     //Constructeur de localisation
     
-    public Localisation(Service service, Orientation orientation,int etage, int chambre, Lit lit){
+    public Localisation(Specialite service, Orientation orientation,int etage, int chambre, Lit lit){
         this.service = service;
         this.orientation = orientation;
         this.etage = etage;
@@ -29,20 +29,24 @@ public class Localisation {
         this.lit =lit;
     }
 
-    
+   
+        
+        
+       
+
     
     // getters et setters
     /**
      * @return the service
      */
-    public Service getService() {
+    public Specialite getService() {
         return service;
     }
 
     /**
      * @param service the service to set
      */
-    public void setService(Service service) {
+    public void setService(Specialite service) {
         this.service = service;
     }
 

@@ -21,6 +21,13 @@ import java.sql.SQLException;
  */
 public class PersonnelMedical {
 
+    /**
+     * @return the specialite
+     */
+    public Specialite getSpecialite() {
+        return specialite;
+    }
+
     private String nom;
     private String prenom;
     private String idMed;
@@ -35,9 +42,10 @@ public class PersonnelMedical {
     private ResultSet rs;
 
     public PersonnelMedical(String idMed, String nom, String prenom, String login, String password, Specialite spe, Service service) {
+        this.idMed = idMed;
         this.nom = nom;
         this.prenom = prenom;
-        this.idMed = idMed;
+        
         this.login = login;
         this.password = password;
         this.specialite = spe;

@@ -18,20 +18,30 @@ import nf.Specialite;
  */
 public class SecretaireMedicale extends javax.swing.JFrame {
 
-    nf.PersonnelMedical p;
+    nf.PersonnelMedical perso;
+    nf.Patient patientSelection = new Patient("bluff","bluff");
+      ArrayList<nf.Patient> listePatient = new ArrayList<nf.Patient>();
     /**
      * Creates new form SecretaireMedicale
      */
-      nf.SecretaireMedicale secrMed = new nf.SecretaireMedicale("null","null", "null", "null", "null",Specialite.ONCOLOGIE,Service.ANESTHESISTE);
-     String[] liste = new String[secrMed.nombrePatients()];
+      nf.SecretaireMedicale secrMed = new nf.SecretaireMedicale("null","null", "null", "null", "null",Specialite.ONCOLOGIE,Service.CLINIQUE);
+      DefaultListModel DLM = new DefaultListModel();
 
     public SecretaireMedicale(nf.PersonnelMedical p) {
-        liste = secrMed.afficherListePatients();
+       
         initComponents();
         setSize(700,600);
-        this.p = p;
+        this.perso = p;
         String s = "Mme/M. "+p.getNom()+" "+p.getPrenom();
         jLabel2.setText(s);
+        listePatient = secrMed.afficherListePatientParService(perso.getSpecialite());
+       
+        for (int i = 0; i < listePatient.size(); i++) {
+            String element = "" + listePatient.get(i).getNom() + "         " + listePatient.get(i).getPrenom() + "         "+listePatient.get(i).getDateDeNaissance();
+            DLM.addElement(element);
+        }
+        jList1.setModel(DLM);
+        jList1.repaint();
     }
 
     /**
@@ -68,6 +78,11 @@ public class SecretaireMedicale extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setPreferredSize(new java.awt.Dimension(666, 476));
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel1MouseClicked(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel2.setText("Mme Secrétaire MEDICALE");
@@ -88,11 +103,6 @@ public class SecretaireMedicale extends javax.swing.JFrame {
         jLabel4.setText("Prénom");
 
         jList1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = liste;
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(jList1);
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
@@ -149,6 +159,11 @@ public class SecretaireMedicale extends javax.swing.JFrame {
 
         jButton3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButton3.setText("Modifier les informations");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButton4.setText("OK");
@@ -298,7 +313,7 @@ public class SecretaireMedicale extends javax.swing.JFrame {
             Lp = inf.recherchePatientNomPrenomDate(jTextField1.getText(), jTextField2.getText(), date);
 
             for (int i = 0; i < Lp.size(); i++) {
-                String element = "" + Lp.get(i).getNom() + "   " + Lp.get(i).getPrenom() + "    " + Lp.get(i).getDateDeNaissance();
+                String element = "" + Lp.get(i).getNom() + "         " + Lp.get(i).getPrenom() + "         " + Lp.get(i).getDateDeNaissance();
                 DLM.addElement(element);
 
             }
@@ -309,7 +324,7 @@ public class SecretaireMedicale extends javax.swing.JFrame {
             Lp = inf.rechercheListPatientNomPrenom(jTextField1.getText(), jTextField2.getText());
             // DefaultListModel DLM = new DefaultListModel();
             for (int i = 0; i < Lp.size(); i++) {
-                String element = "" + Lp.get(i).getNom() + "   " + Lp.get(i).getPrenom() + "  " + Lp.get(i).getDateDeNaissance();
+                String element = "" + Lp.get(i).getNom() + "         " + Lp.get(i).getPrenom() + "         " + Lp.get(i).getDateDeNaissance();
                 DLM.addElement(element);
 
             }
@@ -324,12 +339,32 @@ public class SecretaireMedicale extends javax.swing.JFrame {
     }//GEN-LAST:event_jFormattedTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        new nouveauSejour().setVisible(true);
+     
+          new nouveauSejour(perso).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-         new ChangerMDP(p).setVisible(true);
+         new ChangerMDP(perso).setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        //Patient selectionné dans la liste à récuperer
+          //String pSelection = jList1.getSelectedValue().toString();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
+        // TODO add your handling code here:
+       DLM.clear();
+    listePatient = secrMed.afficherListePatientParService(perso.getSpecialite());
+       
+        for (int i = 0; i < listePatient.size(); i++) {
+            String element = "" + listePatient.get(i).getNom() + "         " + listePatient.get(i).getPrenom() + "         "+listePatient.get(i).getDateDeNaissance();
+            DLM.addElement(element);
+        }
+        jList1.setModel(DLM);
+        jList1.repaint();
+    }//GEN-LAST:event_jPanel1MouseClicked
 
     /**
      * @param args the command line arguments

@@ -11,7 +11,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import nf.Specialite;
 
 /**
  *
@@ -38,34 +40,68 @@ public class SecretaireMedicale extends PersonnelMedical {
 
         }
     }
-
-    public void ajouterSejour(String idSejour, Patient patient, PH phReferant, Localisation localisation, String prescription, String observation, String compteRendu, String resultat, String titreOperation, String detailsOperation, String lettreDeSortie) {
-        Sejour s = new Sejour(idSejour, patient, phReferant, localisation, prescription, observation, compteRendu, resultat, titreOperation, detailsOperation, lettreDeSortie);        
-        s.setIdSejour(idSejour);
-        s.setPatient(patient);
-        s.setPhReferant(phReferant);
-        s.setLocalisation(localisation);
-
-        String sql = "insert into ph(ID_PH,IPP_PATIENT,ID_SEJOUR,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,OPERATION,TITRE_OPERATION,COMPTE_RENDU) values (?,?,?,?,?,?,?,?,?,?)";
-
+   
+//On cree un nouveau sejour mais on ne le remplit pas, l'operation creer le sejour et le remplir ne se deroulent pas dans la meme methode
+    public void ajouterSejour(String idSejour, String iPP, String idPHReferent, Localisation localisation) {
+       Sejour s = new Sejour(idSejour, iPP, idPHReferent, localisation);        
+       String sql = "insert into ph_referent(ID_PHR,ID_SEJOUR,IPP,DATE_CREATION_SEJOUR) values (?,?,?,?)";
+       String sql2 ="insert into localisation (ID_SEJOUR,SERVICE,ORIENTATION,ETAGE,CHAMBRE,LIT) values (?,?,?,?,?,?)";
         try {
             PreparedStatement pstm = con.prepareStatement(sql);
-
-            pstm.setString(1, phReferant.getIdMed());
-            pstm.setString(2, patient.getIpp());
-            pstm.setString(3, idSejour);
-            pstm.setString(4, observation);
-            pstm.setString(5, resultat);
-            pstm.setString(6, lettreDeSortie);
-            pstm.setString(7, prescription);
-            pstm.setString(8, detailsOperation);
-            pstm.setString(9, titreOperation);
-            pstm.setString(10, compteRendu);
+            PreparedStatement pstm2 = con.prepareStatement(sql2);
+            Date maDate = new Date();
+            SimpleDateFormat maDateLongue= new SimpleDateFormat("dd/MM/yyyy");
+            
+            //on insere les donnees dans la classe ph_referent ce qui correspond a la requete 1
+            pstm.setString(1, idPHReferent);
+            pstm.setString(2, idSejour);
+            pstm.setString(3, iPP);
+            pstm.setString(4, maDateLongue.format(maDate));
             pstm.executeUpdate();
+            
+            //On insere les donnees dans le classe localisation ce qui correspond a la requete 2
+             pstm2.setString(1, idSejour);
+            pstm2.setString(2, localisation.getService().toString());
+           
+             pstm2.setString(3, localisation.getOrientation().toString());
+              pstm2.setInt(4, localisation.getEtage());
+            pstm2.setInt(5, localisation.getChambre());
+            pstm2.setString(6, localisation.getLit().toString());
+           
+            pstm2.executeUpdate();
         } catch (Exception ex) {
             System.out.println(ex);
-            ex.printStackTrace();
+           
         }
+    }
+    
+    //Fonction qui retourne l'idMed du medecin lu dans la liste
+    public String iPPMedecinListe(String lecture){
+        String ipp="";
+         try {
+             String nomLu ="";
+             String prenomLu="";
+             String[] result = lecture.split("\\s\\s\\s\\s\\s\\s\\s\\s\\s");
+             
+        for (int x=0; x<result.length; x++){
+         nomLu =result[0];
+         prenomLu = result[1];
+         
+        }
+            String query = "select * from PERSONNEL_MEDICAL where NOM='"+nomLu+"' and PRENOM='"+prenomLu+"'"; // la query à entrer pour accéder aux données de nos tables 
+             System.out.println(query);
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                ipp = rs.getString("ID_P");
+                System.out.println(ipp);
+             
+                
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+           
+        }
+        return ipp;
     }
     
     public String creationID_Sejour (){
@@ -108,64 +144,87 @@ public class SecretaireMedicale extends PersonnelMedical {
         return compteur;
     }
 
-    public String[] afficherListePatients() {
-        int compteur = nombrePatients();
-        int i=0;
-        String[] listePatients = new String[compteur];
-        try {
-            String query = "select * from PATIENTS join PH on (IPP=IPP_PATIENT) join PERSONNEL_MEDICAL on (ID_PH = ID_P) join LOCALISATION using (ID_SEJOUR) where LOCALISATION.service = '"+getSpecialite()+"'"; // la query à entrer pour accéder aux données de nos tables 
+   
+  
+
+   
+    
+    public ArrayList<Patient> afficherListePatientParService(Specialite spe){
+        ArrayList<Patient> listePatient = new ArrayList<Patient>();
+        
+         try {
+            String query = "select * from PATIENTS join PH_REFERENT on (PATIENTS.IPP=PH_REFERENT.IPP) join LOCALISATION using (ID_SEJOUR) where SERVICE ='"+spe+"'"; // la query à entrer pour accéder aux données de nos tables 
+             System.out.println(query);
             rs = st.executeQuery(query);
             while (rs.next()) {
                 String nom = rs.getString("NOM");
+              System.out.println(nom);
                 String prenom = rs.getString("PRENOM");
-                String nomEntier = nom + " " + prenom;
-                listePatients[i]=nomEntier;
-                System.out.println(listePatients[i]);
-                i++;
+                System.out.println(prenom);
+                  String date = rs.getString("DATENAISSANCE");
+                     //System.out.println(date);
+                String idp = rs.getString("IPP");
+                   //System.out.println(idPatient);
+                
+                     
+                   Sexe sexeLu = (Sexe) Enum.valueOf(Sexe.class, rs.getString("SEXE"));
+                  String adresse = rs.getString("ADRESSE");
+                   // System.out.println(Adresse);
+                  String tel = rs.getString("TELEPHONE");
+                     //System.out.println(tel);                 
+                     
+                 Patient patient = new Patient(idp,nom,prenom,sexeLu,date,adresse,tel);
+                   //   System.out.println(docteur.getNom());
+                 //System.out.println(docteur.getSpecialite().toString());
+                 listePatient.add(patient);
+                
             }
         } catch (Exception ex) {
             System.out.println(ex);
-            ex.printStackTrace();
+           
         }
-        return listePatients;
-    }
+        
+        return listePatient;
+     
+}
+   
     
-    public int nombrePH() {
-        int compteur = 0;
-        try {
-            String query = "select * from PERSONNEL_MEDICAL where TYPE_P = 'DOCTEUR' and SPE = 'ONCOLOGIE'"; // la query à entrer pour accéder aux données de nos tables 
-            rs = st.executeQuery(query);
-            while (rs.next()) {
-                compteur++;
-            }
-        } catch (Exception ex) {
-            System.out.println(ex);
-            ex.printStackTrace();
-        }
-        System.out.println("compteur = " + compteur);
-        return compteur;
-    }
     
-    public String[] afficherListePH() {
-        int compteur = nombrePH()+1;
-        int i=1;
-        String[] listePH = new String[compteur];
-        listePH[0]="test";
-        try {
-            String query = "select * from PERSONNEL_MEDICAL where TYPE_P = 'DOCTEUR' and SPE = 'ONCOLOGIE'"; // la query à entrer pour accéder aux données de nos tables 
+    public ArrayList<PH> afficherListeMedecinParService(Specialite spe){
+        ArrayList<PH> listeMed = new ArrayList<PH>();
+        
+         try {
+            String query = "select * from PERSONNEL_MEDICAL where TYPE_P='DOCTEUR' and SPE='"+spe+"'"; // la query à entrer pour accéder aux données de nos tables 
+             System.out.println(query);
             rs = st.executeQuery(query);
             while (rs.next()) {
                 String nom = rs.getString("NOM");
+               // System.out.println(nom);
                 String prenom = rs.getString("PRENOM");
-                String nomEntier = nom + " " + prenom;
-                listePH[i]=nomEntier;
-                System.out.println(listePH[i]);
-                i++;
+                 //  System.out.println(prenom);
+                String idMed = rs.getString("ID_P");
+                   //System.out.println(idMed);
+                 String login = rs.getString("LOGIN");
+                   // System.out.println(login);
+                  String mdp = rs.getString("MDP");
+                     //System.out.println(mdp);
+                     
+                   Specialite speLue = (Specialite) Enum.valueOf(Specialite.class, rs.getString("SPE"));
+                                               // System.out.println(speLue);
+                 Service servicelu =(Service) Enum.valueOf(Service.class, rs.getString("SERVICE"));
+                 //   System.out.println(servicelu);
+                 PH docteur = new PH(idMed,nom,prenom,login,mdp,speLue,servicelu);
+                   //   System.out.println(docteur.getNom());
+                 //System.out.println(docteur.getSpecialite().toString());
+                 listeMed.add(docteur);
+                
             }
         } catch (Exception ex) {
             System.out.println(ex);
-            ex.printStackTrace();
+           
         }
-        return listePH;
-    }
+        
+        return listeMed;
+     
+}
 }
