@@ -61,7 +61,7 @@ public class SecretaireMedicale extends PersonnelMedical {
             
             //On insere les donnees dans le classe localisation ce qui correspond a la requete 2
              pstm2.setString(1, idSejour);
-            pstm2.setString(2, localisation.getService().toString());
+            pstm2.setString(2, localisation.getSpecialite().toString());
            
              pstm2.setString(3, localisation.getOrientation().toString());
               pstm2.setInt(4, localisation.getEtage());

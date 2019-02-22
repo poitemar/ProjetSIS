@@ -118,7 +118,25 @@ public class Connexion {
         return "";
     }
  
+public String ServicePersonnel(String id) {try {
+            String nomQuery = "select * from personnel_medical where ID_P='" + id + "'"; // la query à entrer pour accéder aux données de nos tables 
+            st = con.createStatement();
+            rs = st.executeQuery(nomQuery);
+            System.out.println(nomQuery);
+            while (rs.next()) {
+                // Patient p = new Patient(nom, prenom);
+                String service = rs.getString("service");
+                return service;
+            }
 
+            rs.close();
+            st.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return "";
+    }
+ 
      
        //Retourne l'id personnel medical associe à l'id et au mdp dans la base de donnees
 

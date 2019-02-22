@@ -22,6 +22,20 @@ import java.sql.SQLException;
 public class PersonnelMedical {
 
     /**
+     * @return the service
+     */
+    public Service getService() {
+        return service;
+    }
+
+    /**
+     * @param service the service to set
+     */
+    public void setService(Service service) {
+        this.service = service;
+    }
+
+    /**
      * @return the specialite
      */
     public Specialite getSpecialite() {
