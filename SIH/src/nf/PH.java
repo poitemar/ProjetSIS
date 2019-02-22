@@ -13,7 +13,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import nf.Sejour;
-import nf.Prestation;
+
 /**
  *
  * @author poite
@@ -263,33 +263,7 @@ public class PH extends PersonnelMedical {
         }
         return idph;
     } 
-//   public void ajouterPrestations(String idSejour, String idMedDemandeur,String idMedReceveur,String Prestations){
-//       if(sej.sejourEnCours(idSejour)) {
-//           String sql ="insert into prestation (ID_SEJOUR,ID_MED_DEMANDEUR,ID_MED_RECEVEUR,PRESTATION) values (?,?,?,?)";
-//       
-//        System.out.println(sql);
-//        try {
-//            PreparedStatement pstm = con.prepareStatement(sql);
-////           Date maDate;
-////            SimpleDateFormat maDateLongue;
-////            maDate= new Date();
-////             maDateLongue= new SimpleDateFormat("dd/MM/yyyy HH:mm");
-//            //on insere les donnees dans la classe ph_referent ce qui correspond a la requete 1
-//            pstm.setString(1, idSejour);
-//            pstm.setString(2, idMedDemandeur);
-//             pstm.setString(3, idMedReceveur);
-//              pstm.setString(4,Prestations);
-//           
-// 
-//           pstm.executeUpdate();
-//            
-//            
-//        } catch (Exception ex) {
-//            System.out.println(ex);
-//           
-//        }}
-//       else {System.out.println("Le séjour est clos et non modifiable");}
-//    }
+
 
 
 }

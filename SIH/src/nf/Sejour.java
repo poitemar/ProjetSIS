@@ -31,6 +31,7 @@ public class Sejour {
     private List<String> listeDeResultats;
     private List<String> listeDeCompteRenduRadio;
     private List<String>  listeDateSaisie;
+    private List<String> listePrestations;
     private Date dateSortie;
     private String lettreDeSortie;
     private Localisation localisation;
@@ -43,7 +44,6 @@ public class Sejour {
    
    
     
- 
     
     public Sejour(String idSejour, String idPatient, String idphReferant, Localisation localisation) {
         this.idSejour = idSejour;
@@ -57,6 +57,7 @@ public class Sejour {
         listeDeResultats = new ArrayList<String>();
         listeDeCompteRenduRadio = new ArrayList<String>();
          listeDateSaisie = new ArrayList<String>();
+         listePrestations =  new ArrayList<String>();
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
@@ -123,33 +124,6 @@ public class Sejour {
         return idSejour;
     }
 
-    /**
-     * @return the patient
-     */
-//    public Patient getPatient() {
-//        return patient;
-//    }
-//
-//    /**
-//     * @param patient the patient to set
-//     */
-//    public void setPatient(Patient patient) {
-//        this.patient = patient;
-//    }
-//
-//    /**
-//     * @return the phReferant
-//     */
-//    public PH getPhReferant() {
-//        return phReferant;
-//    }
-//
-//    /**
-//     * @param phReferant the phReferant to set
-//     */
-//    public void setPhReferant(PH phReferant) {
-//        this.phReferant = phReferant;
-//    }
 
     /**
      * @return the listeObservations
@@ -285,6 +259,37 @@ public class Sejour {
     
     // Fonctions a coder en dessous
  
+    public void ajouterPrestation(String idSejour, String idMedD,String idMedR,String prestation) {
+         this.listePrestations.add(prestation);
+        {if(sejourEnCours(idSejour)) {
+           String sql ="insert into prestations (ID_SEJOUR,DATE_SAISIE,ID_DR_DEMANDEUR,ID_DR_RECEVEUR,PRESTATION) values (?,?,?,?,?)";
+       
+        System.out.println(sql);
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+           Date maDate;
+            SimpleDateFormat maDateLongue;
+            maDate= new Date();
+             maDateLongue= new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            //on insere les donnees dans la classe ph ce qui correspond a la requete 1
+              pstm.setString(1, idSejour); 
+              pstm.setString(2,maDateLongue.format(maDate));
+             System.out.println(maDateLongue.format(maDate));
+             pstm.setString(3, idMedD);
+             pstm.setString(4, idMedD);
+             pstm.setString(5,prestation);
+    
+             pstm.executeUpdate();
+            
+            
+        } catch (Exception ex) {
+            System.out.println(ex);
+           
+        }}
+       else {System.out.println("Le séjour est clos et non modifiable");}
+    }
+    }
+    
   public void ajouterPrescription(String idSejour, String idMed,String Ipp,String prescription) {
          this.listePrescriptions.add(prescription);
         {if(sejourEnCours(idSejour)) {

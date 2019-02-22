@@ -118,14 +118,14 @@ public class Connexion {
         return "";
     }
  
-public String ServicePersonnel(String id) {try {
+public Service ServicePersonnel(String id) {try {
             String nomQuery = "select * from personnel_medical where ID_P='" + id + "'"; // la query à entrer pour accéder aux données de nos tables 
             st = con.createStatement();
             rs = st.executeQuery(nomQuery);
             System.out.println(nomQuery);
             while (rs.next()) {
                 // Patient p = new Patient(nom, prenom);
-                String service = rs.getString("service");
+                Service service = (Service) Enum.valueOf(Service.class, rs.getString("SERVICE"));
                 return service;
             }
 
@@ -134,7 +134,7 @@ public String ServicePersonnel(String id) {try {
         } catch (Exception ex) {
             System.out.println(ex);
         }
-        return "";
+        return Service.ACCUEIL;
     }
  
      
@@ -182,4 +182,24 @@ public String ServicePersonnel(String id) {try {
 
     }
 
+    public Specialite spePersonnel(String id) {
+        try {
+            String nomQuery = "select * from personnel_medical where ID_P='" + id + "'"; // la query à entrer pour accéder aux données de nos tables 
+            st = con.createStatement();
+            rs = st.executeQuery(nomQuery);
+            System.out.println(nomQuery);
+            while (rs.next()) {
+               
+                Specialite spe = (Specialite) Enum.valueOf(Specialite.class, rs.getString("SPE"));
+                System.out.println(spe.toString());
+                return spe;
+            }
+
+            rs.close();
+            st.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return Specialite.ACCUEIL;
+    }
 }

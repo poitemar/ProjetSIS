@@ -18,11 +18,11 @@ import nf.Lit;
 import nf.Orientation;
 import nf.Patient;
 import nf.PersonnelMedical;
-import nf.Prestation;
+
 import nf.RechercherInfo;
 import nf.Sejour;
 import nf.Specialite;
-import nf.Prestation;
+
 import nf.SecretaireMedicale;
 import nf.Service;
 
@@ -62,10 +62,19 @@ public class PH extends JFrame implements ActionListener {
 
         for (int i = 0; i < listePatient.size(); i++) {
             String element = "" + listePatient.get(i).getNom() + "         " + listePatient.get(i).getPrenom() + "         " + listePatient.get(i).getDateDeNaissance();
-            DLM.addElement(element);
-        }
+              //Verifier que le dernier sejour du patient soit en cours avant de lafficher
+            nf.Localisation lbluff = new nf.Localisation(Specialite.ACCUEIL, Orientation.OUEST, ERROR, ABORT, Lit.PORTE);
+            nf.Sejour sejourBluff = new nf.Sejour("", "", "", lbluff);
+            nf.PH ph = new nf.PH("", "", "", "", "", Specialite.ACCUEIL, Service.URGENCE);
+            String ipp = patient.ippPatientListe(element);
+            String idDernierSejour = ph.idSejourPatientSelection(ipp);
+
+            if (sejourBluff.sejourEnCours(idDernierSejour)) {
+                DLM.addElement(element);
+            }
         jList1.setModel(DLM);
-        jList1.repaint();
+        jList1.repaint();}
+      
     }
 
     /**
@@ -196,7 +205,7 @@ public class PH extends JFrame implements ActionListener {
         panelDemandeDePrestation = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
-        jTextField4 = new javax.swing.JTextField();
+        textPrestation = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox();
@@ -612,11 +621,11 @@ public class PH extends JFrame implements ActionListener {
             }
         });
 
-        jTextField4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jTextField4.setText("Scanner");
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        textPrestation.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        textPrestation.setText("Scanner");
+        textPrestation.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                textPrestationActionPerformed(evt);
             }
         });
 
@@ -637,8 +646,18 @@ public class PH extends JFrame implements ActionListener {
         DefaultComboBoxModel model = new DefaultComboBoxModel(spe);
         jComboBox1.setModel(model);
         jComboBox1.setToolTipText("");
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jList2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jList2.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jList2ValueChanged(evt);
+            }
+        });
         jScrollPane9.setViewportView(jList2);
 
         jLabel21.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -651,24 +670,26 @@ public class PH extends JFrame implements ActionListener {
             .addGroup(panelDemandeDePrestationLayout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(panelDemandeDePrestationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel20)
                     .addGroup(panelDemandeDePrestationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(textPrestation, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDemandeDePrestationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelDemandeDePrestationLayout.createSequentialGroup()
                                 .addComponent(jLabel21)
-                                .addGap(173, 173, 173))
+                                .addContainerGap(561, Short.MAX_VALUE))
                             .addGroup(panelDemandeDePrestationLayout.createSequentialGroup()
-                                .addComponent(jScrollPane9)
-                                .addGap(128, 128, 128)
+                                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel15)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(27, 27, 27)
                                 .addComponent(jButton4)
-                                .addGap(40, 40, 40))))
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addContainerGap(50, Short.MAX_VALUE))))
+                    .addGroup(panelDemandeDePrestationLayout.createSequentialGroup()
+                        .addGroup(panelDemandeDePrestationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel20)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(475, Short.MAX_VALUE))))
         );
         panelDemandeDePrestationLayout.setVerticalGroup(
             panelDemandeDePrestationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -676,7 +697,7 @@ public class PH extends JFrame implements ActionListener {
                 .addGap(22, 22, 22)
                 .addComponent(jLabel20)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(textPrestation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34)
@@ -688,7 +709,7 @@ public class PH extends JFrame implements ActionListener {
                         .addComponent(jLabel15)
                         .addComponent(jButton4))
                     .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
 
         interfacePH.addTab("DEMANDE PRESTATION", panelDemandeDePrestation);
@@ -807,6 +828,12 @@ public class PH extends JFrame implements ActionListener {
             sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), textTitreOperation.getText(), textDetailsOperations.getText(), textResultats.getText(), textPrescriptions.getText());
             System.out.println("15");
         }
+        
+        textObservations.setText("");
+        textTitreOperation.setText("");
+        textDetailsOperations.setText("");
+        textResultats.setText("");
+        textPrescriptions.setText("");
 
     }//GEN-LAST:event_completerSejour
 
@@ -851,6 +878,7 @@ public class PH extends JFrame implements ActionListener {
         PatientSelection = jList1.getSelectedValue().toString();
         //cliquer sur le bouton "Suivant" ouvre l'onglet où le médecin peut compléter les données du patient courant
         interfacePH.setSelectedIndex(1);
+        jToggleButton1.setSelected(false);
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -858,33 +886,12 @@ public class PH extends JFrame implements ActionListener {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-          Sejour sej = null; 
-        nf.PH medecin = new nf.PH("jean", "bono", "helloo", "iam", "here", nf.Specialite.ONCOLOGIE, nf.Service.CLINIQUE);
-        String s = jTextField5.getText();
-        String idp = medecin.iPPMedecinListe(s);
+        //Renvoie l'id du medecin selectionné = medecin receveur
+        String selection = jList2.getSelectedValue();
+        String idp = ph.iPPMedecinListe(selection);
         System.out.println("IPP MEDECIN EST : " + idp);
-        System.out.println(sej.getIdSejour());
-      //  ph.ajouterPrestations(sej.getIdSejour(),perso.getIdMed(), medecin.iPPMedecinListe(s),jTextField4.getText());
-        System.out.println("Prestation  AJOUTER");
-//        String idph = medecin.iDPH(medecin.iPPMedecinListe(s));
-//        System.out.println("ID PH DANS PH : " + idph);
-//        if (idp.equals(idph)) {
-//            System.out.println("yes---------------------------------------123");
-//            String sql = "UPDATE `ph` SET PRESTATION='" + jTextField4.getText() + "' WHERE ID_PH=" + idph + ";";
-//            System.out.println(sql);
-//            try {
-//                System.out.println("CONTENUE DE SQL");
-//                PreparedStatement pstm = con.prepareStatement(sql);
-//
-//                System.out.println("contenue de la base de donnée");
-//
-//                pstm.executeUpdate();
-//                pstm.close();
-//            } catch (Exception ex) {
-//                System.out.println(ex);
-//
-//            }
-//        }
+       
+        sejourCourant.ajouterPrestation(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)),perso.getIdMed(), idp, textPrestation.getText());
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -894,9 +901,10 @@ public class PH extends JFrame implements ActionListener {
 
 //   
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void textPrestationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textPrestationActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+        
+    }//GEN-LAST:event_textPrestationActionPerformed
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
         // TODO add your handling code here:
@@ -920,9 +928,50 @@ public class PH extends JFrame implements ActionListener {
 
     private void panelAccueilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelAccueilMouseClicked
         // Mise à jour de la liste des patients
-        
+          DLM.clear();
+        listePatient = secrMed.afficherListePatientParService(perso.getSpecialite());
+
+        for (int i = 0; i < listePatient.size(); i++) {
+            String element = "" + listePatient.get(i).getNom() + "         " + listePatient.get(i).getPrenom() + "         " + listePatient.get(i).getDateDeNaissance();
+             //Verifier que le dernier sejour du patient soit en cours avant de lafficher
+            nf.Localisation lbluff = new nf.Localisation(Specialite.ACCUEIL, Orientation.OUEST, ERROR, ABORT, Lit.PORTE);
+            nf.Sejour sejourBluff = new nf.Sejour("", "", "", lbluff);
+            nf.PH ph = new nf.PH("", "", "", "", "", Specialite.ACCUEIL, Service.URGENCE);
+            String ipp = patient.ippPatientListe(element);
+            String idDernierSejour = ph.idSejourPatientSelection(ipp);
+
+            if (sejourBluff.sejourEnCours(idDernierSejour)) {
+                DLM.addElement(element);
+            }
+        jList1.setModel(DLM);
+        jList1.repaint();}
         
     }//GEN-LAST:event_panelAccueilMouseClicked
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+        DefaultListModel DLM = new DefaultListModel();
+        String[] anesthesie = ph.afficherListePHAnes();
+        String[] radiologue = ph.afficherListePHRadio();
+        if (jComboBox1.getSelectedItem().equals(Specialite.ANESTHESIE)) {
+            for (int i = 0; i < anesthesie.length; i++) {
+                DLM.addElement(anesthesie[i]);
+            }
+            jList2.setModel(DLM);
+
+        }
+        if (jComboBox1.getSelectedItem().equals(Specialite.RADIOLOGIE)) {
+            for (int i = 0; i < radiologue.length; i++) {
+                DLM.addElement(radiologue[i]);
+            }
+            jList2.setModel(DLM);
+        }
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jList2ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList2ValueChanged
+        // TODO add your handling code here:
+        jTextField5.setText(jList2.getSelectedValue().toString());
+    }//GEN-LAST:event_jList2ValueChanged
 
     /**
      * @param args the command line arguments
@@ -1011,7 +1060,6 @@ public class PH extends JFrame implements ActionListener {
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JTree jTree1;
@@ -1025,6 +1073,7 @@ public class PH extends JFrame implements ActionListener {
     private javax.swing.JTextArea textLettreDeSortie;
     private javax.swing.JTextArea textObservations;
     private javax.swing.JTextArea textPrescriptions;
+    private javax.swing.JTextField textPrestation;
     private javax.swing.JTextArea textResultats;
     private javax.swing.JTextField textTitreOperation;
     // End of variables declaration//GEN-END:variables
