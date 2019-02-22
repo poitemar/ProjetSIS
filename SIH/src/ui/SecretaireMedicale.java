@@ -7,6 +7,8 @@ package ui;
 
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
+import nf.Lit;
+import nf.Orientation;
 import nf.Patient;
 import nf.RechercherInfo;
 import nf.Service;
@@ -19,26 +21,36 @@ import nf.Specialite;
 public class SecretaireMedicale extends javax.swing.JFrame {
 
     nf.PersonnelMedical perso;
-    nf.Patient patientSelection = new Patient("bluff","bluff");
-      ArrayList<nf.Patient> listePatient = new ArrayList<nf.Patient>();
+    nf.Patient patientSelection = new Patient("bluff", "bluff");
+    ArrayList<nf.Patient> listePatient = new ArrayList<nf.Patient>();
     /**
      * Creates new form SecretaireMedicale
      */
-      nf.SecretaireMedicale secrMed = new nf.SecretaireMedicale("null","null", "null", "null", "null",Specialite.ONCOLOGIE,Service.CLINIQUE);
-      DefaultListModel DLM = new DefaultListModel();
+    nf.SecretaireMedicale secrMed = new nf.SecretaireMedicale("null", "null", "null", "null", "null", Specialite.ONCOLOGIE, Service.CLINIQUE);
+    DefaultListModel DLM = new DefaultListModel();
 
     public SecretaireMedicale(nf.PersonnelMedical p) {
-       
+
         initComponents();
-        setSize(700,600);
+        setSize(700, 600);
         this.perso = p;
-        String s = "Mme/M. "+p.getNom()+" "+p.getPrenom();
+        String s = "Mme/M. " + p.getNom() + " " + p.getPrenom();
         jLabel2.setText(s);
         listePatient = secrMed.afficherListePatientParService(perso.getSpecialite());
-       
+
         for (int i = 0; i < listePatient.size(); i++) {
-            String element = "" + listePatient.get(i).getNom() + "         " + listePatient.get(i).getPrenom() + "         "+listePatient.get(i).getDateDeNaissance();
-            DLM.addElement(element);
+            String element = "" + listePatient.get(i).getNom() + "         " + listePatient.get(i).getPrenom() + "         " + listePatient.get(i).getDateDeNaissance();
+          
+            //Verifier que le dernier sejour du patient soit en cours avant de lafficher
+            nf.Localisation lbluff = new nf.Localisation(Specialite.ACCUEIL, Orientation.OUEST, ERROR, ABORT, Lit.PORTE);
+            nf.Sejour sejourBluff = new nf.Sejour("", "", "", lbluff);
+            nf.PH ph = new nf.PH("", "", "", "", "", Specialite.ACCUEIL, Service.URGENCE);
+            String ipp = patientSelection.ippPatientListe(element);
+            String idDernierSejour = ph.idSejourPatientSelection(ipp);
+
+            if (sejourBluff.sejourEnCours(idDernierSejour)) {
+                DLM.addElement(element);
+            }
         }
         jList1.setModel(DLM);
         jList1.repaint();
@@ -308,8 +320,8 @@ public class SecretaireMedicale extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-       
-        ArrayList <Patient> Lp=null;
+
+        ArrayList<Patient> Lp = null;
         RechercherInfo inf = new RechercherInfo();
         String date = jFormattedTextField1.getText();
         DefaultListModel DLM = new DefaultListModel();
@@ -321,10 +333,10 @@ public class SecretaireMedicale extends javax.swing.JFrame {
                 DLM.addElement(element);
 
             }
-              //jList1.setModel(DLM);
+            //jList1.setModel(DLM);
 
-        } 
-            if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty()) {
+        }
+        if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty()) {
             Lp = inf.rechercheListPatientNomPrenom(jTextField1.getText(), jTextField2.getText());
             // DefaultListModel DLM = new DefaultListModel();
             for (int i = 0; i < Lp.size(); i++) {
@@ -332,7 +344,7 @@ public class SecretaireMedicale extends javax.swing.JFrame {
                 DLM.addElement(element);
 
             }
-         
+
         }
         jList1.setModel(DLM);
         jList1.repaint();
@@ -343,31 +355,39 @@ public class SecretaireMedicale extends javax.swing.JFrame {
     }//GEN-LAST:event_jFormattedTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     
-          new nouveauSejour(perso).setVisible(true);
+
+        new nouveauSejour(perso).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-         new ChangerMDP(perso).setVisible(true);
+        new ChangerMDP(perso).setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         //Patient selectionné dans la liste à récuperer
-          //String pSelection = jList1.getSelectedValue().toString();
+        //String pSelection = jList1.getSelectedValue().toString();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
         // TODO add your handling code here:
-       DLM.clear();
-    listePatient = secrMed.afficherListePatientParService(perso.getSpecialite());
-       
+        DLM.clear();
+        listePatient = secrMed.afficherListePatientParService(perso.getSpecialite());
+
         for (int i = 0; i < listePatient.size(); i++) {
-            String element = "" + listePatient.get(i).getNom() + "         " + listePatient.get(i).getPrenom() + "         "+listePatient.get(i).getDateDeNaissance();
-            DLM.addElement(element);
-        }
+            String element = "" + listePatient.get(i).getNom() + "         " + listePatient.get(i).getPrenom() + "         " + listePatient.get(i).getDateDeNaissance();
+             //Verifier que le dernier sejour du patient soit en cours avant de lafficher
+            nf.Localisation lbluff = new nf.Localisation(Specialite.ACCUEIL, Orientation.OUEST, ERROR, ABORT, Lit.PORTE);
+            nf.Sejour sejourBluff = new nf.Sejour("", "", "", lbluff);
+            nf.PH ph = new nf.PH("", "", "", "", "", Specialite.ACCUEIL, Service.URGENCE);
+            String ipp = patientSelection.ippPatientListe(element);
+            String idDernierSejour = ph.idSejourPatientSelection(ipp);
+
+            if (sejourBluff.sejourEnCours(idDernierSejour)) {
+                DLM.addElement(element);
+            }
         jList1.setModel(DLM);
-        jList1.repaint();
+        jList1.repaint();}
     }//GEN-LAST:event_jPanel1MouseClicked
 
     /**

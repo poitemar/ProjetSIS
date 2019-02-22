@@ -7,20 +7,58 @@ package ui;
 
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
+import nf.Lit;
+import nf.Orientation;
 import nf.Patient;
 import nf.RechercherInfo;
+import nf.Service;
+import nf.Specialite;
 
 /**
  *
  * @author poite
  */
 public class Radiologue extends javax.swing.JFrame {
-
+    nf.PersonnelMedical perso;
+     nf.SecretaireMedicale secrMed = new nf.SecretaireMedicale("null", "null", "null", "null", "null", Specialite.ONCOLOGIE, Service.CLINIQUE);
+    nf.Localisation locCourant = new nf.Localisation(Specialite.ACCUEIL, Orientation.OUEST, 1, 133, Lit.PORTE);
+    nf.Sejour sejourCourant = new nf.Sejour("bluff", "bluff", "bluff", locCourant);
+     DefaultListModel DLM = new DefaultListModel();
+      ArrayList<Patient> listePatient;
+       nf.Patient patient = new nf.Patient("bluff", "bluff");
+      
     /**
      * Creates new form Radiologue
      */
-    public Radiologue() {
+    public Radiologue(nf.PersonnelMedical p) {
         initComponents();
+           setSize(700, 600);
+           
+           
+        this.perso=p;
+        String s = "Dr. " + p.getNom() + " " + p.getPrenom();
+        System.out.println(s);
+        nomRadiologue.setText(s);
+        
+     
+         listePatient = secrMed.afficherListePatientParService(perso.getSpecialite());
+
+        for (int i = 0; i < listePatient.size(); i++) {
+            String element = "" + listePatient.get(i).getNom() + "         " + listePatient.get(i).getPrenom() + "         " + listePatient.get(i).getDateDeNaissance();
+              //Verifier que le dernier sejour du patient soit en cours avant de lafficher
+            nf.Localisation lbluff = new nf.Localisation(Specialite.ACCUEIL, Orientation.OUEST, ERROR, ABORT, Lit.PORTE);
+            nf.Sejour sejourBluff = new nf.Sejour("", "", "", lbluff);
+            nf.PH ph = new nf.PH("", "", "", "", "", Specialite.ACCUEIL, Service.URGENCE);
+            String ipp = patient.ippPatientListe(element);
+            String idDernierSejour = ph.idSejourPatientSelection(ipp);
+
+            if (sejourBluff.sejourEnCours(idDernierSejour)) {
+                DLM.addElement(element);
+            }
+        jList1.setModel(DLM);
+        jList1.repaint();}
+        
+        
     }
 
     /**
@@ -34,7 +72,7 @@ public class Radiologue extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        nomRadiologue = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -64,8 +102,8 @@ public class Radiologue extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel2.setText("Dr DUPONT Alexandre");
+        nomRadiologue.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        nomRadiologue.setText("Dr DUPONT Alexandre");
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel3.setText("Rechercher ...");
@@ -137,7 +175,6 @@ public class Radiologue extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2)
                                     .addComponent(jLabel3)
                                     .addComponent(jLabel4))
                                 .addGap(18, 18, 18)
@@ -151,7 +188,8 @@ public class Radiologue extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jButton2))
                                     .addComponent(jLabel6)))
-                            .addComponent(jLabel7))
+                            .addComponent(jLabel7)
+                            .addComponent(nomRadiologue, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton4)
@@ -163,7 +201,7 @@ public class Radiologue extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
+                .addComponent(nomRadiologue)
                 .addGap(16, 16, 16)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -369,7 +407,7 @@ public class Radiologue extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Radiologue().setVisible(true);
+             //   new Radiologue().setVisible(true);
             }
         });
     }
@@ -382,7 +420,6 @@ public class Radiologue extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -404,5 +441,6 @@ public class Radiologue extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTree jTree1;
     private javax.swing.JTree jTree2;
+    private javax.swing.JLabel nomRadiologue;
     // End of variables declaration//GEN-END:variables
 }
