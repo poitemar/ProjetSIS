@@ -86,7 +86,7 @@ public class nouveauSejour extends javax.swing.JFrame {
         textEtage = new javax.swing.JTextField();
         textChambre = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        listePatient = new javax.swing.JList<>();
+        listePatient = new javax.swing.JList<String>();
         jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -149,10 +149,10 @@ public class nouveauSejour extends javax.swing.JFrame {
             }
         });
 
-        listePatient.setModel(new javax.swing.AbstractListModel<String>() {
+        listePatient.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+            public Object getElementAt(int i) { return strings[i]; }
         });
         jScrollPane2.setViewportView(listePatient);
 
