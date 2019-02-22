@@ -153,8 +153,16 @@ public class Connexion extends javax.swing.JFrame {
        }
         //connexion d'une secretaire medicale
        if(cx.seConnecter(saisieId.getText(),saisieMdp.getText()).equals("SECRETAIRE MEDICALE")){
+           if (cx.ServicePersonnel(cx.choixPersonnel(saisieId.getText(),saisieMdp.getText())).equals("URGENCE")){
+               new SecretaireMedicaleUrgence(personnel).setVisible(true);
+               this.dispose();
+               System.out.println(personnel.getService());
+           }
+           else {
              new SecretaireMedicale(personnel).setVisible(true);
              this.dispose();
+             System.out.println(personnel.getService());
+           }
        }
        //connexion d'un ph
        if(cx.seConnecter(saisieId.getText(),saisieMdp.getText()).equals("DOCTEUR")){
