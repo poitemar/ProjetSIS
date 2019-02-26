@@ -101,6 +101,102 @@ public class PersonnelMedical {
         }
     
     
+   //Afficher la liste des patients pour lequel le ph a reçu une prestation 
+    public ArrayList<Patient> afficherListePatientPrestation(String idmed){
+        ArrayList<Patient> listePatient = new ArrayList<Patient>();
+        
+         try {
+            String query = "select * from PATIENTS join PH_REFERENT using(IPP) join PRESTATIONS using(ID_SEJOUR) where ID_DR_RECEVEUR ='"+idmed+"'"; // la query à entrer pour accéder aux données de nos tables 
+             System.out.println(query);
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                System.out.println("e");
+                String nom = rs.getString("NOM");
+              System.out.println(nom);
+                String prenom = rs.getString("PRENOM");
+                System.out.println(prenom);
+                  String date = rs.getString("DATENAISSANCE");
+                     //System.out.println(date);
+                String idp = rs.getString("IPP");
+                   //System.out.println(idPatient);
+                
+                     
+                   Sexe sexeLu = (Sexe) Enum.valueOf(Sexe.class, rs.getString("SEXE"));
+                  String adresse = rs.getString("ADRESSE");
+                   // System.out.println(Adresse);
+                  String tel = rs.getString("TELEPHONE");
+                     //System.out.println(tel);                 
+                     
+                 Patient patient = new Patient(idp,nom,prenom,sexeLu,date,adresse,tel);
+                   //   System.out.println(docteur.getNom());
+                 //System.out.println(docteur.getSpecialite().toString());
+                 
+                 listePatient.add(patient);
+                
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+           
+        }
+        
+        return listePatient;
+     
+}
+ 
+        
+    
+     //Retourne la liste de prestation d'un medecin
+    public ArrayList<String> afficherPrestation(String idmed){
+        ArrayList<String> listePrestations = new ArrayList<String>();
+        
+         try {
+            String query = "select * from PATIENTS join PH_REFERENT using(IPP) join PRESTATIONS using(ID_SEJOUR) where ID_DR_RECEVEUR ='"+idmed+"'"; // la query à entrer pour accéder aux données de nos tables 
+             System.out.println(query);
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+           
+                String prestation = rs.getString("PRESTATION");
+          
+           
+                 
+                   //   System.out.println(docteur.getNom());
+                 //System.out.println(docteur.getSpecialite().toString());
+                 
+                 listePrestations.add(prestation);
+                
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+           
+        }
+         return listePrestations;
+    } 
+    
+    
+    
+       //Fonction qui retourne la prestation associée à la selection dans une liste
+    public String prestationPatientListe(String lecture){
+       
+       
+             String nomLu ="";
+             String prenomLu="";
+             String dateLue="";
+             String prestationLue="";
+             String[] result = lecture.split("\\s\\s\\s\\s\\s\\s\\s\\s\\s");
+             
+        for (int x=0; x<result.length; x++){
+         nomLu =result[0];
+            System.out.println(nomLu);
+         prenomLu = result[1];
+         System.out.println(prenomLu);
+         dateLue =result[2];
+         System.out.println(dateLue);
+         prestationLue = result[3];
+        
+         
+        }
+        return prestationLue;
+    }
     
         //to set the last name of the medical staff
     public void setNom(String nom) {
@@ -146,4 +242,33 @@ public class PersonnelMedical {
     public void setLogin(String login) {
         this.login = login;
     }
+    
+    
+    //retourne true si le medecin est le ph référent du séjour
+    public boolean estReferent(String idMed,String idSejour){
+        try {
+            String query = "select ID_PHR from PH_REFERENT where ID_SEJOUR ='"+idSejour+"'"; // la query à entrer pour accéder aux données de nos tables 
+             System.out.println(query);
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+           
+                String idMed2 = rs.getString("ID_PHR");
+          
+           if (idMed2.equals(idMed)){
+               System.out.println("C'est le med referent");
+               return true;
+               
+           }
+        
+                
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+           
+        }
+    
+        
+        return false;
+    }
+    
 }
