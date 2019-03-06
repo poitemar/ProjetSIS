@@ -26,40 +26,41 @@ public class Radiologue extends javax.swing.JFrame {
      DefaultListModel DLM = new DefaultListModel();
       ArrayList<Patient> listePatient;
        nf.Patient patient = new nf.Patient("bluff", "bluff");
+       String prestationSelection;
+       String PatientSelection;
       
     /**
      * Creates new form Radiologue
      */
     public Radiologue(nf.PersonnelMedical p) {
-        initComponents();
+         initComponents();
            setSize(700, 600);
-           
            
         this.perso=p;
         String s = "Dr. " + p.getNom() + " " + p.getPrenom();
         System.out.println(s);
         nomRadiologue.setText(s);
-        
-     
-         listePatient = secrMed.afficherListePatientParService(perso.getSpecialite());
-
+        spe.setText(perso.getSpecialite().toString());
+        listePatient = perso.afficherListePatientPrestation(perso.getIdMed());
+        ArrayList<String> listePrestation = perso.afficherPrestation(perso.getIdMed());
+        System.out.println(listePatient.size());
         for (int i = 0; i < listePatient.size(); i++) {
-            String element = "" + listePatient.get(i).getNom() + "         " + listePatient.get(i).getPrenom() + "         " + listePatient.get(i).getDateDeNaissance();
-              //Verifier que le dernier sejour du patient soit en cours avant de lafficher
-            nf.Localisation lbluff = new nf.Localisation(Specialite.ACCUEIL, Orientation.OUEST, ERROR, ABORT, Lit.PORTE);
+            String element = "" + listePatient.get(i).getNom() + "         " + listePatient.get(i).getPrenom() + "         " + listePatient.get(i).getDateDeNaissance()+"         "+listePrestation.get(i);
+            //Verifier que le dernier sejour du patient soit en cours avant de lafficher
+            nf.Localisation lbluff = new nf.Localisation(Specialite.ACCUEIL, Orientation.OUEST, 1, 12, Lit.PORTE);
             nf.Sejour sejourBluff = new nf.Sejour("", "", "", lbluff);
             nf.PH ph = new nf.PH("", "", "", "", "", Specialite.ACCUEIL, Service.URGENCE);
             String ipp = patient.ippPatientListe(element);
             String idDernierSejour = ph.idSejourPatientSelection(ipp);
-
-            if (sejourBluff.sejourEnCours(idDernierSejour)) {
+           
+            if (sejourBluff.sejourEnCours(idDernierSejour) && !sejourCourant.prestationRealisee(listePrestation.get(i))) {
                 DLM.addElement(element);
+                System.out.println("MARGAUX §§§§");
             }
-        jList1.setModel(DLM);
-        jList1.repaint();}
-        
-        
-    }
+            jList1.setModel(DLM);
+            jList1.repaint();
+        }}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -70,25 +71,20 @@ public class Radiologue extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
+        tab = new javax.swing.JTabbedPane();
+        accueil = new javax.swing.JPanel();
         nomRadiologue = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
-        jButton2 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jLabel7 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        spe = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        pres = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        textCR = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
@@ -102,57 +98,32 @@ public class Radiologue extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        tab.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabMouseClicked(evt);
+            }
+        });
+
         nomRadiologue.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         nomRadiologue.setText("Dr DUPONT Alexandre");
 
-        jLabel3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel3.setText("Rechercher ...");
-
-        jTextField1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+        jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jList1ValueChanged(evt);
             }
-        });
-
-        jLabel4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel4.setText("Nom :");
-
-        jTextField2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel5.setText("Prénom :");
-
-        jLabel6.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel6.setText("Date de naissance :");
-
-        jFormattedTextField1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-
-        jButton2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jButton2.setText("OK");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "ABI CHACRA Lauren", "RACAMIER Axel", "MAURIOL Marine", "POITEVIN Margaux" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
         });
         jScrollPane2.setViewportView(jList1);
 
         jLabel7.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel7.setText("Liste des patients :");
+        jLabel7.setText("Liste des préstations :");
 
         jButton3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jButton3.setText("Suivant");
+        jButton3.setText("Réaliser");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButton4.setText("Déconnexion");
@@ -162,81 +133,76 @@ public class Radiologue extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        spe.setText(" ");
+
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel3.setText("Prestation à effectuer :");
+
+        pres.setText(" ");
+
+        javax.swing.GroupLayout accueilLayout = new javax.swing.GroupLayout(accueil);
+        accueil.setLayout(accueilLayout);
+        accueilLayout.setHorizontalGroup(
+            accueilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(accueilLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(accueilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButton2))
-                                    .addComponent(jLabel6)))
-                            .addComponent(jLabel7)
-                            .addComponent(nomRadiologue, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(accueilLayout.createSequentialGroup()
+                        .addComponent(nomRadiologue, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 248, Short.MAX_VALUE)
+                        .addComponent(spe, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(accueilLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(27, 27, 27)
+                        .addComponent(pres, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(accueilLayout.createSequentialGroup()
+                        .addComponent(jLabel7)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addGroup(accueilLayout.createSequentialGroup()
                         .addComponent(jButton4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton3)))
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        accueilLayout.setVerticalGroup(
+            accueilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(accueilLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(nomRadiologue)
-                .addGap(16, 16, 16)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6))
-                .addGap(2, 2, 2)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
-                .addGap(27, 27, 27)
+                .addGroup(accueilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nomRadiologue)
+                    .addComponent(spe))
+                .addGap(18, 18, 18)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addGroup(accueilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(pres))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(accueilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton4)
+                    .addComponent(jButton3))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("ACCUEIL", jPanel1);
+        tab.addTab("ACCUEIL", accueil);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        textCR.setColumns(20);
+        textCR.setRows(5);
+        jScrollPane1.setViewportView(textCR);
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel1.setText("Compte rendu radiologique :");
 
         jButton1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButton1.setText("OK");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -263,7 +229,7 @@ public class Radiologue extends javax.swing.JFrame {
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("COMPTE RENDU ", jPanel2);
+        tab.addTab("COMPTE RENDU ", jPanel2);
 
         jLabel8.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel8.setText("ABI CHACRA Lauren");
@@ -318,64 +284,81 @@ public class Radiologue extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("INFORMATIONS PATIENT", jPanel3);
+        tab.addTab("INFORMATIONS PATIENT", jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(tab)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(tab)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       ArrayList<Patient> Lp=null;
-       RechercherInfo inf = new RechercherInfo();
-        String date = jFormattedTextField1.getText();
-        DefaultListModel DLM = new DefaultListModel();
-        if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty() && jFormattedTextField1.getText() != null) {
-            Lp = inf.recherchePatientNomPrenomDate(jTextField1.getText(), jTextField2.getText(), date);
-
-            for (int i = 0; i < Lp.size(); i++) {
-                String element = "" + Lp.get(i).getNom() + "   " + Lp.get(i).getPrenom() + "    " + Lp.get(i).getDateDeNaissance();
-                DLM.addElement(element);
-
-            }
-              //jList1.setModel(DLM);
-
-        } 
-            if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty()) {
-            Lp = inf.rechercheListPatientNomPrenom(jTextField1.getText(), jTextField2.getText());
-            // DefaultListModel DLM = new DefaultListModel();
-            for (int i = 0; i < Lp.size(); i++) {
-                String element = "" + Lp.get(i).getNom() + "   " + Lp.get(i).getPrenom() + "  " + Lp.get(i).getDateDeNaissance();
-                DLM.addElement(element);
-
-            }
-         
-        }
-        jList1.setModel(DLM);
-        jList1.repaint();
-                                           
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+          new Connexion().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        PatientSelection = jList1.getSelectedValue().toString();
+        tab.setSelectedIndex(1);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        
+        PatientSelection = jList1.getSelectedValue().toString();
+        System.out.println("HEEEEEE");
+        String lecture = jList1.getSelectedValue();
+        prestationSelection = perso.prestationPatientListe(lecture);
+        System.out.println("help"+prestationSelection);
+        nf.PH ph = new nf.PH("","","","","",Specialite.ACCUEIL,Service.ACCUEIL);
+        sejourCourant.ajouterCompteRendu(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(),patient.ippPatientListe(PatientSelection),prestationSelection, textCR.getText());
+        textCR.setText("");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
+        // TODO add your handling code here:
+           String lecture = jList1.getSelectedValue();
+        if(!lecture.isEmpty()){
+        prestationSelection = perso.prestationPatientListe(lecture);
+        pres.setText(prestationSelection);}
+        else {
+             pres.setText("");
+        }
+    }//GEN-LAST:event_jList1ValueChanged
+
+    private void tabMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabMouseClicked
+        // TODO add your handling code here:
+        DLM.clear();
+        ArrayList<String> listePrestation = perso.afficherPrestation(perso.getIdMed());
+        System.out.println(listePatient.size());
+        for (int i = 0; i < listePatient.size(); i++) {
+            String element = "" + listePatient.get(i).getNom() + "         " + listePatient.get(i).getPrenom() + "         " + listePatient.get(i).getDateDeNaissance()+"         "+listePrestation.get(i);
+            //Verifier que le dernier sejour du patient soit en cours avant de lafficher
+            nf.Localisation lbluff = new nf.Localisation(Specialite.ACCUEIL, Orientation.OUEST, 1, 12, Lit.PORTE);
+            nf.Sejour sejourBluff = new nf.Sejour("", "", "", lbluff);
+            nf.PH ph = new nf.PH("", "", "", "", "", Specialite.ACCUEIL, Service.URGENCE);
+            String ipp = patient.ippPatientListe(element);
+            String idDernierSejour = ph.idSejourPatientSelection(ipp);
+           
+            if (sejourBluff.sejourEnCours(idDernierSejour) && !sejourCourant.prestationRealisee(listePrestation.get(i))) {
+                DLM.addElement(element);
+                System.out.println("MARGAUX §§§§");
+            }
+            jList1.setModel(DLM);
+            jList1.repaint();
+        }
+        
+    }//GEN-LAST:event_tabMouseClicked
 
     /**
      * @param args the command line arguments
@@ -413,34 +396,29 @@ public class Radiologue extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel accueil;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTree jTree1;
     private javax.swing.JTree jTree2;
     private javax.swing.JLabel nomRadiologue;
+    private javax.swing.JLabel pres;
+    private javax.swing.JLabel spe;
+    private javax.swing.JTabbedPane tab;
+    private javax.swing.JTextArea textCR;
     // End of variables declaration//GEN-END:variables
 }

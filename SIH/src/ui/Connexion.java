@@ -171,6 +171,10 @@ public class Connexion extends javax.swing.JFrame {
            new Radiologue(personnel).setVisible(true);
            this.dispose();
        }
+           else if (cx.ServicePersonnel(cx.choixPersonnel(saisieId.getText(),saisieMdp.getText())).toString().equals("MEDICO_TECHNIQUE")){
+               new PH_MT (personnel).setVisible(true);
+               this.dispose();
+           }
            else {  new PH(personnel).setVisible(true);
              this.dispose();
        }

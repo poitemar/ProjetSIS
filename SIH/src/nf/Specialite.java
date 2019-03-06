@@ -21,6 +21,8 @@ public enum Specialite {
     GYNECOLOGIE,
     PEDIATRIE,
     PNEUMOLOGIE,
+    HEMATOLOGIE,
+    ANAPATHOLOGIE,
     ONCOLOGIE;
 
     private static Specialite[] value() {
