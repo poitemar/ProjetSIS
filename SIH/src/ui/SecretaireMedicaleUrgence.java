@@ -43,7 +43,7 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
     public String getPrenom() {
         String prenom="";
         int compteur=0;
-        while (!(String.valueOf(selection.charAt(compteur))).equals("")){           
+        while (!(String.valueOf(selection.charAt(compteur))).equals(" ")){           
             compteur++;
         }
         compteur++;
@@ -408,11 +408,13 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
 
     private void jPanel1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseEntered
        listePatientsActuels = secrMedUrg.afficherListePatientsActuels();
-       listePatients = secrMedUrg.afficherListePatients();
+        System.out.println("liste Patients Actuels : " + listePatientsActuels[listePatientsActuels.length-1]);
+       //listePatients = secrMedUrg.afficherListePatients();
+       //System.out.println("liste Patients : " + listePatients[listePatients.length-1]);
+       jList1.setListData(listePatientsActuels);
+       jList3.setListData(listePatients);
        jList1.repaint();
        jList3.repaint();
-       jList1.revalidate();
-       jList3.revalidate();
         
     }//GEN-LAST:event_jPanel1MouseEntered
 
