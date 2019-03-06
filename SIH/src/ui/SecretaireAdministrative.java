@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ui;
 
 import java.util.ArrayList;
@@ -18,21 +17,22 @@ import nf.Specialite;
  * @author poite
  */
 public class SecretaireAdministrative extends javax.swing.JFrame {
-    nf.PersonnelMedical p ;
+
+    nf.PersonnelMedical p;
     nf.SecretaireAdministrative secrAdm = new nf.SecretaireAdministrative("null", "null", "null", "null", "null", Specialite.ACCUEIL, Service.CLINIQUE);
     String[] liste = new String[secrAdm.nombrePatients()];
+
     /**
      * Creates new form SecretaireAdministrative
      */
     public SecretaireAdministrative(nf.PersonnelMedical p) {
         liste = secrAdm.afficherListePatients();
         initComponents();
-        setSize(700,600);
+        setSize(700, 600);
         this.p = p;
-       String s = "Mme/M. "+p.getNom()+" "+p.getPrenom();
+        String s = "Mme/M. " + p.getNom() + " " + p.getPrenom();
         jLabel3.setText(s);
-         
-        
+
     }
 
     /**
@@ -331,19 +331,18 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-         new Connexion().setVisible(true);
+        new Connexion().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       new nouveauPatient().setVisible(true);
-      
+        new nouveauPatient().setVisible(true);
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       
-        
-        ArrayList <Patient> Lp=null;
+
+        ArrayList<Patient> Lp = null;
         RechercherInfo inf = new RechercherInfo();
         String date = jFormattedTextField1.getText();
         DefaultListModel DLM = new DefaultListModel();
@@ -355,95 +354,101 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
                 DLM.addElement(element);
 
             }
-              //jList1.setModel(DLM);
 
-        } 
-            if (!jTextField5.getText().isEmpty() && !jTextField3.getText().isEmpty()) {
+        }
+        if (!jTextField5.getText().isEmpty() && !jTextField3.getText().isEmpty() && jFormattedTextField1.getText().isEmpty()) {
             Lp = inf.rechercheListPatientNomPrenom(jTextField5.getText(), jTextField3.getText());
             // DefaultListModel DLM = new DefaultListModel();
             for (int i = 0; i < Lp.size(); i++) {
                 String element = "" + Lp.get(i).getNom() + "         " + Lp.get(i).getPrenom() + "         " + Lp.get(i).getDateDeNaissance();
                 DLM.addElement(element);
 
+            }}
+            if (!jTextField5.getText().isEmpty() && jTextField3.getText().isEmpty() && jFormattedTextField1.getText().isEmpty()) {
+                Lp = inf.rechercheListPatientNom(jTextField5.getText());
+                for (int i = 0; i < Lp.size(); i++) {
+                    String element = "" + Lp.get(i).getNom() + "         " + Lp.get(i).getPrenom()  ;
+                    DLM.addElement(element);
+                }
             }
-         
-        }
+            
+        
         jList1.setModel(DLM);
         jList1.repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
         // TODO add your handling code here:
-        
-         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("DUCOQUE Juliette");
-            javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("FEMME");
-            treeNode1.add(treeNode2);
-            treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("10/07/1972");
-            treeNode1.add(treeNode2);
-            treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("12 route du champion");
-            treeNode1.add(treeNode2);
-            treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("63000, Clermont Ferrand");
-            treeNode1.add(treeNode2);
-            treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("0712395145");
-            treeNode1.add(treeNode2);
-            treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Séjours");
-            javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("12/08/18");
-            javax.swing.tree.DefaultMutableTreeNode treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("Operations");
-            javax.swing.tree.DefaultMutableTreeNode treeNode5 = new javax.swing.tree.DefaultMutableTreeNode("Consulation 1");
-            javax.swing.tree.DefaultMutableTreeNode treeNode6 = new javax.swing.tree.DefaultMutableTreeNode("Dr DUPONT");
-            treeNode5.add(treeNode6);
-            treeNode4.add(treeNode5);
-            treeNode5 = new javax.swing.tree.DefaultMutableTreeNode("Sortie 11/09/18");
-            treeNode4.add(treeNode5);
-            treeNode3.add(treeNode4);
-            treeNode2.add(treeNode3);
-            treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("12/12/18");
-            treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("Operations");
-            treeNode5 = new javax.swing.tree.DefaultMutableTreeNode("Consulation 1");
-            treeNode4.add(treeNode5);
-            treeNode5 = new javax.swing.tree.DefaultMutableTreeNode("Consultation 2");
-            treeNode4.add(treeNode5);
-            treeNode3.add(treeNode4);
-            treeNode2.add(treeNode3);
-            treeNode1.add(treeNode2);
-            jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("DUCOQUE Juliette");
+        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("FEMME");
+        treeNode1.add(treeNode2);
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("10/07/1972");
+        treeNode1.add(treeNode2);
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("12 route du champion");
+        treeNode1.add(treeNode2);
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("63000, Clermont Ferrand");
+        treeNode1.add(treeNode2);
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("0712395145");
+        treeNode1.add(treeNode2);
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Séjours");
+        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("12/08/18");
+        javax.swing.tree.DefaultMutableTreeNode treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("Operations");
+        javax.swing.tree.DefaultMutableTreeNode treeNode5 = new javax.swing.tree.DefaultMutableTreeNode("Consulation 1");
+        javax.swing.tree.DefaultMutableTreeNode treeNode6 = new javax.swing.tree.DefaultMutableTreeNode("Dr DUPONT");
+        treeNode5.add(treeNode6);
+        treeNode4.add(treeNode5);
+        treeNode5 = new javax.swing.tree.DefaultMutableTreeNode("Sortie 11/09/18");
+        treeNode4.add(treeNode5);
+        treeNode3.add(treeNode4);
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("12/12/18");
+        treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("Operations");
+        treeNode5 = new javax.swing.tree.DefaultMutableTreeNode("Consulation 1");
+        treeNode4.add(treeNode5);
+        treeNode5 = new javax.swing.tree.DefaultMutableTreeNode("Consultation 2");
+        treeNode4.add(treeNode5);
+        treeNode3.add(treeNode4);
+        treeNode2.add(treeNode3);
+        treeNode1.add(treeNode2);
+        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
     }//GEN-LAST:event_jList1ValueChanged
 
     private void jList1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jList1PropertyChange
         // TODO add your handling code here:
-     
+
     }//GEN-LAST:event_jList1PropertyChange
 
     private void jList1ComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_jList1ComponentAdded
         // TODO add your handling code here:
-       
+
     }//GEN-LAST:event_jList1ComponentAdded
 
     private void jList1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseReleased
-         
+
     }//GEN-LAST:event_jList1MouseReleased
 
     private void jTree1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTree1MouseClicked
-    
+
     }//GEN-LAST:event_jTree1MouseClicked
 
     private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
         String[] liste2 = new String[secrAdm.nombrePatients()];
         liste2 = secrAdm.afficherListePatients();
         DefaultListModel DLM = new DefaultListModel();
-    for (int i = 0; i < liste2.length; i++) {
-                String element = liste2[i];
-                DLM.addElement(element);
+        for (int i = 0; i < liste2.length; i++) {
+            String element = liste2[i];
+            DLM.addElement(element);
 
-            }
-     jList1.setModel(DLM);
+        }
+        jList1.setModel(DLM);
         jList1.repaint();
-       
+
     }//GEN-LAST:event_jPanel1MouseClicked
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-         new ChangerMDP(p).setVisible(true);
+        new ChangerMDP(p).setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
@@ -476,7 +481,7 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-             //   new SecretaireAdministrative().setVisible(true);
+                //   new SecretaireAdministrative().setVisible(true);
             }
         });
     }

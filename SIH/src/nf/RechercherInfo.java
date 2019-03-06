@@ -241,7 +241,45 @@ public class RechercherInfo {
         return Lp;
 
     }
-}
+
+ public ArrayList<Patient> rechercheListPatientNom(String nom) {
+        Lp = new ArrayList<Patient>();
+        Patient p = null;
+        try {
+
+            String query = "select * from patients where nom='" + nom + "'";
+
+            st = con.createStatement();
+            rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                // Patient p = new Patient(nom, prenom);
+                String ipp = rs.getString("ipp");
+
+                String x = rs.getString("nom");// pour avoir accès a la colonne de ma table 
+                prenom = rs.getString("prenom");
+
+                String datenaissance = rs.getString("datenaissance");
+                String adresse = rs.getString("adresse");
+                String tel = rs.getString("telephone");
+                System.out.println("ipp : " + ipp + " ;   nom :   " + x + ";   prenom :  " + prenom);
+                System.out.print(Lp.size());
+
+                p = new Patient(x, prenom, datenaissance);
+                Lp.add(p);
+
+            }
+
+            rs.close();
+            st.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        System.out.println(Lp.size());
+        return Lp;
+
+ }   }
+
 //    public ResultSet recherchePatientNomPrenomDate(String nom, String prenom, Calendar date) throws SQLException {
 //        String datedenaiss = date.get(date.YEAR) + "-" + (date.get(date.MONTH) + 1) + "-" + date.get(date.DAY_OF_MONTH);
 //        Connection c = new Connection();

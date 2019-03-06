@@ -853,9 +853,9 @@ public class PH extends JFrame implements ActionListener {
                 String element = "" + Lp.get(i).getNom() + "         " + Lp.get(i).getPrenom() + "         " + Lp.get(i).getDateDeNaissance();
                 DLM.addElement(element);
             }
-            //jList1.setModel(DLM);
+
         }
-        if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty()) {
+        if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty() && jFormattedTextField1.getText().isEmpty()) {
             Lp = inf.rechercheListPatientNomPrenom(jTextField1.getText(), jTextField2.getText());
             // DefaultListModel DLM = new DefaultListModel();
             for (int i = 0; i < Lp.size(); i++) {
@@ -864,7 +864,14 @@ public class PH extends JFrame implements ActionListener {
             }
         }
 
-
+        if (!jTextField1.getText().isEmpty() && jTextField2.getText().isEmpty() && jFormattedTextField1.getText().isEmpty()) {
+            Lp = inf.rechercheListPatientNom(jTextField1.getText());
+            for (int i = 0; i < Lp.size(); i++) {
+                String element = "" + Lp.get(i).getNom() + "         " + Lp.get(i).getPrenom();
+                DLM.addElement(element);
+            }
+        }
+        jList1.setModel(DLM);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jFormattedTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField1ActionPerformed

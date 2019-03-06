@@ -337,6 +337,13 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
             }
 
         }
+        if (!jTextField1.getText().isEmpty() && jTextField2.getText().isEmpty() && jFormattedTextField1.getText().isEmpty()) {
+                Lp = inf.rechercheListPatientNom(jTextField1.getText());
+                for (int i = 0; i < Lp.size(); i++) {
+                    String element = "" + Lp.get(i).getNom() + "         " + Lp.get(i).getPrenom()  ;
+                    DLM.addElement(element);
+                }
+            }
         jList1.setModel(DLM);
         jList1.repaint();
     }//GEN-LAST:event_jButton4ActionPerformed
