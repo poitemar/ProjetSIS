@@ -72,7 +72,7 @@ public class SIH {
         
        
 //        Localisation loc = new Localisation(Service.CLINIQUE, Orientation.EST, 7, 56, Lit.FENETRE);
-////        Patient p = new Patient("378021405","poitevin","margaux",Sexe.FEMME,d1,"2 impasse","060504");
+//        Patient p = new Patient("378021405","poitevin","margaux",Sexe.FEMME,d1,"2 impasse","060504");
 //        
 //        SecretaireMedicale smed = new SecretaireMedicale("ABI CHACRA", "Lauren", "131174L", "poire");
 //        System.out.println(smed.idMed);
@@ -103,8 +103,29 @@ public class SIH {
 //       sejourbluff.ajouterOperations(idSejour, idPH, iPP, "titre", "details");
 //     //  sejourbluff.completerSejour(idSejour, idPH, iPP, "ff", "ff", "fff", "nn", "hnh");
 //     SecretaireMedicale sm = new SecretaireMedicale("bluff", "bluff", "bluff", "bluff", "bluff", Specialite.ACCUEIL, Service.CLINIQUE);
-//        PH perso = new PH("bluff", "bluff", "bluff", "bluff", "bluff", Specialite.ACCUEIL, Service.CLINIQUE); 
+        PH perso = new PH("bluff", "bluff", "bluff", "bluff", "bluff", Specialite.ACCUEIL, Service.CLINIQUE); 
+       ArrayList<Patient> listePatient = perso.afficherListePatientPrestation("238478562");
+        System.out.println(listePatient.size());
+        for (int i = 0; i < listePatient.size(); i++) {
+            String element = "" + listePatient.get(i).getNom() + "         " + listePatient.get(i).getPrenom() + "         " + listePatient.get(i).getDateDeNaissance();
+            System.out.println(element);
+
+            //Verifier que le dernier sejour du patient soit en cours avant de lafficher
+            nf.Localisation lbluff = new nf.Localisation(Specialite.ACCUEIL, Orientation.OUEST, 1,12, Lit.PORTE);
+            nf.Sejour sejourBluff = new nf.Sejour("", "", "", lbluff);
+            nf.PH ph = new nf.PH("", "", "", "", "", Specialite.ACCUEIL, Service.URGENCE);
+            String ipp = p.ippPatientListe(element);
+            String idDernierSejour = ph.idSejourPatientSelection(ipp);
+
+            if (sejourBluff.sejourEnCours(idDernierSejour)) {
+                System.out.println("OOOOK");
+            }
+           
+        }
 //   //     System.out.println(perso.idSejourPatientSelection("1234"));
+        
+
+
 //             ArrayList <Patient> listeP = new ArrayList <Patient>();
 //               listeP = sm.afficherListePatientParService(Specialite.ONCOLOGIE);
 //                      for(int i =0; i<listeP.size();i++){

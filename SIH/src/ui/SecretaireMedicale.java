@@ -7,6 +7,7 @@ package ui;
 
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import nf.Lit;
 import nf.Orientation;
 import nf.Patient;
@@ -34,8 +35,15 @@ public class SecretaireMedicale extends javax.swing.JFrame {
         initComponents();
         setSize(700, 600);
         this.perso = p;
+        System.out.println(perso.getService()+"HEEEEEEE");
+        if(perso.getService().toString().equals("MEDICO_TECHNIQUE")){
+            System.out.println("lala");
+            jButton1.setEnabled(false);
+        }
         String s = "Mme/M. " + p.getNom() + " " + p.getPrenom();
         jLabel2.setText(s);
+        jLabel8.setText(perso.getSpecialite().toString());
+ 
         listePatient = secrMed.afficherListePatientParService(perso.getSpecialite());
 
         for (int i = 0; i < listePatient.size(); i++) {
@@ -54,6 +62,8 @@ public class SecretaireMedicale extends javax.swing.JFrame {
         }
         jList1.setModel(DLM);
         jList1.repaint();
+        
+        
     }
 
     SecretaireMedicale() {
@@ -359,8 +369,13 @@ public class SecretaireMedicale extends javax.swing.JFrame {
     }//GEN-LAST:event_jFormattedTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
+    if(perso.getService().toString().equals("CLINIQUE")){
         new nouveauSejour(perso).setVisible(true);
+    }
+    else {JOptionPane.showMessageDialog(this,"Vous n'êtes pas autorisé(e) à créer un nouveau séjour", "ATTENTION",JOptionPane.ERROR_MESSAGE);
+    }
+    
+                
     }//GEN-LAST:event_jButton1ActionPerformed
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:

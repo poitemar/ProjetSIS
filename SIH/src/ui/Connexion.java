@@ -188,7 +188,7 @@ public class Connexion extends javax.swing.JFrame {
        }
         //connexion d'une secretaire medicale
        if(cx.seConnecter(saisieId.getText(),saisieMdp.getText()).equals("SECRETAIRE MEDICALE")){
-           if (cx.ServicePersonnel(cx.choixPersonnel(saisieId.getText(),saisieMdp.getText())).toString().equals("URGENCES")){
+           if (cx.ServicePersonnel(cx.choixPersonnel(saisieId.getText(),saisieMdp.getText())).toString().equals("URGENCE")){
                new SecretaireMedicaleUrgence(personnel).setVisible(true);
                this.dispose();
                System.out.println(personnel.getService());
@@ -206,6 +206,10 @@ public class Connexion extends javax.swing.JFrame {
            new Radiologue(personnel).setVisible(true);
            this.dispose();
        }
+           else if (cx.ServicePersonnel(cx.choixPersonnel(saisieId.getText(),saisieMdp.getText())).toString().equals("MEDICO_TECHNIQUE")){
+               new PH_MT (personnel).setVisible(true);
+               this.dispose();
+           }
            else {  new PH(personnel).setVisible(true);
              this.dispose();
        }

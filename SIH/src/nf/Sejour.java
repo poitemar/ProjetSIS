@@ -262,7 +262,7 @@ public class Sejour {
     public void ajouterPrestation(String idSejour, String idMedD,String idMedR,String prestation) {
          this.listePrestations.add(prestation);
         {if(sejourEnCours(idSejour)) {
-           String sql ="insert into prestations (ID_SEJOUR,DATE_SAISIE,ID_DR_DEMANDEUR,ID_DR_RECEVEUR,PRESTATION) values (?,?,?,?,?)";
+           String sql ="insert into prestations (ID_SEJOUR,DATE_SAISIE,ID_DR_DEMANDEUR,ID_DR_RECEVEUR,PRESTATION,DATE_PRESTATION) values (?,?,?,?,?,?)";
        
         System.out.println(sql);
         try {
@@ -276,8 +276,9 @@ public class Sejour {
               pstm.setString(2,maDateLongue.format(maDate));
              System.out.println(maDateLongue.format(maDate));
              pstm.setString(3, idMedD);
-             pstm.setString(4, idMedD);
+             pstm.setString(4, idMedR);
              pstm.setString(5,prestation);
+             pstm.setString(6,"");
     
              pstm.executeUpdate();
             
@@ -369,24 +370,28 @@ public class Sejour {
     }
     }
 
-    public void ajouterCompteRendu(String idSejour, String idMed,String Ipp,String compterendu) {
-        listeDeCompteRenduRadio.add(compterendu);
+
+     public void ajouterCompteRendu(String idSejour, String idMed,String Ipp,String prestation,String compterendu) {
+           listeDeCompteRenduRadio.add(compterendu);
         {if(sejourEnCours(idSejour)) {
-           String sql ="insert into ph (ID_PH,IPP_PATIENT,ID_SEJOUR,DATE_SAISIE,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,TITRE_OPERATION,OPERATION,COMPTE_RENDU) values (?,?,?,?,?,?,?,?,?,?,?)";
-       
+            Date maDate;
+            SimpleDateFormat maDateLongue;
+            maDate= new Date();
+            maDateLongue= new SimpleDateFormat("dd/MM/yyyy HH:mm");
+             
+          String sql ="insert into ph (ID_PH,IPP_PATIENT,ID_SEJOUR,DATE_SAISIE,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,TITRE_OPERATION,OPERATION,COMPTE_RENDU) values (?,?,?,?,?,?,?,?,?,?,?)";
+          String sql2 ="update prestations set DATE_PRESTATION='"+maDateLongue.format(maDate)+"' where PRESTATION='"+prestation+"'";
+
         System.out.println(sql);
         try {
             PreparedStatement pstm = con.prepareStatement(sql);
-           Date maDate;
-            SimpleDateFormat maDateLongue;
-            maDate= new Date();
-             maDateLongue= new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            PreparedStatement pstm2 = con.prepareStatement(sql2);
             //on insere les donnees dans la classe ph ce qui correspond a la requete 1
-            pstm.setString(1, idMed);
+             pstm.setString(1, idMed);
             pstm.setString(2, Ipp);
              pstm.setString(3, idSejour);
               pstm.setString(4,maDateLongue.format(maDate));
-             System.out.println(maDateLongue.format(maDate));
+            
              pstm.setString(5, "");
              
              
@@ -399,7 +404,8 @@ public class Sejour {
               pstm.setString(10, "");
              pstm.setString(11, compterendu);
              pstm.executeUpdate();
-            
+      
+             pstm2.executeUpdate();
             
         } catch (Exception ex) {
             System.out.println(ex);
@@ -448,7 +454,48 @@ public class Sejour {
     }
     }
    
-    
+    public void ajouterResultatPrestation(String idSejour, String idMed,String Ipp,String prestation,String resultat) {
+        this.listeDeResultats.add(resultat);
+        {if(sejourEnCours(idSejour)) {
+            Date maDate;
+            SimpleDateFormat maDateLongue;
+            maDate= new Date();
+            maDateLongue= new SimpleDateFormat("dd/MM/yyyy HH:mm");
+             
+           String sql ="insert into ph (ID_PH,IPP_PATIENT,ID_SEJOUR,DATE_SAISIE,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,TITRE_OPERATION,OPERATION,COMPTE_RENDU) values (?,?,?,?,?,?,?,?,?,?,?)";
+           String sql2 ="update prestations set DATE_PRESTATION='"+maDateLongue.format(maDate)+"' where PRESTATION='"+prestation+"'";
+
+        System.out.println(sql);
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+            PreparedStatement pstm2 = con.prepareStatement(sql2);
+            //on insere les donnees dans la classe ph ce qui correspond a la requete 1
+            pstm.setString(1, idMed);
+            pstm.setString(2, Ipp);
+             pstm.setString(3, idSejour);
+              pstm.setString(4,maDateLongue.format(maDate));
+             System.out.println(maDateLongue.format(maDate));
+             pstm.setString(5, "");
+             
+             
+             pstm.setString(6, resultat);
+          
+             pstm.setString(7, "");
+              
+             pstm.setString(8, "");
+             pstm.setString(9, "");
+              pstm.setString(10, "");
+             pstm.setString(11, "");
+             pstm.executeUpdate();
+             pstm2.executeUpdate();
+            
+        } catch (Exception ex) {
+            System.out.println(ex);
+           
+        }}
+       else {System.out.println("Le séjour est clos et non modifiable");}
+    }
+    }
     public void editerLettreDeSortie(String idSejour, String idMed,String Ipp,String lettre) {
         this.setLettreDeSortie(lettre);
         {if(sejourEnCours(idSejour)) {
@@ -561,4 +608,30 @@ public class Sejour {
          return rep;
     }
     
+     public boolean prestationRealisee(String prestation){
+         boolean rep = false;
+         
+         try {
+           
+        
+            String query = "select DATE_PRESTATION from prestations where PRESTATION='"+prestation+"'"; // la query à entrer pour accéder aux données de nos tables 
+             System.out.println(query);
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                String date = rs.getString("DATE_PRESTATION");
+                if (date.isEmpty()){
+                
+               
+                }
+                else {rep=true;}
+                System.out.println(date);
+                System.out.println(rep);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+           
+        }
+         
+         return rep;
+     }
 }
