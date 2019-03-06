@@ -22,6 +22,7 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
      * Creates new form Urgence
      */
         nf.PersonnelMedical p;
+        public static String selection="";
         nf.SecretaireMedicaleUrgence secrMedUrg = new nf.SecretaireMedicaleUrgence("null","null", "null", "null", "null",Specialite.ONCOLOGIE,Service.MEDICO_TECHNIQUE);
         String[] listePatientsActuels = new String[secrMedUrg.nombrePatientsActuels()];
         String[] listePatients = new String[secrMedUrg.nombrePatients()];
@@ -33,6 +34,38 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
         this.p = p;
         String s = "Mme/M. "+p.getNom()+" "+p.getPrenom();
         jLabel2.setText(s);
+    }
+
+    public SecretaireMedicaleUrgence() {
+         //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public String getPrenom() {
+        String prenom="";
+        int compteur=0;
+        while (!(String.valueOf(selection.charAt(compteur))).isBlank()){           
+            compteur++;
+        }
+        compteur++;
+        while (compteur<selection.length()){
+            prenom = prenom + selection.charAt(compteur);
+            compteur++;
+        }
+        return prenom;
+    }
+    
+    public String getNom() {
+        String nom="";
+        System.out.println("ceci est la séléction : "+selection);
+        int compteur=0;
+        while (!(String.valueOf(selection.charAt(compteur))).isBlank()){
+            System.out.println(String.valueOf(selection.charAt(compteur)));
+            System.out.println((String.valueOf(selection.charAt(compteur))).isBlank());
+            nom = nom + selection.charAt(compteur);
+            compteur++;
+        }
+        
+        return nom;
     }
 
     /**
@@ -75,6 +108,9 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
         jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPanel1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel1MouseEntered(evt);
             }
         });
 
@@ -145,6 +181,11 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
             String[] strings = listePatientsActuels;
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
+        });
+        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList1MouseClicked(evt);
+            }
         });
         jScrollPane3.setViewportView(jList1);
 
@@ -300,14 +341,9 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String test = "";
-        test = test + compteur;
-        compteur++;
-        secrMedUrg.ajouterPatient(test, test, test);
-        listePatients = secrMedUrg.afficherListePatients();
-        listePatientsActuels = secrMedUrg.afficherListePatientsActuels();
-        jList3.setListData(listePatients);
-        jList1.setListData(listePatientsActuels);
+        new nouveauPatientUrgence().setVisible(true);
+        
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -356,17 +392,38 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        if (selection!=null) {
+        new AssignerPatient().setVisible(true);
+        
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
-        listePatientsActuels = secrMedUrg.afficherListePatientsActuels();
-        listePatients = secrMedUrg.afficherListePatients();
+        
     }//GEN-LAST:event_jPanel1MouseClicked
 
     private void jList3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList3MouseEntered
-        listePatientsActuels = secrMedUrg.afficherListePatientsActuels();
-        listePatients = secrMedUrg.afficherListePatients();
+        
     }//GEN-LAST:event_jList3MouseEntered
+
+    private void jPanel1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseEntered
+       listePatientsActuels = secrMedUrg.afficherListePatientsActuels();
+       listePatients = secrMedUrg.afficherListePatients();
+       jList1.repaint();
+       jList3.repaint();
+       jList1.revalidate();
+       jList3.revalidate();
+        
+    }//GEN-LAST:event_jPanel1MouseEntered
+
+    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
+        // TODO add your handling code here:
+        if (jList1.getSelectedValue() !=null){
+            selection = jList1.getSelectedValue();
+            System.out.println(selection);
+            System.out.println(jList1.getSelectedValue());
+        }
+    }//GEN-LAST:event_jList1MouseClicked
 
     /**
      * @param args the command line arguments
