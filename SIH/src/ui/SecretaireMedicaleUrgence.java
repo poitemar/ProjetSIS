@@ -43,7 +43,7 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
     public String getPrenom() {
         String prenom="";
         int compteur=0;
-        while (!(String.valueOf(selection.charAt(compteur))).isBlank()){           
+        while (!(String.valueOf(selection.charAt(compteur))).equals("")){           
             compteur++;
         }
         compteur++;
@@ -58,9 +58,9 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
         String nom="";
         System.out.println("ceci est la séléction : "+selection);
         int compteur=0;
-        while (!(String.valueOf(selection.charAt(compteur))).isBlank()){
+        while (!(String.valueOf(selection.charAt(compteur))).equals("")){
             System.out.println(String.valueOf(selection.charAt(compteur)));
-            System.out.println((String.valueOf(selection.charAt(compteur))).isBlank());
+            System.out.println((String.valueOf(selection.charAt(compteur))).equals(""));
             nom = nom + selection.charAt(compteur);
             compteur++;
         }
