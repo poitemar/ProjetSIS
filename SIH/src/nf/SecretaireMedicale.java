@@ -47,11 +47,20 @@ public class SecretaireMedicale extends PersonnelMedical {
         String sql = "insert into ph_referent(ID_PHR,ID_SEJOUR,IPP,DATE_CREATION_SEJOUR) values (?,?,?,?)";
         String sql2 = "insert into localisation (ID_SEJOUR,SERVICE,ORIENTATION,ETAGE,CHAMBRE,LIT) values (?,?,?,?,?,?)";
         try {
+       Sejour s = new Sejour(idSejour, iPP, idPHReferent, localisation);        
+       String sql = "insert into ph_referent(ID_PHR,ID_SEJOUR,IPP,DATE_CREATION_SEJOUR) values (?,?,?,?)";
+       String sql2 ="insert into localisation (ID_SEJOUR,SERVICE,ORIENTATION,ETAGE,CHAMBRE,LIT) values (?,?,?,?,?,?)";
+        String sql3 ="insert into ph (ID_PH,IPP_PATIENT,ID_SEJOUR,DATE_SAISIE,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,TITRE_OPERATION,OPERATION,COMPTE_RENDU) values (?,?,?,?,?,?,?,?,?,?,?)";
+       
+       try {
             PreparedStatement pstm = con.prepareStatement(sql);
             PreparedStatement pstm2 = con.prepareStatement(sql2);
+            PreparedStatement pstm3 = con.prepareStatement(sql3);
             Date maDate = new Date();
             SimpleDateFormat maDateLongue = new SimpleDateFormat("dd/MM/yyyy");
 
+            SimpleDateFormat maDateLongue= new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            
             //on insere les donnees dans la classe ph_referent ce qui correspond a la requete 1
             pstm.setString(1, idPHReferent);
             pstm.setString(2, idSejour);
@@ -61,6 +70,8 @@ public class SecretaireMedicale extends PersonnelMedical {
 
             //On insere les donnees dans le classe localisation ce qui correspond a la requete 2
             pstm2.setString(1, idSejour);
+             //
+             pstm2.setString(1, idSejour);
             pstm2.setString(2, localisation.getSpecialite().toString());
 
             pstm2.setString(3, localisation.getOrientation().toString());
@@ -69,6 +80,23 @@ public class SecretaireMedicale extends PersonnelMedical {
             pstm2.setString(6, localisation.getLit().toString());
 
             pstm2.executeUpdate();
+            //
+             pstm3.setString(1,idPHReferent);
+             
+            pstm3.setString(2, iPP);
+           
+             pstm3.setString(3, idSejour);
+              pstm3.setString(4, maDateLongue.format(maDate));
+           
+            pstm3.setString(5, "");
+           pstm3.setString(6, "");
+           pstm3.setString(7, "");
+           pstm3.setString(8, "");
+           pstm3.setString(9, "");
+           pstm3.setString(10, "");
+           pstm3.setString(11, "");
+            pstm3.executeUpdate();
+           
         } catch (Exception ex) {
             System.out.println(ex);
 
@@ -256,6 +284,32 @@ public class SecretaireMedicale extends PersonnelMedical {
                 //System.out.println(docteur.getSpecialite().toString());
                 listePatient.add(patient);
 
+                   //System.out.println(idPatient);
+                
+                     
+                   Sexe sexeLu = (Sexe) Enum.valueOf(Sexe.class, rs.getString("SEXE"));
+                  String adresse = rs.getString("ADRESSE");
+                   // System.out.println(Adresse);
+                  String tel = rs.getString("TELEPHONE");
+                     //System.out.println(tel);                 
+                     
+                 Patient patient = new Patient(idp,nom,prenom,sexeLu,date,adresse,tel);
+                   //   System.out.println(docteur.getNom());
+                 //System.out.println(docteur.getSpecialite().toString());
+                int i =0;
+                Boolean rep = false;
+                 while( i<listePatient.size() && rep==false){
+                     if(listePatient.get(i).getIpp().equals(patient.getIpp())){
+                  rep = true;
+                  i++;
+                }  
+                     else{ i++;}
+                 }
+                 if(rep==false){
+                     listePatient.add(patient);
+                 }
+              
+                
             }
         } catch (Exception ex) {
             System.out.println(ex);

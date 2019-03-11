@@ -75,6 +75,9 @@ public class Patient {
             }
 
     }}
+    
+        
+        
      //Fonction qui retourne l'id du patient lu dans une liste
     public String ippPatientListe(String lecture){
         String p ="";
@@ -110,6 +113,31 @@ public class Patient {
         return p;
     }
 
+    
+    
+    
+        //Fonction qui retourne le nom et le prenom du patient lu dans une liste
+    public String patientListe(String lecture){
+        String p ="";
+         
+             String nomLu ="";
+             String prenomLu="";
+             String dateLue="";
+             String[] result = lecture.split("\\s\\s\\s\\s\\s\\s\\s\\s\\s");
+             
+        for (int x=0; x<result.length; x++){
+         nomLu =result[0];
+            System.out.println(nomLu);
+         prenomLu = result[1];
+         System.out.println(prenomLu);
+         dateLue =result[2];
+         System.out.println(dateLue);
+         
+         p = nomLu+" " + prenomLu;
+      
+        
+    }
+    return p;}
     // Constructeur de Patient
     public Patient(String ipp, String nom, String prenom, Sexe sexe, String dateDeNaissance, String adresse, String telephone){
         this.nom = nom;

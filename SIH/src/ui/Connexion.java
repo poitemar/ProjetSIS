@@ -215,8 +215,13 @@ public class Connexion extends javax.swing.JFrame {
            System.out.println(cx.spePersonnel(cx.choixPersonnel(saisieId.getText(),saisieMdp.getText())).toString());
            if(cx.spePersonnel(cx.choixPersonnel(saisieId.getText(),saisieMdp.getText())).toString().equals("RADIOLOGIE")){
            new Radiologue(personnel).setVisible(true);
-           this.dispose();
-       }
+               this.dispose();}
+           else if(cx.spePersonnel(cx.choixPersonnel(saisieId.getText(),saisieMdp.getText())).toString().equals("ANESTHESIE")){
+           new Anesthesiste(personnel).setVisible(true);
+               this.dispose();
+            }
+       
+       
            else if (cx.ServicePersonnel(cx.choixPersonnel(saisieId.getText(),saisieMdp.getText())).toString().equals("MEDICO_TECHNIQUE")){
                new PH_MT (personnel).setVisible(true);
                this.dispose();

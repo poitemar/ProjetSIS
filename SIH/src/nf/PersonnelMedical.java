@@ -76,10 +76,7 @@ public class PersonnelMedical {
         }
     }
 
-    public String nouvelId() {
-        return "1234";
-
-    }
+    
 
     public void changerMotDePasse(String loginTest, String mdpTest,String newmdp) {
 //Exemple de modification de donnees dans la BD:

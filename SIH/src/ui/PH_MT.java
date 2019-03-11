@@ -8,7 +8,12 @@ package ui;
 import static java.awt.image.ImageObserver.ABORT;
 import static java.awt.image.ImageObserver.ERROR;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import javax.swing.DefaultListModel;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.DefaultTreeModel;
 import nf.Lit;
 import nf.Orientation;
 import nf.Patient;
@@ -30,7 +35,7 @@ public class PH_MT extends javax.swing.JFrame {
     String PatientSelection;
      String prestationSelection;
      nf.PH ph = new nf.PH("null", "null", "null", "null", "null", nf.Specialite.ONCOLOGIE, nf.Service.CLINIQUE);
-   
+     private  DefaultTreeCellRenderer tCellRenderer = new  DefaultTreeCellRenderer();
     /**
      * Creates new form PH_MT
      */
@@ -54,16 +59,67 @@ public class PH_MT extends javax.swing.JFrame {
             nf.PH ph = new nf.PH("", "", "", "", "", Specialite.ACCUEIL, Service.URGENCE);
             String ipp = patient.ippPatientListe(element);
             String idDernierSejour = ph.idSejourPatientSelection(ipp);
-           
+            System.out.println(listePatient.size());
             if (sejourBluff.sejourEnCours(idDernierSejour) && !sejourCourant.prestationRealisee(listePrestation.get(i))) {
                 DLM.addElement(element);
+                 System.out.println("OK OK OK ");
             }
-            jList1.setModel(DLM);
-            jList1.repaint();
+          
         }
-
+             jList1.setModel(DLM);
+            jList1.repaint();
     }
 
+     private void initRenderer() {
+        //Instanciation
+       
+        this.tCellRenderer.setClosedIcon(null);
+        this.tCellRenderer.setOpenIcon(null);
+        this.tCellRenderer.setLeafIcon(null);
+    }
+     public void buildTree(){
+         
+       if(!jList1.isSelectionEmpty()){
+          PatientSelection = jList1.getSelectedValue().toString();
+         
+      }
+        DM.setCellRenderer(this.tCellRenderer);
+       List <String> listeIdSejours = sejourCourant.listeSejour(patient.ippPatientListe(PatientSelection));
+       List <String> listedateSaisie;
+         TreeMap <String,String> listeInfos ;
+        
+         
+     javax.swing.tree.DefaultMutableTreeNode racine = new javax.swing.tree.DefaultMutableTreeNode("Mme/M." + patient.patientListe(PatientSelection));
+     
+     for (int i =0;i<listeIdSejours.size();i++){
+         listedateSaisie = sejourCourant.listeSaisie(listeIdSejours.get(i));
+    
+         javax.swing.tree.DefaultMutableTreeNode sejour = new javax.swing.tree.DefaultMutableTreeNode(sejourCourant.listeSejourtoString(listeIdSejours.get(i)));
+     
+         for(int j =0;j<listedateSaisie.size();j++){
+             javax.swing.tree.DefaultMutableTreeNode saisie = new javax.swing.tree.DefaultMutableTreeNode(sejourCourant.listeSaisietoString(listedateSaisie.get(j),listeIdSejours.get(i)));
+             sejour.add(saisie);
+             listeInfos = sejourCourant.listeInfosPHMT(listedateSaisie.get(j), listeIdSejours.get(i));
+            
+             for(Map.Entry mapentry : listeInfos.entrySet()){
+                String[] tab = mapentry.getKey().toString().split("X");
+                for(int k =1;k<tab.length;k++){
+                javax.swing.tree.DefaultMutableTreeNode info = new javax.swing.tree.DefaultMutableTreeNode(tab[k]+" : "+mapentry.getValue());
+                saisie.add(info);
+             }
+             }
+         }
+         
+         
+         racine.add(sejour);
+          
+     }
+     
+    
+     DefaultTreeModel arbre = new DefaultTreeModel(racine);
+     DM.setModel(arbre);
+     
+     }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -84,20 +140,19 @@ public class PH_MT extends javax.swing.JFrame {
         labelPrestation = new javax.swing.JLabel();
         nomCo = new javax.swing.JLabel();
         spe = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTree1 = new javax.swing.JTree();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        DM = new javax.swing.JTree();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         Resultat = new javax.swing.JTextArea();
         jLabel8 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         titrePrestation = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTree2 = new javax.swing.JTree();
-        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -135,7 +190,7 @@ public class PH_MT extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("Réaliser");
+        jButton3.setText("Suivant");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -152,12 +207,8 @@ public class PH_MT extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton3)
-                        .addGap(104, 104, 104))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,14 +222,10 @@ public class PH_MT extends javax.swing.JFrame {
                                 .addComponent(labelPrestation, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton2)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 635, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel5)
-                .addGap(50, 50, 50))
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton3)
+                        .addGap(105, 105, 105))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -194,19 +241,65 @@ public class PH_MT extends javax.swing.JFrame {
                             .addComponent(spe, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton2))
                         .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(46, 46, 46)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(labelPrestation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addGap(58, 58, 58)
-                .addComponent(jLabel5))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(labelPrestation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addGap(72, 72, 72))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton3)
+                        .addGap(81, 81, 81))))
         );
 
         PH_MT.addTab("ACCUEIL", jPanel1);
+
+        jLabel10.setText("Dossier Médical Administratif :");
+
+        jLabel11.setText("Dossier Médical :");
+
+        jScrollPane3.setViewportView(jTree1);
+
+        jScrollPane4.setViewportView(DM);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel11))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4))
+                .addContainerGap())
+        );
+
+        PH_MT.addTab("INFORMATIONS PATIENT", jPanel3);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -266,44 +359,6 @@ public class PH_MT extends javax.swing.JFrame {
 
         PH_MT.addTab("COMPLETER", jPanel2);
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-
-        jTree1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Dossier Médical Administratif", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Arial", 1, 14), new java.awt.Color(0, 153, 153))); // NOI18N
-        jScrollPane3.setViewportView(jTree1);
-
-        jTree2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Dossier Médical", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Arial", 1, 14), new java.awt.Color(0, 153, 153))); // NOI18N
-        jScrollPane4.setViewportView(jTree2);
-
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dossMed_logo_1.PNG"))); // NOI18N
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
-                    .addComponent(jScrollPane4))
-                .addGap(44, 44, 44)
-                .addComponent(jLabel2))
-        );
-
-        PH_MT.addTab("INFORMATIONS PATIENT", jPanel3);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -337,19 +392,28 @@ public class PH_MT extends javax.swing.JFrame {
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
         // TODO add your handling code here:
-        String lecture = jList1.getSelectedValue();
-        if(!lecture.isEmpty()){
-        prestationSelection = perso.prestationPatientListe(lecture);
-        labelPrestation.setText(prestationSelection);}
-        else {
-             labelPrestation.setText("");
+      
+        if( jList1.isSelectionEmpty()){
+         
+            labelPrestation.setText("");
         }
+        else {
+            String lecture = jList1.getSelectedValue();
+             prestationSelection = perso.prestationPatientListe(lecture);
+             initRenderer();
+             buildTree();
+             labelPrestation.setText(prestationSelection);
+        }
+       
     }//GEN-LAST:event_jList1ValueChanged
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        PatientSelection = jList1.getSelectedValue().toString();
-         PH_MT.setSelectedIndex(1);
+       if(!jList1.isSelectionEmpty()){
+           PatientSelection = jList1.getSelectedValue().toString();
+           PH_MT.setSelectedIndex(1);
+       }
+         
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
@@ -416,6 +480,7 @@ public class PH_MT extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTree DM;
     private javax.swing.JTabbedPane PH_MT;
     private javax.swing.JTextArea Resultat;
     private javax.swing.JButton jButton1;
@@ -435,7 +500,6 @@ public class PH_MT extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTree jTree1;
-    private javax.swing.JTree jTree2;
     private javax.swing.JLabel labelPrestation;
     private javax.swing.JLabel nomCo;
     private javax.swing.JLabel nomMed;
