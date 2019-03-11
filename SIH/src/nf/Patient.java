@@ -30,6 +30,7 @@ public class Patient {
     private Connection con;
     private Statement st;
     private ResultSet rs; 
+    private Localisation localisation;
     
     
     public Patient() {
@@ -118,6 +119,28 @@ public class Patient {
         this.dateDeNaissance = dateDeNaissance;
         this.adresse = adresse;
         this.telephone = telephone;
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
+            st = con.createStatement();
+
+        } catch (Exception ex) {
+
+            {
+                System.out.println("error :" + ex);
+
+            }
+
+        }
+    }
+    
+    public Patient(String ipp, String nom, String prenom, Localisation localisation){
+        this.ipp = ipp;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.localisation = localisation;
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -272,6 +295,20 @@ public class Patient {
      */
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+    
+    /**
+     * @return the telephone
+     */
+    public Localisation getLocalisation() {
+        return localisation;
+    }
+
+    /**
+     * @param telephone the telephone to set
+     */
+    public void setLocalisation(Localisation localisation) {
+        this.localisation = localisation;
     }
 
     //Fonctions à coder en dessous

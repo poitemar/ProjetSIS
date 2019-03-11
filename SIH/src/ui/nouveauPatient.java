@@ -63,7 +63,6 @@ public class nouveauPatient extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setFocusable(false);
         jPanel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jPanel1.setPreferredSize(new java.awt.Dimension(666, 476));
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel1.setText("Nom :");
