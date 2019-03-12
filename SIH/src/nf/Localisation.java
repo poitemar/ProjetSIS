@@ -6,6 +6,11 @@
 
 package nf;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 /**
  *
  * @author poite
@@ -17,7 +22,24 @@ public class Localisation {
     private int etage;
     private int chambre;
     private Lit lit;
+    private Connection con;
+    private Statement st;
+    private ResultSet rs;
     
+    public Localisation(){
+      try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            con = DriverManager.getConnection("jdbc:mysql://mysql-dossmed.alwaysdata.net:3306/dossmed_bd", "dossmed", "projetsis"); // chacun à un localHost different à voir pour chacun, 
+            st = con.createStatement();
+
+        } catch (Exception ex) {
+            System.out.println("error :" + ex);
+            ex.printStackTrace();
+
+        }
+
+    }
     
     //Constructeur de localisation
     

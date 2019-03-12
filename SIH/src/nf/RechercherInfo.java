@@ -39,7 +39,7 @@ public class RechercherInfo {
         try {
             Class.forName("com.mysql.jdbc.Driver");
 
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // Se connecter au LocalHost de la BD  
+            con = DriverManager.getConnection("jdbc:mysql://mysql-dossmed.alwaysdata.net:3306/dossmed_bd", "dossmed", "projetsis"); // Se connecter au LocalHost de la BD  
             st = con.createStatement();
 
         } catch (Exception ex) {
@@ -50,7 +50,7 @@ public class RechercherInfo {
             }
         }
     }
-
+ 
     public ArrayList<Patient> rechercheListPatientNomPrenom(String nom, String prenom) {
         Lp = new ArrayList<Patient>();
         Patient p = null;

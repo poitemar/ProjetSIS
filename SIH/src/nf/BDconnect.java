@@ -26,8 +26,9 @@ public class BDconnect {
         try {
             Class.forName("com.mysql.jdbc.Driver");
 
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
-            st = con.createStatement();
+          //  con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
+           con = DriverManager.getConnection("jdbc:mysql://mysql-lauren.alwaysdata.net:3306/lauren_bd", "lauren", "70228679"); 
+          st = con.createStatement();
 
         } catch (Exception ex) {
             System.out.println("error :" + ex);
