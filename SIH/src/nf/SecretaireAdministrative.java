@@ -28,8 +28,8 @@ public class SecretaireAdministrative extends PersonnelMedical{
          try{
             Class.forName("com.mysql.jdbc.Driver");
             
-            con= DriverManager.getConnection("jdbc:mysql://localhost:3306/bd","root",""); // chacun à un localHost different à voir pour chacun, 
-            st = con.createStatement();
+            con = DriverManager.getConnection("jdbc:mysql://mysql-dossmed.alwaysdata.net:3306/dossmed_bd", "dossmed", "projetsis"); // chacun à un localHost different à voir pour chacun, 
+           st = con.createStatement();
             
         }catch(Exception ex) {
             System.out.println("error :" +  ex );
@@ -67,7 +67,7 @@ public class SecretaireAdministrative extends PersonnelMedical{
 public int nombrePatients() {
         int compteur = 0;
         try {
-            String query = "select * from PATIENTS"; // la query à entrer pour accéder aux données de nos tables 
+            String query = "select * from patients"; // la query à entrer pour accéder aux données de nos tables 
             rs = st.executeQuery(query);
             while (rs.next()) {
                 compteur++;
@@ -85,7 +85,7 @@ public int nombrePatients() {
         int i=0;
         String[] listePatients = new String[compteur];
         try {
-            String query = "select * from PATIENTS"; // la query à entrer pour accéder aux données de nos tables 
+            String query = "select * from patients"; // la query à entrer pour accéder aux données de nos tables 
             rs = st.executeQuery(query);
             while (rs.next()) {
                 String nom = rs.getString("NOM");

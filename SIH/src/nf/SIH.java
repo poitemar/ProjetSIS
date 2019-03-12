@@ -24,12 +24,12 @@ public class SIH {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        String idSejour = "190221999";
-        String iPP = "idPatient";
-        String idPH ="idphtestonc";
-        Patient p =new Patient("bluff","bluff");
-        Localisation localisationbluff = new Localisation(Specialite.CARDIOLOGIE,Orientation.CENTRE,1,123,Lit.FENETRE);
-       Sejour sejourbluff = new Sejour("idSejour","idPatient","idPhReferent",localisationbluff);
+//        String idSejour = "190221999";
+//        String iPP = "idPatient";
+//        String idPH ="idphtestonc";
+//        Patient p =new Patient("bluff","bluff");
+//        Localisation localisationbluff = new Localisation(Specialite.CARDIOLOGIE,Orientation.CENTRE,1,123,Lit.FENETRE);
+//       Sejour sejourbluff = new Sejour("idSejour","idPatient","idPhReferent",localisationbluff);
       //pour la BD 
 //      BDconnect bd = new BDconnect(); 
 //      bd.ajouterSejour();
@@ -45,12 +45,12 @@ public class SIH {
 //        System.out.println(p.creationIPP_pour_ajout_patient());
      // pour la BD 
   //     BDconnect bd = new BDconnect(); 
-    // bd.getData2();
+//    // bd.getData2();
       
     
        //        System.out.println(sejourbluff.listeSejour("526341897"));
      
-        System.out.println(sejourbluff.listeSaisie("190248662"));
+//        System.out.println(sejourbluff.listeSaisie("190248662"));
     
     
      // bd.ajouterDonnees();
