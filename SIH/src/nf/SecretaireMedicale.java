@@ -44,10 +44,6 @@ public class SecretaireMedicale extends PersonnelMedical {
 //On cree un nouveau sejour mais on ne le remplit pas, l'operation creer le sejour et le remplir ne se deroulent pas dans la meme methode
     public void ajouterSejour(String idSejour, String iPP, String idPHReferent, Localisation localisation) {
         Sejour s = new Sejour(idSejour, iPP, idPHReferent, localisation);
-        String sql = "insert into ph_referent(ID_PHR,ID_SEJOUR,IPP,DATE_CREATION_SEJOUR) values (?,?,?,?)";
-        String sql2 = "insert into localisation (ID_SEJOUR,SERVICE,ORIENTATION,ETAGE,CHAMBRE,LIT) values (?,?,?,?,?,?)";
-        try {
-       Sejour s = new Sejour(idSejour, iPP, idPHReferent, localisation);        
        String sql = "insert into ph_referent(ID_PHR,ID_SEJOUR,IPP,DATE_CREATION_SEJOUR) values (?,?,?,?)";
        String sql2 ="insert into localisation (ID_SEJOUR,SERVICE,ORIENTATION,ETAGE,CHAMBRE,LIT) values (?,?,?,?,?,?)";
         String sql3 ="insert into ph (ID_PH,IPP_PATIENT,ID_SEJOUR,DATE_SAISIE,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,TITRE_OPERATION,OPERATION,COMPTE_RENDU) values (?,?,?,?,?,?,?,?,?,?,?)";
@@ -57,7 +53,7 @@ public class SecretaireMedicale extends PersonnelMedical {
             PreparedStatement pstm2 = con.prepareStatement(sql2);
             PreparedStatement pstm3 = con.prepareStatement(sql3);
             Date maDate = new Date();
-            SimpleDateFormat maDateLongue = new SimpleDateFormat("dd/MM/yyyy");
+         
 
             SimpleDateFormat maDateLongue= new SimpleDateFormat("dd/MM/yyyy HH:mm");
             
@@ -286,16 +282,7 @@ public class SecretaireMedicale extends PersonnelMedical {
 
                    //System.out.println(idPatient);
                 
-                     
-                   Sexe sexeLu = (Sexe) Enum.valueOf(Sexe.class, rs.getString("SEXE"));
-                  String adresse = rs.getString("ADRESSE");
-                   // System.out.println(Adresse);
-                  String tel = rs.getString("TELEPHONE");
-                     //System.out.println(tel);                 
-                     
-                 Patient patient = new Patient(idp,nom,prenom,sexeLu,date,adresse,tel);
-                   //   System.out.println(docteur.getNom());
-                 //System.out.println(docteur.getSpecialite().toString());
+                
                 int i =0;
                 Boolean rep = false;
                  while( i<listePatient.size() && rep==false){

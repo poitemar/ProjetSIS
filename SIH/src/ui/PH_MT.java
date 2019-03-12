@@ -478,7 +478,9 @@ public class PH_MT extends javax.swing.JFrame {
             }
         });
     }
-
+    private javax.swing.JLabel jLabel1;
+private javax.swing.JLabel jLabel10;
+private javax.swing.JLabel jLabel11;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTree DM;
     private javax.swing.JTabbedPane PH_MT;
