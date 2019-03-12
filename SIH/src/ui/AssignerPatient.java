@@ -5,6 +5,10 @@
  */
 package ui;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import javax.swing.DefaultComboBoxModel;
 import nf.Service;
 import nf.Sexe;
@@ -15,12 +19,25 @@ import nf.Specialite;
  * @author racam
  */
 public class AssignerPatient extends javax.swing.JFrame {
-    nf.SecretaireMedicaleUrgence secrMedUrg = new nf.SecretaireMedicaleUrgence("1234","MAURIOL","Marine","087567","123",Specialite.ACCUEIL,Service.ACCUEIL);
+    private Connection con;
+    private Statement st;
+    nf.SecretaireMedicaleUrgence secrMedUrg = new nf.SecretaireMedicaleUrgence("1234", "MAURIOL", "Marine", "087567", "123", Specialite.ACCUEIL, Service.ACCUEIL);
     ui.SecretaireMedicaleUrgence secrMedUrgUI = new ui.SecretaireMedicaleUrgence();
+
     /**
      * Creates new form NewJFrame
      */
     public AssignerPatient() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
+            st = con.createStatement();
+
+        } catch (Exception ex) {
+            System.out.println("error :" + ex);
+            ex.printStackTrace();
+
+        }
         initComponents();
     }
 
@@ -170,16 +187,37 @@ public class AssignerPatient extends javax.swing.JFrame {
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-         if(sexe.getSelectedItem()!="Sélectionner..." && jComboBox3.getSelectedItem()!="Sélectionner..."){
-             secrMedUrg.affecterPatient(secrMedUrg.getIPP_temp(secrMedUrgUI.getNom(),secrMedUrgUI.getPrenom(),secrMedUrg.getDateNaissance(secrMedUrgUI.getNom(), secrMedUrgUI.getPrenom())), Sexe.FEMME, jTextField1.getText(), jTextField2.getText());
-         }
-         new SecretaireMedicaleUrgence().setVisible(true);
-        this.dispose();
+        String dateN = "";
+        String ipp = "";
+        if (sexe.getSelectedItem() != "Sélectionner..." && jComboBox3.getSelectedItem() != "Sélectionner..." && jCheckBox1.isSelected()==false) {
+            dateN = secrMedUrg.getDateNaissance(secrMedUrgUI.getNom(), secrMedUrgUI.getPrenom());
+            ipp = secrMedUrg.getIPP_temp(secrMedUrgUI.getNom(), secrMedUrgUI.getPrenom(), dateN);
+            System.out.println(dateN);
+            secrMedUrg.affecterPatient(secrMedUrg.getIPP_temp(secrMedUrgUI.getNom(), secrMedUrgUI.getPrenom(), dateN), (Sexe) sexe.getSelectedItem(), jTextField1.getText(), jTextField2.getText());
+            System.out.println("NOM : " + secrMedUrgUI.getNom() + " , PRENOM : " + secrMedUrgUI.getPrenom() + " ET DATE NAISSANCE : " + secrMedUrg.getDateNaissance(secrMedUrgUI.getNom(), secrMedUrgUI.getPrenom()));
+            new nouveauSejour((Specialite) jComboBox3.getSelectedItem(), ipp).setVisible(true);
+            this.dispose();
+        }
+        
+        else if (jCheckBox1.isSelected() == true){
+            System.out.println("pas sélectionné");
+            dateN = secrMedUrg.getDateNaissance(secrMedUrgUI.getNom(), secrMedUrgUI.getPrenom());
+            ipp = secrMedUrg.getIPP_temp(secrMedUrgUI.getNom(), secrMedUrgUI.getPrenom(), dateN);
+            System.out.println("ceci est ipp " +ipp);
+            try {
+                String requete2 = "delete from PATIENTS_TEMP where IPP_TEMP='" + ipp+"'";
+                st.executeUpdate(requete2);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            this.dispose();
+        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void sexeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sexeActionPerformed

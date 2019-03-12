@@ -58,9 +58,9 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
         String nom="";
         System.out.println("ceci est la séléction : "+selection);
         int compteur=0;
-        while (!(String.valueOf(selection.charAt(compteur))).equals("")){
+        while (!(String.valueOf(selection.charAt(compteur))).equals(" ")){
             System.out.println(String.valueOf(selection.charAt(compteur)));
-            System.out.println((String.valueOf(selection.charAt(compteur))).equals(""));
+            System.out.println((String.valueOf(selection.charAt(compteur))).equals(" "));
             nom = nom + selection.charAt(compteur);
             compteur++;
         }
@@ -92,9 +92,9 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
         jFormattedTextField1 = new javax.swing.JFormattedTextField();
         jButton4 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList3 = new javax.swing.JList<>();
+        jList3 = new javax.swing.JList<String>();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        jList1 = new javax.swing.JList<String>();
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
@@ -104,6 +104,7 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(666, 476));
         jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -114,7 +115,7 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel2.setText("Mme Secrétaire MEDICALE");
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -214,7 +215,7 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
             }
         });
 
-        jLabel10.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel10.setText("URGENCES");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -307,7 +308,7 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addComponent(jButton2))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
@@ -408,8 +409,7 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
 
     private void jPanel1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseEntered
        listePatientsActuels = secrMedUrg.afficherListePatientsActuels();
-        System.out.println("liste Patients Actuels : " + listePatientsActuels[listePatientsActuels.length-1]);
-       //listePatients = secrMedUrg.afficherListePatients();
+       listePatients = secrMedUrg.afficherListePatients();
        //System.out.println("liste Patients : " + listePatients[listePatients.length-1]);
        jList1.setListData(listePatientsActuels);
        jList3.setListData(listePatients);

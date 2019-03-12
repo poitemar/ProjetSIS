@@ -155,6 +155,7 @@ public class nouveauPatientUrgence extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
           nf.Patient p = new nf.Patient("bluff","bluff") ;
           String ipp = p.creationIPP_pour_ajout_patient();
+          System.out.println("ceci est dateN : "+dateN);
           secrMedUrg.ajouterPatient(ipp, nom.getText(), prenom.getText(),dateN.getText());
           secrMedUrg.MajListe((nom.getText()+prenom.getText()));
           System.out.println(ipp);
