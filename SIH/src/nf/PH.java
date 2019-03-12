@@ -11,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import nf.Sejour;
 
@@ -30,7 +31,7 @@ public class PH extends PersonnelMedical {
         this.specialite = spe;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
+            con = DriverManager.getConnection("jdbc:mysql://mysql-dossmed.alwaysdata.net:3306/dossmed_bd", "dossmed", "projetsis"); // chacun à un localHost different à voir pour chacun, 
             st = con.createStatement();
 
         } catch (Exception ex) {
@@ -44,8 +45,11 @@ public class PH extends PersonnelMedical {
     public String idSejourPatientSelection(String iPP){
         
         String idSejour ="";
-        String dateLaPlusRecente="01/01/0001";
+        String dateLaPlusRecente="01/01/0001 00:00";
         String date="";
+        java.util.Date date1;
+        java.util.Date date2;
+         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         //On recherche le sejour le plus recent
         try {
             String query = "select DATE_CREATION_SEJOUR from ph_referent where IPP='"+iPP+"'";
@@ -54,7 +58,9 @@ public class PH extends PersonnelMedical {
             
             while (rs.next()) {
                date = rs.getString("DATE_CREATION_SEJOUR");
-               if(date.compareTo(dateLaPlusRecente)>0){
+                date1 = format.parse(date);
+                date2 = format.parse(dateLaPlusRecente);
+               if(date1.compareTo(date2)>0){
                    dateLaPlusRecente = date;
              
                }
@@ -214,7 +220,48 @@ public class PH extends PersonnelMedical {
         System.out.println();
         return listePH;
     }
+      public int nombrePHLabo() {
+        int compteur = 0;
+        try {
+            String query = "select * from PERSONNEL_MEDICAL where TYPE_P ='DOCTEUR' and SPE ='"+ Specialite.LABORATOIRE_ANALYSE+"'"; // la query à entrer pour accéder aux données de nos tables 
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                compteur++;
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+            ex.printStackTrace();
+        }
+        System.out.println("compteur = " + compteur);
+        return compteur;
+    }
     
+     //affichage de la liste des Radiologues
+    public String[] afficherListePHLabo() {
+        int compteur = nombrePHRadio();
+       
+        int i=0;
+        String[] listePH = new String[compteur];
+        
+        try {
+            String query = "select * from PERSONNEL_MEDICAL where TYPE_P = 'DOCTEUR' and SPE ='"+ Specialite.LABORATOIRE_ANALYSE +"'"; // la query à entrer pour accéder aux données de nos tables 
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                String nom = rs.getString("NOM");
+                String prenom = rs.getString("PRENOM");
+                String nomEntier = nom + " " + prenom;
+                listePH[i]=nomEntier;
+                System.out.println(listePH[i]);
+                i++;
+                System.out.println(i);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+            ex.printStackTrace();
+        }
+        System.out.println();
+        return listePH;
+    }
    //Fonction qui retourne l'idMed du medecin lu dans la liste
     public String iPPMedecinListe(String lecture){
         String ipp="";

@@ -13,5 +13,6 @@ package nf;
 public enum Lit {
     
     FENETRE,
-    PORTE;
+    PORTE,
+    NULL;
 }

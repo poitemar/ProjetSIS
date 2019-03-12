@@ -39,8 +39,8 @@ public class RechercherInfo {
         try {
             Class.forName("com.mysql.jdbc.Driver");
 
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // Se connecter au LocalHost de la BD  
-            st = con.createStatement();
+            con = DriverManager.getConnection("jdbc:mysql://mysql-dossmed.alwaysdata.net:3306/dossmed_bd", "dossmed", "projetsis"); // chacun à un localHost different à voir pour chacun, 
+           st = con.createStatement();
 
         } catch (Exception ex) {
 

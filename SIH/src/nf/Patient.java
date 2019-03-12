@@ -30,6 +30,7 @@ public class Patient {
     private Connection con;
     private Statement st;
     private ResultSet rs; 
+    private Localisation localisation;
     
     
     public Patient() {
@@ -43,7 +44,7 @@ public class Patient {
         try {
             Class.forName("com.mysql.jdbc.Driver");
 
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
+             con = DriverManager.getConnection("jdbc:mysql://mysql-dossmed.alwaysdata.net:3306/dossmed_bd", "dossmed", "projetsis"); // chacun à un localHost different à voir pour chacun, 
             st = con.createStatement();
 
         } catch (Exception ex) {
@@ -74,6 +75,9 @@ public class Patient {
             }
 
     }}
+    
+        
+        
      //Fonction qui retourne l'id du patient lu dans une liste
     public String ippPatientListe(String lecture){
         String p ="";
@@ -109,6 +113,31 @@ public class Patient {
         return p;
     }
 
+    
+    
+    
+        //Fonction qui retourne le nom et le prenom du patient lu dans une liste
+    public String patientListe(String lecture){
+        String p ="";
+         
+             String nomLu ="";
+             String prenomLu="";
+             String dateLue="";
+             String[] result = lecture.split("\\s\\s\\s\\s\\s\\s\\s\\s\\s");
+             
+        for (int x=0; x<result.length; x++){
+         nomLu =result[0];
+            System.out.println(nomLu);
+         prenomLu = result[1];
+         System.out.println(prenomLu);
+         dateLue =result[2];
+         System.out.println(dateLue);
+         
+         p = nomLu+" " + prenomLu;
+      
+        
+    }
+    return p;}
     // Constructeur de Patient
     public Patient(String ipp, String nom, String prenom, Sexe sexe, String dateDeNaissance, String adresse, String telephone){
         this.nom = nom;
@@ -118,6 +147,28 @@ public class Patient {
         this.dateDeNaissance = dateDeNaissance;
         this.adresse = adresse;
         this.telephone = telephone;
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
+            st = con.createStatement();
+
+        } catch (Exception ex) {
+
+            {
+                System.out.println("error :" + ex);
+
+            }
+
+        }
+    }
+    
+    public Patient(String ipp, String nom, String prenom, Localisation localisation){
+        this.ipp = ipp;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.localisation = localisation;
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -272,6 +323,20 @@ public class Patient {
      */
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+    
+    /**
+     * @return the telephone
+     */
+    public Localisation getLocalisation() {
+        return localisation;
+    }
+
+    /**
+     * @param telephone the telephone to set
+     */
+    public void setLocalisation(Localisation localisation) {
+        this.localisation = localisation;
     }
 
     //Fonctions à coder en dessous

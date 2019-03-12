@@ -6,6 +6,8 @@
 
 package nf;
 
+import java.text.SimpleDateFormat;
+
 /**
  *
  * @author poite
@@ -28,12 +30,24 @@ public class Localisation {
         this.chambre = chambre;
         this.lit =lit;
     }
+    
+    public Localisation(Patient patient, java.util.Date date, Specialite service, String codeLocalisation){
+        patient = new Patient(patient.getIpp(),patient.getNom(), patient.getPrenom(), this);
+        java.util.Date maDate = new java.util.Date();
+        SimpleDateFormat maDateLongue = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        date = maDate;
+        service = this.specialite;
+        codeLocalisation = this.codeLocalisation();
+    }
 
+    public String codeLocalisation(){
+        /*on utilise un code de localisation qui regroupe toutes les informations de localisation sous le format :
+        X-X-XXX-X = ORIENTATION-ETAGE-CHAMBRE-LIT
+        exemple : N-2-220-F */
+        String Code_Localisation = " " + this.orientation.toString().substring(0,1) +"-"+this.etage+"-"+this.chambre+"-"+this.lit.toString().substring(0,1);
+        return Code_Localisation;
+    }
    
-        
-        
-       
-
     
     // getters et setters
     /**

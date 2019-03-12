@@ -17,11 +17,14 @@ PersonnelMedical perso;
     /**
      * Creates new form ChangerMDP
      */
-    public ChangerMDP(PersonnelMedical p) {
+    public ChangerMDP(PersonnelMedical p){
         this.perso =p;
         initComponents();
-        setSize(700,600);
+        this.setSize(700,600);
+        
+        
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

@@ -34,8 +34,8 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
         service = service.URGENCE;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
-            st = con.createStatement();
+             con = DriverManager.getConnection("jdbc:mysql://mysql-dossmed.alwaysdata.net:3306/dossmed_bd", "dossmed", "projetsis"); // chacun à un localHost different à voir pour chacun, 
+           st = con.createStatement();
             st1 = con.createStatement();
             st2 = con.createStatement();
 

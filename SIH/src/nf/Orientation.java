@@ -16,5 +16,6 @@ public enum Orientation {
     SUD,
     EST,
     OUEST,
-    CENTRE;
+    CENTRE,
+    NULL;
 }
