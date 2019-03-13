@@ -103,7 +103,7 @@ public class PersonnelMedical {
         ArrayList<Patient> listePatient = new ArrayList<Patient>();
         
          try {
-            String query = "select * from PATIENTS join PH_REFERENT using(IPP) join PRESTATIONS using(ID_SEJOUR) where ID_DR_RECEVEUR ='"+idmed+"'"; // la query à entrer pour accéder aux données de nos tables 
+            String query = "select * from patients join ph_referent using(IPP) join prestations using(ID_SEJOUR) where ID_DR_RECEVEUR ='"+idmed+"'"; // la query à entrer pour accéder aux données de nos tables 
              System.out.println(query);
             rs = st.executeQuery(query);
             while (rs.next()) {
@@ -147,7 +147,7 @@ public class PersonnelMedical {
         ArrayList<String> listePrestations = new ArrayList<String>();
         
          try {
-            String query = "select * from PATIENTS join PH_REFERENT using(IPP) join PRESTATIONS using(ID_SEJOUR) where ID_DR_RECEVEUR ='"+idmed+"'"; // la query à entrer pour accéder aux données de nos tables 
+            String query = "select * from patients join ph_referent using(IPP) join prestations using(ID_SEJOUR) where ID_DR_RECEVEUR ='"+idmed+"'"; // la query à entrer pour accéder aux données de nos tables 
              System.out.println(query);
             rs = st.executeQuery(query);
             while (rs.next()) {
@@ -244,7 +244,7 @@ public class PersonnelMedical {
     //retourne true si le medecin est le ph référent du séjour
     public boolean estReferent(String idMed,String idSejour){
         try {
-            String query = "select ID_PHR from PH_REFERENT where ID_SEJOUR ='"+idSejour+"'"; // la query à entrer pour accéder aux données de nos tables 
+            String query = "select ID_PHR from ph_referent where ID_SEJOUR ='"+idSejour+"'"; // la query à entrer pour accéder aux données de nos tables 
              System.out.println(query);
             rs = st.executeQuery(query);
             while (rs.next()) {

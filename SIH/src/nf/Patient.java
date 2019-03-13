@@ -216,7 +216,7 @@ public class Patient {
     public String getIpp() {
      
         try{
-              String query = "select ipp from PATIENTS "; // la query à entrer pour accéder aux données de nos tables 
+              String query = "select ipp from patients "; // la query à entrer pour accéder aux données de nos tables 
               rs= st.executeQuery(query);
               System.out.println("contenue de la base de donnée"); 
               while (rs.next()){

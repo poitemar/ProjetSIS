@@ -47,7 +47,7 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
     }
 
     public void ajouterPatient(String ipp,String nom, String prenom, String dateNaissance) {
-        String sql = "insert into PATIENTS_TEMP(IPP_TEMP,NOM,PRENOM,DATE_NAISSANCE,DATE_ENTREE) values (?,?,?,?,?)";
+        String sql = "insert into patients_temp(IPP_TEMP,NOM,PRENOM,DATE_NAISSANCE,DATE_ENTREE) values (?,?,?,?,?)";
         java.util.Date maDate;
             SimpleDateFormat maDateLongue;
             maDate= new java.util.Date();
@@ -74,7 +74,7 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
     public int nombrePatientsActuels() {
         int compteur = 0;
         try {
-            String query = "select * from PATIENTS_TEMP"; // la query à entrer pour accéder aux données de nos tables 
+            String query = "select * from patients_temp"; // la query à entrer pour accéder aux données de nos tables 
             rs = st.executeQuery(query);
             while (rs.next()) {
                 compteur++;
@@ -92,7 +92,7 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
         int i = 0;
         String[] listePatientsActuels = new String[compteur];
         try {
-            String query = "select * from PATIENTS_TEMP"; // la query à entrer pour accéder aux données de nos tables 
+            String query = "select * from patients_temp"; // la query à entrer pour accéder aux données de nos tables 
             rs = st.executeQuery(query);
             while (rs.next()) {
                 String nom = rs.getString("NOM");
@@ -141,7 +141,7 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
         String dateNaissance="";
         boolean estDedans = false;
         try {
-            String query = "select * from PATIENTS_TEMP where IPP_TEMP = '"+IPP_temp+"'";
+            String query = "select * from patients_temp where IPP_TEMP = '"+IPP_temp+"'";
             rs = st.executeQuery(query);
             while (rs.next()) {
                 NOM = rs.getString("NOM");
@@ -154,7 +154,7 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
             ex.printStackTrace();
         }
         try {
-            String query = "select * from PATIENTS"; // la query à entrer pour accéder aux données de nos tables 
+            String query = "select * from patients"; // la query à entrer pour accéder aux données de nos tables 
             rs = st.executeQuery(query);
             while (rs.next()) {
                 nom = rs.getString("NOM");
@@ -172,7 +172,7 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
         if (estDedans == false) {
             System.out.println("il est pas dedans du coup");
             try {
-                String requete = "select * from PATIENTS_TEMP where IPP_TEMP=" + IPP_temp;
+                String requete = "select * from patients_temp where IPP_TEMP=" + IPP_temp;
                 rs1 = st1.executeQuery(requete);
                 while (rs1.next()) {
                     nom = rs1.getString("NOM");
@@ -185,7 +185,7 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
             }
         }
             try {
-                String requete2 = "delete from PATIENTS_TEMP where IPP_TEMP=" + IPP_temp;
+                String requete2 = "delete from patients_temp where IPP_TEMP=" + IPP_temp;
                 st2.executeUpdate(requete2);
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -228,7 +228,7 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
         String DATENAISSANCE="";
         boolean dedans=false;
         try {
-            String query = "select * from PATIENTS where NOM='"+nom+"' and PRENOM='"+prenom+"' and DATENAISSANCE='"+dateNaissance+"'";
+            String query = "select * from patients where NOM='"+nom+"' and PRENOM='"+prenom+"' and DATENAISSANCE='"+dateNaissance+"'";
             rs = st.executeQuery(query);
             while (rs.next()){
                 NOM = rs.getString("NOM");
@@ -245,7 +245,7 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
         }
         if (dedans==false){
         try {
-            String query = "select * from PATIENTS_TEMP where NOM='"+nom+"' and PRENOM='"+prenom+"' and DATE_NAISSANCE='"+dateNaissance+"'"; // la query à entrer pour accéder aux données de nos tables 
+            String query = "select * from patients_temp where NOM='"+nom+"' and PRENOM='"+prenom+"' and DATE_NAISSANCE='"+dateNaissance+"'"; // la query à entrer pour accéder aux données de nos tables 
             rs = st.executeQuery(query);
             while (rs.next()) {
                 resultat = rs.getString("IPP_TEMP");
@@ -258,7 +258,7 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
         
         else if (dedans==true){
             try {
-            String query = "select * from PATIENTS where NOM='"+nom+"' and PRENOM='"+prenom+"' and DATENAISSANCE='"+dateNaissance+"'"; // la query à entrer pour accéder aux données de nos tables 
+            String query = "select * from patients where NOM='"+nom+"' and PRENOM='"+prenom+"' and DATENAISSANCE='"+dateNaissance+"'"; // la query à entrer pour accéder aux données de nos tables 
             rs = st.executeQuery(query);
             while (rs.next()) {
                 resultat = rs.getString("IPP");
@@ -274,7 +274,7 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
     public String getDateNaissance(String nom, String prenom){
         String resultat="";
         try {
-            String query = "select * from PATIENTS_TEMP where NOM='"+nom+"' and PRENOM='"+prenom+"'"; // la query à entrer pour accéder aux données de nos tables 
+            String query = "select * from patients_temp where NOM='"+nom+"' and PRENOM='"+prenom+"'"; // la query à entrer pour accéder aux données de nos tables 
             rs2 = st.executeQuery(query);
             while (rs2.next()) {
                 resultat = rs2.getString("DATE_NAISSANCE");

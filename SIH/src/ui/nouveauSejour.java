@@ -185,8 +185,7 @@ public class nouveauSejour extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void boutonEnregistrerPatient(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonEnregistrerPatient
-
-      
+     
         //attribution d'un nouvel identifiant de séjour dès l'enregistrement du patient dans le service
         String nouvel_ID_Sejour = new String();
         nouvel_ID_Sejour = secretaireMedicaleCourante.creationID_Sejour();
@@ -195,10 +194,10 @@ public class nouveauSejour extends javax.swing.JFrame {
           //pour transformer un string enint utiliser Integer.parseInt
           nf.Localisation localisationCourante = new nf.Localisation(pm.getSpecialite(),Orientation.NULL,0,0,Lit.NULL);
 
-         String ipppatientConcerne =p.ippPatientListe(listePatient.getSelectedValue());
+         String ipppatientConcerne =p.ippPatientListe(listePatient.getSelectedValue().toString());
          System.out.println(listePatient.getSelectedValue());
         System.out.println(ipppatientConcerne);
-      //   System.out.println(p.ippPatientListe(listePatient.getSelectedValue().toString()));
+         System.out.println(p.ippPatientListe(listePatient.getSelectedValue().toString()));
         secretaireMedicaleCourante.ajouterSejour(nouvel_ID_Sejour, ipppatientConcerne, secretaireMedicaleCourante.iPPMedecinListe(phSelection), localisationCourante);
         p = new Patient(ipppatientConcerne, p.getNom(), p.getPrenom(), localisationCourante);
         

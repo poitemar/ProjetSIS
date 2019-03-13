@@ -198,7 +198,7 @@ public class SecretaireMedicale extends PersonnelMedical {
                 prenomLu = result[1];
 
             }
-            String query = "select * from PERSONNEL_MEDICAL where NOM='" + nomLu + "' and PRENOM='" + prenomLu + "'"; // la query à entrer pour accéder aux données de nos tables 
+            String query = "select * from personnel_medical where NOM='" + nomLu + "' and PRENOM='" + prenomLu + "'"; // la query à entrer pour accéder aux données de nos tables 
             System.out.println(query);
             rs = st.executeQuery(query);
             while (rs.next()) {
@@ -239,7 +239,7 @@ public class SecretaireMedicale extends PersonnelMedical {
     public int nombrePatients() {
         int compteur = 0;
         try {
-            String query = "select * from PATIENTS join PH on (IPP=IPP_PATIENT) join PERSONNEL_MEDICAL on (ID_PH = ID_P) join LOCALISATION using (ID_SEJOUR) where LOCALISATION.service = 'Oncologie'"; // la query à entrer pour accéder aux données de nos tables 
+            String query = "select * from patients join PH on (IPP=IPP_PATIENT) join personnel_medical on (ID_PH = ID_P) join localisation using (ID_SEJOUR) where LOCALISATION.service = 'Oncologie'"; // la query à entrer pour accéder aux données de nos tables 
             rs = st.executeQuery(query);
             while (rs.next()) {
                 compteur++;
@@ -256,7 +256,7 @@ public class SecretaireMedicale extends PersonnelMedical {
         ArrayList<Patient> listePatient = new ArrayList<Patient>();
 
         try {
-            String query = "select * from PATIENTS join PH_REFERENT on (PATIENTS.IPP=PH_REFERENT.IPP) join LOCALISATION using (ID_SEJOUR) where SERVICE ='" + spe + "'"; // la query à entrer pour accéder aux données de nos tables 
+            String query = "select * from patients join ph_referent on (patients.IPP=ph_referent.IPP) join localisation using (ID_SEJOUR) where SERVICE ='" + spe + "'"; // la query à entrer pour accéder aux données de nos tables 
             System.out.println(query);
             rs = st.executeQuery(query);
             while (rs.next()) {
@@ -276,12 +276,7 @@ public class SecretaireMedicale extends PersonnelMedical {
                 //System.out.println(tel);                 
 
                 Patient patient = new Patient(idp, nom, prenom, sexeLu, date, adresse, tel);
-                //   System.out.println(docteur.getNom());
-                //System.out.println(docteur.getSpecialite().toString());
-                listePatient.add(patient);
-
-                   //System.out.println(idPatient);
-                
+                            
                 
                 int i =0;
                 Boolean rep = false;
@@ -311,7 +306,7 @@ public class SecretaireMedicale extends PersonnelMedical {
         ArrayList<PH> listeMed = new ArrayList<PH>();
 
         try {
-            String query = "select * from PERSONNEL_MEDICAL where TYPE_P='DOCTEUR' and SPE='" + spe + "'"; // la query à entrer pour accéder aux données de nos tables 
+            String query = "select * from personnel_medical where TYPE_P='DOCTEUR' and SPE='" + spe + "'"; // la query à entrer pour accéder aux données de nos tables 
             System.out.println(query);
             rs = st.executeQuery(query);
             while (rs.next()) {
