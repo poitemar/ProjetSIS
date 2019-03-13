@@ -209,6 +209,10 @@ public class nouveauSejour extends javax.swing.JFrame {
 
     }//GEN-LAST:event_listeMedecinsServiceValueChanged
 
+    private void boxServiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxServiceActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_boxServiceActionPerformed
+
     /**
      * @param args the command line arguments
      */

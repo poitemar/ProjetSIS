@@ -66,8 +66,6 @@ public class SecretaireMedicale extends PersonnelMedical {
 
             //On insere les donnees dans le classe localisation ce qui correspond a la requete 2
             pstm2.setString(1, idSejour);
-             //
-             pstm2.setString(1, idSejour);
             pstm2.setString(2, localisation.getSpecialite().toString());
 
             pstm2.setString(3, localisation.getOrientation().toString());
@@ -215,7 +213,7 @@ public class SecretaireMedicale extends PersonnelMedical {
 
     public String creationID_Sejour() {
         /*création séjour : sous le format YYMMxxxxx où YY est l’année de la consultation ou de
-         l’hospitalisation sur deux positions, MM le mois et xxxxx un compteur aléatoire sur cinq positions.*/
+        l’hospitalisation sur deux positions, MM le mois et xxxxx un compteur aléatoire sur cinq positions.*/
         Date maDate;
         SimpleDateFormat maDateLongue;
         maDate = new Date();

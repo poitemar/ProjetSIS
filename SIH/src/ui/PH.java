@@ -19,10 +19,13 @@ import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
+import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
+import nf.DMA;
 import nf.Lit;
+import nf.Localisation;
 import nf.Orientation;
 import nf.Patient;
 import nf.PersonnelMedical;
@@ -571,7 +574,7 @@ public class PH extends JFrame implements ActionListener {
                 .addGroup(panelInformationsPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
                 .addComponent(jLabel24))
         );
 
@@ -802,7 +805,7 @@ public class PH extends JFrame implements ActionListener {
                 .addComponent(textPrestation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
                 .addGroup(panelDemandeDePrestationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelDemandeDePrestationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(medPres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -870,7 +873,9 @@ public class PH extends JFrame implements ActionListener {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(interfacePH, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(1, 1, 1)
+                .addComponent(interfacePH, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1048,6 +1053,12 @@ public class PH extends JFrame implements ActionListener {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+            if (!jList1.isSelectionEmpty()) {
+            PatientSelection = jList1.getSelectedValue().toString();
+            initRenderer();
+            buildTree();
+         new nouveauPatientArchive().setVisible(true);
+    }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -1110,12 +1121,125 @@ public class PH extends JFrame implements ActionListener {
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {                                    
         // TODO add your handling code here:
-        if (!jList1.isSelectionEmpty()) {
-            PatientSelection = jList1.getSelectedValue().toString();
-            initRenderer();
-            buildTree();
-         new nouveauPatientArchive().setVisible(true);
-    }
+    
+         //Instanciation
+
+        this.tCellRenderer.setClosedIcon(null);
+        this.tCellRenderer.setOpenIcon(null);
+        this.tCellRenderer.setLeafIcon(null);
+    
+  
+        Patient pat = new Patient("bluff", "bluff");
+        DMA dma = new DMA(pat);
+        Localisation locBluff = new Localisation(Specialite.ANESTHESIE, Orientation.NORD, 5, 3, Lit.FENETRE);
+        Sejour sej = new Sejour("dSejour", "idPatient", "idphReferan", locBluff);
+        nf.PH ph = new nf.PH("bono", "jean", "hello", "i am", "here", Specialite.ANESTHESIE, Service.MEDICO_TECHNIQUE);
+
+        String IDSej = sej.AfficherIDSejour(pat.ippPatientListe(jList1.getSelectedValue().toString()));
+        String lecture1 = jList1.getSelectedValue().toString();
+        String lecture2 = sej.AfficherPATIENT(pat.ippPatientListe(jList1.getSelectedValue().toString()));
+        String lectureLocalisation = sej.afficherLOCALISATION(sej.AfficherIDSejour(pat.ippPatientListe(jList1.getSelectedValue().toString())));
+        String affichageDma = sej.infoDMA(sej.AfficherIDSejour(pat.ippPatientListe(jList1.getSelectedValue().toString())));
+        String personneConfiance = pat.afficherPersonneConfiance(pat.ippPatientListe(jList1.getSelectedValue().toString()));
+//afficher infos patient
+        System.out.println("selected value : " + jList1.getSelectedValue().toString());
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Identité patient");
+        String[] result = lecture1.split("\\s\\s\\s\\s\\s\\s\\s\\s\\s");
+        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Nom : " + result[0]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Prenom : " + result[1]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("Nom : " + result[2]);
+        treeNode1.add(treeNode2);
+        treeNode1.add(treeNode3);
+        treeNode1.add(treeNode4);
+
+        //complement des infos patient 
+        String[] patient = lecture2.split("\\s\\s\\s\\s\\s\\s\\s\\s\\s");
+        javax.swing.tree.DefaultMutableTreeNode treeNode5 = new javax.swing.tree.DefaultMutableTreeNode("Sexe : " + patient[0]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode6 = new javax.swing.tree.DefaultMutableTreeNode("Adresse : " + patient[1]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode7 = new javax.swing.tree.DefaultMutableTreeNode("Telephone : " + patient[2]);
+        treeNode1.add(treeNode5);
+        treeNode1.add(treeNode6);
+        treeNode1.add(treeNode7);
+
+        //afficher le sejour en cours 
+        String[] IDSejour = IDSej.split("\\s");
+        javax.swing.tree.DefaultMutableTreeNode treeNode13 = new javax.swing.tree.DefaultMutableTreeNode("Sejour En Cours :");
+        javax.swing.tree.DefaultMutableTreeNode treeNode8 = new javax.swing.tree.DefaultMutableTreeNode("ID_Sejour : " + IDSejour[0]);
+        treeNode13.add(treeNode8);
+        javax.swing.tree.DefaultMutableTreeNode treeNode14 = new javax.swing.tree.DefaultMutableTreeNode("PH Referent : " + ph.afficherPHR(pat.ippPatientListe(jList1.getSelectedValue().toString())));
+        treeNode13.add(treeNode14);
+        treeNode1.add(treeNode13);
+
+        //Afficher les prestations 
+        javax.swing.tree.DefaultMutableTreeNode treeNode9 = new javax.swing.tree.DefaultMutableTreeNode("Prestations");
+        ArrayList<String> pres = sej.affichePrestation(IDSej);
+        if (sej.sejourEnCours(IDSej) == true) {
+            for (int i = 0; i < pres.size(); i++) {
+                String prest = pres.get(i);
+                System.out.println(pres.get(i));
+
+                javax.swing.tree.DefaultMutableTreeNode treeNode10 = new javax.swing.tree.DefaultMutableTreeNode(prest);
+                treeNode9.add(treeNode10);
+                treeNode1.add(treeNode9);
+            }
+        }
+        //   Lettre de sortie
+        ArrayList<String> lettre = sej.afficherLettreSortie(pat.ippPatientListe(jList1.getSelectedValue().toString()));
+        javax.swing.tree.DefaultMutableTreeNode treeNode11 = new javax.swing.tree.DefaultMutableTreeNode("Lettre De Sortie");
+        for (int i = 0; i < lettre.size(); i++) {
+            String letter = lettre.get(i);
+            System.out.println(lettre.get(i));
+            javax.swing.tree.DefaultMutableTreeNode treeNode12 = new javax.swing.tree.DefaultMutableTreeNode(letter);
+            treeNode11.add(treeNode12);
+            treeNode1.add(treeNode11);
+        }
+
+        // Afficher personne de confiance: 
+        String[] persConf = personneConfiance.split("\n");
+        javax.swing.tree.DefaultMutableTreeNode treeNode15 = new javax.swing.tree.DefaultMutableTreeNode("Personne De Confiance:");
+        javax.swing.tree.DefaultMutableTreeNode treeNode16 = new javax.swing.tree.DefaultMutableTreeNode(persConf[0]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode17 = new javax.swing.tree.DefaultMutableTreeNode("Adresse :" + persConf[1]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode18 = new javax.swing.tree.DefaultMutableTreeNode("Telephone :" + persConf[2]);
+        treeNode15.add(treeNode16);
+        treeNode15.add(treeNode17);
+        treeNode15.add(treeNode18);
+        treeNode1.add(treeNode15);
+        //Afficher medecin référent 
+
+//        String[] localisation = lectureLocalisation.split("\\s");
+//        javax.swing.tree.DefaultMutableTreeNode treeNode8 = new javax.swing.tree.DefaultMutableTreeNode("Localisation");
+//        javax.swing.tree.DefaultMutableTreeNode treeNode9 = new javax.swing.tree.DefaultMutableTreeNode("ID SEJOUR : " + localisation[0]);
+//        javax.swing.tree.DefaultMutableTreeNode treeNode10 = new javax.swing.tree.DefaultMutableTreeNode("Service : " + localisation[1]);
+//        javax.swing.tree.DefaultMutableTreeNode treeNode11 = new javax.swing.tree.DefaultMutableTreeNode("Orientation : " + localisation[2]);
+//        javax.swing.tree.DefaultMutableTreeNode treeNode12 = new javax.swing.tree.DefaultMutableTreeNode("Chambre: " + localisation[3]);
+//        javax.swing.tree.DefaultMutableTreeNode treeNode13 = new javax.swing.tree.DefaultMutableTreeNode("Etage : " + localisation[4]);
+//        javax.swing.tree.DefaultMutableTreeNode treeNode14 = new javax.swing.tree.DefaultMutableTreeNode("Lit : " + localisation[5]);
+//        treeNode8.add(treeNode7);
+//        treeNode8.add(treeNode9);
+//        treeNode8.add(treeNode10);
+//        treeNode8.add(treeNode11);
+//        treeNode8.add(treeNode12);
+//        treeNode8.add(treeNode13);
+//        treeNode8.add(treeNode14);
+//        treeNode1.add(treeNode8);
+//
+//        String[] adm = affichageDma.split("\\s");
+//        javax.swing.tree.DefaultMutableTreeNode treeNode15 = new javax.swing.tree.DefaultMutableTreeNode("Information complémentaire");
+//        javax.swing.tree.DefaultMutableTreeNode treeNode16 = new javax.swing.tree.DefaultMutableTreeNode("IDPH : " + adm[0]);
+//        javax.swing.tree.DefaultMutableTreeNode treeNode17 = new javax.swing.tree.DefaultMutableTreeNode("ID Sejour : " + adm[1]);
+//        javax.swing.tree.DefaultMutableTreeNode treeNode18 = new javax.swing.tree.DefaultMutableTreeNode("Date de Saisie : " + adm[2]);
+//        javax.swing.tree.DefaultMutableTreeNode treeNode21 = new javax.swing.tree.DefaultMutableTreeNode("heure:de saise " + adm[3]);
+//        javax.swing.tree.DefaultMutableTreeNode treeNode19 = new javax.swing.tree.DefaultMutableTreeNode("Lettre de Sortie : " + adm[4]);
+//        javax.swing.tree.DefaultMutableTreeNode treeNode20 = new javax.swing.tree.DefaultMutableTreeNode("Titre Operation : " + adm[5]);
+//        treeNode15.add(treeNode16);
+//        treeNode15.add(treeNode17);
+//        treeNode15.add(treeNode18);
+//        treeNode15.add(treeNode21);
+//        treeNode15.add(treeNode19);
+//        treeNode15.add(treeNode20);
+//        treeNode1.add(treeNode15);
+        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jTree1.setCellRenderer(this.tCellRenderer);
     }
 
 //   

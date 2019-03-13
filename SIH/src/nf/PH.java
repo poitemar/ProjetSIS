@@ -5,6 +5,8 @@
  */
 package nf;
 
+import static java.awt.image.ImageObserver.ABORT;
+import static java.awt.image.ImageObserver.ERROR;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -26,8 +28,8 @@ public class PH extends PersonnelMedical {
     private ResultSet rs;
     private Specialite specialite;
 
-    public PH(String idMed, String nom, String prenom, String login, String password,Specialite spe,Service service) {
-        super(idMed, nom, prenom, login,password,spe,service);
+    public PH(String idMed, String nom, String prenom, String login, String password, Specialite spe, Service service) {
+        super(idMed, nom, prenom, login, password, spe, service);
         this.specialite = spe;
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -52,10 +54,10 @@ public class PH extends PersonnelMedical {
          SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         //On recherche le sejour le plus recent
         try {
-            String query = "select DATE_CREATION_SEJOUR from ph_referent where IPP='"+iPP+"'";
+            String query = "select DATE_CREATION_SEJOUR from ph_referent where IPP='" + iPP + "'";
             System.out.println(query);
             rs = st.executeQuery(query);
-            
+
             while (rs.next()) {
                date = rs.getString("DATE_CREATION_SEJOUR");
                 date1 = format.parse(date);
@@ -65,37 +67,34 @@ public class PH extends PersonnelMedical {
              
                }
                 System.out.println(date);
-                   System.out.println(dateLaPlusRecente);   
+                System.out.println(dateLaPlusRecente);
             }
         } catch (Exception ex) {
             System.out.println(ex);
-           
+
         }
         //On récupère l'id associé au sejour le plus ancien
         try {
-            String query = "select ID_SEJOUR from ph_referent where IPP='"+iPP+"' and DATE_CREATION_SEJOUR='"+dateLaPlusRecente+"'";
+            String query = "select ID_SEJOUR from ph_referent where IPP='" + iPP + "' and DATE_CREATION_SEJOUR='" + dateLaPlusRecente + "'";
             System.out.println(query);
             rs = st.executeQuery(query);
-            
+
             while (rs.next()) {
-               idSejour = rs.getString("ID_SEJOUR");
-              
+                idSejour = rs.getString("ID_SEJOUR");
+
             }
         } catch (Exception ex) {
             System.out.println(ex);
-           
+
         }
-        
+
         return idSejour;
     }
-    
-    
-    
-    
+
     public Specialite getSpecialite() {
         return specialite;
     }
- 
+
     public int nombrePatients() {
         int compteur = 0;
         System.out.println(getSpecialite());
@@ -112,10 +111,10 @@ public class PH extends PersonnelMedical {
         System.out.println("compteur = " + compteur);
         return compteur;
     }
-    
-    public String[] afficherListePatients(){
+
+    public String[] afficherListePatients() {
         int compteur = nombrePatients();
-        int i=0;
+        int i = 0;
         String[] listePatients = new String[compteur];
         try {
             String query = "select * from patients join ph on (IPP=IPP_PATIENT) join personnel_medical on (ID_PH = ID_P) join localisation using (ID_SEJOUR) where UPPER(localisation.service)= UPPER('"+getSpecialite()+"')";// la query à entrer pour accéder aux données de nos tables 
@@ -124,7 +123,7 @@ public class PH extends PersonnelMedical {
                 String nom = rs.getString("NOM");
                 String prenom = rs.getString("PRENOM");
                 String nomEntier = nom + " " + prenom;
-                listePatients[i]=nomEntier;
+                listePatients[i] = nomEntier;
                 System.out.println(listePatients[i]);
                 i++;
             }
@@ -134,9 +133,9 @@ public class PH extends PersonnelMedical {
         }
         return listePatients;
     }
-    
+
     //compter le nombre des Anesthesistes
-     public int nombrePHAnes() {
+    public int nombrePHAnes() {
         int compteur = 0;
         try {
             String query = "select * from personnel_medical where TYPE_P ='DOCTEUR' and SPE ='"+ Specialite.ANESTHESIE+"'"; // la query à entrer pour accéder aux données de nos tables 
@@ -151,13 +150,13 @@ public class PH extends PersonnelMedical {
         System.out.println("compteur = " + compteur);
         return compteur;
     }
-    
-     //affichage de la liste des Anesthesistes
+
+    //affichage de la liste des Anesthesistes
     public String[] afficherListePHAnes() {
-        int compteur = nombrePHAnes()+1;
-        int i=0;
+        int compteur = nombrePHAnes() + 1;
+        int i = 0;
         String[] listePH = new String[compteur];
-     
+
         try {
             String query = "select * from personnel_medical where TYPE_P = 'DOCTEUR' and SPE ='"+ Specialite.ANESTHESIE +"'"; // la query à entrer pour accéder aux données de nos tables 
             rs = st.executeQuery(query);
@@ -165,7 +164,7 @@ public class PH extends PersonnelMedical {
                 String nom = rs.getString("NOM");
                 String prenom = rs.getString("PRENOM");
                 String nomEntier = nom + " " + prenom;
-                listePH[i]=nomEntier;
+                listePH[i] = nomEntier;
                 System.out.println(listePH[i]);
                 i++;
             }
@@ -176,9 +175,9 @@ public class PH extends PersonnelMedical {
         System.out.println();
         return listePH;
     }
-    
-     //compter le nombre des Radiologues
-     public int nombrePHRadio() {
+
+    //compter le nombre des Radiologues
+    public int nombrePHRadio() {
         int compteur = 0;
         try {
             String query = "select * from personnel_medical where TYPE_P ='DOCTEUR' and SPE ='"+ Specialite.RADIOLOGIE+"'"; // la query à entrer pour accéder aux données de nos tables 
@@ -193,14 +192,14 @@ public class PH extends PersonnelMedical {
         System.out.println("compteur = " + compteur);
         return compteur;
     }
-    
-     //affichage de la liste des Radiologues
+
+    //affichage de la liste des Radiologues
     public String[] afficherListePHRadio() {
         int compteur = nombrePHRadio();
-       
-        int i=0;
+
+        int i = 0;
         String[] listePH = new String[compteur];
-        
+
         try {
             String query = "select * from personnel_medical where TYPE_P = 'DOCTEUR' and SPE ='"+ Specialite.RADIOLOGIE +"'"; // la query à entrer pour accéder aux données de nos tables 
             rs = st.executeQuery(query);
@@ -208,7 +207,7 @@ public class PH extends PersonnelMedical {
                 String nom = rs.getString("NOM");
                 String prenom = rs.getString("PRENOM");
                 String nomEntier = nom + " " + prenom;
-                listePH[i]=nomEntier;
+                listePH[i] = nomEntier;
                 System.out.println(listePH[i]);
                 i++;
                 System.out.println(i);
@@ -281,16 +280,15 @@ public class PH extends PersonnelMedical {
             while (rs.next()) {
                 ipp = rs.getString("ID_P");
                 System.out.println(ipp);
-             
-                
+
             }
         } catch (Exception ex) {
             System.out.println(ex);
-           
+
         }
         return ipp;
-    } 
-    
+    }
+
     //Fonction qui retourne l'idMed du medecin lu dans la liste
     public String iDPH(String idmed){
         String idph="";
@@ -301,18 +299,17 @@ public class PH extends PersonnelMedical {
             while (rs.next()) {
                 idph = rs.getString("ID_PH");
                 System.out.println(idph);
-             
-                
+
             }
         } catch (Exception ex) {
             System.out.println(ex);
-           
+
         }
         return idph;
-    } 
+    }
 
- //compter le nombre de HEMATOLOGUE
-     public int nombrePHHemato() {
+    //compter le nombre de HEMATOLOGUE
+    public int nombrePHHemato() {
         int compteur = 0;
         try {
             String query = "select * from personnel_medical where TYPE_P ='DOCTEUR' and SPE ='"+ Specialite.HEMATOLOGIE+"'"; // la query à entrer pour accéder aux données de nos tables 
@@ -327,14 +324,14 @@ public class PH extends PersonnelMedical {
         System.out.println("compteur = " + compteur);
         return compteur;
     }
-    
-     //affichage de la liste des Hematologues
+
+    //affichage de la liste des Hematologues
     public String[] afficherListePHHemato() {
         int compteur = nombrePHRadio();
-       
-        int i=0;
+
+        int i = 0;
         String[] listePH = new String[compteur];
-        
+
         try {
             String query = "select * from personnel_medical where TYPE_P = 'DOCTEUR' and SPE ='"+ Specialite.HEMATOLOGIE +"'"; // la query à entrer pour accéder aux données de nos tables 
             rs = st.executeQuery(query);
@@ -342,7 +339,7 @@ public class PH extends PersonnelMedical {
                 String nom = rs.getString("NOM");
                 String prenom = rs.getString("PRENOM");
                 String nomEntier = nom + " " + prenom;
-                listePH[i]=nomEntier;
+                listePH[i] = nomEntier;
                 System.out.println(listePH[i]);
                 i++;
                 System.out.println(i);
@@ -356,7 +353,7 @@ public class PH extends PersonnelMedical {
     }
 
     //compter le nombre de Anapathologues
-     public int nombrePHAnapatho() {
+    public int nombrePHAnapatho() {
         int compteur = 0;
         try {
             String query = "select * from personnel_medical where TYPE_P ='DOCTEUR' and SPE ='"+ Specialite.ANAPATHOLOGIE+"'"; // la query à entrer pour accéder aux données de nos tables 
@@ -371,14 +368,14 @@ public class PH extends PersonnelMedical {
         System.out.println("compteur = " + compteur);
         return compteur;
     }
-    
-     //affichage de la liste des anapathologues
+
+    //affichage de la liste des anapathologues
     public String[] afficherListePHAnapatho() {
         int compteur = nombrePHRadio();
-       
-        int i=0;
+
+        int i = 0;
         String[] listePH = new String[compteur];
-        
+
         try {
             String query = "select * from personnel_medical where TYPE_P = 'DOCTEUR' and SPE ='"+ Specialite.ANAPATHOLOGIE +"'"; // la query à entrer pour accéder aux données de nos tables 
             rs = st.executeQuery(query);
@@ -386,7 +383,7 @@ public class PH extends PersonnelMedical {
                 String nom = rs.getString("NOM");
                 String prenom = rs.getString("PRENOM");
                 String nomEntier = nom + " " + prenom;
-                listePH[i]=nomEntier;
+                listePH[i] = nomEntier;
                 System.out.println(listePH[i]);
                 i++;
                 System.out.println(i);
@@ -398,5 +395,25 @@ public class PH extends PersonnelMedical {
         System.out.println();
         return listePH;
     }
+
+    //affichage du PH referent du patient dans le DMA
+    public String afficherPHR(String IPP) {
+        String PHref = " ";
+        try {
+            String query = "select * from personnel_medical join ph_referent on (personnel_medical.ID_P=ph_referent.ID_PHR) where IPP='" + IPP + "'"; // la query à entrer pour accéder aux données de nos tables 
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                String nom = rs.getString("NOM");
+                String prenom = rs.getString("PRENOM");
+                PHref = nom + " " + prenom;
+
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+            ex.printStackTrace();
+        }
+        System.out.println(PHref);
+        return PHref;
+    }
+
 }
-    

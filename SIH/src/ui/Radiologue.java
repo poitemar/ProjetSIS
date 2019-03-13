@@ -129,13 +129,13 @@ private void initRenderer() {
         tab = new javax.swing.JTabbedPane();
         accueil = new javax.swing.JPanel();
         nomRadiologue = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         spe = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         pres = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -171,16 +171,6 @@ private void initRenderer() {
         nomRadiologue.setOpaque(true);
         accueil.add(nomRadiologue);
 
-        jList1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Liste des prestations", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Arial", 1, 14), new java.awt.Color(0, 153, 153))); // NOI18N
-        jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                jList1ValueChanged(evt);
-            }
-        });
-        jScrollPane2.setViewportView(jList1);
-
-        accueil.add(jScrollPane2);
-
         jButton3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButton3.setText("Suivant");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -209,6 +199,16 @@ private void initRenderer() {
 
         pres.setText(" ");
         accueil.add(pres);
+
+        jList1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Liste des prestations", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Arial", 1, 14), new java.awt.Color(0, 153, 153))); // NOI18N
+        jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jList1ValueChanged(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jList1);
+
+        accueil.add(jScrollPane2);
 
         tab.addTab("ACCUEIL", accueil);
 

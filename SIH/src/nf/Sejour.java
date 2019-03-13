@@ -1080,4 +1080,179 @@ public class Sejour {
 
         return rep;
     }
-}
+
+    public String AfficherIDSejour(String IPP) {
+        String idsej = "";
+        try {
+            String query = "select ID_PH,IPP_PATIENT,ID_SEJOUR,DATE_SAISIE,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,TITRE_OPERATION,OPERATION,COMPTE_RENDU from ph where IPP_PATIENT='" + IPP + "';";
+            System.out.println(query);
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                String IdPH = rs.getString("ID_PH");
+                String Ipp = rs.getString("IPP_PATIENT");// pour avoir accès a la colonne de ma table 
+                String IDsejour = rs.getString("ID_SEJOUR");
+                String DateSaisie = rs.getString("DATE_SAISIE");
+                //String etage = rs.getString("OBSERVATION");
+                //String lit = rs.getString("RESULTAT");
+                String lettreSortie = rs.getString("LETTRE_SORTIE");
+                // String chambre = rs.getString("PRESCRIPTION");
+                String titreOperation = rs.getString("TITRE_OPERATION");
+                // String compteRendu = rs.getString("COMPTE_RENDU");
+                idsej = IDsejour + "";
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+        System.out.println(idsej);
+        return idsej;
+    }
+    //afficher les infos administratives du patient
+
+    public String AfficherPATIENT(String ipp) {
+        String patient = "";
+
+        try {
+            String query = "select IPP,NOM,PRENOM,SEXE,DATENAISSANCE,ADRESSE,TELEPHONE from patients where IPP='" + ipp + "';";
+            System.out.println(query);
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                ipp = rs.getString("IPP");
+                String nom = rs.getString("nom");// pour avoir accès a la colonne de ma table 
+                String prenom = rs.getString("prenom");
+                String sexe = rs.getString("sexe");
+                String datenaissance = rs.getString("datenaissance");
+                String adresse = rs.getString("adresse");
+                String telephone = rs.getString("telephone");
+
+                patient = sexe + "         " + adresse + "         " + telephone;
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+        System.out.println(patient);
+        return patient;
+    }
+    //afficher la localisation du patient en cours 
+
+    public String afficherLOCALISATION(String IDsej) {
+        String local = "";
+        try {
+            String query = "select ID_SEJOUR,SERVICE,ORIENTATION,CHAMBRE,ETAGE,LIT from localisation where ID_SEJOUR='" + IDsej + "';";
+            System.out.println(query);
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                IDsej = rs.getString("ID_SEJOUR");
+                String service = rs.getString("SERVICE");// pour avoir accès a la colonne de ma table 
+                String orientation = rs.getString("ORIENTATION");
+                String chambre = rs.getString("CHAMBRE");
+                String etage = rs.getString("ETAGE");
+                String lit = rs.getString("LIT");
+
+                local = IDsej + " " + service + " " + orientation + " " + chambre + " " + etage + " " + lit;
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+        System.out.println(local);
+        return local;
+    }
+
+    //recupere les infos Du DM qui doivent s'afficher dans un DMA (lettre de sortie et titre operation )
+    public String infoDMA(String Idsej) {
+        String sej = "";
+        try {
+            String query = "select ID_PH,IPP_PATIENT,ID_SEJOUR,DATE_SAISIE,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,TITRE_OPERATION,OPERATION,COMPTE_RENDU from ph where ID_SEJOUR='" + Idsej + "';";
+            System.out.println(query);
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                String IdPH = rs.getString("ID_PH");
+                String Ipp = rs.getString("IPP_PATIENT");// pour avoir accès a la colonne de ma table 
+                String IDsejour = rs.getString("ID_SEJOUR");
+                String DateSaisie = rs.getString("DATE_SAISIE");
+
+                String lettreSortie = rs.getString("LETTRE_SORTIE");
+                String titreOperation = rs.getString("TITRE_OPERATION");
+
+                sej = IdPH + " " + IDsejour + " " + DateSaisie + " " + lettreSortie + " " + titreOperation;
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+        System.out.println(sej);
+        return sej;
+    }
+
+    public ArrayList<String> affichePrestation(String ID_Sejour) {
+        ArrayList<String> pres = new ArrayList<String>();
+        try {
+            String query = "select prestation from prestations where ID_SEJOUR='" + ID_Sejour + "'";
+            System.out.println(query);
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                //System.out.println("hello");
+                String prestation = rs.getString("prestation");
+
+                pres.add(prestation);
+
+//                    pres.add(i,prestation);
+//                    System.out.println("hiii");
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+        System.out.println(pres);
+        return pres;
+    }
+
+    public ArrayList <String> afficherLettreSortie(String IPP) {
+      ArrayList <String> lettreSortie = new ArrayList <String>(); 
+        try {
+            String query = " select LETTRE_SORTIE from ph where IPP_PATIENT='" + IPP + "'";
+            System.out.println(query);
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+             
+                
+                String lettre = rs.getString("LETTRE_SORTIE");
+                lettreSortie.add(lettre);
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+        System.out.println(lettreSortie);
+        return lettreSortie;
+    }}
+    
+//    public  boolean sejourClos(String sejour){
+//        boolean doss = true;
+//      try {
+//            String query = " select LETTRE_SORTIE from ph where LETTRE_SORTIE ='"+""+"' ";
+//            
+//            System.out.println(query);
+//            rs = st.executeQuery(query);
+//            while (rs.next()) {
+//             String lettre = rs.getString("LETTRE_SORTIE");
+//            if(lettre != ""){    
+//                    doss = true ; 
+//                    System.out.println("sejour clos");
+//                
+//            }}
+//
+//        } catch (Exception ex) {
+//            System.out.println(ex);
+//
+//        }
+//      return doss; 
+//               }
+//        
+//    }
+
