@@ -68,7 +68,7 @@ public class PersonnelMedical {
             Class.forName("com.mysql.jdbc.Driver");
 
             con = DriverManager.getConnection("jdbc:mysql://mysql-dossmed.alwaysdata.net:3306/dossmed_bd", "dossmed", "projetsis"); // chacun à un localHost different à voir pour chacun, 
-            st = con.createStatement();
+           st = con.createStatement();
 
         } catch (Exception ex) {
             System.out.println("error :" + ex);
@@ -76,10 +76,7 @@ public class PersonnelMedical {
         }
     }
 
-    public String nouvelId() {
-        return "1234";
-
-    }
+    
 
     public void changerMotDePasse(String loginTest, String mdpTest,String newmdp) {
 //Exemple de modification de donnees dans la BD:

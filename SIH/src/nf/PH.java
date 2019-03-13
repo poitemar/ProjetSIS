@@ -44,15 +44,14 @@ public class PH extends PersonnelMedical {
     }
 
     //Retroune l'id du dernier sejour crée pour le patient
-    //Retroune l'id du dernier sejour crée pour le patient
-    public String idSejourPatientSelection(String iPP) {
-
-        String idSejour = "";
-        String dateLaPlusRecente = "01/01/0001 00:00";
-        String date = "";
+    public String idSejourPatientSelection(String iPP){
+        
+        String idSejour ="";
+        String dateLaPlusRecente="01/01/0001 00:00";
+        String date="";
         java.util.Date date1;
         java.util.Date date2;
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         //On recherche le sejour le plus recent
         try {
             String query = "select DATE_CREATION_SEJOUR from ph_referent where IPP='" + iPP + "'";
@@ -60,13 +59,13 @@ public class PH extends PersonnelMedical {
             rs = st.executeQuery(query);
 
             while (rs.next()) {
-                date = rs.getString("DATE_CREATION_SEJOUR");
+               date = rs.getString("DATE_CREATION_SEJOUR");
                 date1 = format.parse(date);
                 date2 = format.parse(dateLaPlusRecente);
-                if (date1.compareTo(date2) > 0) {
-                    dateLaPlusRecente = date;
-
-                }
+               if(date1.compareTo(date2)>0){
+                   dateLaPlusRecente = date;
+             
+               }
                 System.out.println(date);
                 System.out.println(dateLaPlusRecente);
             }
@@ -220,22 +219,63 @@ public class PH extends PersonnelMedical {
         System.out.println();
         return listePH;
     }
-
-    //Fonction qui retourne l'idMed du medecin lu dans la liste
-    public String iPPMedecinListe(String lecture) {
-        String ipp = "";
+      public int nombrePHLabo() {
+        int compteur = 0;
         try {
-            String nomLu = "";
-            String prenomLu = "";
-            String[] result = lecture.split(" ");
-
-            for (int x = 0; x < result.length; x++) {
-                nomLu = result[0];
-                prenomLu = result[1];
-
+            String query = "select * from PERSONNEL_MEDICAL where TYPE_P ='DOCTEUR' and SPE ='"+ Specialite.LABORATOIRE_ANALYSE+"'"; // la query à entrer pour accéder aux données de nos tables 
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                compteur++;
             }
-            String query = "select * from PERSONNEL_MEDICAL where NOM='" + nomLu + "' and PRENOM='" + prenomLu + "'"; // la query à entrer pour accéder aux données de nos tables 
-            System.out.println(query);
+        } catch (Exception ex) {
+            System.out.println(ex);
+            ex.printStackTrace();
+        }
+        System.out.println("compteur = " + compteur);
+        return compteur;
+    }
+    
+     //affichage de la liste des Radiologues
+    public String[] afficherListePHLabo() {
+        int compteur = nombrePHRadio();
+       
+        int i=0;
+        String[] listePH = new String[compteur];
+        
+        try {
+            String query = "select * from PERSONNEL_MEDICAL where TYPE_P = 'DOCTEUR' and SPE ='"+ Specialite.LABORATOIRE_ANALYSE +"'"; // la query à entrer pour accéder aux données de nos tables 
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                String nom = rs.getString("NOM");
+                String prenom = rs.getString("PRENOM");
+                String nomEntier = nom + " " + prenom;
+                listePH[i]=nomEntier;
+                System.out.println(listePH[i]);
+                i++;
+                System.out.println(i);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+            ex.printStackTrace();
+        }
+        System.out.println();
+        return listePH;
+    }
+   //Fonction qui retourne l'idMed du medecin lu dans la liste
+    public String iPPMedecinListe(String lecture){
+        String ipp="";
+         try {
+             String nomLu ="";
+             String prenomLu="";
+             String[] result = lecture.split(" ");
+             
+        for (int x=0; x<result.length; x++){
+         nomLu =result[0];
+         prenomLu = result[1];
+         
+        }
+            String query = "select * from PERSONNEL_MEDICAL where NOM='"+nomLu+"' and PRENOM='"+prenomLu+"'"; // la query à entrer pour accéder aux données de nos tables 
+             System.out.println(query);
             rs = st.executeQuery(query);
             while (rs.next()) {
                 ipp = rs.getString("ID_P");

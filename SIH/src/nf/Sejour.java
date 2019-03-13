@@ -10,11 +10,18 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import javax.swing.JOptionPane;
+import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -39,7 +46,11 @@ public class Sejour {
     private String observation;
     Connection con;
     ResultSet rs;
+    ResultSet rs2;
+    Statement st2;
     Statement st;
+    ResultSet rs3;
+    Statement st3;
     String IPP;
     String phRef;
 
@@ -58,14 +69,452 @@ public class Sejour {
         listePrestations = new ArrayList<String>();
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://mysql-dossmed.alwaysdata.net:3306/dossmed_bd", "dossmed", "projetsis"); // chacun à un localHost different à voir pour chacun, 
-            st = con.createStatement();
+             con = DriverManager.getConnection("jdbc:mysql://mysql-dossmed.alwaysdata.net:3306/dossmed_bd", "dossmed", "projetsis"); // chacun à un localHost different à voir pour chacun, 
+           st = con.createStatement();
+            st2 = con.createStatement();
+            st3 = con.createStatement();
 
         } catch (Exception ex) {
             System.out.println("error :" + ex);
             ex.printStackTrace();
 
         }
+    }
+
+    // Ici on implémente la fonction qui retourne la liste des Id_Sejours d'un patient
+    public List<String> listeSejour(String iPP) {
+        List<String> liste = new ArrayList<String>();
+        List<String> listeDate = new ArrayList<String>();
+        try {
+            String query = "select * from ph_referent where IPP='" + iPP + "'"; // la query à entrer pour accéder aux données de nos tables 
+            System.out.println(query);
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+
+                String date = rs.getString("DATE_CREATION_SEJOUR");
+
+                listeDate.add(date);
+
+            }
+
+            Collections.sort(listeDate, new Comparator<String>() {
+                public int compare(String s1, String s2) {
+                    // Write your logic here.
+                    String dateString1 = s1;
+                    String dateString2 = s2;
+                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                    Date date1;
+                    try {
+                        date1 = format.parse(dateString1);
+                    } catch (ParseException ex) {
+                        date1 = new Date();
+                        Logger.getLogger(Sejour.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    Date date2;
+                    try {
+                        date2 = format.parse(dateString2);
+                    } catch (ParseException ex) {
+                        date2 = new Date();
+                        Logger.getLogger(Sejour.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    return date2.compareTo(date1);
+                }
+            }
+            );
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+        System.out.println(listeDate);
+
+        for (int i = 0; i < listeDate.size(); i++) {
+            try {
+                String query = "select * from ph_referent where DATE_CREATION_SEJOUR='" + listeDate.get(i) + "'"; // la query à entrer pour accéder aux données de nos tables 
+                System.out.println(query);
+                rs = st.executeQuery(query);
+                while (rs.next()) {
+
+                    String id = rs.getString("ID_SEJOUR");
+
+                    liste.add(id);
+
+                }
+            } catch (Exception ex) {
+                System.out.println(ex);
+
+            }
+        }
+//                
+
+        return liste;
+    }
+
+    //Méthode qui formate l'affichage des séjours dans le jTree
+    public String listeSejourtoString(String idSejour) {
+        String format = "";
+        Boolean rep = sejourEnCours(idSejour);
+
+        try {
+            String query = "select * from ph_referent join ph using(ID_SEJOUR) where ID_SEJOUR='" + idSejour + "' AND LETTRE_SORTIE !='" + "" + "'"; // la query à entrer pour accéder aux données de nos tables 
+            String query2 = "select * from ph_referent join ph using(ID_SEJOUR) where ID_SEJOUR='" + idSejour + "' AND LETTRE_SORTIE='" + "" + "' LIMIT 1"; // la query à entrer pour accéder aux données de nos tables 
+
+            if (rep == false) {
+
+                rs = st.executeQuery(query);
+                while (rs.next()) {
+
+                    String date = rs.getString("DATE_CREATION_SEJOUR");
+                    String dateFin = rs.getString("DATE_SAISIE");
+                    format = "Séjour du : " + date + " au: " + dateFin;
+
+                }
+            }
+            if (rep == true) {
+
+                rs = st.executeQuery(query2);
+                while (rs.next()) {
+
+                    String date = rs.getString("DATE_CREATION_SEJOUR");
+
+                    format = "Séjour du : " + date + " (En cours)";
+
+                }
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+        return format;
+
+    }
+
+    // Ici on implémente la fonction qui retourne la liste des saisies dans un séjour
+    public List<String> listeSaisie(String idSejour) {
+        List<String> liste = new ArrayList<String>();
+        List<String> listeDate = new ArrayList<String>();
+        try {
+            String query = "select * from ph where ID_SEJOUR='" + idSejour + "'"; // la query à entrer pour accéder aux données de nos tables 
+
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                String date = rs.getString("DATE_SAISIE");
+                String observation = rs.getString("OBSERVATION");
+                String resultat = rs.getString("RESULTAT");
+                String lettre = rs.getString("LETTRE_SORTIE");
+                String prescription = rs.getString("PRESCRIPTION");
+                String titreOperation = rs.getString("TITRE_OPERATION");
+                String operation = rs.getString("OPERATION");
+                String CR = rs.getString("COMPTE_RENDU");
+                if (observation.equals("") && resultat.equals("") && lettre.equals("") && prescription.equals("") && titreOperation.equals("") && operation.equals("") && CR.equals("")) {
+
+                } else {
+                    listeDate.add(date);
+                }
+
+            }
+
+            Collections.sort(listeDate, new Comparator<String>() {
+                public int compare(String s1, String s2) {
+                    // Write your logic here.
+                    String dateString1 = s1;
+                    String dateString2 = s2;
+                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                    Date date1;
+                    try {
+                        date1 = format.parse(dateString1);
+                    } catch (ParseException ex) {
+                        date1 = new Date();
+                        Logger.getLogger(Sejour.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    Date date2;
+                    try {
+                        date2 = format.parse(dateString2);
+                    } catch (ParseException ex) {
+                        date2 = new Date();
+                        Logger.getLogger(Sejour.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    return date1.compareTo(date2);
+                }
+            }
+            );
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+        System.out.println(listeDate);
+
+        for (int i = 0; i < listeDate.size(); i++) {
+            try {
+                String query = "select * from ph where DATE_SAISIE='" + listeDate.get(i) + "'"; // la query à entrer pour accéder aux données de nos tables 
+                System.out.println(query);
+                rs = st.executeQuery(query);
+                while (rs.next()) {
+
+                    String date = rs.getString("DATE_SAISIE");
+
+                    liste.add(date);
+
+                }
+            } catch (Exception ex) {
+                System.out.println(ex);
+
+            }
+        }
+//                
+
+        return liste;
+    }
+
+    //Méthode qui formate l'affichage des saisies dans le séjour dans le jtree
+    public String listeSaisietoString(String dateSaisie, String idSejour) {
+        String format = "";
+        Boolean rep = sejourEnCours(idSejour);
+        System.out.println("rep=" + rep);
+        System.out.println("TOSTRING");
+        String doc = "";
+        try {
+            String query = "select * from ph_referent join ph using(ID_SEJOUR) where DATE_SAISIE='" + dateSaisie + "'"; // la query à entrer pour accéder aux données de nos tables 
+
+            if (rep == false) {
+
+                rs = st.executeQuery(query);
+                while (rs.next()) {
+                    System.out.println("query 1 test");
+                    String date = rs.getString("DATE_SAISIE");
+                    String idPH = rs.getString("ID_PH");
+                    String sql = "select * from personnel_medical where ID_P='" + idPH + "'"; // la query à entrer pour accéder aux données de nos tables 
+                    System.out.println(sql);
+                    rs2 = st2.executeQuery(sql);
+                    while (rs2.next()) {
+                        System.out.println("boucle while");
+
+                        doc = "Dr." + rs2.getString("NOM") + " " + rs2.getString("PRENOM");
+                        System.out.println("TEST" + doc);
+                    }
+
+                    format = "Saisie le " + date + " par le " + doc;
+                    System.out.println("formatsaisie " + format);
+
+                }
+            }
+            if (rep == true) {
+                rs = st.executeQuery(query);
+                System.out.println("okkkkkk");
+                while (rs.next()) {
+                    String sql2 = "select * from ph_referent join personnel_medical on ID_PHR =ID_P where ID_SEJOUR='" + idSejour + "'"; // la query à entrer pour accéder aux données de nos tables 
+//          System.out.println(sql2);     
+//           rs3 = st3.executeQuery(sql2);
+//               while(rs3.next()){
+//                   doc   = "Dr. REFERENT : " + rs3.getString("NOM")+ "\n "+rs3.getString("PRENOM");
+//                   format = doc +"\n";
+//               }
+                    String date = rs.getString("DATE_SAISIE");
+                    String idPH = rs.getString("ID_PH");
+                    String sql = "select * from personnel_medical where ID_P='" + idPH + "'"; // la query à entrer pour accéder aux données de nos tables 
+                    System.out.println(sql);
+                    rs2 = st2.executeQuery(sql);
+                    while (rs2.next()) {
+                        System.out.println("boucle while");
+
+                        doc = "Dr." + rs2.getString("NOM") + " " + rs2.getString("PRENOM");
+                        System.out.println("TEST" + doc);
+                    }
+
+                    format = format + "\n" + "Saisie le " + date + " par le " + doc;
+                    System.out.println("formatsaisie " + format);
+                }
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+        return format;
+
+    }
+
+    // Ici on implémente la fonction qui retourne la liste des informations par saisie
+    public TreeMap<String,String> listeInfos(String dateSaisie, String idSejour) {
+       
+        TreeMap<String,String> liste = new TreeMap<String,String>(new Comparator<String>() {
+                public int compare(String s1, String s2) {
+                 
+
+                    return s1.compareTo(s2);
+                }});
+        
+        try {
+            String query = "select * from ph where DATE_SAISIE='" + dateSaisie + "'"; // la query à entrer pour accéder aux données de nos tables 
+
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                String observation = rs.getString("OBSERVATION");
+                if (!observation.equals("")) {
+                    liste.put("A"+"X"+"Observation",observation);
+                }
+
+                String titreOperation = rs.getString("TITRE_OPERATION");
+                if (!titreOperation.equals("")) {
+                    liste.put("B"+"X"+"Operation",titreOperation);
+                }
+                String operation = rs.getString("OPERATION");
+                if (!operation.equals("")) {
+                    liste.put("C"+"X"+"Détails", operation);
+                }
+                String resultat = rs.getString("RESULTAT");
+                if (!resultat.equals("")) {
+                    liste.put("D"+"X"+"Resultat",resultat);
+                }
+                String prescription = rs.getString("PRESCRIPTION");
+                if (!prescription.equals("")) {
+                    liste.put("E"+"X"+"Prescription",prescription);
+                }
+                String CR = rs.getString("COMPTE_RENDU");
+                if (!CR.equals("")) {
+                    liste.put("F"+"X"+"Compte-rendu radiologique",CR);
+                }
+                String lettre = rs.getString("LETTRE_SORTIE");
+
+                if (!lettre.equals("")) {
+                    liste.put("G"+"X"+"Lettre de sortie",lettre);
+                }
+
+            }
+
+           
+            
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+
+        return liste;
+    }
+
+    
+      // Ici on implémente la fonction qui retourne la liste des informations par saisie pour un Médico-technique
+    public TreeMap<String,String> listeInfosPHMT(String dateSaisie, String idSejour) {
+       
+        TreeMap<String,String> liste = new TreeMap<String,String>(new Comparator<String>() {
+                public int compare(String s1, String s2) {
+                 
+
+                    return s1.compareTo(s2);
+                }});
+        
+        try {
+            String query = "select * from ph where DATE_SAISIE='" + dateSaisie + "'"; // la query à entrer pour accéder aux données de nos tables 
+
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                
+                String observation = rs.getString("OBSERVATION");
+                if (!observation.equals("")) {
+                    liste.put("A"+"X"+"Observation",observation);
+                }
+
+                String resultat = rs.getString("RESULTAT");
+                if (!resultat.equals("")) {
+                    liste.put("B"+"X"+"Resultat",resultat);
+                }
+             
+
+            }
+
+           
+            
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+
+        return liste;
+    }
+    
+      // Ici on implémente la fonction qui retourne la liste des informations par saisie pour un Médico-technique
+    public TreeMap<String,String> listeInfosRadio(String dateSaisie, String idSejour) {
+       
+        TreeMap<String,String> liste = new TreeMap<String,String>(new Comparator<String>() {
+                public int compare(String s1, String s2) {
+                 
+
+                    return s1.compareTo(s2);
+                }});
+        
+        try {
+            String query = "select * from ph where DATE_SAISIE='" + dateSaisie + "'"; // la query à entrer pour accéder aux données de nos tables 
+
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                
+                String observation = rs.getString("OBSERVATION");
+                if (!observation.equals("")) {
+                    liste.put("A"+"X"+"Observation",observation);
+                }
+
+                String resultat = rs.getString("RESULTAT");
+                if (!resultat.equals("")) {
+                    liste.put("B"+"X"+"Resultat",resultat);
+                }
+                 String CR = rs.getString("COMPTE_RENDU");
+                if (!CR.equals("")) {
+                    liste.put("C"+"X"+"Compte-rendu radiologique",CR);
+                }
+
+            }
+
+           
+            
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+
+        return liste;
+    }
+     // Ici on implémente la fonction qui retourne la liste des informations par saisie pour un Médico-technique
+    public TreeMap<String,String> listeInfosAnesth(String dateSaisie, String idSejour) {
+       
+        TreeMap<String,String> liste = new TreeMap<String,String>(new Comparator<String>() {
+                public int compare(String s1, String s2) {
+                 
+
+                    return s1.compareTo(s2);
+                }});
+        
+        try {
+            String query = "select * from ph where DATE_SAISIE='" + dateSaisie + "'"; // la query à entrer pour accéder aux données de nos tables 
+
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                
+                String observation = rs.getString("OBSERVATION");
+                if (!observation.equals("")) {
+                    liste.put("A"+"X"+"Observation",observation);
+                }
+
+                String resultat = rs.getString("RESULTAT");
+                if (!resultat.equals("")) {
+                    liste.put("B"+"X"+"Resultat",resultat);
+                }
+                 String CR = rs.getString("PRESCRIPTION");
+                if (!CR.equals("")) {
+                    liste.put("C"+"X"+"Prescription",CR);
+                }
+
+            }
+
+           
+            
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+
+        return liste;
     }
 
     //Completer la base de données avec les informations, cette fonction est pour un PH clinique
@@ -585,9 +1034,8 @@ public class Sejour {
         Boolean rep = true;
         try {
 
-           String query = "select LETTRE_SORTIE from ph where ID_SEJOUR='" + idSejour + "'"; // la query à entrer pour accéder aux données de nos tables 
-     //  String query = "select * from PATIENTS,PH,PH_REFERENT,localisation where (PATIENTS.IPP=PH.IPP_PATIENT) and (PATIENTS.IPP=PH_REFERENT.IPP) and PH.ID_SEJOUR='"+idSejour+'" and Localisation.service='"+spe+"' and PH.Lettre_Sortie='"+""+"'"
-         System.out.println(query);
+            String query = "select LETTRE_SORTIE from ph where ID_SEJOUR='" + idSejour + "'"; // la query à entrer pour accéder aux données de nos tables 
+            System.out.println(query);
             rs = st.executeQuery(query);
             while (rs.next() && rep == true) {
                 String lettreS = rs.getString("LETTRE_SORTIE");

@@ -28,8 +28,8 @@ public class SecretaireAdministrative extends PersonnelMedical{
          try{
             Class.forName("com.mysql.jdbc.Driver");
             
-            con= DriverManager.getConnection("jdbc:mysql://mysql-dossmed.alwaysdata.net:3306/dossmed_bd", "dossmed", "projetsis"); // chacun à un localHost different à voir pour chacun, 
-            st = con.createStatement();
+            con = DriverManager.getConnection("jdbc:mysql://mysql-dossmed.alwaysdata.net:3306/dossmed_bd", "dossmed", "projetsis"); // chacun à un localHost different à voir pour chacun, 
+           st = con.createStatement();
             
         }catch(Exception ex) {
             System.out.println("error :" +  ex );
@@ -85,7 +85,7 @@ public int nombrePatients() {
         int i=0;
         String[] listePatients = new String[compteur];
         try {
-            String query = "select * from Patients"; // la query à entrer pour accéder aux données de nos tables 
+            String query = "select * from patients"; // la query à entrer pour accéder aux données de nos tables 
             rs = st.executeQuery(query);
             while (rs.next()) {
                 String nom = rs.getString("NOM");
@@ -102,6 +102,33 @@ public int nombrePatients() {
             ex.printStackTrace();
         }
         return listePatients;
+    }
+    
+    public void modifierPatient(String ipp, String nom, String prenom, Sexe sexe, String dateNaissance, String adresse, String telephone){
+        Patient patient = new Patient(ipp, nom, prenom, sexe, dateNaissance, adresse, telephone);
+        String sql = "update patient set NOM='"+patient.getNom()
+                +"', PRENOM='"+patient.getPrenom()
+                +"', SEXE='"+patient.getSexe()
+                +"', DATENAISSANCE='"+patient.getDateDeNaissance()
+                +"', ADRESSE='"+patient.getAdresse()
+                +"', TELEPHONE='"+patient.getTelephone()
+                +"' where IPP='"+ipp+"'";
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql);
+
+            //On insere les donnees dans le classe localisation ce qui correspond a la requete 2
+            pstm.setString(1, ipp);
+            pstm.setString(2, nom);
+            pstm.setString(3, prenom);
+            pstm.setString(4, sexe.toString());
+            pstm.setString(5, dateNaissance);
+            pstm.setString(6, adresse);
+            pstm.setString(7, telephone);
+            pstm.executeUpdate();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        
     }
 }
 

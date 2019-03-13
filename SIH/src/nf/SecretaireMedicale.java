@@ -31,8 +31,8 @@ public class SecretaireMedicale extends PersonnelMedical {
         this.specialite = spe;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://mysql-dossmed.alwaysdata.net:3306/dossmed_bd", "dossmed", "projetsis"); // chacun à un localHost different à voir pour chacun, 
-            st = con.createStatement();
+             con = DriverManager.getConnection("jdbc:mysql://mysql-dossmed.alwaysdata.net:3306/dossmed_bd", "dossmed", "projetsis"); // chacun à un localHost different à voir pour chacun, 
+           st = con.createStatement();
 
         } catch (Exception ex) {
             System.out.println("error :" + ex);
@@ -44,14 +44,19 @@ public class SecretaireMedicale extends PersonnelMedical {
 //On cree un nouveau sejour mais on ne le remplit pas, l'operation creer le sejour et le remplir ne se deroulent pas dans la meme methode
     public void ajouterSejour(String idSejour, String iPP, String idPHReferent, Localisation localisation) {
         Sejour s = new Sejour(idSejour, iPP, idPHReferent, localisation);
-        String sql = "insert into ph_referent(ID_PHR,ID_SEJOUR,IPP,DATE_CREATION_SEJOUR) values (?,?,?,?)";
-        String sql2 = "insert into localisation (ID_SEJOUR,SERVICE,ORIENTATION,ETAGE,CHAMBRE,LIT) values (?,?,?,?,?,?)";
-        try {
+       String sql = "insert into ph_referent(ID_PHR,ID_SEJOUR,IPP,DATE_CREATION_SEJOUR) values (?,?,?,?)";
+       String sql2 ="insert into localisation (ID_SEJOUR,SERVICE,ORIENTATION,ETAGE,CHAMBRE,LIT) values (?,?,?,?,?,?)";
+        String sql3 ="insert into ph (ID_PH,IPP_PATIENT,ID_SEJOUR,DATE_SAISIE,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,TITRE_OPERATION,OPERATION,COMPTE_RENDU) values (?,?,?,?,?,?,?,?,?,?,?)";
+       
+       try {
             PreparedStatement pstm = con.prepareStatement(sql);
             PreparedStatement pstm2 = con.prepareStatement(sql2);
+            PreparedStatement pstm3 = con.prepareStatement(sql3);
             Date maDate = new Date();
-            SimpleDateFormat maDateLongue = new SimpleDateFormat("dd/MM/yyyy");
+         
 
+            SimpleDateFormat maDateLongue= new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            
             //on insere les donnees dans la classe ph_referent ce qui correspond a la requete 1
             pstm.setString(1, idPHReferent);
             pstm.setString(2, idSejour);
@@ -69,9 +74,112 @@ public class SecretaireMedicale extends PersonnelMedical {
             pstm2.setString(6, localisation.getLit().toString());
 
             pstm2.executeUpdate();
+            //
+             pstm3.setString(1,idPHReferent);
+             
+            pstm3.setString(2, iPP);
+           
+             pstm3.setString(3, idSejour);
+              pstm3.setString(4, maDateLongue.format(maDate));
+           
+            pstm3.setString(5, "");
+           pstm3.setString(6, "");
+           pstm3.setString(7, "");
+           pstm3.setString(8, "");
+           pstm3.setString(9, "");
+           pstm3.setString(10, "");
+           pstm3.setString(11, "");
+            pstm3.executeUpdate();
+           
         } catch (Exception ex) {
             System.out.println(ex);
 
+            //AJOUTER LA LOCALISATION PAR DEFAUT
+        }
+    }
+
+    //Retroune l'id du dernier sejour crée pour le patient
+    public String idSejourPatientSelection(String iPP) {
+
+        String idSejour = "";
+        String dateLaPlusRecente = "01/01/0001";
+        String date = "";
+        //On recherche le sejour le plus recent
+        try {
+            String query = "select DATE_CREATION_SEJOUR from ph_referent where IPP='" + iPP + "'";
+            System.out.println(query);
+            rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                date = rs.getString("DATE_CREATION_SEJOUR");
+                if (date.compareTo(dateLaPlusRecente) > 0) {
+                    dateLaPlusRecente = date;
+
+                }
+                System.out.println(date);
+                System.out.println(dateLaPlusRecente);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+        //On récupère l'id associé au sejour le plus ancien
+        try {
+            String query = "select ID_SEJOUR from ph_referent where IPP='" + iPP + "' and DATE_CREATION_SEJOUR='" + dateLaPlusRecente + "'";
+            System.out.println(query);
+            rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                idSejour = rs.getString("ID_SEJOUR");
+
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+
+        return idSejour;
+    }
+    
+    //Méthode qui permet à la secrétaire médicale de mettre à jour la localisation d'un patient
+    public void enregistrerLocalisation(Patient patient, Localisation loc) {
+        String sql1 = "insert into historique_localisation (ID_SEJOUR,DATE,SERVICE,CODE_LOCALISATION) values (?,?,?)";
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql1);
+
+            Date maDate = new Date();
+            SimpleDateFormat maDateLongue = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+            //on insere les donnees dans la classe historique_localisation ce qui correspond a la requete 1
+            pstm.setString(1, this.idSejourPatientSelection(patient.getIpp()));
+            pstm.setString(2, maDateLongue.format(maDate));
+            pstm.setString(3, loc.getSpecialite().toString());
+            pstm.setString(4, loc.codeLocalisation());
+            pstm.executeUpdate();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
+
+    public void modifierLocalisation(Localisation localisation) {
+        String idSejour = new String("test");
+        String sql2 = "update localisation set SERVICE='" + localisation.getSpecialite()
+                + "', ORIENTATION='" + localisation.getOrientation()
+                + "', CHAMBRE='" + localisation.getChambre()
+                + "', LIT='" + localisation.getLit()
+                + "' where ID_SEJOUR='" + idSejour + "'";
+        try {
+            PreparedStatement pstm2 = con.prepareStatement(sql2);
+            
+            //On insere les donnees dans le classe localisation ce qui correspond a la requete 2
+            pstm2.setString(1, localisation.getSpecialite().toString());
+            pstm2.setString(2, localisation.getOrientation().toString());
+            pstm2.setInt(3, localisation.getEtage());
+            pstm2.setInt(4, localisation.getChambre());
+            pstm2.setString(5, localisation.getLit().toString());
+            pstm2.executeUpdate();
+        } catch (Exception ex) {
+            System.out.println(ex);
         }
     }
 
@@ -175,53 +283,33 @@ public class SecretaireMedicale extends PersonnelMedical {
                 //System.out.println(docteur.getSpecialite().toString());
                 listePatient.add(patient);
 
+                   //System.out.println(idPatient);
+                
+                
+                int i =0;
+                Boolean rep = false;
+                 while( i<listePatient.size() && rep==false){
+                     if(listePatient.get(i).getIpp().equals(patient.getIpp())){
+                  rep = true;
+                  i++;
+                }  
+                     else{ i++;}
+                 }
+                 if(rep==false){
+                     listePatient.add(patient);
+                 }
+              
+                
             }
         } catch (Exception ex) {
             System.out.println(ex);
 
         }
-        System.out.println(listePatient);
+
         return listePatient;
 
     }
 
-//    public ArrayList<Patient> afficherListePatientParService(Specialite spe) {
-//        ArrayList<Patient> listePatient = new ArrayList<Patient>();
-//
-//        try {
-//            String query = "select * from PATIENTS join PH_REFERENT on (PATIENTS.IPP=PH_REFERENT.IPP) join LOCALISATION using (ID_SEJOUR) where SERVICE ='" + spe + "'"; // la query à entrer pour accéder aux données de nos tables 
-//            System.out.println(query);
-//            rs = st.executeQuery(query);
-//            while (rs.next()) {
-//                String nom = rs.getString("NOM");
-//                System.out.println(nom);
-//                String prenom = rs.getString("PRENOM");
-//                System.out.println(prenom);
-//                String date = rs.getString("DATENAISSANCE");
-//                //System.out.println(date);
-//                String idp = rs.getString("IPP");
-//                //System.out.println(idPatient);
-//
-//                Sexe sexeLu = (Sexe) Enum.valueOf(Sexe.class, rs.getString("SEXE"));
-//                String adresse = rs.getString("ADRESSE");
-//                // System.out.println(Adresse);
-//                String tel = rs.getString("TELEPHONE");
-//                //System.out.println(tel);                 
-//
-//                Patient patient = new Patient(idp, nom, prenom, sexeLu, date, adresse, tel);
-//                //   System.out.println(docteur.getNom());
-//                //System.out.println(docteur.getSpecialite().toString());
-//                listePatient.add(patient);
-//
-//            }
-//        } catch (Exception ex) {
-//            System.out.println(ex);
-//
-//        }
-//        System.out.println(listePatient);
-//        return listePatient;
-//
-//    }
     public ArrayList<PH> afficherListeMedecinParService(Specialite spe) {
         ArrayList<PH> listeMed = new ArrayList<PH>();
 
@@ -260,65 +348,30 @@ public class SecretaireMedicale extends PersonnelMedical {
 
     }
 
-//    public ArrayList<Patient> afficherServicePatient(Specialite spe) {
-//        ArrayList<Patient> listePatient = new ArrayList<Patient>();
-//
-//        try {
-//            String query = "select * from PATIENTS join PH_REFERENT on (PATIENTS.IPP=PH_REFERENT.IPP) join LOCALISATION using (ID_SEJOUR) where SERVICE ='" + spe + "'"; // la query à entrer pour accéder aux données de nos tables 
-//            System.out.println(query);
-//            rs = st.executeQuery(query);
-//            while (rs.next()) {
-//                String nom = rs.getString("NOM");
-//                System.out.println(nom);
-//                String prenom = rs.getString("PRENOM");
-//                System.out.println(prenom);
-//                String date = rs.getString("DATENAISSANCE");
-//                //System.out.println(date);
-//                String idp = rs.getString("IPP");
-//                //System.out.println(idPatient);
-//
-//                String service = rs.getString("SERVICE");
-//                Sexe sexeLu = (Sexe) Enum.valueOf(Sexe.class, rs.getString("SEXE"));
-//                String adresse = rs.getString("ADRESSE");
-//                // System.out.println(Adresse);
-//                String tel = rs.getString("TELEPHONE");
-//                //System.out.println(tel);                 
-//
-//                Patient patient = new Patient(idp, nom, prenom, sexeLu, date, adresse, tel);
-//                //   System.out.println(docteur.getNom());
-//                //System.out.println(docteur.getSpecialite().toString());
-//                listePatient.add(patient);
-//                Localisation loc=null; 
-//                loc.getSpecialite();
-//                System.out.println(loc.getSpecialite());
-//            }
-//        } catch (Exception ex) {
-//            System.out.println(ex);
-//
-//        }
-//        System.out.println(listePatient);
-//        return listePatient;
-//
-//    }
-    public ArrayList<Localisation> afficherServicePatient(String ipp) {
-        ArrayList<Localisation> listeLoc = new ArrayList<Localisation>();
-
+    public void modifierPatient(String ipp, String nom, String prenom, Sexe sexe, String dateNaissance, String adresse, String telephone) {
+        Patient patient = new Patient(ipp, nom, prenom, sexe, dateNaissance, adresse, telephone);
+        String sql = "update patient set NOM='" + patient.getNom()
+                + "', PRENOM='" + patient.getPrenom()
+                + "', SEXE='" + patient.getSexe()
+                + "', DATENAISSANCE='" + patient.getDateDeNaissance()
+                + "', ADRESSE='" + patient.getAdresse()
+                + "', TELEPHONE='" + patient.getTelephone()
+                + "' where IPP='" + ipp + "'";
         try {
-            String query = "select SERVICE from localisation join ph_referent on (localisation.ID_SEJOUR=ph_referent.ID_SEJOUR) where ipp='" + ipp + "'";// la query à entrer pour accéder aux données de nos tables 
-            System.out.println(query);
-            rs = st.executeQuery(query);
-            while (rs.next()) {
-                String service = rs.getString("SERVICE");
-                System.out.println(service);
+            PreparedStatement pstm = con.prepareStatement(sql);
 
-            }
+            //On insere les donnees dans le classe localisation ce qui correspond a la requete 2
+            pstm.setString(1, ipp);
+            pstm.setString(2, nom);
+            pstm.setString(3, prenom);
+            pstm.setString(4, sexe.toString());
+            pstm.setString(5, dateNaissance);
+            pstm.setString(6, adresse);
+            pstm.setString(7, telephone);
+            pstm.executeUpdate();
         } catch (Exception ex) {
             System.out.println(ex);
-
         }
-        System.out.println(listeLoc);
-        return listeLoc;
 
     }
-
 }
