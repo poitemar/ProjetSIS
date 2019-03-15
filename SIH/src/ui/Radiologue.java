@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import nf.Lit;
@@ -164,6 +165,11 @@ private void initRenderer() {
         });
 
         accueil.setBackground(new java.awt.Color(255, 255, 255));
+        accueil.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                accueilMouseClicked(evt);
+            }
+        });
 
         nomRadiologue.setBackground(new java.awt.Color(0, 153, 153));
         nomRadiologue.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -356,15 +362,24 @@ private void initRenderer() {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+      
         if(!jList1.isSelectionEmpty()){
+            
         PatientSelection = jList1.getSelectedValue().toString();
+         int retour =  JOptionPane.showConfirmDialog(this, "Voulez-vous rajouter ces informations dans le dossier médical ?", "ATTENTION", JOptionPane.OK_CANCEL_OPTION);
+        if(retour==0){
         System.out.println("HEEEEEE");
         String lecture = jList1.getSelectedValue();
         prestationSelection = perso.prestationPatientListe(lecture);
-        System.out.println("help"+prestationSelection);
+
         nf.PH ph = new nf.PH("","","","","",Specialite.ACCUEIL,Service.ACCUEIL);
+         
         sejourCourant.ajouterCompteRendu(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(),patient.ippPatientListe(PatientSelection),prestationSelection, textCR.getText());
-        textCR.setText("");}
+        textCR.setText("");
+        JOptionPane.showMessageDialog(this, "Compte-rendu ajouté au dossier médical", "", JOptionPane.INFORMATION_MESSAGE);
+       } }
+        
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
@@ -387,7 +402,13 @@ private void initRenderer() {
 
     private void tabMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabMouseClicked
         // TODO add your handling code here:
-        DLM.clear();
+ 
+        
+    }//GEN-LAST:event_tabMouseClicked
+
+    private void accueilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accueilMouseClicked
+        // TODO add your handling code here:
+               DLM.clear();
         ArrayList<String> listePrestation = perso.afficherPrestation(perso.getIdMed());
         System.out.println(listePatient.size());
         for (int i = 0; i < listePatient.size(); i++) {
@@ -406,8 +427,7 @@ private void initRenderer() {
             jList1.setModel(DLM);
             jList1.repaint();
         }
-        
-    }//GEN-LAST:event_tabMouseClicked
+    }//GEN-LAST:event_accueilMouseClicked
 
     /**
      * @param args the command line arguments

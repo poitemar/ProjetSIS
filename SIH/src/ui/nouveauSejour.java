@@ -8,6 +8,7 @@ package ui;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import nf.Lit;
 import nf.Orientation;
 import nf.Patient;
@@ -23,7 +24,7 @@ public class nouveauSejour extends javax.swing.JFrame {
 
     nf.SecretaireMedicale secretaireMedicaleCourante = new nf.SecretaireMedicale("null", "null", "null", "null", "null", Specialite.ONCOLOGIE, Service.CLINIQUE);
     ArrayList<nf.PH> listeMed = new ArrayList<nf.PH>();
-     nf.Patient p = new nf.Patient("bluff", "bluff", "", Sexe.AUTRE, "bluff", "bluff", "bluff");
+     nf.Patient p = new nf.Patient("bluff", "bluff", "", Sexe.AUTRE, "bluff", "bluff", "bluff","","","","");
     nf.Patient patientConcerne;
     DefaultListModel DLM = new DefaultListModel();
     nf.PH PHSelectionne;
@@ -41,7 +42,7 @@ public class nouveauSejour extends javax.swing.JFrame {
         listeMed = secretaireMedicaleCourante.afficherListeMedecinParService(pm.getSpecialite());
         System.out.println(perso.getSpecialite().toString());
         for (int i = 0; i < listeMed.size(); i++) {
-            String element = "" + listeMed.get(i).getNom() + "         " + listeMed.get(i).getPrenom() + "    ";
+            String element = "" + listeMed.get(i).getNom() + "         " + listeMed.get(i).getPrenom() ;
             DLM.addElement(element);
         }
         listeMedecinsService.setModel(DLM);
@@ -187,21 +188,32 @@ public class nouveauSejour extends javax.swing.JFrame {
     private void boutonEnregistrerPatient(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonEnregistrerPatient
      
         //attribution d'un nouvel identifiant de séjour dès l'enregistrement du patient dans le service
-        String nouvel_ID_Sejour = new String();
-        nouvel_ID_Sejour = secretaireMedicaleCourante.creationID_Sejour();
+         System.out.println("ICI IL FAUT REGARDER");  
+        System.out.println(listePatient.getSelectedValue().toString());
+        String ipppatientConcerne =p.ippPatientListe(listePatient.getSelectedValue().toString());
+        System.out.println("LA CETTE FOIS");
+        nf.Localisation lbluff = new nf.Localisation(Specialite.ACCUEIL, Orientation.OUEST, ERROR, ABORT, Lit.PORTE);
+        nf.Sejour sejourBluff = new nf.Sejour("", "", "", lbluff);
+        System.out.println(ipppatientConcerne);
+        nf.PH phtest = new nf.PH("null", "null", "null", "null", "null", Specialite.ACCUEIL, Service.ACCUEIL);
+   
+    
+        if (!sejourBluff.sejourEnCours(phtest.idSejourPatientSelection(ipppatientConcerne))){
+            String nouvel_ID_Sejour = secretaireMedicaleCourante.creationID_Sejour();
         String phSelection = listeMedecinsService.getSelectedValue().toString();
+            System.out.println("C4EST LAAAA  "+phSelection+"'");
           //Création de la localisation
           //pour transformer un string enint utiliser Integer.parseInt
-          nf.Localisation localisationCourante = new nf.Localisation(pm.getSpecialite(),Orientation.NULL,0,0,Lit.NULL);
+        nf.Localisation localisationCourante = new nf.Localisation(pm.getSpecialite(),Orientation.NULL,0,0,Lit.NULL);
 
-         String ipppatientConcerne =p.ippPatientListe(listePatient.getSelectedValue().toString());
-         System.out.println(listePatient.getSelectedValue());
-        System.out.println(ipppatientConcerne);
-         System.out.println(p.ippPatientListe(listePatient.getSelectedValue().toString()));
         secretaireMedicaleCourante.ajouterSejour(nouvel_ID_Sejour, ipppatientConcerne, secretaireMedicaleCourante.iPPMedecinListe(phSelection), localisationCourante);
-        p = new Patient(ipppatientConcerne, p.getNom(), p.getPrenom(), localisationCourante);
-        
-        this.dispose();
+         this.dispose();
+        }
+        else {
+             JOptionPane.showMessageDialog(this, "Le patient a déjà un séjour en cours", "ATTENTION", JOptionPane.ERROR_MESSAGE);
+         
+        }
+       
     }//GEN-LAST:event_boutonEnregistrerPatient
 
     private void listeMedecinsServiceValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listeMedecinsServiceValueChanged

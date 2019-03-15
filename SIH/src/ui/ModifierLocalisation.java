@@ -6,6 +6,7 @@
 package ui;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import nf.Lit;
 import nf.Localisation;
 import nf.Orientation;
@@ -21,16 +22,22 @@ import nf.Specialite;
  */
 public class ModifierLocalisation extends javax.swing.JFrame {
     nf.SecretaireMedicale secretaireMedicaleCourante = new nf.SecretaireMedicale("null", "null", "null", "null", "null", Specialite.ONCOLOGIE, Service.CLINIQUE);
-    nf.Patient patient = new Patient("null","null","null",Sexe.FEMME,"null","null","null");
-    
+    nf.Patient patient ;
+    String idSejour ="";
+    nf.Localisation ancienneLoc= new nf.Localisation(Specialite.ACCUEIL,Orientation.CENTRE,3,3,Lit.FENETRE);
     
     /**
      * Creates new form ModifierLocalisation
      */
-    public ModifierLocalisation(Patient p) {
+    public ModifierLocalisation(String ipp) {
         initComponents();
         this.setSize(700, 600);
-        this.patient = p;
+        this.patient = secretaireMedicaleCourante.recuperationPatient(ipp);
+         this.idSejour = secretaireMedicaleCourante.idSejourPatientSelection(ipp);
+        
+         String[] loc = patient.getLocalisation(ipp,idSejour).split("\\s");
+        this.ancienneLoc = new nf.Localisation(Specialite.valueOf(loc[0]),Orientation.valueOf(loc[1]),Integer.parseInt(loc[2]),Integer.parseInt(loc[3]),Lit.valueOf(loc[4]));
+       
     }
 
     /**
@@ -213,11 +220,18 @@ public class ModifierLocalisation extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        System.out.println("TEST LOCALISATIONNNNNNNNNNNNNNN");
         Localisation loc = new Localisation ((Specialite) jComboBox1.getSelectedItem(), (Orientation) jComboBox2.getSelectedItem(), Integer.parseInt(jTextField1.getText()), Integer.parseInt(jTextField2.getText()), (Lit) jComboBox3.getSelectedItem());
-        secretaireMedicaleCourante.modifierLocalisation(loc);
+        
+        nf.Sejour sejour =  new nf.Sejour("","","",loc);
+        if(sejour.sejourEnCours(idSejour)){
+        secretaireMedicaleCourante.enregistrerLocalisation(idSejour, this.ancienneLoc);
+        secretaireMedicaleCourante.modifierLocalisation(idSejour,loc);
         patient.setLocalisation(loc);
-        System.out.println(patient.getLocalisation().codeLocalisation());
-        this.dispose();
+     
+        
+          JOptionPane.showMessageDialog(this, "Le patient a bien été déplacé", "", JOptionPane.INFORMATION_MESSAGE);
+        this.dispose();}
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -255,7 +269,7 @@ public class ModifierLocalisation extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 Patient patient = new Patient("null", "null"); 
-                new ModifierLocalisation(patient).setVisible(true);
+//                new ModifierLocalisation(patient).setVisible(true);
             }
         });
     }

@@ -131,7 +131,7 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
         return liste;
     }
 
-    public void affecterPatient(String IPP_temp, Sexe sexe, String adresse, String numTel) {
+    public void affecterPatient(String IPP_temp, Sexe sexe, String adresse, String numTel, String nomC,String prenomC,String adresseC,String telC) {
         String IPP;
         String NOM="";
         String nom="";
@@ -178,7 +178,7 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
                     nom = rs1.getString("NOM");
                     prenom = rs1.getString("PRENOM");
                     dateNaissance = rs1.getString("DATE_NAISSANCE");
-                    ajouterNouveauPatient(IPP_temp, nom, prenom, sexe, dateNaissance, adresse, numTel);
+                    ajouterNouveauPatient(IPP_temp, nom, prenom, sexe, dateNaissance, adresse, numTel,nomC,prenomC,adresseC,telC);
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -194,13 +194,13 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
 
     }
     
-    public void ajouterNouveauPatient(String ipp, String nom, String prenom, Sexe sexe, String dateDeNaissance, String adresse, String telephone){
+    public void ajouterNouveauPatient(String ipp, String nom, String prenom, Sexe sexe, String dateDeNaissance, String adresse, String telephone,String nomCONF,String prenomCONF, String adresseCONF,String telCONF){
         
-        Patient p = new Patient(ipp,nom,prenom,sexe,dateDeNaissance,adresse,telephone);
+        Patient p = new Patient(ipp,nom,prenom,sexe,dateDeNaissance,adresse,telephone,nomCONF,prenomCONF,adresseCONF,telCONF);
         DMA dma = new DMA(p);
         DM dm = new DM(p);
         
-              String sql="insert into patients(IPP,NOM,PRENOM,SEXE,DATENAISSANCE,ADRESSE,TELEPHONE) values (?,?,?,?,?,?,?)";
+     String sql="insert into patients(IPP,NOM,PRENOM,SEXE,DATENAISSANCE,ADRESSE,TELEPHONE,NOMCONF,PRENOMCONF,ADRESSECONF,TELEPHONECONF) values (?,?,?,?,?,?,?,?,?,?,?)";
            
         try {
             PreparedStatement pstm = con.prepareStatement(sql);
@@ -212,7 +212,11 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
             pstm.setString(5, dateDeNaissance);
             pstm.setString(6, adresse);
             pstm.setString(7, telephone);
-            pstm.executeUpdate();
+            pstm.setString(8, nomCONF);
+            pstm.setString(9, prenomCONF);
+            pstm.setString(10, adresseCONF);
+            pstm.setString(11, telCONF);
+            pstm.executeUpdate(); 
             
             
            }

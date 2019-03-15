@@ -69,12 +69,12 @@ public class SIH {
 //          }
 //           }
 //        Localisation loc = new Localisation(Service.CLINIQUE, Orientation.EST, 7, 56, Lit.FENETRE);
-//        Patient p = new Patient("378021405","poitevin","margaux",Sexe.FEMME,d1,"2 impasse","060504");
-//        
-//        SecretaireMedicale smed = new SecretaireMedicale("ABI CHACRA", "Lauren", "131174L", "poire");
+        
+//     
 //        System.out.println(smed.idMed);
-//        PH ph = new PH("RACAMIER", "Axel", "16458A", "cardio", "login", Specialite.ACCUEIL,Service.ACCUEIL);
-//           System.out.println(ph.idSejourPatientSelection("526341897"));
+        //PH ph = new PH("RACAMIER", "Axel", "16458A", "cardio", "login", Specialite.ACCUEIL,Service.ACCUEIL);
+      
+           
 //        System.out.println(ph.nom);
 //        smed.ajouterSejour("S111", p, ph, loc, "//", "//", "//", "//","//", "//", "//");
 //        ph.ajouterSejour("//", p, ph, loc, "médicaments", "le patient est", "compte rendu du patient", "résultat des examens","opération du genou", "succes", "autorisé à sortir");
@@ -93,7 +93,9 @@ public class SIH {
 //    }
 //       sejourbluff.ajouterOperations(idSejour, idPH, iPP, "titre", "details");
 //     //  sejourbluff.completerSejour(idSejour, idPH, iPP, "ff", "ff", "fff", "nn", "hnh");
-//     SecretaireMedicale sm = new SecretaireMedicale("bluff", "bluff", "bluff", "bluff", "bluff", Specialite.ACCUEIL, Service.CLINIQUE);
+     SecretaireMedicale sm = new SecretaireMedicale("bluff", "bluff", "bluff", "bluff", "bluff", Specialite.ACCUEIL, Service.CLINIQUE);
+     Patient p = sm.recuperationPatient("098765123");
+     //   p.getLocalisation("098765123");
 //        PH perso = new PH("bluff", "bluff", "bluff", "bluff", "bluff", Specialite.ACCUEIL, Service.CLINIQUE); 
 //       ArrayList<Patient> listePatient = perso.afficherListePatientPrestation("238478562");
 //        System.out.println(listePatient.size());

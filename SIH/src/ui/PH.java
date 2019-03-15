@@ -44,7 +44,7 @@ import static ui.SecretaireMedicaleUrgence.selection;
  * @author poite
  */
 public class PH extends JFrame implements ActionListener {
-    
+
     private Connection con;
     private Statement st;
     private ResultSet rs;
@@ -54,7 +54,7 @@ public class PH extends JFrame implements ActionListener {
     ArrayList<Patient> listePatient;
     nf.PersonnelMedical perso;
     String PatientSelection = "";
-    public static String selection="";
+    public static String selection = "";
     DefaultListModel DLM = new DefaultListModel();
     nf.PH ph = new nf.PH("null", "null", "null", "null", "null", nf.Specialite.ONCOLOGIE, nf.Service.CLINIQUE);
     nf.Patient patient = new nf.Patient("bluff", "bluff");
@@ -62,11 +62,12 @@ public class PH extends JFrame implements ActionListener {
     nf.Localisation locCourant = new nf.Localisation(Specialite.ACCUEIL, Orientation.OUEST, 1, 133, Lit.PORTE);
     nf.Sejour sejourCourant = new nf.Sejour("bluff", "bluff", "bluff", locCourant);
     private boolean phref = false;
-    private  DefaultTreeCellRenderer tCellRenderer = new  DefaultTreeCellRenderer();
+    private DefaultTreeCellRenderer tCellRenderer = new DefaultTreeCellRenderer();
     private DefaultMutableTreeNode racine;
+     DefaultListModel DLM_medecin;
 
- 
-    private int compteur=0;
+    private int compteur = 0;
+
     /**
      * Creates new form PH
      */
@@ -74,7 +75,7 @@ public class PH extends JFrame implements ActionListener {
 
         initComponents();
         setSize(700, 600);
-        
+
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", ""); // chacun à un localHost different à voir pour chacun, 
@@ -117,74 +118,71 @@ public class PH extends JFrame implements ActionListener {
         }
 
     }
-    
+
     public PH() {
-        
+
     }
 
     public String getPrenom() {
-        compteur = getNom().length()+9;
-        System.out.println("le compteur est de : "+compteur);
-        System.out.println("et la lettre à cet endroit est : "+selection.charAt(compteur));
-        String prenom="";
-        while (!(String.valueOf(selection.charAt(compteur))).equals(" ")){
+        compteur = getNom().length() + 9;
+        System.out.println("le compteur est de : " + compteur);
+        System.out.println("et la lettre à cet endroit est : " + selection.charAt(compteur));
+        String prenom = "";
+        while (!(String.valueOf(selection.charAt(compteur))).equals(" ")) {
             prenom = prenom + selection.charAt(compteur);
             compteur++;
         }
         compteur++;
-        System.out.println("prenom = "+prenom);
+        System.out.println("prenom = " + prenom);
         return prenom;
-        
+
     }
-    
+
     public String getNom() {
-        String nom="";
-        System.out.println("ceci est la séléction : "+selection);
-        compteur=0;
-        while (!(String.valueOf(selection.charAt(compteur))).equals(" ")){
+        String nom = "";
+        System.out.println("ceci est la séléction : " + selection);
+        compteur = 0;
+        while (!(String.valueOf(selection.charAt(compteur))).equals(" ")) {
             System.out.println(String.valueOf(selection.charAt(compteur)));
             System.out.println((String.valueOf(selection.charAt(compteur))).equals(" "));
             nom = nom + selection.charAt(compteur);
             compteur++;
         }
         compteur++;
-        System.out.println("nom = "+nom);
+        System.out.println("nom = " + nom);
         return nom;
     }
-    
-    public String getDateNaissance(String nom, String prenom){
-        compteur = getNom().length()+getPrenom().length() +19;
-        System.out.println("le compteur est : "+compteur);
-        System.out.println("et la lettre à cet endroit est : "+selection.charAt(compteur));
-        System.out.println("longueur de : "+selection.length());
-        String dateNaissance="";
-        while (compteur<selection.length()){
-            System.out.println("compteur de : "+compteur);
-            dateNaissance= dateNaissance + selection.charAt(compteur);
+
+    public String getDateNaissance(String nom, String prenom) {
+        compteur = getNom().length() + getPrenom().length() + 19;
+        System.out.println("le compteur est : " + compteur);
+        System.out.println("et la lettre à cet endroit est : " + selection.charAt(compteur));
+        System.out.println("longueur de : " + selection.length());
+        String dateNaissance = "";
+        while (compteur < selection.length()) {
+            System.out.println("compteur de : " + compteur);
+            dateNaissance = dateNaissance + selection.charAt(compteur);
             compteur++;
         }
-        System.out.println(" date naissance = "+dateNaissance);
+        System.out.println(" date naissance = " + dateNaissance);
         return dateNaissance;
     }
+
     /**
      *
      * @param ae
      */
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     private void initRenderer() {
         //Instanciation
-       
+
         this.tCellRenderer.setClosedIcon(null);
         this.tCellRenderer.setOpenIcon(null);
         this.tCellRenderer.setLeafIcon(null);
     }
 
     public void buildTree() {
-    DM.setCellRenderer(this.tCellRenderer);
+        DM.setCellRenderer(this.tCellRenderer);
         if (!jList1.isSelectionEmpty()) {
             PatientSelection = jList1.getSelectedValue().toString();
 
@@ -221,6 +219,130 @@ public class PH extends JFrame implements ActionListener {
         DefaultTreeModel arbre = new DefaultTreeModel(racine);
         DM.setModel(arbre);
 
+    }
+    
+    public void buildTree1(){
+        this.tCellRenderer.setClosedIcon(null);
+        this.tCellRenderer.setOpenIcon(null);
+        this.tCellRenderer.setLeafIcon(null);
+
+        Patient pat = new Patient("bluff", "bluff");
+        DMA dma = new DMA(pat);
+        Localisation locBluff = new Localisation(Specialite.ANESTHESIE, Orientation.NORD, 5, 3, Lit.FENETRE);
+        Sejour sej = new Sejour("dSejour", "idPatient", "idphReferan", locBluff);
+        nf.PH ph = new nf.PH("bono", "jean", "hello", "i am", "here", Specialite.ANESTHESIE, Service.MEDICO_TECHNIQUE);
+
+        String IDSej = sej.AfficherIDSejour(pat.ippPatientListe(jList1.getSelectedValue().toString()));
+        String lecture1 = jList1.getSelectedValue().toString();
+        String lecture2 = sej.AfficherPATIENT(pat.ippPatientListe(jList1.getSelectedValue().toString()));
+        String lectureLocalisation = sej.afficherLOCALISATION(sej.AfficherIDSejour(pat.ippPatientListe(jList1.getSelectedValue().toString())));
+        String affichageDma = sej.infoDMA(sej.AfficherIDSejour(pat.ippPatientListe(jList1.getSelectedValue().toString())));
+        String personneConfiance = pat.afficherPersonneConfiance(pat.ippPatientListe(jList1.getSelectedValue().toString()));
+//afficher infos patient
+        System.out.println("selected value : " + jList1.getSelectedValue().toString());
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Identité patient");
+        String[] result = lecture1.split("\\s\\s\\s\\s\\s\\s\\s\\s\\s");
+        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Nom : " + result[0]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Prenom : " + result[1]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("Nom : " + result[2]);
+        treeNode1.add(treeNode2);
+        treeNode1.add(treeNode3);
+        treeNode1.add(treeNode4);
+
+        //complement des infos patient 
+        String[] patient = lecture2.split("\\s\\s\\s\\s\\s\\s\\s\\s\\s");
+        javax.swing.tree.DefaultMutableTreeNode treeNode5 = new javax.swing.tree.DefaultMutableTreeNode("Sexe : " + patient[0]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode6 = new javax.swing.tree.DefaultMutableTreeNode("Adresse : " + patient[1]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode7 = new javax.swing.tree.DefaultMutableTreeNode("Telephone : " + patient[2]);
+        treeNode1.add(treeNode5);
+        treeNode1.add(treeNode6);
+        treeNode1.add(treeNode7);
+
+        //afficher le sejour en cours 
+        String[] IDSejour = IDSej.split("\\s");
+        javax.swing.tree.DefaultMutableTreeNode treeNode13 = new javax.swing.tree.DefaultMutableTreeNode("Sejour En Cours :");
+        javax.swing.tree.DefaultMutableTreeNode treeNode8 = new javax.swing.tree.DefaultMutableTreeNode("ID_Sejour : " + IDSejour[0]);
+        treeNode13.add(treeNode8);
+        javax.swing.tree.DefaultMutableTreeNode treeNode14 = new javax.swing.tree.DefaultMutableTreeNode("PH Referent : " + ph.afficherPHR(pat.ippPatientListe(jList1.getSelectedValue().toString())));
+        treeNode13.add(treeNode14);
+        treeNode1.add(treeNode13);
+
+        //Afficher les prestations 
+        javax.swing.tree.DefaultMutableTreeNode treeNode9 = new javax.swing.tree.DefaultMutableTreeNode("Prestations");
+        ArrayList<String> pres = sej.affichePrestation(IDSej);
+        if (sej.sejourEnCours(IDSej) == true) {
+            for (int i = 0; i < pres.size(); i++) {
+                String prest = pres.get(i);
+                System.out.println(pres.get(i));
+
+                javax.swing.tree.DefaultMutableTreeNode treeNode10 = new javax.swing.tree.DefaultMutableTreeNode(prest);
+                treeNode9.add(treeNode10);
+                treeNode1.add(treeNode9);
+            }
+        }
+        //   Lettre de sortie
+        ArrayList<String> lettre = sej.afficherLettreSortie(pat.ippPatientListe(jList1.getSelectedValue().toString()));
+        javax.swing.tree.DefaultMutableTreeNode treeNode11 = new javax.swing.tree.DefaultMutableTreeNode("Lettre De Sortie");
+        for (int i = 0; i < lettre.size(); i++) {
+            String letter = lettre.get(i);
+            System.out.println(lettre.get(i));
+            javax.swing.tree.DefaultMutableTreeNode treeNode12 = new javax.swing.tree.DefaultMutableTreeNode(letter);
+            treeNode11.add(treeNode12);
+            treeNode1.add(treeNode11);
+        }
+
+        // Afficher personne de confiance: 
+        String[] persConf = personneConfiance.split("\n");
+        javax.swing.tree.DefaultMutableTreeNode treeNode15 = new javax.swing.tree.DefaultMutableTreeNode("Personne De Confiance:");
+        javax.swing.tree.DefaultMutableTreeNode treeNode16 = new javax.swing.tree.DefaultMutableTreeNode(persConf[0]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode17 = new javax.swing.tree.DefaultMutableTreeNode("Adresse :" + persConf[1]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode18 = new javax.swing.tree.DefaultMutableTreeNode("Telephone :" + persConf[2]);
+        treeNode15.add(treeNode16);
+        treeNode15.add(treeNode17);
+        treeNode15.add(treeNode18);
+        treeNode1.add(treeNode15);
+        //Afficher medecin référent 
+
+//        String[] localisation = lectureLocalisation.split("\\s");
+//        javax.swing.tree.DefaultMutableTreeNode treeNode8 = new javax.swing.tree.DefaultMutableTreeNode("Localisation");
+//        javax.swing.tree.DefaultMutableTreeNode treeNode9 = new javax.swing.tree.DefaultMutableTreeNode("ID SEJOUR : " + localisation[0]);
+//        javax.swing.tree.DefaultMutableTreeNode treeNode10 = new javax.swing.tree.DefaultMutableTreeNode("Service : " + localisation[1]);
+//        javax.swing.tree.DefaultMutableTreeNode treeNode11 = new javax.swing.tree.DefaultMutableTreeNode("Orientation : " + localisation[2]);
+//        javax.swing.tree.DefaultMutableTreeNode treeNode12 = new javax.swing.tree.DefaultMutableTreeNode("Chambre: " + localisation[3]);
+//        javax.swing.tree.DefaultMutableTreeNode treeNode13 = new javax.swing.tree.DefaultMutableTreeNode("Etage : " + localisation[4]);
+//        javax.swing.tree.DefaultMutableTreeNode treeNode14 = new javax.swing.tree.DefaultMutableTreeNode("Lit : " + localisation[5]);
+//        treeNode8.add(treeNode7);
+//        treeNode8.add(treeNode9);
+//        treeNode8.add(treeNode10);
+//        treeNode8.add(treeNode11);
+//        treeNode8.add(treeNode12);
+//        treeNode8.add(treeNode13);
+//        treeNode8.add(treeNode14);
+//        treeNode1.add(treeNode8);
+//
+//        String[] adm = affichageDma.split("\\s");
+//        javax.swing.tree.DefaultMutableTreeNode treeNode15 = new javax.swing.tree.DefaultMutableTreeNode("Information complémentaire");
+//        javax.swing.tree.DefaultMutableTreeNode treeNode16 = new javax.swing.tree.DefaultMutableTreeNode("IDPH : " + adm[0]);
+//        javax.swing.tree.DefaultMutableTreeNode treeNode17 = new javax.swing.tree.DefaultMutableTreeNode("ID Sejour : " + adm[1]);
+//        javax.swing.tree.DefaultMutableTreeNode treeNode18 = new javax.swing.tree.DefaultMutableTreeNode("Date de Saisie : " + adm[2]);
+//        javax.swing.tree.DefaultMutableTreeNode treeNode21 = new javax.swing.tree.DefaultMutableTreeNode("heure:de saise " + adm[3]);
+//        javax.swing.tree.DefaultMutableTreeNode treeNode19 = new javax.swing.tree.DefaultMutableTreeNode("Lettre de Sortie : " + adm[4]);
+//        javax.swing.tree.DefaultMutableTreeNode treeNode20 = new javax.swing.tree.DefaultMutableTreeNode("Titre Operation : " + adm[5]);
+//        treeNode15.add(treeNode16);
+//        treeNode15.add(treeNode17);
+//        treeNode15.add(treeNode18);
+//        treeNode15.add(treeNode21);
+//        treeNode15.add(treeNode19);
+//        treeNode15.add(treeNode20);
+//        treeNode1.add(treeNode15);
+        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jTree1.setCellRenderer(this.tCellRenderer);
+    }
+    
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public class bouton {
@@ -429,9 +551,19 @@ public class PH extends JFrame implements ActionListener {
 
         jButton5.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButton5.setText("Déconnexion");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButton6.setText("Changer le mot de passe");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dossMed_logo_1.PNG"))); // NOI18N
 
@@ -731,6 +863,11 @@ public class PH extends JFrame implements ActionListener {
 
         jButton4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButton4.setText("OK");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         textPrestation.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
@@ -889,10 +1026,6 @@ public class PH extends JFrame implements ActionListener {
         // TODO add your handling code here:
     }//GEN-LAST:event_interfacePHMouseClicked
 
-//supprimer
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-       new ChangerMDP(this.perso).setVisible(true);
-    }                                        
 
     private void jList2ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList2ValueChanged
         // TODO add your handling code here:
@@ -901,119 +1034,224 @@ public class PH extends JFrame implements ActionListener {
         }
     }//GEN-LAST:event_jList2ValueChanged
 
-    private void medPresActionPerformed(java.awt.event.ActionEvent evt) {                                        
+    private void medPresActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-    }                                       
+    }
 
 //   
-
-    private void textPrestationActionPerformed(java.awt.event.ActionEvent evt) {                                               
+    private void textPrestationActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-    }                                              
+    }
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        //Renvoie l'id du medecin selectionné = medecin receveur
-        if (!jList2.isSelectionEmpty()) {
-            String selection = jList2.getSelectedValue();
-            String idp = ph.iPPMedecinListe(selection);
-            System.out.println("IPP MEDECIN EST : " + idp);
+   
 
-            sejourCourant.ajouterPrestation(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), idp, textPrestation.getText());
-            textPrestation.setText("");
-            medPres.setText("");
-            DLM.clear();
-            jList2.setModel(DLM);
-        }
-
-    }                                        
-
-    private void voirLesInfosPatient(java.awt.event.MouseEvent evt) {                                     
-        interfacePH.setSelectedIndex(2);
-    }                                    
 
     private void completerSejour(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_completerSejour
+
         if (!jList1.isSelectionEmpty()) {
-            PatientSelection = jList1.getSelectedValue().toString();
+            try {
+                PatientSelection = jList1.getSelectedValue().toString();
+
+                //On ajoute une observation seule
+                if (textTitreOperation.getText().isEmpty() && (textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty()) && textResultats.getText().isEmpty() && textPrescriptions.getText().isEmpty()) {
+                    if (sejourCourant.ajouterObservation(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText()).equals("ERREUR")) {
+                        JOptionPane.showMessageDialog(this, "Une erreur est survenue, Réeesayez", "ERREUR", JOptionPane.ERROR_MESSAGE);
+
+                    } else {
+                        System.out.println("1");
+                        JOptionPane.showMessageDialog(this, "Informations ajoutées au dossier", "OK", JOptionPane.INFORMATION_MESSAGE);
+
+                    }
+                } //On ajoute une operation seule
+                //il faut que titre ET details soient remplis
+                else if ((!textTitreOperation.getText().isEmpty() && textDetailsOperations.getText().isEmpty()) || (textTitreOperation.getText().isEmpty() && !textDetailsOperations.getText().isEmpty())) {
+                    JOptionPane.showMessageDialog(this, "Renseignez les champs titre ET details", "ERREUR", JOptionPane.ERROR_MESSAGE);
+
+                } else if (textDetailsOperations.getText().isEmpty() && textResultats.getText().isEmpty() && textPrescriptions.getText().isEmpty()) {
+                    if (sejourCourant.ajouterOperations(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textTitreOperation.getText(), textDetailsOperations.getText()).equals("ERREUR")) {
+                        JOptionPane.showMessageDialog(this, "Une erreur est survenue, Réeesayez", "ERREUR", JOptionPane.ERROR_MESSAGE);
+
+                    } else {
+                        System.out.println("2");
+                        JOptionPane.showMessageDialog(this, "Informations ajoutées au dossier", "OK", JOptionPane.INFORMATION_MESSAGE);
+
+                    }
+
+                } //On ajoute un resultat seul
+                else if (textTitreOperation.getText().isEmpty() && (textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty()) && textObservations.getText().isEmpty() && textPrescriptions.getText().isEmpty()) {
+                    if (sejourCourant.ajouterResultat(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textResultats.getText()).equals("ERREUR")) {
+                        JOptionPane.showMessageDialog(this, "Une erreur est survenue, Réeesayez", "ERREUR", JOptionPane.ERROR_MESSAGE);
+
+                    } else {
+                        System.out.println("3");
+                        JOptionPane.showMessageDialog(this, "Informations ajoutées au dossier", "OK", JOptionPane.INFORMATION_MESSAGE);
+
+                    }
+
+                } // On ajoute une prescription seule
+                else if (textTitreOperation.getText().isEmpty() && (textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty()) && textObservations.getText().isEmpty() && textResultats.getText().isEmpty()) {
+                    if (sejourCourant.ajouterPrescription(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textPrescriptions.getText()).equals("ERREUR")) {
+                        JOptionPane.showMessageDialog(this, "Une erreur est survenue, Réeesayez", "ERREUR", JOptionPane.ERROR_MESSAGE);
+
+                    } else {
+                        System.out.println("4");
+                        JOptionPane.showMessageDialog(this, "Informations ajoutées au dossier", "OK", JOptionPane.INFORMATION_MESSAGE);
+
+                    }
+
+                } //On ajoute une observation et une operation
+                else if (textResultats.getText().isEmpty() && textPrescriptions.getText().isEmpty()) {
+                    if (sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), textTitreOperation.getText(), textDetailsOperations.getText(), "", "").equals("ERREUR")) {
+                        JOptionPane.showMessageDialog(this, "Une erreur est survenue, Réeesayez", "ERREUR", JOptionPane.ERROR_MESSAGE);
+
+                    } else {
+                        System.out.println("5");
+                        JOptionPane.showMessageDialog(this, "Informations ajoutées au dossier", "OK", JOptionPane.INFORMATION_MESSAGE);
+
+                    }
+
+                } //On ajoute une observation et un resultat
+                else if (textResultats.getText().isEmpty() && (textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty())) {
+
+                    if (sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), "", "", textResultats.getText(), "").equals("ERREUR")) {
+                        JOptionPane.showMessageDialog(this, "Une erreur est survenue, Réeesayez", "ERREUR", JOptionPane.ERROR_MESSAGE);
+
+                    } else {
+                        System.out.println("6");
+                        JOptionPane.showMessageDialog(this, "Informations ajoutées au dossier", "OK", JOptionPane.INFORMATION_MESSAGE);
+
+                    }
+
+                } //On ajoute une observation et un prescription
+                else if (textResultats.getText().isEmpty() && (textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty())) {
+
+                    if (sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), "", "", "", textPrescriptions.getText()).equals("ERREUR")) {
+                        JOptionPane.showMessageDialog(this, "Une erreur est survenue, Réeesayez", "ERREUR", JOptionPane.ERROR_MESSAGE);
+
+                    } else {
+                        System.out.println("7");
+                        JOptionPane.showMessageDialog(this, "Informations ajoutées au dossier", "OK", JOptionPane.INFORMATION_MESSAGE);
+
+                    }
+
+                } //On ajoute une operation et un resultat
+                else if ((textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty()) && textObservations.getText().isEmpty()) {
+
+                    if (sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), "", textTitreOperation.getText(), textDetailsOperations.getText(), textResultats.getText(), "").equals("ERREUR")) {
+                        JOptionPane.showMessageDialog(this, "Une erreur est survenue, Réeesayez", "ERREUR", JOptionPane.ERROR_MESSAGE);
+
+                    } else {
+                        System.out.println("8");
+                        JOptionPane.showMessageDialog(this, "Informations ajoutées au dossier", "OK", JOptionPane.INFORMATION_MESSAGE);
+
+                    }
+
+                } //On ajoute une operation et une prescription
+                else if (textResultats.getText().isEmpty() && textObservations.getText().isEmpty()) {
+
+                    if (sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), "", textTitreOperation.getText(), textDetailsOperations.getText(), "", textPrescriptions.getText()).equals("ERREUR")) {
+                        JOptionPane.showMessageDialog(this, "Une erreur est survenue, Réeesayez", "ERREUR", JOptionPane.ERROR_MESSAGE);
+
+                    } else {
+                        System.out.println("9");
+
+                        JOptionPane.showMessageDialog(this, "Informations ajoutées au dossier", "OK", JOptionPane.INFORMATION_MESSAGE);
+
+                    }
+
+                } //On ajoute une prescription et un resultat
+                else if ((textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty()) && textObservations.getText().isEmpty()) {
+
+                    if (sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), "", "", "", textResultats.getText(), textPrescriptions.getText()).equals("ERREUR")) {
+                        JOptionPane.showMessageDialog(this, "Une erreur est survenue, Réeesayez", "ERREUR", JOptionPane.ERROR_MESSAGE);
+
+                    } else {
+                        System.out.println("10");
+                        JOptionPane.showMessageDialog(this, "Informations ajoutées au dossier", "OK", JOptionPane.INFORMATION_MESSAGE);
+
+                    }
+
+                } // On ajoute une observation, une operation, un resultat
+                else if (textPrescriptions.getText().isEmpty()) {
+
+                    if (sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), textTitreOperation.getText(), textDetailsOperations.getText(), textResultats.getText(), "").equals("ERREUR")) {
+                        JOptionPane.showMessageDialog(this, "Une erreur est survenue, Réeesayez", "ERREUR", JOptionPane.ERROR_MESSAGE);
+
+                    } else {
+                        System.out.println("11");
+                        JOptionPane.showMessageDialog(this, "Informations ajoutées au dossier", "OK", JOptionPane.INFORMATION_MESSAGE);
+
+                    }
+
+                } // On ajoute une observation, une operation, une prescription
+                else if (textPrescriptions.getText().isEmpty()) {
+
+                    if (sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), textTitreOperation.getText(), textDetailsOperations.getText(), "", textPrescriptions.getText()).equals("ERREUR")) {
+                        JOptionPane.showMessageDialog(this, "Une erreur est survenue, Réeesayez", "ERREUR", JOptionPane.ERROR_MESSAGE);
+
+                    } else {
+                        System.out.println("12");
+                        JOptionPane.showMessageDialog(this, "Informations ajoutées au dossier", "OK", JOptionPane.INFORMATION_MESSAGE);
+
+                    }
+
+                } // On ajoute une observation, un resultat, une prescription
+                else if (textPrescriptions.getText().isEmpty()) {
+
+                    if (sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), "", "", textResultats.getText(), textPrescriptions.getText()).equals("ERREUR")) {
+                        JOptionPane.showMessageDialog(this, "Une erreur est survenue, Réeesayez", "ERREUR", JOptionPane.ERROR_MESSAGE);
+
+                    } else {
+                        System.out.println("13");
+                        JOptionPane.showMessageDialog(this, "Informations ajoutées au dossier", "OK", JOptionPane.INFORMATION_MESSAGE);
+
+                    }
+
+                } //On ajoute une operation, un resultat et une prescription
+                else if (textPrescriptions.getText().isEmpty() && (textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty())) {
+
+                    if (sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), "", textTitreOperation.getText(), textDetailsOperations.getText(), textResultats.getText(), textPrescriptions.getText()).equals("ERREUR")) {
+                        JOptionPane.showMessageDialog(this, "Une erreur est survenue, Réeesayez", "ERREUR", JOptionPane.ERROR_MESSAGE);
+
+                    } else {
+                        System.out.println("14");
+                        JOptionPane.showMessageDialog(this, "Informations ajoutées au dossier", "OK", JOptionPane.INFORMATION_MESSAGE);
+
+                    }
+
+                } //On complete l'integralité du sejour
+                else {
+
+                    if (sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), textTitreOperation.getText(), textDetailsOperations.getText(), textResultats.getText(), textPrescriptions.getText()).equals("ERREUR")) {
+                        JOptionPane.showMessageDialog(this, "Une erreur est survenue, Réeesayez", "ERREUR", JOptionPane.ERROR_MESSAGE);
+
+                    } else {
+                        System.out.println("15");
+                        JOptionPane.showMessageDialog(this, "Informations ajoutées au dossier", "OK", JOptionPane.INFORMATION_MESSAGE);
+
+                    }
+
+                }
+
+                textObservations.setText("");
+                textTitreOperation.setText("");
+                textDetailsOperations.setText("");
+                textResultats.setText("");
+                textPrescriptions.setText("");
+
+            } catch (Exception ex) {
+
+                System.out.println(ex);
+            }
         }
 
-        //On ajoute une observation seule
-        if (textTitreOperation.getText().isEmpty() && (textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty()) && textResultats.getText().isEmpty() && textPrescriptions.getText().isEmpty()) {
-            sejourCourant.ajouterObservation(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText());
-            System.out.println("1");
-        } //On ajoute une operation seule
-        //il faut que titre ET details soient remplis
-        else if ((!textTitreOperation.getText().isEmpty() && textDetailsOperations.getText().isEmpty()) || (textTitreOperation.getText().isEmpty() && !textDetailsOperations.getText().isEmpty())) {
-            System.out.println("il faudra mettre un pop-up car titre ou details non rempli");
-
-        } else if (textDetailsOperations.getText().isEmpty() && textResultats.getText().isEmpty() && textPrescriptions.getText().isEmpty()) {
-            sejourCourant.ajouterOperations(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textTitreOperation.getText(), textDetailsOperations.getText());
-            System.out.println("2");
-        } //On ajoute un resultat seul
-        else if (textTitreOperation.getText().isEmpty() && (textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty()) && textObservations.getText().isEmpty() && textPrescriptions.getText().isEmpty()) {
-            sejourCourant.ajouterResultat(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textResultats.getText());
-            System.out.println("3");
-        } // On ajoute une prescription seule
-        else if (textTitreOperation.getText().isEmpty() && (textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty()) && textObservations.getText().isEmpty() && textResultats.getText().isEmpty()) {
-            sejourCourant.ajouterPrescription(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textPrescriptions.getText());
-            System.out.println("4");
-        } //On ajoute une observation et une operation
-        else if (textResultats.getText().isEmpty() && textPrescriptions.getText().isEmpty()) {
-            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), textTitreOperation.getText(), textDetailsOperations.getText(), "", "");
-            System.out.println("5");
-        } //On ajoute une observation et un resultat
-        else if (textResultats.getText().isEmpty() && (textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty())) {
-            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), "", "", textResultats.getText(), "");
-            System.out.println("6");
-        } //On ajoute une observation et un prescription
-        else if (textResultats.getText().isEmpty() && (textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty())) {
-            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), "", "", "", textPrescriptions.getText());
-            System.out.println("7");
-        } //On ajoute une operation et un resultat
-        else if ((textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty()) && textObservations.getText().isEmpty()) {
-            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), "", textTitreOperation.getText(), textDetailsOperations.getText(), textResultats.getText(), "");
-            System.out.println("8");
-        } //On ajoute une operation et une prescription
-        else if (textResultats.getText().isEmpty() && textObservations.getText().isEmpty()) {
-            System.out.println("9");
-            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), "", textTitreOperation.getText(), textDetailsOperations.getText(), "", textPrescriptions.getText());
-        } //On ajoute une prescription et un resultat
-        else if ((textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty()) && textObservations.getText().isEmpty()) {
-            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), "", "", "", textResultats.getText(), textPrescriptions.getText());
-            System.out.println("10");
-        } // On ajoute une observation, une operation, un resultat
-        else if (textPrescriptions.getText().isEmpty()) {
-            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), textTitreOperation.getText(), textDetailsOperations.getText(), textResultats.getText(), "");
-            System.out.println("11");
-        } // On ajoute une observation, une operation, une prescription
-        else if (textPrescriptions.getText().isEmpty()) {
-            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), textTitreOperation.getText(), textDetailsOperations.getText(), "", textPrescriptions.getText());
-            System.out.println("12");
-        } // On ajoute une observation, un resultat, une prescription
-        else if (textPrescriptions.getText().isEmpty()) {
-            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), "", "", textResultats.getText(), textPrescriptions.getText());
-            System.out.println("13");
-        } //On ajoute une operation, un resultat et une prescription
-        else if (textPrescriptions.getText().isEmpty() && (textDetailsOperations.getText().isEmpty() || textTitreOperation.getText().isEmpty())) {
-            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), "", textTitreOperation.getText(), textDetailsOperations.getText(), textResultats.getText(), textPrescriptions.getText());
-            System.out.println("14");
-        } //On complete l'integralité du sejour
-        else {
-            sejourCourant.completerSejour(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textObservations.getText(), textTitreOperation.getText(), textDetailsOperations.getText(), textResultats.getText(), textPrescriptions.getText());
-            System.out.println("15");
-        }
-
-        textObservations.setText("");
-        textTitreOperation.setText("");
-        textDetailsOperations.setText("");
-        textResultats.setText("");
-        textPrescriptions.setText("");
     }//GEN-LAST:event_completerSejour
 
     private void panelInformationsPatientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelInformationsPatientMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_panelInformationsPatientMouseClicked
 
-    private void panelAccueilMouseClicked(java.awt.event.MouseEvent evt) {                                          
+    private void panelAccueilMouseClicked(java.awt.event.MouseEvent evt) {
         // Mise à jour de la liste des patients
         DLM.clear();
         listePatient = secrMed.afficherListePatientParService(perso.getSpecialite());
@@ -1036,53 +1274,57 @@ public class PH extends JFrame implements ActionListener {
             jList1.setModel(DLM);
             jList1.repaint();
         }
-        
-           
-       
-    }                                         
 
-    private void jButton6ActionPerformed1(java.awt.event.ActionEvent evt) {                                          
-        // TODO add your handling code here:
-        new ChangerMDP(this.perso).setVisible(true);
-    }                                         
+    }
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        new Connexion().setVisible(true);
-        this.dispose();
-    }                                        
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-            if (!jList1.isSelectionEmpty()) {
+        if (!jList1.isSelectionEmpty()) {
             PatientSelection = jList1.getSelectedValue().toString();
             initRenderer();
             buildTree();
-         new nouveauPatientArchive().setVisible(true);
-    }
+            new nouveauPatientArchive().setVisible(true);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
+        String element1 = "";
+        String element2 = "";
+        String element3 = "";
+        ArrayList<Patient> Lp = null;
+        RechercherInfo inf = new RechercherInfo();
         String date = jFormattedTextField1.getText();
         DefaultListModel DLM = new DefaultListModel();
-
         if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty() && jFormattedTextField1.getText() != null) {
-            Lp = inf.recherchePatientNomPrenomDate(jTextField1.getText(), jTextField2.getText(), date);
+            Lp = inf.patientServiceNomPrenomDate(perso.getSpecialite(), jTextField1.getText(), jTextField2.getText(), date);
 
             for (int i = 0; i < Lp.size(); i++) {
-                String element = "" + Lp.get(i).getNom() + "         " + Lp.get(i).getPrenom() + "         " + Lp.get(i).getDateDeNaissance();
-                DLM.addElement(element);
+                element1 = "" + Lp.get(i).getNom() + "         " + Lp.get(i).getPrenom() + "         " + Lp.get(i).getDateDeNaissance();
+                DLM.addElement(element1);
+
             }
-            //jList1.setModel(DLM);
+
         }
-        if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty()) {
-            Lp = inf.rechercheListPatientNomPrenom(jTextField1.getText(), jTextField2.getText());
+        if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty() && jFormattedTextField1.getText().isEmpty()) {
+            Lp = inf.patientServiceNomPrenom(perso.getSpecialite(), jTextField1.getText(), jTextField2.getText());
             // DefaultListModel DLM = new DefaultListModel();
             for (int i = 0; i < Lp.size(); i++) {
-                String element = "" + Lp.get(i).getNom() + "         " + Lp.get(i).getPrenom() + "         " + Lp.get(i).getDateDeNaissance();
-                DLM.addElement(element);
+                element2 = "" + Lp.get(i).getNom() + "         " + Lp.get(i).getPrenom() + "         " + Lp.get(i).getDateDeNaissance();
+                DLM.addElement(element2);
+
             }
         }
+        if (!jTextField1.getText().isEmpty() && jTextField2.getText().isEmpty() && jFormattedTextField1.getText().isEmpty()) {
+            Lp = inf.patientServiceNom(perso.getSpecialite(), jTextField1.getText());
+            for (int i = 0; i < Lp.size(); i++) {
+                element3 = "" + Lp.get(i).getNom() + "         " + Lp.get(i).getPrenom() + "         " + Lp.get(i).getDateDeNaissance();
+                DLM.addElement(element3);
+            }
+        }
+        jList1.setModel(DLM);
+
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -1100,7 +1342,9 @@ public class PH extends JFrame implements ActionListener {
 
         if (!jList1.isSelectionEmpty()) {
             PatientSelection = jList1.getSelectedValue().toString();
-
+             initRenderer();
+            buildTree();
+            buildTree1();
             System.out.println(ph.estReferent(perso.getIdMed(), ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection))));
 
             //cliquer sur le bouton "Suivant" ouvre l'onglet où le médecin peut compléter les données du patient courant
@@ -1119,142 +1363,16 @@ public class PH extends JFrame implements ActionListener {
         jToggleButton1.setSelected(false);
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
-    private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {                                    
-        // TODO add your handling code here:
-    
-         //Instanciation
-
-        this.tCellRenderer.setClosedIcon(null);
-        this.tCellRenderer.setOpenIcon(null);
-        this.tCellRenderer.setLeafIcon(null);
-    
-  
-        Patient pat = new Patient("bluff", "bluff");
-        DMA dma = new DMA(pat);
-        Localisation locBluff = new Localisation(Specialite.ANESTHESIE, Orientation.NORD, 5, 3, Lit.FENETRE);
-        Sejour sej = new Sejour("dSejour", "idPatient", "idphReferan", locBluff);
-        nf.PH ph = new nf.PH("bono", "jean", "hello", "i am", "here", Specialite.ANESTHESIE, Service.MEDICO_TECHNIQUE);
-
-        String IDSej = sej.AfficherIDSejour(pat.ippPatientListe(jList1.getSelectedValue().toString()));
-        String lecture1 = jList1.getSelectedValue().toString();
-        String lecture2 = sej.AfficherPATIENT(pat.ippPatientListe(jList1.getSelectedValue().toString()));
-        String lectureLocalisation = sej.afficherLOCALISATION(sej.AfficherIDSejour(pat.ippPatientListe(jList1.getSelectedValue().toString())));
-        String affichageDma = sej.infoDMA(sej.AfficherIDSejour(pat.ippPatientListe(jList1.getSelectedValue().toString())));
-        String personneConfiance = pat.afficherPersonneConfiance(pat.ippPatientListe(jList1.getSelectedValue().toString()));
-//afficher infos patient
-        System.out.println("selected value : " + jList1.getSelectedValue().toString());
-        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Identité patient");
-        String[] result = lecture1.split("\\s\\s\\s\\s\\s\\s\\s\\s\\s");
-        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Nom : " + result[0]);
-        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Prenom : " + result[1]);
-        javax.swing.tree.DefaultMutableTreeNode treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("Nom : " + result[2]);
-        treeNode1.add(treeNode2);
-        treeNode1.add(treeNode3);
-        treeNode1.add(treeNode4);
-
-        //complement des infos patient 
-        String[] patient = lecture2.split("\\s\\s\\s\\s\\s\\s\\s\\s\\s");
-        javax.swing.tree.DefaultMutableTreeNode treeNode5 = new javax.swing.tree.DefaultMutableTreeNode("Sexe : " + patient[0]);
-        javax.swing.tree.DefaultMutableTreeNode treeNode6 = new javax.swing.tree.DefaultMutableTreeNode("Adresse : " + patient[1]);
-        javax.swing.tree.DefaultMutableTreeNode treeNode7 = new javax.swing.tree.DefaultMutableTreeNode("Telephone : " + patient[2]);
-        treeNode1.add(treeNode5);
-        treeNode1.add(treeNode6);
-        treeNode1.add(treeNode7);
-
-        //afficher le sejour en cours 
-        String[] IDSejour = IDSej.split("\\s");
-        javax.swing.tree.DefaultMutableTreeNode treeNode13 = new javax.swing.tree.DefaultMutableTreeNode("Sejour En Cours :");
-        javax.swing.tree.DefaultMutableTreeNode treeNode8 = new javax.swing.tree.DefaultMutableTreeNode("ID_Sejour : " + IDSejour[0]);
-        treeNode13.add(treeNode8);
-        javax.swing.tree.DefaultMutableTreeNode treeNode14 = new javax.swing.tree.DefaultMutableTreeNode("PH Referent : " + ph.afficherPHR(pat.ippPatientListe(jList1.getSelectedValue().toString())));
-        treeNode13.add(treeNode14);
-        treeNode1.add(treeNode13);
-
-        //Afficher les prestations 
-        javax.swing.tree.DefaultMutableTreeNode treeNode9 = new javax.swing.tree.DefaultMutableTreeNode("Prestations");
-        ArrayList<String> pres = sej.affichePrestation(IDSej);
-        if (sej.sejourEnCours(IDSej) == true) {
-            for (int i = 0; i < pres.size(); i++) {
-                String prest = pres.get(i);
-                System.out.println(pres.get(i));
-
-                javax.swing.tree.DefaultMutableTreeNode treeNode10 = new javax.swing.tree.DefaultMutableTreeNode(prest);
-                treeNode9.add(treeNode10);
-                treeNode1.add(treeNode9);
-            }
-        }
-        //   Lettre de sortie
-        ArrayList<String> lettre = sej.afficherLettreSortie(pat.ippPatientListe(jList1.getSelectedValue().toString()));
-        javax.swing.tree.DefaultMutableTreeNode treeNode11 = new javax.swing.tree.DefaultMutableTreeNode("Lettre De Sortie");
-        for (int i = 0; i < lettre.size(); i++) {
-            String letter = lettre.get(i);
-            System.out.println(lettre.get(i));
-            javax.swing.tree.DefaultMutableTreeNode treeNode12 = new javax.swing.tree.DefaultMutableTreeNode(letter);
-            treeNode11.add(treeNode12);
-            treeNode1.add(treeNode11);
-        }
-
-        // Afficher personne de confiance: 
-        String[] persConf = personneConfiance.split("\n");
-        javax.swing.tree.DefaultMutableTreeNode treeNode15 = new javax.swing.tree.DefaultMutableTreeNode("Personne De Confiance:");
-        javax.swing.tree.DefaultMutableTreeNode treeNode16 = new javax.swing.tree.DefaultMutableTreeNode(persConf[0]);
-        javax.swing.tree.DefaultMutableTreeNode treeNode17 = new javax.swing.tree.DefaultMutableTreeNode("Adresse :" + persConf[1]);
-        javax.swing.tree.DefaultMutableTreeNode treeNode18 = new javax.swing.tree.DefaultMutableTreeNode("Telephone :" + persConf[2]);
-        treeNode15.add(treeNode16);
-        treeNode15.add(treeNode17);
-        treeNode15.add(treeNode18);
-        treeNode1.add(treeNode15);
-        //Afficher medecin référent 
-
-//        String[] localisation = lectureLocalisation.split("\\s");
-//        javax.swing.tree.DefaultMutableTreeNode treeNode8 = new javax.swing.tree.DefaultMutableTreeNode("Localisation");
-//        javax.swing.tree.DefaultMutableTreeNode treeNode9 = new javax.swing.tree.DefaultMutableTreeNode("ID SEJOUR : " + localisation[0]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode10 = new javax.swing.tree.DefaultMutableTreeNode("Service : " + localisation[1]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode11 = new javax.swing.tree.DefaultMutableTreeNode("Orientation : " + localisation[2]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode12 = new javax.swing.tree.DefaultMutableTreeNode("Chambre: " + localisation[3]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode13 = new javax.swing.tree.DefaultMutableTreeNode("Etage : " + localisation[4]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode14 = new javax.swing.tree.DefaultMutableTreeNode("Lit : " + localisation[5]);
-//        treeNode8.add(treeNode7);
-//        treeNode8.add(treeNode9);
-//        treeNode8.add(treeNode10);
-//        treeNode8.add(treeNode11);
-//        treeNode8.add(treeNode12);
-//        treeNode8.add(treeNode13);
-//        treeNode8.add(treeNode14);
-//        treeNode1.add(treeNode8);
-//
-//        String[] adm = affichageDma.split("\\s");
-//        javax.swing.tree.DefaultMutableTreeNode treeNode15 = new javax.swing.tree.DefaultMutableTreeNode("Information complémentaire");
-//        javax.swing.tree.DefaultMutableTreeNode treeNode16 = new javax.swing.tree.DefaultMutableTreeNode("IDPH : " + adm[0]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode17 = new javax.swing.tree.DefaultMutableTreeNode("ID Sejour : " + adm[1]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode18 = new javax.swing.tree.DefaultMutableTreeNode("Date de Saisie : " + adm[2]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode21 = new javax.swing.tree.DefaultMutableTreeNode("heure:de saise " + adm[3]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode19 = new javax.swing.tree.DefaultMutableTreeNode("Lettre de Sortie : " + adm[4]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode20 = new javax.swing.tree.DefaultMutableTreeNode("Titre Operation : " + adm[5]);
-//        treeNode15.add(treeNode16);
-//        treeNode15.add(treeNode17);
-//        treeNode15.add(treeNode18);
-//        treeNode15.add(treeNode21);
-//        treeNode15.add(treeNode19);
-//        treeNode15.add(treeNode20);
-//        treeNode1.add(treeNode15);
-        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        jTree1.setCellRenderer(this.tCellRenderer);
-    }
-
-//   
-
-//supprimer
-/*
+ 
 
     private void voirLesInfosPatient(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_voirLesInfosPatient
-    
+    interfacePH.setSelectedIndex(2);
     }//GEN-LAST:event_voirLesInfosPatient
-*/
+
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
         // TODO add your handling code here:
-         if (jList1.getSelectedValue() !=null){
+        if (jList1.getSelectedValue() != null) {
             selection = jList1.getSelectedValue().toString();
             System.out.println(selection);
             System.out.println(jList1.getSelectedValue());
@@ -1263,20 +1381,19 @@ public class PH extends JFrame implements ActionListener {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
-           if(phref==true){
-            sejourCourant.editerLettreDeSortie(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection),textLettreDeSortie.getText());
+        if (phref == true) {
+            sejourCourant.editerLettreDeSortie(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textLettreDeSortie.getText());
             textLettreDeSortie.setText("");
-        }
-        else {
-            JOptionPane.showMessageDialog(this,"Vous n'êtes pas autorisé(e) à éditer la lettre de sortie", "ATTENTION : Vous n'êtes pas le PH référent",JOptionPane.ERROR_MESSAGE);
-   
+        } else {
+            JOptionPane.showMessageDialog(this, "Vous n'êtes pas autorisé(e) à éditer la lettre de sortie", "ATTENTION : Vous n'êtes pas le PH référent", JOptionPane.ERROR_MESSAGE);
+
         }
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
         // TODO add your handling code here:
-        DefaultListModel DLM = new DefaultListModel();
+       DLM_medecin = new DefaultListModel();
         String[] anesthesie = ph.afficherListePHAnes();
         String[] radiologue = ph.afficherListePHRadio();
         String[] hemato = ph.afficherListePHHemato();
@@ -1284,39 +1401,99 @@ public class PH extends JFrame implements ActionListener {
         String[] labo = ph.afficherListePHLabo();
         if (jComboBox1.getSelectedItem().equals(Specialite.ANESTHESIE)) {
             for (int i = 0; i < anesthesie.length; i++) {
-                DLM.addElement(anesthesie[i]);
+                DLM_medecin.addElement(anesthesie[i]);
             }
-            jList2.setModel(DLM);
+            jList2.setModel(DLM_medecin);
 
         }
         if (jComboBox1.getSelectedItem().equals(Specialite.LABORATOIRE_ANALYSE)) {
             for (int i = 0; i < labo.length; i++) {
-                DLM.addElement(labo[i]);
+                DLM_medecin.addElement(labo[i]);
             }
-            jList2.setModel(DLM);
+            jList2.setModel(DLM_medecin);
 
         }
         if (jComboBox1.getSelectedItem().equals(Specialite.HEMATOLOGIE)) {
             for (int i = 0; i < hemato.length; i++) {
-                DLM.addElement(hemato[i]);
+                DLM_medecin.addElement(hemato[i]);
             }
-            jList2.setModel(DLM);
+            jList2.setModel(DLM_medecin);
 
         }
         if (jComboBox1.getSelectedItem().equals(Specialite.ANAPATHOLOGIE)) {
             for (int i = 0; i < anapatho.length; i++) {
-                DLM.addElement(anapatho[i]);
+                DLM_medecin.addElement(anapatho[i]);
             }
-            jList2.setModel(DLM);
+            jList2.setModel(DLM_medecin);
 
         }
         if (jComboBox1.getSelectedItem().equals(Specialite.RADIOLOGIE)) {
             for (int i = 0; i < radiologue.length; i++) {
-                DLM.addElement(radiologue[i]);
+                DLM_medecin.addElement(radiologue[i]);
+                
             }
-            jList2.setModel(DLM);
-        }
+             jList2.setModel(DLM_medecin);
+              
+                   }
+       
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        new Connexion().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        new ChangerMDP(this.perso).setVisible(true);
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+            //Renvoie l'id du medecin selectionné = medecin receveur
+        if (!jList2.isSelectionEmpty()) {
+            String selection = jList2.getSelectedValue();
+            String idp = ph.iPPMedecinListe(selection);
+            System.out.println("IPP MEDECIN EST : " + idp);
+
+            sejourCourant.ajouterPrestation(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), idp, textPrestation.getText());
+            textPrestation.setText("");
+            medPres.setText("");
+           DLM_medecin.clear();
+            jList2.setModel(DLM_medecin);
+             JOptionPane.showMessageDialog(this, "La demande de préstation a bien été envoyée", "", JOptionPane.INFORMATION_MESSAGE);
+
+            
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
+        // TODO add your handling code here:
+         if (!jList1.isSelectionEmpty()) {
+            PatientSelection = jList1.getSelectedValue().toString();
+             initRenderer();
+            buildTree();
+            buildTree1();
+            
+             System.out.println("ID_SEJOUR ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;"+ ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)));
+            System.out.println(ph.estReferent(perso.getIdMed(), ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection))));
+
+            //cliquer sur le bouton "Suivant" ouvre l'onglet où le médecin peut compléter les données du patient courant
+            if (ph.estReferent(perso.getIdMed(), ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)))) {
+                phref = true;
+                System.out.println("VRAI");
+                jButton7.setEnabled(true);
+                jButton3.setEnabled(true);
+            } else {
+                System.out.println("FUAX");
+            }
+
+        }
+
+       
+
+    }//GEN-LAST:event_jList1ValueChanged
 
     /**
      * @param args the command line arguments

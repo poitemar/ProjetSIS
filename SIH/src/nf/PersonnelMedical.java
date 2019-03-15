@@ -122,9 +122,13 @@ public class PersonnelMedical {
                   String adresse = rs.getString("ADRESSE");
                    // System.out.println(Adresse);
                   String tel = rs.getString("TELEPHONE");
+                  String nomC = rs.getString("NOMCONF");
+                  String prenomC = rs.getString("PRENOMCONF");
+                  String adresseC = rs.getString("ADRESSECONF");
+                  String telC = rs.getString("TELEPHONECONF");
                      //System.out.println(tel);                 
                      
-                 Patient patient = new Patient(idp,nom,prenom,sexeLu,date,adresse,tel);
+                 Patient patient = new Patient(idp,nom,prenom,sexeLu,date,adresse,tel,nomC,prenomC,adresseC,telC);
                    //   System.out.println(docteur.getNom());
                  //System.out.println(docteur.getSpecialite().toString());
                  

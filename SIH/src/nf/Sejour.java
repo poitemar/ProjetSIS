@@ -69,8 +69,8 @@ public class Sejour {
         listePrestations = new ArrayList<String>();
         try {
             Class.forName("com.mysql.jdbc.Driver");
-         con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", "");
-         st = con.createStatement();
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", "");
+            st = con.createStatement();
             st2 = con.createStatement();
             st3 = con.createStatement();
 
@@ -183,6 +183,7 @@ public class Sejour {
             }
 
         } catch (Exception ex) {
+
             System.out.println(ex);
 
         }
@@ -337,15 +338,15 @@ public class Sejour {
     }
 
     // Ici on implémente la fonction qui retourne la liste des informations par saisie
-    public TreeMap<String,String> listeInfos(String dateSaisie, String idSejour) {
-       
-        TreeMap<String,String> liste = new TreeMap<String,String>(new Comparator<String>() {
-                public int compare(String s1, String s2) {
-                 
+    public TreeMap<String, String> listeInfos(String dateSaisie, String idSejour) {
 
-                    return s1.compareTo(s2);
-                }});
-        
+        TreeMap<String, String> liste = new TreeMap<String, String>(new Comparator<String>() {
+            public int compare(String s1, String s2) {
+
+                return s1.compareTo(s2);
+            }
+        });
+
         try {
             String query = "select * from ph where DATE_SAISIE='" + dateSaisie + "'"; // la query à entrer pour accéder aux données de nos tables 
 
@@ -353,39 +354,37 @@ public class Sejour {
             while (rs.next()) {
                 String observation = rs.getString("OBSERVATION");
                 if (!observation.equals("")) {
-                    liste.put("A"+"X"+"Observation",observation);
+                    liste.put("A" + "X" + "Observation", observation);
                 }
 
                 String titreOperation = rs.getString("TITRE_OPERATION");
                 if (!titreOperation.equals("")) {
-                    liste.put("B"+"X"+"Operation",titreOperation);
+                    liste.put("B" + "X" + "Operation", titreOperation);
                 }
                 String operation = rs.getString("OPERATION");
                 if (!operation.equals("")) {
-                    liste.put("C"+"X"+"Détails", operation);
+                    liste.put("C" + "X" + "Détails", operation);
                 }
                 String resultat = rs.getString("RESULTAT");
                 if (!resultat.equals("")) {
-                    liste.put("D"+"X"+"Resultat",resultat);
+                    liste.put("D" + "X" + "Resultat", resultat);
                 }
                 String prescription = rs.getString("PRESCRIPTION");
                 if (!prescription.equals("")) {
-                    liste.put("E"+"X"+"Prescription",prescription);
+                    liste.put("E" + "X" + "Prescription", prescription);
                 }
                 String CR = rs.getString("COMPTE_RENDU");
                 if (!CR.equals("")) {
-                    liste.put("F"+"X"+"Compte-rendu radiologique",CR);
+                    liste.put("F" + "X" + "Compte-rendu radiologique", CR);
                 }
                 String lettre = rs.getString("LETTRE_SORTIE");
 
                 if (!lettre.equals("")) {
-                    liste.put("G"+"X"+"Lettre de sortie",lettre);
+                    liste.put("G" + "X" + "Lettre de sortie", lettre);
                 }
 
             }
 
-           
-            
         } catch (Exception ex) {
             System.out.println(ex);
 
@@ -394,38 +393,34 @@ public class Sejour {
         return liste;
     }
 
-    
-      // Ici on implémente la fonction qui retourne la liste des informations par saisie pour un Médico-technique
-    public TreeMap<String,String> listeInfosPHMT(String dateSaisie, String idSejour) {
-       
-        TreeMap<String,String> liste = new TreeMap<String,String>(new Comparator<String>() {
-                public int compare(String s1, String s2) {
-                 
+    // Ici on implémente la fonction qui retourne la liste des informations par saisie pour un Médico-technique
+    public TreeMap<String, String> listeInfosPHMT(String dateSaisie, String idSejour) {
 
-                    return s1.compareTo(s2);
-                }});
-        
+        TreeMap<String, String> liste = new TreeMap<String, String>(new Comparator<String>() {
+            public int compare(String s1, String s2) {
+
+                return s1.compareTo(s2);
+            }
+        });
+
         try {
             String query = "select * from ph where DATE_SAISIE='" + dateSaisie + "'"; // la query à entrer pour accéder aux données de nos tables 
 
             rs = st.executeQuery(query);
             while (rs.next()) {
-                
+
                 String observation = rs.getString("OBSERVATION");
                 if (!observation.equals("")) {
-                    liste.put("A"+"X"+"Observation",observation);
+                    liste.put("A" + "X" + "Observation", observation);
                 }
 
                 String resultat = rs.getString("RESULTAT");
                 if (!resultat.equals("")) {
-                    liste.put("B"+"X"+"Resultat",resultat);
+                    liste.put("B" + "X" + "Resultat", resultat);
                 }
-             
 
             }
 
-           
-            
         } catch (Exception ex) {
             System.out.println(ex);
 
@@ -433,41 +428,39 @@ public class Sejour {
 
         return liste;
     }
-    
-      // Ici on implémente la fonction qui retourne la liste des informations par saisie pour un Médico-technique
-    public TreeMap<String,String> listeInfosRadio(String dateSaisie, String idSejour) {
-       
-        TreeMap<String,String> liste = new TreeMap<String,String>(new Comparator<String>() {
-                public int compare(String s1, String s2) {
-                 
 
-                    return s1.compareTo(s2);
-                }});
-        
+    // Ici on implémente la fonction qui retourne la liste des informations par saisie pour un Médico-technique
+    public TreeMap<String, String> listeInfosRadio(String dateSaisie, String idSejour) {
+
+        TreeMap<String, String> liste = new TreeMap<String, String>(new Comparator<String>() {
+            public int compare(String s1, String s2) {
+
+                return s1.compareTo(s2);
+            }
+        });
+
         try {
             String query = "select * from ph where DATE_SAISIE='" + dateSaisie + "'"; // la query à entrer pour accéder aux données de nos tables 
 
             rs = st.executeQuery(query);
             while (rs.next()) {
-                
+
                 String observation = rs.getString("OBSERVATION");
                 if (!observation.equals("")) {
-                    liste.put("A"+"X"+"Observation",observation);
+                    liste.put("A" + "X" + "Observation", observation);
                 }
 
                 String resultat = rs.getString("RESULTAT");
                 if (!resultat.equals("")) {
-                    liste.put("B"+"X"+"Resultat",resultat);
+                    liste.put("B" + "X" + "Resultat", resultat);
                 }
-                 String CR = rs.getString("COMPTE_RENDU");
+                String CR = rs.getString("COMPTE_RENDU");
                 if (!CR.equals("")) {
-                    liste.put("C"+"X"+"Compte-rendu radiologique",CR);
+                    liste.put("C" + "X" + "Compte-rendu radiologique", CR);
                 }
 
             }
 
-           
-            
         } catch (Exception ex) {
             System.out.println(ex);
 
@@ -475,40 +468,39 @@ public class Sejour {
 
         return liste;
     }
-     // Ici on implémente la fonction qui retourne la liste des informations par saisie pour un Médico-technique
-    public TreeMap<String,String> listeInfosAnesth(String dateSaisie, String idSejour) {
-       
-        TreeMap<String,String> liste = new TreeMap<String,String>(new Comparator<String>() {
-                public int compare(String s1, String s2) {
-                 
+    // Ici on implémente la fonction qui retourne la liste des informations par saisie pour un Médico-technique
 
-                    return s1.compareTo(s2);
-                }});
-        
+    public TreeMap<String, String> listeInfosAnesth(String dateSaisie, String idSejour) {
+
+        TreeMap<String, String> liste = new TreeMap<String, String>(new Comparator<String>() {
+            public int compare(String s1, String s2) {
+
+                return s1.compareTo(s2);
+            }
+        });
+
         try {
             String query = "select * from ph where DATE_SAISIE='" + dateSaisie + "'"; // la query à entrer pour accéder aux données de nos tables 
 
             rs = st.executeQuery(query);
             while (rs.next()) {
-                
+
                 String observation = rs.getString("OBSERVATION");
                 if (!observation.equals("")) {
-                    liste.put("A"+"X"+"Observation",observation);
+                    liste.put("A" + "X" + "Observation", observation);
                 }
 
                 String resultat = rs.getString("RESULTAT");
                 if (!resultat.equals("")) {
-                    liste.put("B"+"X"+"Resultat",resultat);
+                    liste.put("B" + "X" + "Resultat", resultat);
                 }
-                 String CR = rs.getString("PRESCRIPTION");
+                String CR = rs.getString("PRESCRIPTION");
                 if (!CR.equals("")) {
-                    liste.put("C"+"X"+"Prescription",CR);
+                    liste.put("C" + "X" + "Prescription", CR);
                 }
 
             }
 
-           
-            
         } catch (Exception ex) {
             System.out.println(ex);
 
@@ -518,7 +510,7 @@ public class Sejour {
     }
 
     //Completer la base de données avec les informations, cette fonction est pour un PH clinique
-    public void completerSejour(String idSejour, String idMed, String Ipp, String observations, String titreOperations, String detailsOperations, String resultats, String prescriptions) {
+    public String completerSejour(String idSejour, String idMed, String Ipp, String observations, String titreOperations, String detailsOperations, String resultats, String prescriptions) {
         if (sejourEnCours(idSejour)) {
             String sql = "insert into ph (ID_PH,IPP_PATIENT,ID_SEJOUR,DATE_SAISIE,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,TITRE_OPERATION,OPERATION,COMPTE_RENDU) values (?,?,?,?,?,?,?,?,?,?,?)";
 
@@ -550,14 +542,16 @@ public class Sejour {
                 listeDetailsOperations.add(detailsOperations);
                 pstm.setString(11, "");
                 pstm.executeUpdate();
+                return "OK";
 
             } catch (Exception ex) {
                 System.out.println(ex);
-
+                return "ERREUR";
             }
         } else {
             System.out.println("Le séjour est clos et non modifiable");
         }
+        return "";
     }
 
     // getters et setters
@@ -732,7 +726,7 @@ public class Sejour {
         }
     }
 
-    public void ajouterPrescription(String idSejour, String idMed, String Ipp, String prescription) {
+    public String ajouterPrescription(String idSejour, String idMed, String Ipp, String prescription) {
         this.listePrescriptions.add(prescription);
         {
             if (sejourEnCours(idSejour)) {
@@ -762,18 +756,20 @@ public class Sejour {
                     pstm.setString(10, "");
                     pstm.setString(11, "");
                     pstm.executeUpdate();
-
+                    return "OK";
                 } catch (Exception ex) {
                     System.out.println(ex);
+                    return "ERREUR";
 
                 }
             } else {
                 System.out.println("Le séjour est clos et non modifiable");
             }
         }
+        return "";
     }
 
-    public void ajouterObservation(String idSejour, String idMed, String Ipp, String observation) {
+    public String ajouterObservation(String idSejour, String idMed, String Ipp, String observation) {
         this.listeObservations.add(observation);
         {
             if (sejourEnCours(idSejour)) {
@@ -803,15 +799,19 @@ public class Sejour {
                     pstm.setString(10, "");
                     pstm.setString(11, "");
                     pstm.executeUpdate();
+                    return "OK";
 
                 } catch (Exception ex) {
                     System.out.println(ex);
+                    return "ERREUR";
 
                 }
             } else {
                 System.out.println("Le séjour est clos et non modifiable");
             }
+
         }
+        return "";
     }
 
     public void ajouterCompteRendu(String idSejour, String idMed, String Ipp, String prestation, String compterendu) {
@@ -819,37 +819,38 @@ public class Sejour {
         {
             if (sejourEnCours(idSejour)) {
                 Date maDate;
-                SimpleDateFormat maDateLongue;
-                maDate = new Date();
-                maDateLongue = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                    SimpleDateFormat maDateLongue;
+                    maDate = new Date();
+                    maDateLongue = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
                 String sql = "insert into ph (ID_PH,IPP_PATIENT,ID_SEJOUR,DATE_SAISIE,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,TITRE_OPERATION,OPERATION,COMPTE_RENDU) values (?,?,?,?,?,?,?,?,?,?,?)";
                 String sql2 = "update prestations set DATE_PRESTATION='" + maDateLongue.format(maDate) + "' where PRESTATION='" + prestation + "'";
 
                 System.out.println(sql);
                 try {
-                    PreparedStatement pstm = con.prepareStatement(sql);
-                    PreparedStatement pstm2 = con.prepareStatement(sql2);
+                   
+                    
+
+                      
                     //on insere les donnees dans la classe ph ce qui correspond a la requete 1
+                    PreparedStatement pstm = con.prepareStatement(sql);
+
                     pstm.setString(1, idMed);
                     pstm.setString(2, Ipp);
                     pstm.setString(3, idSejour);
                     pstm.setString(4, maDateLongue.format(maDate));
-
                     pstm.setString(5, "");
-
                     pstm.setString(6, "");
-
                     pstm.setString(7, "");
-
                     pstm.setString(8, "");
                     pstm.setString(9, "");
                     pstm.setString(10, "");
                     pstm.setString(11, compterendu);
                     pstm.executeUpdate();
+                    PreparedStatement pstm2 = con.prepareStatement(sql2);
+                  
 
-                    pstm2.executeUpdate();
-
+                      pstm2.executeUpdate();
                 } catch (Exception ex) {
                     System.out.println(ex);
 
@@ -860,7 +861,7 @@ public class Sejour {
         }
     }
 
-    public void ajouterResultat(String idSejour, String idMed, String Ipp, String resultat) {
+    public String ajouterResultat(String idSejour, String idMed, String Ipp, String resultat) {
         this.listeDeResultats.add(resultat);
         {
             if (sejourEnCours(idSejour)) {
@@ -891,14 +892,17 @@ public class Sejour {
                     pstm.setString(11, "");
                     pstm.executeUpdate();
 
+                    return "OK";
                 } catch (Exception ex) {
                     System.out.println(ex);
+                    return "ERREUR";
 
                 }
             } else {
                 System.out.println("Le séjour est clos et non modifiable");
             }
         }
+        return "";
     }
 
     public void ajouterResultatPrestation(String idSejour, String idMed, String Ipp, String prestation, String resultat) {
@@ -916,7 +920,7 @@ public class Sejour {
                 System.out.println(sql);
                 try {
                     PreparedStatement pstm = con.prepareStatement(sql);
-                    PreparedStatement pstm2 = con.prepareStatement(sql2);
+
                     //on insere les donnees dans la classe ph ce qui correspond a la requete 1
                     pstm.setString(1, idMed);
                     pstm.setString(2, Ipp);
@@ -934,6 +938,8 @@ public class Sejour {
                     pstm.setString(10, "");
                     pstm.setString(11, "");
                     pstm.executeUpdate();
+
+                    PreparedStatement pstm2 = con.prepareStatement(sql2);
                     pstm2.executeUpdate();
 
                 } catch (Exception ex) {
@@ -946,7 +952,7 @@ public class Sejour {
         }
     }
 
-    public void editerLettreDeSortie(String idSejour, String idMed, String Ipp, String lettre) {
+    public String editerLettreDeSortie(String idSejour, String idMed, String Ipp, String lettre) {
         this.setLettreDeSortie(lettre);
         {
             if (sejourEnCours(idSejour)) {
@@ -976,18 +982,19 @@ public class Sejour {
                     pstm.setString(10, "");
                     pstm.setString(11, "");
                     pstm.executeUpdate();
-
+                    return "OK";
                 } catch (Exception ex) {
                     System.out.println(ex);
-
+                    return "ERREUR";
                 }
             } else {
                 System.out.println("Le séjour est déja clos");
             }
         }
+        return "";
     }
 
-    public void ajouterOperations(String idSejour, String idMed, String Ipp, String titreOperation, String detailOperation) {
+    public String ajouterOperations(String idSejour, String idMed, String Ipp, String titreOperation, String detailOperation) {
         this.listeTitreOperations.add(titreOperation);
         this.listeDetailsOperations.add(detailOperation);
         {
@@ -1018,15 +1025,18 @@ public class Sejour {
                     pstm.setString(10, detailOperation);
                     pstm.setString(11, "");
                     pstm.executeUpdate();
+                    return "OK";
 
                 } catch (Exception ex) {
                     System.out.println(ex);
+                    return "ERREUR";
 
                 }
             } else {
                 System.out.println("Le séjour est clos et non modifiable");
             }
         }
+        return "";
     }
 
     // Retourne true si le sejour correspondant à l'id rentré est en cours = si il n'y a pas de lettre de sorties
@@ -1046,6 +1056,9 @@ public class Sejour {
                 }
                 System.out.println(lettreS);
                 System.out.println(rep);
+            }
+            if(idSejour.equals("0000")){
+                rep=false;
             }
         } catch (Exception ex) {
             System.out.println(ex);
@@ -1211,15 +1224,14 @@ public class Sejour {
         return pres;
     }
 
-    public ArrayList <String> afficherLettreSortie(String IPP) {
-      ArrayList <String> lettreSortie = new ArrayList <String>(); 
+    public ArrayList<String> afficherLettreSortie(String IPP) {
+        ArrayList<String> lettreSortie = new ArrayList<String>();
         try {
             String query = " select LETTRE_SORTIE from ph where IPP_PATIENT='" + IPP + "'";
             System.out.println(query);
             rs = st.executeQuery(query);
             while (rs.next()) {
-             
-                
+
                 String lettre = rs.getString("LETTRE_SORTIE");
                 lettreSortie.add(lettre);
             }
@@ -1230,8 +1242,9 @@ public class Sejour {
         }
         System.out.println(lettreSortie);
         return lettreSortie;
-    }}
-    
+    }
+}
+
 //    public  boolean sejourClos(String sejour){
 //        boolean doss = true;
 //      try {

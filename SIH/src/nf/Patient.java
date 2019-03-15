@@ -31,8 +31,10 @@ public class Patient {
     private Statement st;
     private ResultSet rs; 
     private Localisation localisation;
-    
-    
+     private String nomC;
+    private String prenomC;
+     private String adresseC;
+    private String telC;
     public Patient() {
 
     }
@@ -139,7 +141,7 @@ public class Patient {
     }
     return p;}
     // Constructeur de Patient
-    public Patient(String ipp, String nom, String prenom, Sexe sexe, String dateDeNaissance, String adresse, String telephone){
+    public Patient(String ipp, String nom, String prenom, Sexe sexe, String dateDeNaissance, String adresse, String telephone,String nomCONF,String prenomCONF,String adresseCONF,String telCONF){
         this.nom = nom;
         this.ipp = ipp;
         this.prenom = prenom;
@@ -147,6 +149,12 @@ public class Patient {
         this.dateDeNaissance = dateDeNaissance;
         this.adresse = adresse;
         this.telephone = telephone;
+        this.nomC = nomCONF;
+        this.prenomC = prenomCONF;
+        this.adresseC = adresseCONF;
+        this.telC = telCONF;
+        
+               
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -202,7 +210,9 @@ public class Patient {
         int num7 = (int) Math.round(Math.random()*10);
         int num8 = (int) Math.round(Math.random()*10);
         int num9 = (int) (Math.random()*10);
-        
+        if (num9>9){
+            num9 = num9-1;
+        }
         String IPP = ""+maDateLongue.format(maDate)+Integer.valueOf(num3)+Integer.valueOf(num4)+Integer.valueOf(num5)+Integer.valueOf(num6)+Integer.valueOf(num7)+Integer.valueOf(num8)+Integer.valueOf(num9);
      
         //System.out.println(IPP);
@@ -227,6 +237,28 @@ public class Patient {
           }
 
         return ipp;
+    }
+     public String getLocalisation(String iPP,String idSejour) {
+     String loc="";
+        try{
+              String query = "select * from localisation join ph_referent using(ID_SEJOUR) join patients where patients.IPP='"+iPP+"' and ID_SEJOUR='"+idSejour+"'"; // la query à entrer pour accéder aux données de nos tables 
+              System.out.println(query);
+              rs= st.executeQuery(query);
+           
+              while (rs.next()){
+            
+                String service = rs.getString("SERVICE");// pour avoir accès a la colonne de ma table 
+                String orientation = rs.getString("ORIENTATION");
+                String chambre = rs.getString("CHAMBRE");
+                String etage = rs.getString("ETAGE");
+                String lit = rs.getString("LIT");   
+                loc = service +" "+orientation+" "+etage+" "+chambre+" "+lit;
+              }
+               }catch(Exception ex){
+              System.out.println(ex);
+          }
+
+        return loc;
     }
 
     /**
@@ -370,5 +402,61 @@ public class Patient {
         System.out.println(persConf + "\n" + adresse +"\n"+tel);
      
         return persConf + "\n" + adresse +"\n"+tel;
+    }
+
+    /**
+     * @return the nomC
+     */
+    public String getNomC() {
+        return nomC;
+    }
+
+    /**
+     * @param nomC the nomC to set
+     */
+    public void setNomC(String nomC) {
+        this.nomC = nomC;
+    }
+
+    /**
+     * @return the prenomC
+     */
+    public String getPrenomC() {
+        return prenomC;
+    }
+
+    /**
+     * @param prenomC the prenomC to set
+     */
+    public void setPrenomC(String prenomC) {
+        this.prenomC = prenomC;
+    }
+
+    /**
+     * @return the adresseC
+     */
+    public String getAdresseC() {
+        return adresseC;
+    }
+
+    /**
+     * @param adresseC the adresseC to set
+     */
+    public void setAdresseC(String adresseC) {
+        this.adresseC = adresseC;
+    }
+
+    /**
+     * @return the telC
+     */
+    public String getTelC() {
+        return telC;
+    }
+
+    /**
+     * @param telC the telC to set
+     */
+    public void setTelC(String telC) {
+        this.telC = telC;
     }
 }

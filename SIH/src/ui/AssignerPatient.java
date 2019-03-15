@@ -158,7 +158,7 @@ public class AssignerPatient extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(63, 63, 63)
                         .addComponent(jLabel1)))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -187,7 +187,7 @@ public class AssignerPatient extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel6))
         );
 
@@ -227,7 +227,7 @@ public class AssignerPatient extends javax.swing.JFrame {
             dateN = secrMedUrg.getDateNaissance(secrMedUrgUI.getNom(), secrMedUrgUI.getPrenom());
             ipp = secrMedUrg.getIPP_temp(secrMedUrgUI.getNom(), secrMedUrgUI.getPrenom(), dateN);
             System.out.println(dateN);
-            secrMedUrg.affecterPatient(secrMedUrg.getIPP_temp(secrMedUrgUI.getNom(), secrMedUrgUI.getPrenom(), dateN), (Sexe) sexe.getSelectedItem(), jTextField1.getText(), jTextField2.getText());
+            secrMedUrg.affecterPatient(secrMedUrg.getIPP_temp(secrMedUrgUI.getNom(), secrMedUrgUI.getPrenom(), dateN), (Sexe) sexe.getSelectedItem(), jTextField1.getText(), jTextField2.getText(),"","","","");
             System.out.println("NOM : " + secrMedUrgUI.getNom() + " , PRENOM : " + secrMedUrgUI.getPrenom() + " ET DATE NAISSANCE : " + secrMedUrg.getDateNaissance(secrMedUrgUI.getNom(), secrMedUrgUI.getPrenom()));
             new nouveauSejour((Specialite) jComboBox3.getSelectedItem(), ipp).setVisible(true);
             this.dispose();

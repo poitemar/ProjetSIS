@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.util.Collections;
 
 /**
  *
@@ -38,13 +39,13 @@ public class SecretaireAdministrative extends PersonnelMedical{
     }
     
 
-    public void ajouterNouveauPatient(String ipp, String nom, String prenom, Sexe sexe, String dateDeNaissance, String adresse, String telephone){
+    public void ajouterNouveauPatient(String ipp, String nom, String prenom, Sexe sexe, String dateDeNaissance, String adresse, String telephone,String nomCONF,String prenomCONF, String adresseCONF,String telCONF){
         
-        Patient p = new Patient(ipp,nom,prenom,sexe,dateDeNaissance,adresse,telephone);
+        Patient p = new Patient(ipp,nom,prenom,sexe,dateDeNaissance,adresse,telephone,nomCONF,prenomCONF,adresseCONF,telCONF);
         DMA dma = new DMA(p);
         DM dm = new DM(p);
         
-              String sql="insert into patients(IPP,NOM,PRENOM,SEXE,DATENAISSANCE,ADRESSE,TELEPHONE) values (?,?,?,?,?,?,?)";
+              String sql="insert into patients(IPP,NOM,PRENOM,SEXE,DATENAISSANCE,ADRESSE,TELEPHONE,NOMCONF,PRENOMCONF,ADRESSECONF,TELEPHONECONF) values (?,?,?,?,?,?,?,?,?,?,?)";
            
         try {
             PreparedStatement pstm = con.prepareStatement(sql);
@@ -56,6 +57,10 @@ public class SecretaireAdministrative extends PersonnelMedical{
             pstm.setString(5, dateDeNaissance);
             pstm.setString(6, adresse);
             pstm.setString(7, telephone);
+            pstm.setString(8, nomCONF);
+            pstm.setString(9, prenomCONF);
+            pstm.setString(10, adresseCONF);
+            pstm.setString(11, telCONF);
             pstm.executeUpdate(); 
             
             
@@ -85,7 +90,7 @@ public int nombrePatients() {
         int i=0;
         String[] listePatients = new String[compteur];
         try {
-            String query = "select * from patients"; // la query à entrer pour accéder aux données de nos tables 
+            String query = "select * from patients order by NOM"; // la query à entrer pour accéder aux données de nos tables 
             rs = st.executeQuery(query);
             while (rs.next()) {
                 String nom = rs.getString("NOM");
@@ -101,17 +106,22 @@ public int nombrePatients() {
             System.out.println(ex);
             ex.printStackTrace();
         }
+  
         return listePatients;
     }
     
-    public void modifierPatient(String ipp, String nom, String prenom, Sexe sexe, String dateNaissance, String adresse, String telephone){
-        Patient patient = new Patient(ipp, nom, prenom, sexe, dateNaissance, adresse, telephone);
+    public void modifierPatient(String ipp, String nom, String prenom, Sexe sexe, String dateNaissance, String adresse, String telephone,String nomCONF,String prenomCONF, String adresseCONF,String telCONF){
+        Patient patient = new Patient(ipp, nom, prenom, sexe, dateNaissance, adresse, telephone,nomCONF,prenomCONF,adresseCONF,telCONF);
         String sql = "update patient set NOM='"+patient.getNom()
                 +"', PRENOM='"+patient.getPrenom()
                 +"', SEXE='"+patient.getSexe()
                 +"', DATENAISSANCE='"+patient.getDateDeNaissance()
                 +"', ADRESSE='"+patient.getAdresse()
                 +"', TELEPHONE='"+patient.getTelephone()
+                +"', NOMCONF='"+patient.getNomC()
+                +"', PRENOMCONF='"+patient.getPrenomC()
+                +"', ADRESSECONF='"+patient.getAdresseC()
+                +"', TELEPHONECONF='"+patient.getTelC()
                 +"' where IPP='"+ipp+"'";
         try {
             PreparedStatement pstm = con.prepareStatement(sql);
@@ -124,6 +134,10 @@ public int nombrePatients() {
             pstm.setString(5, dateNaissance);
             pstm.setString(6, adresse);
             pstm.setString(7, telephone);
+            pstm.setString(8, nomCONF);
+            pstm.setString(9, prenomCONF);
+            pstm.setString(10, adresseCONF);
+            pstm.setString(11, telCONF);
             pstm.executeUpdate();
         } catch (Exception ex) {
             System.out.println(ex);

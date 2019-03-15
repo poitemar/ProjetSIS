@@ -165,6 +165,131 @@ public class RechercherInfo {
         return patients;
 
     }
+    public ArrayList<Patient> patientServiceNomPrenom(Specialite spe,String nom1,String prenom1) {
+        ArrayList<Patient> listePatient = new ArrayList<Patient>();
+
+        try {
+            String query = "select * from patients join ph_referent on (patients.IPP=ph_referent.IPP) join localisation using (ID_SEJOUR) where SERVICE ='" + spe + "' and nom='" + nom1 + "'and prenom='" + prenom1 + "' order by NOM"; // la query à entrer pour accéder aux données de nos tables 
+            System.out.println(query);
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                String nom = rs.getString("NOM");
+                System.out.println(nom);
+                String prenom = rs.getString("PRENOM");
+                System.out.println(prenom);
+                String date = rs.getString("DATENAISSANCE");
+         
+
+                Patient patient = new Patient(nom, prenom,date);
+                            
+                
+                int i =0;
+                Boolean rep = false;
+                 while( i<listePatient.size() && rep==false){
+                     if(listePatient.get(i).getIpp().equals(patient.getIpp())){
+                  rep = true;
+                  i++;
+                }  
+                     else{ i++;}
+                 }
+                 if(rep==false){
+                     listePatient.add(patient);
+                 }
+              
+                
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+
+        return listePatient;
+
+    }
+     public ArrayList<Patient> patientServiceNomPrenomDate(Specialite spe,String nom1,String prenom1,String date1) {
+        ArrayList<Patient> listePatient = new ArrayList<Patient>();
+
+        try {
+            String query = "select * from patients join ph_referent on (patients.IPP=ph_referent.IPP) join localisation using (ID_SEJOUR) where SERVICE ='" + spe + "' and NOM='" + nom1 + "'and PRENOM='" + prenom1 +"'and DATENAISSANCE='" + date1 + "' order by NOM"; // la query à entrer pour accéder aux données de nos tables 
+            System.out.println(query);
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                String nom = rs.getString("NOM");
+                System.out.println(nom);
+                String prenom = rs.getString("PRENOM");
+                System.out.println(prenom);
+                String date = rs.getString("DATENAISSANCE");
+         
+
+                Patient patient = new Patient(nom, prenom,date);
+                            
+                
+                int i =0;
+                Boolean rep = false;
+                 while( i<listePatient.size() && rep==false){
+                     if(listePatient.get(i).getIpp().equals(patient.getIpp())){
+                  rep = true;
+                  i++;
+                }  
+                     else{ i++;}
+                 }
+                 if(rep==false){
+                     listePatient.add(patient);
+                 }
+              
+                
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+
+        return listePatient;
+
+    }
+
+     public ArrayList<Patient> patientServiceNom(Specialite spe,String nom1) {
+        ArrayList<Patient> listePatient = new ArrayList<Patient>();
+
+        try {
+            String query = "select * from patients join ph_referent on (patients.IPP=ph_referent.IPP) join localisation using (ID_SEJOUR) where SERVICE ='" + spe + "' and nom='" + nom1 + "' order by NOM"; // la query à entrer pour accéder aux données de nos tables 
+            System.out.println(query);
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                String nom = rs.getString("NOM");
+                System.out.println(nom);
+                String prenom = rs.getString("PRENOM");
+                System.out.println(prenom);
+                String date = rs.getString("DATENAISSANCE");
+         
+
+                Patient patient = new Patient(nom, prenom,date);
+                            
+                
+                int i =0;
+                Boolean rep = false;
+                 while( i<listePatient.size() && rep==false){
+                     if(listePatient.get(i).getIpp().equals(patient.getIpp())){
+                  rep = true;
+                  i++;
+                }  
+                     else{ i++;}
+                 }
+                 if(rep==false){
+                     listePatient.add(patient);
+                 }
+              
+                
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+
+        return listePatient;
+
+    }
+
 
     public Patient recherchePatientNomPrenom(String nom, String prenom) {
         p = new Patient(null, null);

@@ -68,14 +68,16 @@ public class Connexion {
                 } 
                  
             }
-               System.out.println("Identifiant ou mot de passe incorrect");
-            return "Identifiant ou mot de passe incorrect";
+               
          
         } catch (Exception ex) {
-            System.out.println(ex);
+            
+               System.out.println(ex);
+            return "ERREUR";
+         
         }
-        System.out.println("Erreur de connexion");
-        return "Erreur de connexion";
+        
+        return "";
         
     }
      public String nomPersonnel(String id) {

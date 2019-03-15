@@ -50,6 +50,7 @@ public class PH extends PersonnelMedical {
         String dateLaPlusRecente="01/01/0001 00:00";
         String date="";
         java.util.Date date1;
+        Boolean rep=true;
         java.util.Date date2;
          SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         //On recherche le sejour le plus recent
@@ -57,31 +58,43 @@ public class PH extends PersonnelMedical {
             String query = "select DATE_CREATION_SEJOUR from ph_referent where IPP='" + iPP + "'";
             System.out.println(query);
             rs = st.executeQuery(query);
-
-            while (rs.next()) {
-               date = rs.getString("DATE_CREATION_SEJOUR");
+            
+            //trouver comment detecter une personne qui n'a jamais eu de sejour 
+//                if(!rs.next()){
+//                    rep =false;
+//                }
+           while (rs.next()) {
+                System.out.println("ICI");
+               date = rs.getString( "DATE_CREATION_SEJOUR");
+                System.out.println("LALALA");
+                System.out.println(date);
+                
                 date1 = format.parse(date);
                 date2 = format.parse(dateLaPlusRecente);
+                System.out.println(date1.compareTo(date2));
                if(date1.compareTo(date2)>0){
                    dateLaPlusRecente = date;
              
                }
                 System.out.println(date);
                 System.out.println(dateLaPlusRecente);
-            }
+            }  
         } catch (Exception ex) {
             System.out.println(ex);
 
         }
         //On récupère l'id associé au sejour le plus ancien
         try {
-            String query = "select ID_SEJOUR from ph_referent where IPP='" + iPP + "' and DATE_CREATION_SEJOUR='" + dateLaPlusRecente + "'";
-            System.out.println(query);
-            rs = st.executeQuery(query);
+            String query2 = "select ID_SEJOUR from ph_referent where IPP='" + iPP + "' and DATE_CREATION_SEJOUR='" + dateLaPlusRecente + "'";
+            System.out.println(query2);
+            rs = st.executeQuery(query2);
 
             while (rs.next()) {
                 idSejour = rs.getString("ID_SEJOUR");
 
+            }
+            if(rep==false){
+                idSejour="0000";
             }
         } catch (Exception ex) {
             System.out.println(ex);
@@ -327,7 +340,7 @@ public class PH extends PersonnelMedical {
 
     //affichage de la liste des Hematologues
     public String[] afficherListePHHemato() {
-        int compteur = nombrePHRadio();
+        int compteur = nombrePHHemato();
 
         int i = 0;
         String[] listePH = new String[compteur];

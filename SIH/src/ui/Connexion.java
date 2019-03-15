@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ui;
 
+import javax.swing.JOptionPane;
 import nf.Service;
 import nf.Specialite;
 
@@ -15,16 +15,16 @@ import nf.Specialite;
  */
 public class Connexion extends javax.swing.JFrame {
 
-      nf.Connexion cx = new nf.Connexion();
-      nf.PersonnelMedical personnel ;
+    nf.Connexion cx = new nf.Connexion();
+    nf.PersonnelMedical personnel;
+
     /**
      * Creates new form Connexion
      */
     public Connexion() {
         initComponents();
-         setSize(700,600);
-         
-        
+        setSize(700, 600);
+
     }
 
     /**
@@ -188,48 +188,55 @@ public class Connexion extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         //Je cree un personnel qui recupere les infos de celui qui se connecte pour le faire passer aux prochaines interfaces par le constructeur 
-    personnel = new nf.PersonnelMedical(cx.choixPersonnel(saisieId.getText(),saisieMdp.getText()),cx.nomPersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())),cx.prenomPersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())), saisieId.getText(), saisieMdp.getText(),cx.spePersonnel(cx.choixPersonnel(saisieId.getText(),saisieMdp.getText())),cx.ServicePersonnel(cx.choixPersonnel(saisieId.getText(),saisieMdp.getText())));
-       //  System.out.println(personnel.getIdMed()+";"+personnel.getNom()+";"+personnel.getPrenom());
-       
-       //connexion d'une secretaire administrative
-        if(cx.seConnecter(saisieId.getText(),saisieMdp.getText()).equals("SECRETAIRE ADMINISTRATIVE")){
-             new SecretaireAdministrative(personnel).setVisible(true);
-
-             this.dispose();
-       }
-        //connexion d'une secretaire medicale
-       if(cx.seConnecter(saisieId.getText(),saisieMdp.getText()).equals("SECRETAIRE MEDICALE")){
-           if (cx.ServicePersonnel(cx.choixPersonnel(saisieId.getText(),saisieMdp.getText())).toString().equals("URGENCE")){
-               new SecretaireMedicaleUrgence(personnel).setVisible(true);
-               this.dispose();
-               System.out.println(personnel.getService());
-           }
-           else {
-             new SecretaireMedicale(personnel).setVisible(true);
-             this.dispose();
-             System.out.println(personnel.getService());
-           }
-       }
-       //connexion d'un ph
-       if(cx.seConnecter(saisieId.getText(),saisieMdp.getText()).equals("DOCTEUR")){
-           System.out.println(cx.spePersonnel(cx.choixPersonnel(saisieId.getText(),saisieMdp.getText())).toString());
-           if(cx.spePersonnel(cx.choixPersonnel(saisieId.getText(),saisieMdp.getText())).toString().equals("RADIOLOGIE")){
-           new Radiologue(personnel).setVisible(true);
-               this.dispose();}
-           else if(cx.spePersonnel(cx.choixPersonnel(saisieId.getText(),saisieMdp.getText())).toString().equals("ANESTHESIE")){
-           new Anesthesiste(personnel).setVisible(true);
-               this.dispose();
+        personnel = new nf.PersonnelMedical(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText()), cx.nomPersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())), cx.prenomPersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())), saisieId.getText(), saisieMdp.getText(), cx.spePersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())), cx.ServicePersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())));
+        //  System.out.println(personnel.getIdMed()+";"+personnel.getNom()+";"+personnel.getPrenom());
+        try {
+            if(cx.seConnecter(saisieId.getText(), saisieMdp.getText()).equals("ERREUR")){
+                JOptionPane.showMessageDialog(this, "L'identifiant ou le mot de passe saisi est incorrect, Veuillez réessayer", "ATTENTION", JOptionPane.ERROR_MESSAGE);
+                this.dispose();
+                new Connexion().setVisible(true);
             }
-       
-       
-           else if (cx.ServicePersonnel(cx.choixPersonnel(saisieId.getText(),saisieMdp.getText())).toString().equals("MEDICO_TECHNIQUE")){
-               new PH_MT (personnel).setVisible(true);
-               this.dispose();
-           }
-           else {  new PH(personnel).setVisible(true);
-             this.dispose();
-       }
-       }
+            //connexion d'une secretaire administrative
+            if (cx.seConnecter(saisieId.getText(), saisieMdp.getText()).equals("SECRETAIRE_ADMINISTRATIVE")) {
+                new SecretaireAdministrative(personnel).setVisible(true);
+
+                this.dispose();
+            }
+            //connexion d'une secretaire medicale
+            if (cx.seConnecter(saisieId.getText(), saisieMdp.getText()).equals("SECRETAIRE_MEDICALE")) {
+                if (cx.ServicePersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())).toString().equals("URGENCE")) {
+                    new SecretaireMedicaleUrgence(personnel).setVisible(true);
+                    this.dispose();
+                    System.out.println(personnel.getService());
+                } else {
+                    new SecretaireMedicale(personnel).setVisible(true);
+                    this.dispose();
+                    System.out.println(personnel.getService());
+                }
+            }
+            //connexion d'un ph
+            if (cx.seConnecter(saisieId.getText(), saisieMdp.getText()).equals("DOCTEUR")) {
+                System.out.println(cx.spePersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())).toString());
+                if (cx.spePersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())).toString().equals("RADIOLOGIE")) {
+                    new Radiologue(personnel).setVisible(true);
+                    this.dispose();
+                } else if (cx.spePersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())).toString().equals("ANESTHESIE")) {
+                    new Anesthesiste(personnel).setVisible(true);
+                    this.dispose();
+                } else if (cx.ServicePersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())).toString().equals("MEDICO_TECHNIQUE")) {
+
+                    new PH_MT(personnel).setVisible(true);
+
+                    this.dispose();
+                } else {
+                    new PH(personnel).setVisible(true);
+                    this.dispose();
+                }
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+            
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void saisieMdpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saisieMdpMouseClicked
