@@ -26,33 +26,30 @@ public class SIH {
 //        String iPP = "idPatient";
 //        String idPH ="idphtestonc";
 //        Patient p =new Patient("bluff","bluff");
-//        Localisation localisationbluff = new Localisation(Specialite.CARDIOLOGIE,Orientation.CENTRE,1,123,Lit.FENETRE);
-//       Sejour sejourbluff = new Sejour("idSejour","idPatient","idPhReferent",localisationbluff);
-      //pour la BD 
+        Localisation localisationbluff = new Localisation(Specialite.CARDIOLOGIE, Orientation.CENTRE, 1, 123, Lit.FENETRE);
+        Sejour sejourbluff = new Sejour("idSejour", "idPatient", "idPhReferent", localisationbluff);
+       
+        System.out.println(sejourbluff.afficherTousLoc("190248662"));
+
+//pour la BD 
 //      BDconnect bd = new BDconnect(); 
 //      bd.ajouterSejour();
 //      bd.getData2();
 //      Connexion cx = new Connexion();
 //      cx.seConnecter("HYVES","YHEGEY");
-
 //        SecretaireAdministrative sm = new SecretaireAdministrative("MAURIOL", "Marine","087567","pomme");
 //        Date d1 = new Date((1997-1900),(8-1),11);
 //        sm.ajouterNouveauPatient("1212122","HELLE","margaux",Sexe.FEMME,d1,"2 impasse","060504");
 //    Patient p = new Patient("21","Longchamp","Juliette",Sexe.FEMME,new Date(15,01,1996),"78 boulevard","46000");
 //        System.out.println(p.creationIPP_pour_ajout_patient());
-     // pour la BD 
-  //     BDconnect bd = new BDconnect(); 
+        // pour la BD 
+        //     BDconnect bd = new BDconnect(); 
 //    // bd.getData2();
-      
-    
-       //        System.out.println(sejourbluff.listeSejour("526341897"));
-     
+        //        System.out.println(sejourbluff.listeSejour("526341897"));
 //        System.out.println(sejourbluff.listeSaisie("190248662"));
-    
-    
-     // bd.ajouterDonnees();
-      // SecretaireAdministrative sm = new SecretaireAdministrative("MAURIOL", "Marine","087567","123");
-       // sm.ajouterNouveauPatient("521","Longchamp","Juliette",Sexe.FEMME,new Date(15,01,1996),"78 boulevard","46000");
+        // bd.ajouterDonnees();
+        // SecretaireAdministrative sm = new SecretaireAdministrative("MAURIOL", "Marine","087567","123");
+        // sm.ajouterNouveauPatient("521","Longchamp","Juliette",Sexe.FEMME,new Date(15,01,1996),"78 boulevard","46000");
 //      
 //        RechercherInfo inf= new RechercherInfo();
 //       
@@ -69,12 +66,9 @@ public class SIH {
 //          }
 //           }
 //        Localisation loc = new Localisation(Service.CLINIQUE, Orientation.EST, 7, 56, Lit.FENETRE);
-        
 //     
 //        System.out.println(smed.idMed);
         //PH ph = new PH("RACAMIER", "Axel", "16458A", "cardio", "login", Specialite.ACCUEIL,Service.ACCUEIL);
-      
-           
 //        System.out.println(ph.nom);
 //        smed.ajouterSejour("S111", p, ph, loc, "//", "//", "//", "//","//", "//", "//");
 //        ph.ajouterSejour("//", p, ph, loc, "médicaments", "le patient est", "compte rendu du patient", "résultat des examens","opération du genou", "succes", "autorisé à sortir");
@@ -93,9 +87,9 @@ public class SIH {
 //    }
 //       sejourbluff.ajouterOperations(idSejour, idPH, iPP, "titre", "details");
 //     //  sejourbluff.completerSejour(idSejour, idPH, iPP, "ff", "ff", "fff", "nn", "hnh");
-     SecretaireMedicale sm = new SecretaireMedicale("bluff", "bluff", "bluff", "bluff", "bluff", Specialite.ACCUEIL, Service.CLINIQUE);
-     Patient p = sm.recuperationPatient("098765123");
-     //   p.getLocalisation("098765123");
+        SecretaireMedicale sm = new SecretaireMedicale("bluff", "bluff", "bluff", "bluff", "bluff", Specialite.ACCUEIL, Service.CLINIQUE);
+        Patient p = sm.recuperationPatient("098765123");
+        //   p.getLocalisation("098765123");
 //        PH perso = new PH("bluff", "bluff", "bluff", "bluff", "bluff", Specialite.ACCUEIL, Service.CLINIQUE); 
 //       ArrayList<Patient> listePatient = perso.afficherListePatientPrestation("238478562");
 //        System.out.println(listePatient.size());
@@ -113,8 +107,8 @@ public class SIH {
 //            if (sejourBluff.sejourEnCours(idDernierSejour)) {
 //                System.out.println("OOOOK");
 //            }
-           
-        }
+
+    }
 //   //     System.out.println(perso.idSejourPatientSelection("1234"));
 //             ArrayList <Patient> listeP = new ArrayList <Patient>();
 //               listeP = sm.afficherListePatientParService(Specialite.ONCOLOGIE);
@@ -128,8 +122,7 @@ public class SIH {
 //                          System.out.println(liste.get(i).getNom());
 //                      }
 //        perso.iPPMedecinListe("CALABRESE         Julie");
-        //System.out.println(p.ippPatientListe("TEST         ONCOLOGIE         1980-06-06"));
-    
-    
-     //sejourbluff.sejourEnCours("190221999");
+    //System.out.println(p.ippPatientListe("TEST         ONCOLOGIE         1980-06-06"));
+
+    //sejourbluff.sejourEnCours("190221999");
 }

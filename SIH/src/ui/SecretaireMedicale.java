@@ -161,23 +161,21 @@ public class SecretaireMedicale extends javax.swing.JFrame {
         treeNode1.add(treeNode15);
         //Afficher medecin référent 
 
-//        String[] localisation = lectureLocalisation.split("\\s");
-//        javax.swing.tree.DefaultMutableTreeNode treeNode8 = new javax.swing.tree.DefaultMutableTreeNode("Localisation");
-//        javax.swing.tree.DefaultMutableTreeNode treeNode9 = new javax.swing.tree.DefaultMutableTreeNode("ID SEJOUR : " + localisation[0]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode10 = new javax.swing.tree.DefaultMutableTreeNode("Service : " + localisation[1]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode11 = new javax.swing.tree.DefaultMutableTreeNode("Orientation : " + localisation[2]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode12 = new javax.swing.tree.DefaultMutableTreeNode("Chambre: " + localisation[3]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode13 = new javax.swing.tree.DefaultMutableTreeNode("Etage : " + localisation[4]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode14 = new javax.swing.tree.DefaultMutableTreeNode("Lit : " + localisation[5]);
-//        treeNode8.add(treeNode7);
-//        treeNode8.add(treeNode9);
-//        treeNode8.add(treeNode10);
-//        treeNode8.add(treeNode11);
-//        treeNode8.add(treeNode12);
-//        treeNode8.add(treeNode13);
-//        treeNode8.add(treeNode14);
-//        treeNode1.add(treeNode8);
-//
+   String[] localisation = lectureLocalisation.split("\\s");
+        javax.swing.tree.DefaultMutableTreeNode treeNodeLocalisation = new javax.swing.tree.DefaultMutableTreeNode("Localisation (En Cours)");
+    //    javax.swing.tree.DefaultMutableTreeNode treeNode19 = new javax.swing.tree.DefaultMutableTreeNode("ID SEJOUR : " + localisation[0]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode20 = new javax.swing.tree.DefaultMutableTreeNode("Service : " + localisation[1]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode21 = new javax.swing.tree.DefaultMutableTreeNode("Orientation : " + localisation[2]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode22 = new javax.swing.tree.DefaultMutableTreeNode("Chambre: " + localisation[3]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode23 = new javax.swing.tree.DefaultMutableTreeNode("Etage : " + localisation[4]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode24 = new javax.swing.tree.DefaultMutableTreeNode("Lit : " + localisation[5]);
+        treeNodeLocalisation.add(treeNode20);
+         treeNodeLocalisation.add(treeNode21);
+         treeNodeLocalisation.add(treeNode22);
+         treeNodeLocalisation.add(treeNode23);
+         treeNodeLocalisation.add(treeNode24);
+         
+         treeNode1.add(treeNodeLocalisation);
 //        String[] adm = affichageDma.split("\\s");
 //        javax.swing.tree.DefaultMutableTreeNode treeNode15 = new javax.swing.tree.DefaultMutableTreeNode("Information complémentaire");
 //        javax.swing.tree.DefaultMutableTreeNode treeNode16 = new javax.swing.tree.DefaultMutableTreeNode("IDPH : " + adm[0]);

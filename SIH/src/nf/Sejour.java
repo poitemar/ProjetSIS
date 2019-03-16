@@ -819,19 +819,16 @@ public class Sejour {
         {
             if (sejourEnCours(idSejour)) {
                 Date maDate;
-                    SimpleDateFormat maDateLongue;
-                    maDate = new Date();
-                    maDateLongue = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                SimpleDateFormat maDateLongue;
+                maDate = new Date();
+                maDateLongue = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
                 String sql = "insert into ph (ID_PH,IPP_PATIENT,ID_SEJOUR,DATE_SAISIE,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,TITRE_OPERATION,OPERATION,COMPTE_RENDU) values (?,?,?,?,?,?,?,?,?,?,?)";
                 String sql2 = "update prestations set DATE_PRESTATION='" + maDateLongue.format(maDate) + "' where PRESTATION='" + prestation + "'";
 
                 System.out.println(sql);
                 try {
-                   
-                    
 
-                      
                     //on insere les donnees dans la classe ph ce qui correspond a la requete 1
                     PreparedStatement pstm = con.prepareStatement(sql);
 
@@ -848,9 +845,8 @@ public class Sejour {
                     pstm.setString(11, compterendu);
                     pstm.executeUpdate();
                     PreparedStatement pstm2 = con.prepareStatement(sql2);
-                  
 
-                      pstm2.executeUpdate();
+                    pstm2.executeUpdate();
                 } catch (Exception ex) {
                     System.out.println(ex);
 
@@ -1057,8 +1053,8 @@ public class Sejour {
                 System.out.println(lettreS);
                 System.out.println(rep);
             }
-            if(idSejour.equals("0000")){
-                rep=false;
+            if (idSejour.equals("0000")) {
+                rep = false;
             }
         } catch (Exception ex) {
             System.out.println(ex);
@@ -1243,7 +1239,32 @@ public class Sejour {
         System.out.println(lettreSortie);
         return lettreSortie;
     }
+
+    public ArrayList afficherTousLoc(String idsej) {
+        ArrayList<String> tousLoc = new ArrayList<String>();
+        try {
+            String query = " select * from historique_localisation where ID_SEJOUR='" + idsej + "'";
+            System.out.println(query);
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                String idsejour = rs.getString("ID_SEJOUR");
+                String date = rs.getString("DATE");
+                String service = rs.getString("SERVICE");
+                String codeLoc = rs.getString("CODE_LOCALISATION");
+                String loc= ""+idsejour+" "+date+" "+service+" "+codeLoc;
+                tousLoc.add(loc);
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+        System.out.println(tousLoc);
+        return tousLoc;
+    }
+
 }
+
 
 //    public  boolean sejourClos(String sejour){
 //        boolean doss = true;

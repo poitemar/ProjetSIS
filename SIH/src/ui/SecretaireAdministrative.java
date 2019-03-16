@@ -26,32 +26,33 @@ import nf.Specialite;
 public class SecretaireAdministrative extends javax.swing.JFrame {
 
     nf.PersonnelMedical p;
-    nf.Patient patient= new nf.Patient("","");
+    nf.Patient patient = new nf.Patient("", "");
     nf.SecretaireAdministrative secrAdm = new nf.SecretaireAdministrative("null", "null", "null", "null", "null", Specialite.ACCUEIL, Service.CLINIQUE);
     String[] liste = new String[secrAdm.nombrePatients()];
-   nf.SecretaireMedicale secrMed = new nf.SecretaireMedicale("null", "null", "null", "null", "null", Specialite.ACCUEIL, Service.CLINIQUE);
-   
+    nf.SecretaireMedicale secrMed = new nf.SecretaireMedicale("null", "null", "null", "null", "null", Specialite.ACCUEIL, Service.CLINIQUE);
 
-     private DefaultTreeCellRenderer tCellRenderer = new DefaultTreeCellRenderer();
+    private DefaultTreeCellRenderer tCellRenderer = new DefaultTreeCellRenderer();
     String patientSelectionne;
+
     /**
      * Creates new form SecretaireAdministrative
      */
     public SecretaireAdministrative(nf.PersonnelMedical p) {
         liste = secrAdm.afficherListePatients();
-        
+
         initComponents();
-        this.setSize(700,600);
+        this.setSize(700, 600);
         this.p = p;
         String s = "Mme/M. " + p.getNom() + " " + p.getPrenom();
         jLabel3.setText(s);
 
     }
-    public void buildTree1(){
-          this.tCellRenderer.setClosedIcon(null);
+
+    public void buildTree1() {
+        this.tCellRenderer.setClosedIcon(null);
         this.tCellRenderer.setOpenIcon(null);
         this.tCellRenderer.setLeafIcon(null);
-        
+
         Patient pat = new Patient("bluff", "bluff");
         DMA dma = new DMA(pat);
         Localisation locBluff = new Localisation(Specialite.ANESTHESIE, Orientation.NORD, 5, 3, Lit.FENETRE);
@@ -63,7 +64,7 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
         String lecture2 = sej.AfficherPATIENT(pat.ippPatientListe(jList1.getSelectedValue().toString()));
         String lectureLocalisation = sej.afficherLOCALISATION(sej.AfficherIDSejour(pat.ippPatientListe(jList1.getSelectedValue().toString())));
         String affichageDma = sej.infoDMA(sej.AfficherIDSejour(pat.ippPatientListe(jList1.getSelectedValue().toString())));
-String personneConfiance = pat.afficherPersonneConfiance(pat.ippPatientListe(jList1.getSelectedValue().toString()));
+        String personneConfiance = pat.afficherPersonneConfiance(pat.ippPatientListe(jList1.getSelectedValue().toString()));
 //afficher infos patient
         System.out.println("selected value : " + jList1.getSelectedValue().toString());
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Identité patient");
@@ -92,7 +93,7 @@ String personneConfiance = pat.afficherPersonneConfiance(pat.ippPatientListe(jLi
         javax.swing.tree.DefaultMutableTreeNode treeNode14 = new javax.swing.tree.DefaultMutableTreeNode("PH Referent : " + ph.afficherPHR(pat.ippPatientListe(jList1.getSelectedValue().toString())));
         treeNode13.add(treeNode14);
         treeNode1.add(treeNode13);
-                
+
         //Afficher les prestations 
         javax.swing.tree.DefaultMutableTreeNode treeNode9 = new javax.swing.tree.DefaultMutableTreeNode("Prestations");
         ArrayList<String> pres = sej.affichePrestation(IDSej);
@@ -116,36 +117,34 @@ String personneConfiance = pat.afficherPersonneConfiance(pat.ippPatientListe(jLi
             treeNode11.add(treeNode12);
             treeNode1.add(treeNode11);
         }
-        
+
         // Afficher personne de confiance: 
         String[] persConf = personneConfiance.split("\n");
         javax.swing.tree.DefaultMutableTreeNode treeNode15 = new javax.swing.tree.DefaultMutableTreeNode("Personne De Confiance:");
-         javax.swing.tree.DefaultMutableTreeNode treeNode16 = new javax.swing.tree.DefaultMutableTreeNode(persConf[0]);
-         javax.swing.tree.DefaultMutableTreeNode treeNode17 = new javax.swing.tree.DefaultMutableTreeNode("Adresse :" + persConf[1]);
-         javax.swing.tree.DefaultMutableTreeNode treeNode18 = new javax.swing.tree.DefaultMutableTreeNode("Telephone :" + persConf[2]);
-         treeNode15.add(treeNode16);
-         treeNode15.add(treeNode17);
-         treeNode15.add(treeNode18);
-         treeNode1.add(treeNode15);
-         //Afficher medecin référent 
+        javax.swing.tree.DefaultMutableTreeNode treeNode16 = new javax.swing.tree.DefaultMutableTreeNode(persConf[0]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode17 = new javax.swing.tree.DefaultMutableTreeNode("Adresse :" + persConf[1]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode18 = new javax.swing.tree.DefaultMutableTreeNode("Telephone :" + persConf[2]);
+        treeNode15.add(treeNode16);
+        treeNode15.add(treeNode17);
+        treeNode15.add(treeNode18);
+        treeNode1.add(treeNode15);
 
-//        String[] localisation = lectureLocalisation.split("\\s");
-//        javax.swing.tree.DefaultMutableTreeNode treeNode8 = new javax.swing.tree.DefaultMutableTreeNode("Localisation");
-//        javax.swing.tree.DefaultMutableTreeNode treeNode9 = new javax.swing.tree.DefaultMutableTreeNode("ID SEJOUR : " + localisation[0]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode10 = new javax.swing.tree.DefaultMutableTreeNode("Service : " + localisation[1]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode11 = new javax.swing.tree.DefaultMutableTreeNode("Orientation : " + localisation[2]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode12 = new javax.swing.tree.DefaultMutableTreeNode("Chambre: " + localisation[3]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode13 = new javax.swing.tree.DefaultMutableTreeNode("Etage : " + localisation[4]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode14 = new javax.swing.tree.DefaultMutableTreeNode("Lit : " + localisation[5]);
-//        treeNode8.add(treeNode7);
-//        treeNode8.add(treeNode9);
-//        treeNode8.add(treeNode10);
-//        treeNode8.add(treeNode11);
-//        treeNode8.add(treeNode12);
-//        treeNode8.add(treeNode13);
-//        treeNode8.add(treeNode14);
-//        treeNode1.add(treeNode8);
-//
+        //Afficher Localisation 
+        String[] localisation = lectureLocalisation.split("\\s");
+        javax.swing.tree.DefaultMutableTreeNode treeNodeLocalisation = new javax.swing.tree.DefaultMutableTreeNode("Localisation (En Cours)");
+        javax.swing.tree.DefaultMutableTreeNode treeNode20 = new javax.swing.tree.DefaultMutableTreeNode("Service : " + localisation[1]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode21 = new javax.swing.tree.DefaultMutableTreeNode("Orientation : " + localisation[2]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode22 = new javax.swing.tree.DefaultMutableTreeNode("Chambre: " + localisation[3]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode23 = new javax.swing.tree.DefaultMutableTreeNode("Etage : " + localisation[4]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode24 = new javax.swing.tree.DefaultMutableTreeNode("Lit : " + localisation[5]);
+        treeNodeLocalisation.add(treeNode20);
+        treeNodeLocalisation.add(treeNode21);
+        treeNodeLocalisation.add(treeNode22);
+        treeNodeLocalisation.add(treeNode23);
+        treeNodeLocalisation.add(treeNode24);
+
+        treeNode1.add(treeNodeLocalisation);
+
 //        String[] adm = affichageDma.split("\\s");
 //        javax.swing.tree.DefaultMutableTreeNode treeNode15 = new javax.swing.tree.DefaultMutableTreeNode("Information complémentaire");
 //        javax.swing.tree.DefaultMutableTreeNode treeNode16 = new javax.swing.tree.DefaultMutableTreeNode("IDPH : " + adm[0]);
@@ -162,8 +161,9 @@ String personneConfiance = pat.afficherPersonneConfiance(pat.ippPatientListe(jLi
 //        treeNode15.add(treeNode20);
 //        treeNode1.add(treeNode15);
         jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-       jTree1.setCellRenderer(this.tCellRenderer);
+        jTree1.setCellRenderer(this.tCellRenderer);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -494,16 +494,16 @@ String personneConfiance = pat.afficherPersonneConfiance(pat.ippPatientListe(jLi
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
-        String element1="";
-        String element2=""; 
-        String element3=""; 
+        String element1 = "";
+        String element2 = "";
+        String element3 = "";
         ArrayList<Patient> Lp = null;
         RechercherInfo inf = new RechercherInfo();
         String date = jFormattedTextField1.getText();
         DefaultListModel DLM = new DefaultListModel();
         if (!jTextField5.getText().isEmpty() && !jTextField3.getText().isEmpty() && jFormattedTextField1.getText() != null) {
             Lp = inf.recherchePatientNomPrenomDate(jTextField5.getText(), jTextField3.getText(), date);
-            
+
             for (int i = 0; i < Lp.size(); i++) {
                 element1 = "" + Lp.get(i).getNom() + "         " + Lp.get(i).getPrenom() + "         " + Lp.get(i).getDateDeNaissance();
                 DLM.addElement(element1);
@@ -518,25 +518,26 @@ String personneConfiance = pat.afficherPersonneConfiance(pat.ippPatientListe(jLi
                 element2 = "" + Lp.get(i).getNom() + "         " + Lp.get(i).getPrenom() + "         " + Lp.get(i).getDateDeNaissance();
                 DLM.addElement(element2);
 
-            }}
-            if (!jTextField5.getText().isEmpty() && jTextField3.getText().isEmpty() && jFormattedTextField1.getText().isEmpty()) {
-                Lp = inf.rechercheListPatientNom(jTextField5.getText());
-                for (int i = 0; i < Lp.size(); i++) {
-                    element3 = "" + Lp.get(i).getNom() + "         " + Lp.get(i).getPrenom()+ "         " + Lp.get(i).getDateDeNaissance();
-                    DLM.addElement(element3);
-                }
             }
-                      jList1.setModel(DLM);
+        }
+        if (!jTextField5.getText().isEmpty() && jTextField3.getText().isEmpty() && jFormattedTextField1.getText().isEmpty()) {
+            Lp = inf.rechercheListPatientNom(jTextField5.getText());
+            for (int i = 0; i < Lp.size(); i++) {
+                element3 = "" + Lp.get(i).getNom() + "         " + Lp.get(i).getPrenom() + "         " + Lp.get(i).getDateDeNaissance();
+                DLM.addElement(element3);
+            }
+        }
+        jList1.setModel(DLM);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
- if (!jList1.isSelectionEmpty()) {
+        if (!jList1.isSelectionEmpty()) {
             patientSelectionne = jList1.getSelectedValue().toString();
-            
+
             buildTree1();
-        
-    } 
-        
+
+        }
+
     }//GEN-LAST:event_jList1ValueChanged
 
     private void jList1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jList1PropertyChange
@@ -579,8 +580,8 @@ String personneConfiance = pat.afficherPersonneConfiance(pat.ippPatientListe(jLi
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         String ipp = patient.ippPatientListe(patientSelectionne);
         new ModifierPatient(secrMed.recuperationPatient(ipp)).setVisible(true);
-     
-        
+
+
     }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
