@@ -190,7 +190,80 @@ public class Sejour {
         return format;
 
     }
+    // Ici on implémente la fonction qui retourne la liste des localisations dans un séjour
+    public List<String> listeLoc(String idSejour) {
+        List<String> liste = new ArrayList<String>();
+        List<String> listeDate = new ArrayList<String>();
+        try {
+            String query = "select * from historique_localisation where ID_SEJOUR='" + idSejour + "'"; // la query à entrer pour accéder aux données de nos tables 
+            
+            System.out.println(query);
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                String date = rs.getString("DATE");
+                String observation = rs.getString("SERVICE");
+                String resultat = rs.getString("CODE_LOCALISATION");
+                
+                    listeDate.add(date);
+                
 
+            }
+
+            Collections.sort(listeDate, new Comparator<String>() {
+                public int compare(String s1, String s2) {
+                    // Write your logic here.
+                    String dateString1 = s1;
+                    String dateString2 = s2;
+                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                    Date date1;
+                    try {
+                        date1 = format.parse(dateString1);
+                    } catch (ParseException ex) {
+                        date1 = new Date();
+                        Logger.getLogger(Sejour.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    Date date2;
+                    try {
+                        date2 = format.parse(dateString2);
+                    } catch (ParseException ex) {
+                        date2 = new Date();
+                        Logger.getLogger(Sejour.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    return date1.compareTo(date2);
+                }
+            }
+            );
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+        System.out.println(listeDate);
+
+        for (int i = 0; i < listeDate.size(); i++) {
+            try {
+                String query = "select * from historique_localisation where DATE='" + listeDate.get(i) + "'"; // la query à entrer pour accéder aux données de nos tables 
+                System.out.println(query);
+                rs = st.executeQuery(query);
+                while (rs.next()) {
+
+                    String date = rs.getString("DATE");
+
+                    liste.add(date);
+
+                }
+            } catch (Exception ex) {
+                System.out.println(ex);
+
+            }
+        }
+//                
+
+        return liste;
+    }
+
+    
+    
     // Ici on implémente la fonction qui retourne la liste des saisies dans un séjour
     public List<String> listeSaisie(String idSejour) {
         List<String> liste = new ArrayList<String>();
@@ -269,7 +342,7 @@ public class Sejour {
         return liste;
     }
 
-    //Méthode qui formate l'affichage des saisies dans le séjour dans le jtree
+//Méthode qui formate l'affichage des saisies dans le séjour dans le jtree
     public String listeSaisietoString(String dateSaisie, String idSejour) {
         String format = "";
         Boolean rep = sejourEnCours(idSejour);
@@ -336,6 +409,80 @@ public class Sejour {
         return format;
 
     }
+    
+    //Méthode qui formate l'affichage des saisies dans le séjour dans le jtree
+    public String listeLoctoString(String dateSaisie, String idSejour) {
+        String format = "";
+        Boolean rep =false;
+        
+        System.out.println("rep=" + rep);
+        System.out.println("TOSTRING");
+        String doc = "";
+        try {
+            String query = "select * from historique_localisation where DATE='" + dateSaisie + "' and ID_SEJOUR='"+idSejour+"'"; // la query à entrer pour accéder aux données de nos tables 
+            String query2 = "select ID_SEJOUR,SERVICE,ORIENTATION,CHAMBRE,ETAGE,LIT from localisation where ID_SEJOUR='" + idSejour + "';";
+            System.out.println("LA         +++++++++++++++++++++++++++"+query);
+            if(dateSaisie == ""){
+                rs2 = st2.executeQuery(query2); 
+                rep=true;
+            }
+            else{
+                 rs = st.executeQuery(query);
+            }
+          
+            if (rep == false) {
+               
+               
+                while (rs.next()) {
+                    System.out.println("query 1 test");
+                    String date = rs.getString("DATE");
+                    String service1 = rs.getString("SERVICE");
+                    String codeL = rs.getString("CODE_LOCALISATION");
+
+                    format = "Nouvelle localisation le: " + date + " dans le service de: " + service1+". ";
+                    
+                    if(!codeL.equals(" N-0-0-N")){
+                        format = format + "Le patient a été hospitalisé en: "+codeL+".";
+                    }
+
+                }
+            }
+          else if (rep == true) {
+               
+                System.out.println("okkkkkk");
+                
+            while (rs2.next()) {
+               
+                String service = rs2.getString("SERVICE");// pour avoir accès a la colonne de ma table 
+                String orientation = rs2.getString("ORIENTATION");
+                int chambre = rs2.getInt("CHAMBRE");
+                int etage = rs2.getInt("ETAGE");
+                String lit = rs2.getString("LIT");
+                
+                System.out.println("PETIT TEST LA          ");
+                System.out.println(service);
+                System.out.println(etage);
+                if(etage==0 && chambre==0){
+                    format = "Le patient se trouve dans le service de: " + service+". ";
+                }
+                
+                else{
+                    format = "Le patient est hospitalité dans le service de: " + service+", "+orientation+", Chambre: "+chambre+", Lit: "+lit+", étage: "+etage;
+                }
+//                 
+                   
+
+                }}
+            
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+        return format;
+
+    }
+      
 
     // Ici on implémente la fonction qui retourne la liste des informations par saisie
     public TreeMap<String, String> listeInfos(String dateSaisie, String idSejour) {

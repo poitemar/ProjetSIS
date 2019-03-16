@@ -8,12 +8,17 @@ package ui;
 import java.awt.event.ActionListener;
 import java.awt.event.*;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import static java.util.Optional.empty;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -64,7 +69,7 @@ public class PH extends JFrame implements ActionListener {
     private boolean phref = false;
     private DefaultTreeCellRenderer tCellRenderer = new DefaultTreeCellRenderer();
     private DefaultMutableTreeNode racine;
-     DefaultListModel DLM_medecin;
+    DefaultListModel DLM_medecin;
 
     private int compteur = 0;
 
@@ -172,7 +177,6 @@ public class PH extends JFrame implements ActionListener {
      *
      * @param ae
      */
-
     private void initRenderer() {
         //Instanciation
 
@@ -189,29 +193,105 @@ public class PH extends JFrame implements ActionListener {
         }
         List<String> listeIdSejours = sejourCourant.listeSejour(patient.ippPatientListe(PatientSelection));
         List<String> listedateSaisie;
+        List<String> listeDateLoc;
+        List<String> listeLoc;
         TreeMap<String, String> listeInfos;
-
+        String dateS = "";
+        java.util.Date date1 = new java.util.Date();
+        java.util.Date date2 = new java.util.Date();
+        String dateS2 = "";
         javax.swing.tree.DefaultMutableTreeNode racine = new javax.swing.tree.DefaultMutableTreeNode("Mme/M." + patient.patientListe(PatientSelection));
 
         for (int i = 0; i < listeIdSejours.size(); i++) {
             listedateSaisie = sejourCourant.listeSaisie(listeIdSejours.get(i));
-
+            listeDateLoc = sejourCourant.listeLoc(listeIdSejours.get(i));
+            System.out.println("REGARDE PAR IC ++++++++++++++++++++++++++++     ");
+            System.out.println(listedateSaisie);
+            System.out.println(listeDateLoc);
             javax.swing.tree.DefaultMutableTreeNode sejour = new javax.swing.tree.DefaultMutableTreeNode(sejourCourant.listeSejourtoString(listeIdSejours.get(i)));
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-            for (int j = 0; j < listedateSaisie.size(); j++) {
-                javax.swing.tree.DefaultMutableTreeNode saisie = new javax.swing.tree.DefaultMutableTreeNode(sejourCourant.listeSaisietoString(listedateSaisie.get(j), listeIdSejours.get(i)));
-                sejour.add(saisie);
-                listeInfos = sejourCourant.listeInfos(listedateSaisie.get(j), listeIdSejours.get(i));
+            int isaisie = 0, iloc = 0;
 
-                for (Map.Entry mapentry : listeInfos.entrySet()) {
-                    String[] tab = mapentry.getKey().toString().split("X");
-                    for (int k = 1; k < tab.length; k++) {
-                        javax.swing.tree.DefaultMutableTreeNode info = new javax.swing.tree.DefaultMutableTreeNode(tab[k] + " : " + mapentry.getValue());
-                        saisie.add(info);
+            String dsaisie = null, loc = null;
+
+            javax.swing.tree.DefaultMutableTreeNode localisation, saisie;
+
+            while (isaisie < listedateSaisie.size() && iloc < listeDateLoc.size()) {
+
+                dsaisie = listedateSaisie.get(isaisie);
+                loc = listeDateLoc.get(iloc);
+                
+
+                localisation = new javax.swing.tree.DefaultMutableTreeNode(sejourCourant.listeLoctoString(loc, listeIdSejours.get(i)));
+                saisie = new javax.swing.tree.DefaultMutableTreeNode(sejourCourant.listeSaisietoString(dsaisie, listeIdSejours.get(i)));
+
+                try {
+                    date1 = format.parse(dsaisie);
+                    date2 = format.parse(loc);
+                } catch (ParseException ex) {
+
+                    Logger.getLogger(Sejour.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                if (date1.compareTo(date2) > 0) {
+
+                    sejour.add(localisation);
+
+                    iloc++;
+                } else {
+                    sejour.add(saisie);
+
+                    listeInfos = sejourCourant.listeInfos(dsaisie, listeIdSejours.get(i));
+
+                        for (Map.Entry mapentry : listeInfos.entrySet()) {
+                            String[] tab = mapentry.getKey().toString().split("X");
+                            for (int k = 1; k < tab.length; k++) {
+                                javax.swing.tree.DefaultMutableTreeNode info = new javax.swing.tree.DefaultMutableTreeNode(tab[k] + " : " + mapentry.getValue());
+                                saisie.add(info);
+                        }
                     }
+                    
+                    isaisie++;
+                }
+
+            }
+            
+            if(isaisie == listedateSaisie.size()){
+                while(iloc < listeDateLoc.size()){
+                    loc = listeDateLoc.get(iloc);
+                    localisation = new javax.swing.tree.DefaultMutableTreeNode(sejourCourant.listeLoctoString(loc, listeIdSejours.get(i)));
+                    sejour.add(localisation);
+                    iloc++;
                 }
             }
+            else if(iloc == listeDateLoc.size()){
+                while(isaisie < listedateSaisie.size()){
+                    dsaisie = listedateSaisie.get(isaisie);
+                    saisie = new javax.swing.tree.DefaultMutableTreeNode(sejourCourant.listeSaisietoString(dsaisie, listeIdSejours.get(i)));
+                    sejour.add(saisie);
+                    
+                    listeInfos = sejourCourant.listeInfos(dsaisie, listeIdSejours.get(i));
 
+                        for (Map.Entry mapentry : listeInfos.entrySet()) {
+                            String[] tab = mapentry.getKey().toString().split("X");
+                            for (int k = 1; k < tab.length; k++) {
+                                javax.swing.tree.DefaultMutableTreeNode info = new javax.swing.tree.DefaultMutableTreeNode(tab[k] + " : " + mapentry.getValue());
+                                saisie.add(info);
+                        }
+                    }
+                    
+                    isaisie++;
+                }
+            }
+            
+            if(sejourCourant.sejourEnCours(listeIdSejours.get(i))){
+                 localisation = new javax.swing.tree.DefaultMutableTreeNode(sejourCourant.listeLoctoString("", listeIdSejours.get(i)));
+                    sejour.add(localisation);
+            }
+            
+            
+            
             racine.add(sejour);
 
         }
@@ -220,8 +300,8 @@ public class PH extends JFrame implements ActionListener {
         DM.setModel(arbre);
 
     }
-    
-    public void buildTree1(){
+
+    public void buildTree1() {
         this.tCellRenderer.setClosedIcon(null);
         this.tCellRenderer.setOpenIcon(null);
         this.tCellRenderer.setLeafIcon(null);
@@ -301,24 +381,21 @@ public class PH extends JFrame implements ActionListener {
         treeNodePersonneConfiance.add(treeNode17);
         treeNodePersonneConfiance.add(treeNode18);
         treeNode1.add(treeNodePersonneConfiance);
-        
 
 //Afficher medecin référent 
-        
-
-       String[] localisation = lectureLocalisation.split("\\s");
+        String[] localisation = lectureLocalisation.split("\\s");
         javax.swing.tree.DefaultMutableTreeNode treeNodeLocalisation = new javax.swing.tree.DefaultMutableTreeNode("Localisation (En Cours)");
-    //    javax.swing.tree.DefaultMutableTreeNode treeNode19 = new javax.swing.tree.DefaultMutableTreeNode("ID SEJOUR : " + localisation[0]);
+        //    javax.swing.tree.DefaultMutableTreeNode treeNode19 = new javax.swing.tree.DefaultMutableTreeNode("ID SEJOUR : " + localisation[0]);
         javax.swing.tree.DefaultMutableTreeNode treeNode20 = new javax.swing.tree.DefaultMutableTreeNode("Service : " + localisation[1]);
         javax.swing.tree.DefaultMutableTreeNode treeNode21 = new javax.swing.tree.DefaultMutableTreeNode("Orientation : " + localisation[2]);
         javax.swing.tree.DefaultMutableTreeNode treeNode22 = new javax.swing.tree.DefaultMutableTreeNode("Chambre: " + localisation[3]);
         javax.swing.tree.DefaultMutableTreeNode treeNode23 = new javax.swing.tree.DefaultMutableTreeNode("Etage : " + localisation[4]);
         javax.swing.tree.DefaultMutableTreeNode treeNode24 = new javax.swing.tree.DefaultMutableTreeNode("Lit : " + localisation[5]);
         treeNodeLocalisation.add(treeNode20);
-         treeNodeLocalisation.add(treeNode21);
-         treeNodeLocalisation.add(treeNode22);
-         treeNodeLocalisation.add(treeNode23);
-         treeNodeLocalisation.add(treeNode24);
+        treeNodeLocalisation.add(treeNode21);
+        treeNodeLocalisation.add(treeNode22);
+        treeNodeLocalisation.add(treeNode23);
+        treeNodeLocalisation.add(treeNode24);
 //        treeNode8.add(treeNode13);
 //        treeNode8.add(treeNode14);
         treeNode1.add(treeNodeLocalisation);
@@ -341,7 +418,6 @@ public class PH extends JFrame implements ActionListener {
         jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         jTree1.setCellRenderer(this.tCellRenderer);
     }
-    
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -1019,7 +1095,7 @@ public class PH extends JFrame implements ActionListener {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(interfacePH, javax.swing.GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE)
+            .addComponent(interfacePH, javax.swing.GroupLayout.PREFERRED_SIZE, 601, Short.MAX_VALUE)
         );
 
         pack();
@@ -1045,8 +1121,6 @@ public class PH extends JFrame implements ActionListener {
     private void textPrestationActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
-
-   
 
 
     private void completerSejour(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_completerSejour
@@ -1345,7 +1419,7 @@ public class PH extends JFrame implements ActionListener {
 
         if (!jList1.isSelectionEmpty()) {
             PatientSelection = jList1.getSelectedValue().toString();
-             initRenderer();
+            initRenderer();
             buildTree();
             buildTree1();
             System.out.println(ph.estReferent(perso.getIdMed(), ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection))));
@@ -1366,10 +1440,9 @@ public class PH extends JFrame implements ActionListener {
         jToggleButton1.setSelected(false);
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
- 
 
     private void voirLesInfosPatient(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_voirLesInfosPatient
-    interfacePH.setSelectedIndex(2);
+        interfacePH.setSelectedIndex(2);
     }//GEN-LAST:event_voirLesInfosPatient
 
 
@@ -1396,7 +1469,7 @@ public class PH extends JFrame implements ActionListener {
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
         // TODO add your handling code here:
-       DLM_medecin = new DefaultListModel();
+        DLM_medecin = new DefaultListModel();
         String[] anesthesie = ph.afficherListePHAnes();
         String[] radiologue = ph.afficherListePHRadio();
         String[] hemato = ph.afficherListePHHemato();
@@ -1433,12 +1506,12 @@ public class PH extends JFrame implements ActionListener {
         if (jComboBox1.getSelectedItem().equals(Specialite.RADIOLOGIE)) {
             for (int i = 0; i < radiologue.length; i++) {
                 DLM_medecin.addElement(radiologue[i]);
-                
+
             }
-             jList2.setModel(DLM_medecin);
-              
-                   }
-       
+            jList2.setModel(DLM_medecin);
+
+        }
+
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -1454,7 +1527,7 @@ public class PH extends JFrame implements ActionListener {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-            //Renvoie l'id du medecin selectionné = medecin receveur
+        //Renvoie l'id du medecin selectionné = medecin receveur
         if (!jList2.isSelectionEmpty()) {
             String selection = jList2.getSelectedValue();
             String idp = ph.iPPMedecinListe(selection);
@@ -1463,23 +1536,22 @@ public class PH extends JFrame implements ActionListener {
             sejourCourant.ajouterPrestation(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), idp, textPrestation.getText());
             textPrestation.setText("");
             medPres.setText("");
-           DLM_medecin.clear();
+            DLM_medecin.clear();
             jList2.setModel(DLM_medecin);
-             JOptionPane.showMessageDialog(this, "La demande de préstation a bien été envoyée", "", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "La demande de préstation a bien été envoyée", "", JOptionPane.INFORMATION_MESSAGE);
 
-            
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
         // TODO add your handling code here:
-         if (!jList1.isSelectionEmpty()) {
+        if (!jList1.isSelectionEmpty()) {
             PatientSelection = jList1.getSelectedValue().toString();
-             initRenderer();
+            initRenderer();
             buildTree();
             buildTree1();
-            
-             System.out.println("ID_SEJOUR ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;"+ ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)));
+
+            System.out.println("ID_SEJOUR ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" + ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)));
             System.out.println(ph.estReferent(perso.getIdMed(), ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection))));
 
             //cliquer sur le bouton "Suivant" ouvre l'onglet où le médecin peut compléter les données du patient courant
@@ -1494,7 +1566,6 @@ public class PH extends JFrame implements ActionListener {
 
         }
 
-       
 
     }//GEN-LAST:event_jList1ValueChanged
 

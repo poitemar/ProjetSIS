@@ -29,8 +29,8 @@ public class SIH {
         Localisation localisationbluff = new Localisation(Specialite.CARDIOLOGIE, Orientation.CENTRE, 1, 123, Lit.FENETRE);
         Sejour sejourbluff = new Sejour("idSejour", "idPatient", "idPhReferent", localisationbluff);
        
-        System.out.println(sejourbluff.afficherTousLoc("190248662"));
-
+       
+       // System.out.println(sejourbluff.listeLocalisation("190339786"));
 //pour la BD 
 //      BDconnect bd = new BDconnect(); 
 //      bd.ajouterSejour();
@@ -87,8 +87,8 @@ public class SIH {
 //    }
 //       sejourbluff.ajouterOperations(idSejour, idPH, iPP, "titre", "details");
 //     //  sejourbluff.completerSejour(idSejour, idPH, iPP, "ff", "ff", "fff", "nn", "hnh");
-        SecretaireMedicale sm = new SecretaireMedicale("bluff", "bluff", "bluff", "bluff", "bluff", Specialite.ACCUEIL, Service.CLINIQUE);
-        Patient p = sm.recuperationPatient("098765123");
+//        SecretaireMedicale sm = new SecretaireMedicale("bluff", "bluff", "bluff", "bluff", "bluff", Specialite.ACCUEIL, Service.CLINIQUE);
+//        Patient p = sm.recuperationPatient("098765123");
         //   p.getLocalisation("098765123");
 //        PH perso = new PH("bluff", "bluff", "bluff", "bluff", "bluff", Specialite.ACCUEIL, Service.CLINIQUE); 
 //       ArrayList<Patient> listePatient = perso.afficherListePatientPrestation("238478562");
