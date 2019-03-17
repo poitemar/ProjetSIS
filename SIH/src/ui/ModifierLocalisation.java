@@ -89,7 +89,7 @@ public class ModifierLocalisation extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel6.setText("Lit :");
 
-        Specialite labels[] = Specialite.values();
+        Specialite labels[] = {Specialite.CARDIOLOGIE,Specialite.GYNECOLOGIE,Specialite.ONCOLOGIE,Specialite.OPHTALMOLOGIE,Specialite.PEDIATRIE,Specialite.PNEUMOLOGIE};
         DefaultComboBoxModel model = new DefaultComboBoxModel(labels);
         jComboBox1.setModel(model);
         jComboBox1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -198,7 +198,7 @@ public class ModifierLocalisation extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addGap(55, 55, 55))
         );

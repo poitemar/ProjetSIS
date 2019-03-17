@@ -61,6 +61,7 @@ public class PH extends JFrame implements ActionListener {
     String PatientSelection = "";
     public static String selection = "";
     DefaultListModel DLM = new DefaultListModel();
+    DefaultListModel DLM_recherche;
     nf.PH ph = new nf.PH("null", "null", "null", "null", "null", nf.Specialite.ONCOLOGIE, nf.Service.CLINIQUE);
     nf.Patient patient = new nf.Patient("bluff", "bluff");
     nf.SecretaireMedicale secrMed = new nf.SecretaireMedicale("null", "null", "null", "null", "null", Specialite.ONCOLOGIE, Service.CLINIQUE);
@@ -92,7 +93,7 @@ public class PH extends JFrame implements ActionListener {
 
         }
 
-        jButton1.addActionListener(this);
+    
         this.perso = p;
         String s = "Mme/M. " + p.getNom() + " " + p.getPrenom();
         jLabel1.setText(s);
@@ -221,7 +222,6 @@ public class PH extends JFrame implements ActionListener {
 
                 dsaisie = listedateSaisie.get(isaisie);
                 loc = listeDateLoc.get(iloc);
-                
 
                 localisation = new javax.swing.tree.DefaultMutableTreeNode(sejourCourant.listeLoctoString(loc, listeIdSejours.get(i)));
                 saisie = new javax.swing.tree.DefaultMutableTreeNode(sejourCourant.listeSaisietoString(dsaisie, listeIdSejours.get(i)));
@@ -244,54 +244,51 @@ public class PH extends JFrame implements ActionListener {
 
                     listeInfos = sejourCourant.listeInfos(dsaisie, listeIdSejours.get(i));
 
-                        for (Map.Entry mapentry : listeInfos.entrySet()) {
-                            String[] tab = mapentry.getKey().toString().split("X");
-                            for (int k = 1; k < tab.length; k++) {
-                                javax.swing.tree.DefaultMutableTreeNode info = new javax.swing.tree.DefaultMutableTreeNode(tab[k] + " : " + mapentry.getValue());
-                                saisie.add(info);
+                    for (Map.Entry mapentry : listeInfos.entrySet()) {
+                        String[] tab = mapentry.getKey().toString().split("X");
+                        for (int k = 1; k < tab.length; k++) {
+                            javax.swing.tree.DefaultMutableTreeNode info = new javax.swing.tree.DefaultMutableTreeNode(tab[k] + " : " + mapentry.getValue());
+                            saisie.add(info);
                         }
                     }
-                    
+
                     isaisie++;
                 }
 
             }
-            
-            if(isaisie == listedateSaisie.size()){
-                while(iloc < listeDateLoc.size()){
+
+            if (isaisie == listedateSaisie.size()) {
+                while (iloc < listeDateLoc.size()) {
                     loc = listeDateLoc.get(iloc);
                     localisation = new javax.swing.tree.DefaultMutableTreeNode(sejourCourant.listeLoctoString(loc, listeIdSejours.get(i)));
                     sejour.add(localisation);
                     iloc++;
                 }
-            }
-            else if(iloc == listeDateLoc.size()){
-                while(isaisie < listedateSaisie.size()){
+            } else if (iloc == listeDateLoc.size()) {
+                while (isaisie < listedateSaisie.size()) {
                     dsaisie = listedateSaisie.get(isaisie);
                     saisie = new javax.swing.tree.DefaultMutableTreeNode(sejourCourant.listeSaisietoString(dsaisie, listeIdSejours.get(i)));
                     sejour.add(saisie);
-                    
+
                     listeInfos = sejourCourant.listeInfos(dsaisie, listeIdSejours.get(i));
 
-                        for (Map.Entry mapentry : listeInfos.entrySet()) {
-                            String[] tab = mapentry.getKey().toString().split("X");
-                            for (int k = 1; k < tab.length; k++) {
-                                javax.swing.tree.DefaultMutableTreeNode info = new javax.swing.tree.DefaultMutableTreeNode(tab[k] + " : " + mapentry.getValue());
-                                saisie.add(info);
+                    for (Map.Entry mapentry : listeInfos.entrySet()) {
+                        String[] tab = mapentry.getKey().toString().split("X");
+                        for (int k = 1; k < tab.length; k++) {
+                            javax.swing.tree.DefaultMutableTreeNode info = new javax.swing.tree.DefaultMutableTreeNode(tab[k] + " : " + mapentry.getValue());
+                            saisie.add(info);
                         }
                     }
-                    
+
                     isaisie++;
                 }
             }
-            
-            if(sejourCourant.sejourEnCours(listeIdSejours.get(i))){
-                 localisation = new javax.swing.tree.DefaultMutableTreeNode(sejourCourant.listeLoctoString("", listeIdSejours.get(i)));
-                    sejour.add(localisation);
+
+            if (sejourCourant.sejourEnCours(listeIdSejours.get(i))) {
+                localisation = new javax.swing.tree.DefaultMutableTreeNode(sejourCourant.listeLoctoString("", listeIdSejours.get(i)));
+                sejour.add(localisation);
             }
-            
-            
-            
+
             racine.add(sejour);
 
         }
@@ -493,6 +490,7 @@ public class PH extends JFrame implements ActionListener {
         jButton6 = new javax.swing.JButton();
         jLabel22 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
         panelInformationsPatient = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
@@ -552,6 +550,11 @@ public class PH extends JFrame implements ActionListener {
 
         panelAccueil.setBackground(new java.awt.Color(255, 255, 255));
         panelAccueil.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        panelAccueil.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelAccueilMouseClicked(evt);
+            }
+        });
 
         jLabel1.setBackground(new java.awt.Color(0, 153, 153));
         jLabel1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -648,6 +651,13 @@ public class PH extends JFrame implements ActionListener {
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PPTHlogo.png"))); // NOI18N
 
+        jButton2.setText("Déplacer patient");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelAccueilLayout = new javax.swing.GroupLayout(panelAccueil);
         panelAccueil.setLayout(panelAccueilLayout);
         panelAccueilLayout.setHorizontalGroup(
@@ -692,6 +702,8 @@ public class PH extends JFrame implements ActionListener {
                                 .addGap(0, 36, Short.MAX_VALUE))
                             .addGroup(panelAccueilLayout.createSequentialGroup()
                                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
@@ -731,7 +743,8 @@ public class PH extends JFrame implements ActionListener {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelAccueilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jToggleButton1)
-                    .addComponent(jButton3))
+                    .addComponent(jButton3)
+                    .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel22))
         );
@@ -1113,15 +1126,6 @@ public class PH extends JFrame implements ActionListener {
         }
     }//GEN-LAST:event_jList2ValueChanged
 
-    private void medPresActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    }
-
-//   
-    private void textPrestationActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    }
-
 
     private void completerSejour(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_completerSejour
 
@@ -1315,7 +1319,7 @@ public class PH extends JFrame implements ActionListener {
                 textDetailsOperations.setText("");
                 textResultats.setText("");
                 textPrescriptions.setText("");
-               initRenderer();
+                initRenderer();
                 buildTree();
             } catch (Exception ex) {
 
@@ -1329,31 +1333,6 @@ public class PH extends JFrame implements ActionListener {
         // TODO add your handling code here:
     }//GEN-LAST:event_panelInformationsPatientMouseClicked
 
-    private void panelAccueilMouseClicked(java.awt.event.MouseEvent evt) {
-        // Mise à jour de la liste des patients
-        DLM.clear();
-        listePatient = secrMed.afficherListePatientParService(perso.getSpecialite());
-
-        for (int i = 0; i < listePatient.size(); i++) {
-            String element = "" + listePatient.get(i).getNom() + "         " + listePatient.get(i).getPrenom() + "         " + listePatient.get(i).getDateDeNaissance();
-            //Verifier que le dernier sejour du patient soit en cours avant de lafficher
-            nf.Localisation lbluff = new nf.Localisation(Specialite.ACCUEIL, Orientation.OUEST, ERROR, ABORT, Lit.PORTE);
-            nf.Sejour sejourBluff = new nf.Sejour("", "", "", lbluff);
-            nf.PH ph = new nf.PH("", "", "", "", "", Specialite.ACCUEIL, Service.URGENCE);
-            String ipp = patient.ippPatientListe(element);
-            String idDernierSejour = ph.idSejourPatientSelection(ipp);
-            System.out.println("\n\n");
-            System.out.println("              ICI                ");
-            System.out.println(" a voiiiir" + idDernierSejour);
-            System.out.println(sejourBluff.sejourEnCours(idDernierSejour));
-            if (sejourBluff.sejourEnCours(idDernierSejour)) {
-                DLM.addElement(element);
-            }
-            jList1.setModel(DLM);
-            jList1.repaint();
-        }
-
-    }
 
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -1365,46 +1344,6 @@ public class PH extends JFrame implements ActionListener {
             new nouveauPatientArchive().setVisible(true);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        String element1 = "";
-        String element2 = "";
-        String element3 = "";
-        ArrayList<Patient> Lp = null;
-        RechercherInfo inf = new RechercherInfo();
-        String date = jFormattedTextField1.getText();
-        DefaultListModel DLM = new DefaultListModel();
-        if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty() && jFormattedTextField1.getText() != null) {
-            Lp = inf.patientServiceNomPrenomDate(perso.getSpecialite(), jTextField1.getText(), jTextField2.getText(), date);
-
-            for (int i = 0; i < Lp.size(); i++) {
-                element1 = "" + Lp.get(i).getNom() + "         " + Lp.get(i).getPrenom() + "         " + Lp.get(i).getDateDeNaissance();
-                DLM.addElement(element1);
-
-            }
-
-        }
-        if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty() && jFormattedTextField1.getText().isEmpty()) {
-            Lp = inf.patientServiceNomPrenom(perso.getSpecialite(), jTextField1.getText(), jTextField2.getText());
-            // DefaultListModel DLM = new DefaultListModel();
-            for (int i = 0; i < Lp.size(); i++) {
-                element2 = "" + Lp.get(i).getNom() + "         " + Lp.get(i).getPrenom() + "         " + Lp.get(i).getDateDeNaissance();
-                DLM.addElement(element2);
-
-            }
-        }
-        if (!jTextField1.getText().isEmpty() && jTextField2.getText().isEmpty() && jFormattedTextField1.getText().isEmpty()) {
-            Lp = inf.patientServiceNom(perso.getSpecialite(), jTextField1.getText());
-            for (int i = 0; i < Lp.size(); i++) {
-                element3 = "" + Lp.get(i).getNom() + "         " + Lp.get(i).getPrenom() + "         " + Lp.get(i).getDateDeNaissance();
-                DLM.addElement(element3);
-            }
-        }
-        jList1.setModel(DLM);
-
-
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jFormattedTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField1ActionPerformed
         // TODO add your handling code here:
@@ -1562,7 +1501,7 @@ public class PH extends JFrame implements ActionListener {
                 jButton7.setEnabled(true);
                 jButton3.setEnabled(true);
             } else {
-                phref=false;
+                phref = false;
                 jButton7.setEnabled(false);
                 jButton3.setEnabled(false);
                 System.out.println("FUAX");
@@ -1572,6 +1511,79 @@ public class PH extends JFrame implements ActionListener {
 
 
     }//GEN-LAST:event_jList1ValueChanged
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        // TODO add your handling code here:
+        String ipp = patient.ippPatientListe(PatientSelection);
+        new ModifierLocalisation(ipp).setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String element1 = "";
+        String element2 = "";
+        String element3 = "";
+        ArrayList<Patient> Lp = null;
+        RechercherInfo inf = new RechercherInfo();
+        String date = jFormattedTextField1.getText();
+        DLM_recherche = new DefaultListModel();
+        if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty() && jFormattedTextField1.getText() != null) {
+            Lp = inf.patientServiceNomPrenomDate(perso.getSpecialite(), jTextField1.getText(), jTextField2.getText(), date);
+
+            for (int i = 0; i < Lp.size(); i++) {
+                element1 = "" + Lp.get(i).getNom() + "         " + Lp.get(i).getPrenom() + "         " + Lp.get(i).getDateDeNaissance();
+                DLM_recherche.addElement(element1);
+
+            }
+
+        }
+        if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty() && jFormattedTextField1.getText().isEmpty()) {
+            Lp = inf.patientServiceNomPrenom(perso.getSpecialite(), jTextField1.getText(), jTextField2.getText());
+            // DefaultListModel DLM = new DefaultListModel();
+            for (int i = 0; i < Lp.size(); i++) {
+                element2 = "" + Lp.get(i).getNom() + "         " + Lp.get(i).getPrenom() + "         " + Lp.get(i).getDateDeNaissance();
+                DLM_recherche.addElement(element2);
+
+            }
+        }
+        if (!jTextField1.getText().isEmpty() && jTextField2.getText().isEmpty() && jFormattedTextField1.getText().isEmpty()) {
+            Lp = inf.patientServiceNom(perso.getSpecialite(), jTextField1.getText());
+            for (int i = 0; i < Lp.size(); i++) {
+                element3 = "" + Lp.get(i).getNom() + "         " + Lp.get(i).getPrenom() + "         " + Lp.get(i).getDateDeNaissance();
+                DLM_recherche.addElement(element3);
+            }
+        }
+        jList1.setModel(DLM_recherche);
+
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void panelAccueilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelAccueilMouseClicked
+        // TODO add your handling code here:
+          // Mise à jour de la liste des patients
+        DLM.clear();
+        listePatient = secrMed.afficherListePatientParService(perso.getSpecialite());
+
+        for (int i = 0; i < listePatient.size(); i++) {
+            String element = "" + listePatient.get(i).getNom() + "         " + listePatient.get(i).getPrenom() + "         " + listePatient.get(i).getDateDeNaissance();
+            //Verifier que le dernier sejour du patient soit en cours avant de lafficher
+            nf.Localisation lbluff = new nf.Localisation(Specialite.ACCUEIL, Orientation.OUEST, ERROR, ABORT, Lit.PORTE);
+            nf.Sejour sejourBluff = new nf.Sejour("", "", "", lbluff);
+            nf.PH ph = new nf.PH("", "", "", "", "", Specialite.ACCUEIL, Service.URGENCE);
+            String ipp = patient.ippPatientListe(element);
+            String idDernierSejour = ph.idSejourPatientSelection(ipp);
+            System.out.println("\n\n");
+            System.out.println("              ICI                ");
+            System.out.println(" a voiiiir" + idDernierSejour);
+            System.out.println(sejourBluff.sejourEnCours(idDernierSejour));
+            if (sejourBluff.sejourEnCours(idDernierSejour)) {
+                DLM.addElement(element);
+            }
+            jList1.setModel(DLM);
+            jList1.repaint();
+        }
+    }//GEN-LAST:event_panelAccueilMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1619,6 +1631,7 @@ public class PH extends JFrame implements ActionListener {
     private javax.swing.JButton boutonPaneCompleter;
     private javax.swing.JTabbedPane interfacePH;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;

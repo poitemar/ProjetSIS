@@ -197,7 +197,7 @@
             </Property>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="Specialite labels[] = Specialite.values();&#xa;      DefaultComboBoxModel model = new DefaultComboBoxModel(labels);&#xa;jComboBox1.setModel(model);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="Specialite labels[] = {Specialite.CARDIOLOGIE,Specialite.GYNECOLOGIE,Specialite.ONCOLOGIE,Specialite.OPHTALMOLOGIE,Specialite.PEDIATRIE,Specialite.PNEUMOLOGIE};&#xa;      DefaultComboBoxModel model = new DefaultComboBoxModel(labels);&#xa;jComboBox1.setModel(model);"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JComboBox" name="jComboBox2">
