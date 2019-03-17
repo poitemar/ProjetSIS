@@ -50,7 +50,7 @@ public class PH extends PersonnelMedical {
         String dateLaPlusRecente="01/01/0001 00:00";
         String date="";
         java.util.Date date1;
-        Boolean rep=true;
+        Boolean rep=false;
         java.util.Date date2;
          SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         //On recherche le sejour le plus recent
@@ -59,11 +59,11 @@ public class PH extends PersonnelMedical {
             System.out.println(query);
             rs = st.executeQuery(query);
             
-            //trouver comment detecter une personne qui n'a jamais eu de sejour 
-//                if(!rs.next()){
-//                    rep =false;
-//                }
+          //  trouver comment detecter une personne qui n'a jamais eu de sejour 
+            System.out.println("REGARDE JUSTE ICIIIIIIIIIIIII     ++++++++++++++++"+rs.getRow());
+               
            while (rs.next()) {
+               rep=true;
                 System.out.println("ICI");
                date = rs.getString( "DATE_CREATION_SEJOUR");
                 System.out.println("LALALA");

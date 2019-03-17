@@ -536,6 +536,7 @@ public class SecretaireMedicale extends javax.swing.JFrame {
             new nouveauSejour(perso).setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Vous n'êtes pas autorisé(e) à créer un nouveau séjour", "ATTENTION", JOptionPane.ERROR_MESSAGE);
+       
         }
 
 

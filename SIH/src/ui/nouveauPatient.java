@@ -9,6 +9,7 @@ package ui;
 import java.sql.Date;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import nf.Service;
 import nf.Sexe;
 import nf.Specialite;
@@ -291,7 +292,11 @@ public class nouveauPatient extends javax.swing.JFrame {
           String ipp = p.creationIPP_pour_ajout_patient();
         secretaireAdministrativeCourante.ajouterNouveauPatient(ipp, nom.getText(), prenom.getText(),(nf.Sexe) sexe.getSelectedItem(), dateN.getText(), adresse.getText(), nTel.getText(),nomCONF.getText(),prenomCONF.getText(),adresseCONF.getText(),telCONF.getText());
         System.out.println(ipp);
+        
+         JOptionPane.showMessageDialog(this, "Le patient a bien été ajouté", "OK", JOptionPane.INFORMATION_MESSAGE);
+         
     this.dispose();
+    
       
         
         

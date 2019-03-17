@@ -569,6 +569,7 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
         }
         jList1.setModel(DLM);
         jList1.repaint();
+        buildTree1();
 
     }//GEN-LAST:event_jPanel1MouseClicked
 

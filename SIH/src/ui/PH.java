@@ -1315,7 +1315,8 @@ public class PH extends JFrame implements ActionListener {
                 textDetailsOperations.setText("");
                 textResultats.setText("");
                 textPrescriptions.setText("");
-
+               initRenderer();
+                buildTree();
             } catch (Exception ex) {
 
                 System.out.println(ex);
@@ -1561,6 +1562,9 @@ public class PH extends JFrame implements ActionListener {
                 jButton7.setEnabled(true);
                 jButton3.setEnabled(true);
             } else {
+                phref=false;
+                jButton7.setEnabled(false);
+                jButton3.setEnabled(false);
                 System.out.println("FUAX");
             }
 

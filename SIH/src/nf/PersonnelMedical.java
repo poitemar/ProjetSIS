@@ -147,23 +147,23 @@ public class PersonnelMedical {
         
     
      //Retourne la liste de prestation d'un medecin
-    public ArrayList<String> afficherPrestation(String idmed){
+    public ArrayList<String> afficherDatePrestation(String idmed,String idSejour){
         ArrayList<String> listePrestations = new ArrayList<String>();
         
          try {
-            String query = "select * from patients join ph_referent using(IPP) join prestations using(ID_SEJOUR) where ID_DR_RECEVEUR ='"+idmed+"'"; // la query à entrer pour accéder aux données de nos tables 
+            String query = "select * from patients join ph_referent using(IPP) join prestations using(ID_SEJOUR) where ID_DR_RECEVEUR ='"+idmed+"' and ID_SEJOUR='"+idSejour+"'"; // la query à entrer pour accéder aux données de nos tables 
              System.out.println(query);
             rs = st.executeQuery(query);
             while (rs.next()) {
            
-                String prestation = rs.getString("PRESTATION");
+                String date = rs.getString("DATE_SAISIE");
           
            
                  
                    //   System.out.println(docteur.getNom());
                  //System.out.println(docteur.getSpecialite().toString());
                  
-                 listePrestations.add(prestation);
+                 listePrestations.add(date);
                 
             }
         } catch (Exception ex) {
@@ -173,7 +173,30 @@ public class PersonnelMedical {
          return listePrestations;
     } 
     
-    
+     public String afficherPrestation(String date, String idSejour){
+      String prest ="";
+        
+         try {
+            String query = "select * from prestations where DATE_SAISIE='"+date+"' and ID_SEJOUR='"+idSejour+"'"; // la query à entrer pour accéder aux données de nos tables 
+             System.out.println(query);
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+           
+                 prest = rs.getString("PRESTATION");
+          
+           
+                 
+                   //   System.out.println(docteur.getNom());
+                 //System.out.println(docteur.getSpecialite().toString());
+                 
+                               
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+           
+        }
+         return prest;
+    } 
     
        //Fonction qui retourne la prestation associée à la selection dans une liste
     public String prestationPatientListe(String lecture){

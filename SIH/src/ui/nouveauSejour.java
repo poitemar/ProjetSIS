@@ -211,7 +211,7 @@ public class nouveauSejour extends javax.swing.JFrame {
         }
         else {
              JOptionPane.showMessageDialog(this, "Le patient a déjà un séjour en cours", "ATTENTION", JOptionPane.ERROR_MESSAGE);
-         
+          this.dispose();
         }
        
     }//GEN-LAST:event_boutonEnregistrerPatient

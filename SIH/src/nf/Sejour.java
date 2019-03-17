@@ -1211,17 +1211,17 @@ public class Sejour {
         return rep;
     }
 
-    public boolean prestationRealisee(String prestation) {
+    public boolean prestationRealisee(String dateSaisie,String idSejour) {
         boolean rep = false;
 
         try {
 
-            String query = "select DATE_PRESTATION from prestations where PRESTATION='" + prestation + "'"; // la query à entrer pour accéder aux données de nos tables 
+            String query = "select * from prestations where DATE_SAISIE='"+dateSaisie+"' and ID_SEJOUR='"+idSejour+"'"; // la query à entrer pour accéder aux données de nos tables 
             System.out.println(query);
             rs = st.executeQuery(query);
             while (rs.next()) {
                 String date = rs.getString("DATE_PRESTATION");
-                if (date.isEmpty()) {
+                if (date.equals("")) {
 
                 } else {
                     rep = true;
