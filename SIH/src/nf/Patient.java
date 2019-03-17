@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.Objects;
  
 /**
  *
@@ -38,7 +39,7 @@ public class Patient {
     public Patient() {
 
     }
-
+   
     //Constructeur nom prenom pour rechercher le patient par nom et prenom 
     public Patient(String nom, String prenom) {
         this.nom = nom;
@@ -58,6 +59,8 @@ public class Patient {
 
     }}
     
+        
+        
     //Constructeur utilisé pour rechercher les patients par nom, prenom et date --> pour bien gérer les doublons
      public Patient(String nom, String prenom, String date) {
         this.nom = nom;
@@ -115,7 +118,30 @@ public class Patient {
         return p;
     }
 
-    
+      public Patient getPatient(String ipp){
+        String nomp,prenomp,datep,ippp ="";
+        Patient p = new Patient("","","");
+         try {
+             
+        
+            String query = "select * from patients where IPP='"+ipp+"'";
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                ippp = rs.getString("IPP");
+                nomp = rs.getString("NOM");
+                prenomp = rs.getString("PRENOM");
+                datep = rs.getString("DATENAISSANCE");
+                Sexe sexep = Sexe.valueOf(rs.getString("SEXE"));
+        
+               p = new Patient(ipp,nomp,prenomp,datep,sexep);
+                
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+           
+        }
+        return p;
+    }
     
     
         //Fonction qui retourne le nom et le prenom du patient lu dans une liste
@@ -140,6 +166,15 @@ public class Patient {
         
     }
     return p;}
+    
+        public Patient(String ipp, String nom, String prenom,String date, Sexe sexe){
+        this.nom = nom;
+        this.ipp = ipp;
+        this.prenom = prenom;
+        this.dateDeNaissance =date;
+        this.sexe=sexe;
+        }
+        
     // Constructeur de Patient
     public Patient(String ipp, String nom, String prenom, Sexe sexe, String dateDeNaissance, String adresse, String telephone,String nomCONF,String prenomCONF,String adresseCONF,String telCONF){
         this.nom = nom;
@@ -218,7 +253,9 @@ public class Patient {
         //System.out.println(IPP);
         return IPP;
     }
-
+    public String getipp() {
+        return this.ipp;
+    }
     // getters et setters
     /**
      * @return the ipp
@@ -459,4 +496,30 @@ public class Patient {
     public void setTelC(String telC) {
         this.telC = telC;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 11 * hash + Objects.hashCode(this.ipp);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Patient other = (Patient) obj;
+        if (!Objects.equals(this.ipp, other.ipp)) {
+            return false;
+        }
+        return true;
+    }
+   
 }

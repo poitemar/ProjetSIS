@@ -72,12 +72,13 @@ public class PH_MT extends javax.swing.JFrame {
             String idDernierSejour = ph.idSejourPatientSelection(ipp);
             listePrestation = perso.afficherDatePrestation(perso.getIdMed(), idDernierSejour);
             for (int j = 0; j < listePrestation.size(); j++) {
-                 element = element + "         " + perso.afficherPrestation(listePrestation.get(j),idDernierSejour);
-                System.out.println("ICI STP ==================="+listePrestation.get(j));
+                
                 if (sejourBluff.sejourEnCours(idDernierSejour) && !sejourCourant.prestationRealisee(listePrestation.get(j),idDernierSejour)){
-                   
-                    DLM.addElement(element);
-                    System.out.println("MARGAUX §§§§");
+                  
+                    DLM.addElement(element + "         " + perso.afficherPrestation(listePrestation.get(j),idDernierSejour));
+                    listePrestation.remove(j);
+                    j--;
+                  
                 }
             }
 
@@ -636,12 +637,13 @@ public void buildTree1() {
             String idDernierSejour = ph.idSejourPatientSelection(ipp);
             listePrestation = perso.afficherDatePrestation(perso.getIdMed(), idDernierSejour);
             for (int j = 0; j < listePrestation.size(); j++) {
-                 element = element + "         " + perso.afficherPrestation(listePrestation.get(j),idDernierSejour);
-                System.out.println("ICI STP ==================="+listePrestation.get(j));
+                 
                 if (sejourBluff.sejourEnCours(idDernierSejour) && !sejourCourant.prestationRealisee(listePrestation.get(j),idDernierSejour)){
                    
-                    DLM.addElement(element);
-                    System.out.println("MARGAUX §§§§");
+                    DLM.addElement(element + "         " + perso.afficherPrestation(listePrestation.get(j),idDernierSejour));
+                    listePrestation.remove(j);
+                    j--;
+                  
                 }
             }
 

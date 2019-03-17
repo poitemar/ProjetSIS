@@ -301,7 +301,28 @@ public class PH extends PersonnelMedical {
         }
         return ipp;
     }
+//Fonction qui retourne l'idMed du medecin lu dans la liste
+    public Specialite speIDPH(String idmed){
+        String spe="";
+       try{
+       String query = "select * from personnel_medical where ID_P='"+idmed+"'"; // la query à entrer pour accéder aux données de nos tables 
+             System.out.println(query);
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+              String idph = rs.getString("ID_P");
+                System.out.println(idph);
+                 spe = rs.getString("SPE");
 
+                    
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+       Specialite speS = Specialite.valueOf(spe);
+        return speS ;
+    }
+    
     //Fonction qui retourne l'idMed du medecin lu dans la liste
     public String iDPH(String idmed){
         String idph="";

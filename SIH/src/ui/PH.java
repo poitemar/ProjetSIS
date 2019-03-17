@@ -1474,6 +1474,16 @@ public class PH extends JFrame implements ActionListener {
             System.out.println("IPP MEDECIN EST : " + idp);
 
             sejourCourant.ajouterPrestation(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), idp, textPrestation.getText());
+            nf.HL7 hl7 = new nf.HL7();
+            if(ph.speIDPH(idp)==Specialite.RADIOLOGIE){
+                Patient p = patient.getPatient(patient.ippPatientListe(PatientSelection));
+                System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA+"+p.getipp());
+                hl7.sendMessage(patient.getPatient(patient.ippPatientListe(PatientSelection)),2);
+                   //JOptionPane.showMessageDialog(this, "Echec de connexion avec le serveur HL7", "ERREUR", JOptionPane.ERROR_MESSAGE);
+
+               
+               
+            }
             textPrestation.setText("");
             medPres.setText("");
             DLM_medecin.clear();

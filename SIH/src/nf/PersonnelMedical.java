@@ -107,7 +107,7 @@ public class PersonnelMedical {
              System.out.println(query);
             rs = st.executeQuery(query);
             while (rs.next()) {
-                System.out.println("e");
+            
                 String nom = rs.getString("NOM");
               System.out.println(nom);
                 String prenom = rs.getString("PRENOM");
@@ -131,8 +131,10 @@ public class PersonnelMedical {
                  Patient patient = new Patient(idp,nom,prenom,sexeLu,date,adresse,tel,nomC,prenomC,adresseC,telC);
                    //   System.out.println(docteur.getNom());
                  //System.out.println(docteur.getSpecialite().toString());
-                 
-                 listePatient.add(patient);
+                 if(!listePatient.contains(patient)){
+                        listePatient.add(patient);
+                 }
+              
                 
             }
         } catch (Exception ex) {

@@ -25,10 +25,13 @@ public class SIH {
 //        String idSejour = "190221999";
 //        String iPP = "idPatient";
 //        String idPH ="idphtestonc";
-//        Patient p =new Patient("bluff","bluff");
+        Patient p =new Patient("526341897","LELOUP","alain","13/01/1999",Sexe.HOMME);
         Localisation localisationbluff = new Localisation(Specialite.CARDIOLOGIE, Orientation.CENTRE, 1, 123, Lit.FENETRE);
         Sejour sejourbluff = new Sejour("idSejour", "idPatient", "idPhReferent", localisationbluff);
-       
+        int a =  Integer.parseInt("753963712");
+        System.out.println(a);
+        HL7 hl7 = new HL7();
+         hl7.sendMessage(p,2);
        
        // System.out.println(sejourbluff.listeLocalisation("190339786"));
 //pour la BD 

@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import nf.DMA;
+import nf.HL7;
 import nf.Lit;
 import nf.Localisation;
 import nf.Orientation;
@@ -52,14 +53,17 @@ public class Radiologue extends javax.swing.JFrame {
     public Radiologue(nf.PersonnelMedical p) {
         initComponents();
         setSize(700, 600);
-
+        HL7 hl7 = new HL7();
         this.perso = p;
         String s = "Dr. " + p.getNom() + " " + p.getPrenom();
         System.out.println(s);
         nomRadiologue.setText(s);
         spe.setText(perso.getSpecialite().toString());
         listePatient = perso.afficherListePatientPrestation(perso.getIdMed());
-
+        System.out.println(listePatient);
+         System.out.println("6------------6");
+         //hl7.ecouterMsg();
+        System.out.println("6------------6");
         System.out.println(listePatient.size());
         for (int i = 0; i < listePatient.size(); i++) {
             String element = "" + listePatient.get(i).getNom() + "         " + listePatient.get(i).getPrenom() + "         " + listePatient.get(i).getDateDeNaissance();
@@ -71,13 +75,15 @@ public class Radiologue extends javax.swing.JFrame {
             nf.PH ph = new nf.PH("", "", "", "", "", Specialite.ACCUEIL, Service.URGENCE);
             String idDernierSejour = ph.idSejourPatientSelection(ipp);
             listePrestation = perso.afficherDatePrestation(perso.getIdMed(), idDernierSejour);
+            
             for (int j = 0; j < listePrestation.size(); j++) {
-                 element = element + "         " + perso.afficherPrestation(listePrestation.get(j),idDernierSejour);
-                System.out.println("ICI STP ==================="+listePrestation.get(j));
+                
                 if (sejourBluff.sejourEnCours(idDernierSejour) && !sejourCourant.prestationRealisee(listePrestation.get(j),idDernierSejour)){
                    
-                    DLM.addElement(element);
-                    System.out.println("MARGAUX §§§§");
+                    DLM.addElement(element + "         " + perso.afficherPrestation(listePrestation.get(j),idDernierSejour));
+                    listePrestation.remove(j);
+                    j--;
+                 
                 }
             }
 
@@ -626,12 +632,13 @@ public void buildTree1() {
             String idDernierSejour = ph.idSejourPatientSelection(ipp);
             listePrestation = perso.afficherDatePrestation(perso.getIdMed(), idDernierSejour);
             for (int j = 0; j < listePrestation.size(); j++) {
-                 element = element + "         " + perso.afficherPrestation(listePrestation.get(j),idDernierSejour);
-                System.out.println("ICI STP ==================="+listePrestation.get(j));
+              
                 if (sejourBluff.sejourEnCours(idDernierSejour) && !sejourCourant.prestationRealisee(listePrestation.get(j),idDernierSejour)){
-                   
-                    DLM.addElement(element);
-                    System.out.println("MARGAUX §§§§");
+                  
+                    DLM.addElement(element + "         " + perso.afficherPrestation(listePrestation.get(j),idDernierSejour));
+                    listePrestation.remove(j);
+                    j--;
+                    
                 }
             }
 
