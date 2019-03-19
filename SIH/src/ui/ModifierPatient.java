@@ -23,6 +23,7 @@ public class ModifierPatient extends javax.swing.JFrame {
 
     /**
      * Creates new form ModifierPatient
+     * @param p
      */
     public ModifierPatient(Patient p) {
         initComponents();

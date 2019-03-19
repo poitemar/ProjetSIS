@@ -49,6 +49,7 @@ public class Radiologue extends javax.swing.JFrame {
 
     /**
      * Creates new form Radiologue
+     * @param p
      */
     public Radiologue(nf.PersonnelMedical p) {
         initComponents();
@@ -100,6 +101,9 @@ public class Radiologue extends javax.swing.JFrame {
         this.tCellRenderer.setLeafIcon(null);
     }
 
+    /**
+     *
+     */
     public void buildTree() {
         DM.setCellRenderer(this.tCellRenderer);
         if (!jList1.isSelectionEmpty()) {
@@ -211,7 +215,11 @@ public class Radiologue extends javax.swing.JFrame {
         DM.setModel(arbre);
 
     }
-public void buildTree1() {
+
+    /**
+     *
+     */
+    public void buildTree1() {
         this.tCellRenderer.setClosedIcon(null);
         this.tCellRenderer.setOpenIcon(null);
         this.tCellRenderer.setLeafIcon(null);

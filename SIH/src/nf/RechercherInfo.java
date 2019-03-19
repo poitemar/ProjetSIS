@@ -30,10 +30,17 @@ public class RechercherInfo {
     private String prenom;
     private Calendar DateNaissance;
     private ResultSet rs;
+
+    /**
+     *
+     */
     public ArrayList<Patient> Lp;
 
     Patient p = null;
 
+    /**
+     *
+     */
     public RechercherInfo() {
 
         try {
@@ -51,6 +58,12 @@ public class RechercherInfo {
         }
     }
  
+    /**
+     *
+     * @param nom
+     * @param prenom
+     * @return
+     */
     public ArrayList<Patient> rechercheListPatientNomPrenom(String nom, String prenom) {
         Lp = new ArrayList<Patient>();
         Patient p = null;
@@ -89,6 +102,13 @@ public class RechercherInfo {
 
     }
 
+    /**
+     *
+     * @param nom
+     * @param prenom
+     * @param date
+     * @return
+     */
     public ArrayList<Patient> recherchePatientListNomPrenomDate(String nom, String prenom, String date) {
 //       SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 //            String d = format.format(date);  
@@ -128,6 +148,11 @@ public class RechercherInfo {
     }
 
     //affichage de la Liste des patients 
+
+    /**
+     *
+     * @return
+     */
     public ArrayList<Patient> afficherListPatient() {
         ArrayList<Patient> patients = null;
         Patient p = null;
@@ -165,6 +190,14 @@ public class RechercherInfo {
         return patients;
 
     }
+
+    /**
+     *
+     * @param spe
+     * @param nom1
+     * @param prenom1
+     * @return
+     */
     public ArrayList<Patient> patientServiceNomPrenom(Specialite spe,String nom1,String prenom1) {
         ArrayList<Patient> listePatient = new ArrayList<Patient>();
 
@@ -206,7 +239,16 @@ public class RechercherInfo {
         return listePatient;
 
     }
-     public ArrayList<Patient> patientServiceNomPrenomDate(Specialite spe,String nom1,String prenom1,String date1) {
+
+    /**
+     *
+     * @param spe
+     * @param nom1
+     * @param prenom1
+     * @param date1
+     * @return
+     */
+    public ArrayList<Patient> patientServiceNomPrenomDate(Specialite spe,String nom1,String prenom1,String date1) {
         ArrayList<Patient> listePatient = new ArrayList<Patient>();
 
         try {
@@ -248,7 +290,13 @@ public class RechercherInfo {
 
     }
 
-     public ArrayList<Patient> patientServiceNom(Specialite spe,String nom1) {
+    /**
+     *
+     * @param spe
+     * @param nom1
+     * @return
+     */
+    public ArrayList<Patient> patientServiceNom(Specialite spe,String nom1) {
         ArrayList<Patient> listePatient = new ArrayList<Patient>();
 
         try {
@@ -290,7 +338,12 @@ public class RechercherInfo {
 
     }
 
-
+    /**
+     *
+     * @param nom
+     * @param prenom
+     * @return
+     */
     public Patient recherchePatientNomPrenom(String nom, String prenom) {
         p = new Patient(null, null);
 
@@ -329,6 +382,13 @@ public class RechercherInfo {
 
     }
 
+    /**
+     *
+     * @param nom
+     * @param prenom
+     * @param date
+     * @return
+     */
     public ArrayList<Patient> recherchePatientNomPrenomDate(String nom, String prenom, String date) {
 //       SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 //            String d = format.format(date);  
@@ -367,7 +427,12 @@ public class RechercherInfo {
 
     }
 
- public ArrayList<Patient> rechercheListPatientNom(String nom) {
+    /**
+     *
+     * @param nom
+     * @return
+     */
+    public ArrayList<Patient> rechercheListPatientNom(String nom) {
         Lp = new ArrayList<Patient>();
         Patient p = null;
         try {

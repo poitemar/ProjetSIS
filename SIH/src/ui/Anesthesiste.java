@@ -50,6 +50,7 @@ public class Anesthesiste extends javax.swing.JFrame {
    
     /**
      * Creates new form Anesthesiste
+     * @param p
      */
     public Anesthesiste(nf.PersonnelMedical p) {
         initComponents();
@@ -98,7 +99,11 @@ public class Anesthesiste extends javax.swing.JFrame {
         this.tCellRenderer.setOpenIcon(null);
         this.tCellRenderer.setLeafIcon(null);
     }
-        public void buildTree() {
+
+    /**
+     *
+     */
+    public void buildTree() {
         DM.setCellRenderer(this.tCellRenderer);
         if (!jList1.isSelectionEmpty()) {
             PatientSelection = jList1.getSelectedValue().toString();
@@ -213,7 +218,11 @@ public class Anesthesiste extends javax.swing.JFrame {
         DM.setModel(arbre);
 
     }
-      public void buildTree1() {
+
+    /**
+     *
+     */
+    public void buildTree1() {
         this.tCellRenderer.setClosedIcon(null);
         this.tCellRenderer.setOpenIcon(null);
         this.tCellRenderer.setLeafIcon(null);

@@ -26,7 +26,16 @@ public class SecretaireMedicale extends PersonnelMedical {
     private ResultSet rs;
     private Specialite specialite;
     
-
+    /**
+     *
+     * @param idMed
+     * @param nom
+     * @param prenom
+     * @param login
+     * @param password
+     * @param spe
+     * @param service
+     */
     public SecretaireMedicale(String idMed, String nom, String prenom, String login, String password, Specialite spe, Service service) {
         super(idMed, nom, prenom, login, password, spe, service);
         this.specialite = spe;
@@ -43,6 +52,14 @@ public class SecretaireMedicale extends PersonnelMedical {
     }
 
 //On cree un nouveau sejour mais on ne le remplit pas, l'operation creer le sejour et le remplir ne se deroulent pas dans la meme methode
+
+    /**
+     *
+     * @param idSejour
+     * @param iPP
+     * @param idPHReferent
+     * @param localisation
+     */
     public void ajouterSejour(String idSejour, String iPP, String idPHReferent, Localisation localisation) {
         Sejour s = new Sejour(idSejour, iPP, idPHReferent, localisation);
         String sql = "insert into ph_referent(ID_PHR,ID_SEJOUR,IPP,DATE_CREATION_SEJOUR) values (?,?,?,?)";
@@ -99,6 +116,12 @@ public class SecretaireMedicale extends PersonnelMedical {
     }
 
     //Retroune l'id du dernier sejour crée pour le patient
+
+    /**
+     *
+     * @param iPP
+     * @return
+     */
     public String idSejourPatientSelection(String iPP) {
 
         String idSejour = "";
@@ -142,6 +165,12 @@ public class SecretaireMedicale extends PersonnelMedical {
     }
 
     //Méthode qui permet à la secrétaire médicale de mettre à jour la localisation d'un patient
+
+    /**
+     *
+     * @param idSejour
+     * @param loc
+     */
     public void enregistrerLocalisation(String idSejour, Localisation loc) {
         String sql1 = "insert into historique_localisation (ID_SEJOUR,DATE,SERVICE,CODE_LOCALISATION) values (?,?,?,?)";
         try {
@@ -161,6 +190,11 @@ public class SecretaireMedicale extends PersonnelMedical {
         }
     }
 
+    /**
+     *
+     * @param idSejour
+     * @param localisation
+     */
     public void modifierLocalisation(String idSejour,Localisation localisation) {
       
         String sql2 = "update localisation set SERVICE='" + localisation.getSpecialite()
@@ -179,6 +213,12 @@ public class SecretaireMedicale extends PersonnelMedical {
     }
 
     //Fonction qui retourne l'idMed du medecin lu dans la liste
+
+    /**
+     *
+     * @param lecture
+     * @return
+     */
     public String iPPMedecinListe(String lecture) {
         String ipp = "";
         try {
@@ -206,6 +246,10 @@ public class SecretaireMedicale extends PersonnelMedical {
         return ipp;
     }
 
+    /**
+     *
+     * @return
+     */
     public String creationID_Sejour() {
         /*création séjour : sous le format YYMMxxxxx où YY est l’année de la consultation ou de
         l’hospitalisation sur deux positions, MM le mois et xxxxx un compteur aléatoire sur cinq positions.*/
@@ -229,6 +273,10 @@ public class SecretaireMedicale extends PersonnelMedical {
         return specialite;
     }
 
+    /**
+     *
+     * @return
+     */
     public int nombrePatients() {
         int compteur = 0;
         try {
@@ -245,6 +293,11 @@ public class SecretaireMedicale extends PersonnelMedical {
         return compteur;
     }
 
+    /**
+     *
+     * @param spe
+     * @return
+     */
     public ArrayList<Patient> afficherListePatientParService(Specialite spe) {
         ArrayList<Patient> listePatient = new ArrayList<Patient>();
 
@@ -297,6 +350,11 @@ public class SecretaireMedicale extends PersonnelMedical {
 
     }
 
+    /**
+     *
+     * @param iPP
+     * @return
+     */
     public Patient recuperationPatient(String iPP) {
         Patient patient = new Patient("","");
         try {
@@ -331,6 +389,11 @@ public class SecretaireMedicale extends PersonnelMedical {
         return patient;
     }
 
+    /**
+     *
+     * @param spe
+     * @return
+     */
     public ArrayList<PH> afficherListeMedecinParService(Specialite spe) {
         ArrayList<PH> listeMed = new ArrayList<PH>();
 
@@ -371,6 +434,20 @@ public class SecretaireMedicale extends PersonnelMedical {
 
     }
 
+    /**
+     *
+     * @param ipp
+     * @param nom
+     * @param prenom
+     * @param sexe
+     * @param dateNaissance
+     * @param adresse
+     * @param telephone
+     * @param nomCONF
+     * @param prenomCONF
+     * @param adresseCONF
+     * @param telCONF
+     */
     public void modifierPatient(String ipp, String nom, String prenom, Sexe sexe, String dateNaissance, String adresse, String telephone, String nomCONF, String prenomCONF, String adresseCONF, String telCONF) {
         Patient patient = new Patient(ipp, nom, prenom, sexe, dateNaissance, adresse, telephone, nomCONF, prenomCONF, adresseCONF, telCONF);
        

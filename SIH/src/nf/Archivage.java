@@ -20,6 +20,10 @@ public class Archivage {
     private Connection con;
     private Statement st;
     private ResultSet rs;
+    
+    /**
+     *
+     */
     public Archivage() {
     try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -34,7 +38,17 @@ public class Archivage {
         }
     }
     
+    /**
+     *
+     * @param nom
+     * @param prenom
+     * @param dateNaissance
+     * @param causeDeces
+     */
     public void ajouterPatient(String nom,String prenom,String dateNaissance,String causeDeces){
+        /** prend en entrée le nom, le prénom, la date de Naissance et la cause du décès d'un patient
+         et l'ajoute dans la table "patients_decedes" de la base de données, en le supprimant de la table
+         "patients" */
         String idPHR="";
         String specialite="";
         String idSejour="";
@@ -45,7 +59,7 @@ public class Archivage {
         maDate= new java.util.Date();
         try {
             String query = "select * from PATIENTS natural join PH_REFERENT natural join LOCALISATION"; // la query à entrer pour accéder aux données de nos tables 
-            rs = st.executeQuery(query);
+            rs = st.executeQuery(query); // on va récupérer l'id du ph référent, sa spécialité, l'id du séjour et l'ipp du patient dans la base de données
             while (rs.next()) {
               idPHR = rs.getString("ID_PHR");
               specialite=rs.getString("SERVICE");
@@ -66,7 +80,7 @@ public class Archivage {
         System.out.println("Date dc : "+maDateLongue.format(maDate));
         System.out.println("Cause dc : "+causeDeces);
         try {
-            PreparedStatement pstm = con.prepareStatement(sql);
+            PreparedStatement pstm = con.prepareStatement(sql); //c'est ici qu'on ajoute le patient dans la table "patients_decedes"
             
             pstm.setString(1, ipp);    
             pstm.setString(2, nom);
@@ -83,20 +97,20 @@ public class Archivage {
         }       
         try {
                 String requete2 = "delete from PATIENTS where NOM='" + nom+"' and PRENOM ='"+prenom+"' and DATENAISSANCE='"+dateNaissance+"'";
-                st.executeUpdate(requete2);
+                st.executeUpdate(requete2); //on supprime le patient de la table "patients" de la bd
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         try {
                 String requete = "delete from PH_REFERENT where ID_PHR='"+ idPHR+"'";
-                 st.executeUpdate(requete);
+                 st.executeUpdate(requete); //on supprime le lien entre le ph référent et le patient dans la table "ph_referent"
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         
         try {
                 String requete = "delete from LOCALISATION where ID_SEJOUR='"+ idSejour+"'";
-                 st.executeUpdate(requete);
+                 st.executeUpdate(requete); //on supprime le séjour du patient dans la tale "localisation"
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

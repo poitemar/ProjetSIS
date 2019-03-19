@@ -28,6 +28,16 @@ public class PH extends PersonnelMedical {
     private ResultSet rs;
     private Specialite specialite;
 
+    /**
+     *
+     * @param idMed
+     * @param nom
+     * @param prenom
+     * @param login
+     * @param password
+     * @param spe
+     * @param service
+     */
     public PH(String idMed, String nom, String prenom, String login, String password, Specialite spe, Service service) {
         super(idMed, nom, prenom, login, password, spe, service);
         this.specialite = spe;
@@ -44,7 +54,15 @@ public class PH extends PersonnelMedical {
     }
 
     //Retroune l'id du dernier sejour crée pour le patient
+
+    /**
+     *
+     * @param iPP
+     * @return
+     */
     public String idSejourPatientSelection(String iPP){
+        /** on prend en entrée l'ipp d'un patient et on renvoie l'id séjour le plus récent
+         d'un patient */
         
         String idSejour ="";
         String dateLaPlusRecente="01/01/0001 00:00";
@@ -83,7 +101,7 @@ public class PH extends PersonnelMedical {
             System.out.println(ex);
 
         }
-        //On récupère l'id associé au sejour le plus ancien
+        //On récupère l'id associé au sejour le plus récent
         try {
             String query2 = "select ID_SEJOUR from ph_referent where IPP='" + iPP + "' and DATE_CREATION_SEJOUR='" + dateLaPlusRecente + "'";
             System.out.println(query2);
@@ -108,7 +126,12 @@ public class PH extends PersonnelMedical {
         return specialite;
     }
 
+    /**
+     *
+     * @return
+     */
     public int nombrePatients() {
+        /** cette fonction renvoie le nombre de patient de la spécialité du PH associée */
         int compteur = 0;
         System.out.println(getSpecialite());
         try {
@@ -125,7 +148,13 @@ public class PH extends PersonnelMedical {
         return compteur;
     }
 
+    /**
+     *
+     * @return
+     */
     public String[] afficherListePatients() {
+        /** Cette fonction va renvoyer dans un tableau de String les différents patients, sous la forme
+         "nom prénom". Ce format de tableau est plus simple à exploiter pour l'ui */
         int compteur = nombrePatients();
         int i = 0;
         String[] listePatients = new String[compteur];
@@ -148,7 +177,13 @@ public class PH extends PersonnelMedical {
     }
 
     //compter le nombre des Anesthesistes
+
+    /**
+     *
+     * @return
+     */
     public int nombrePHAnes() {
+        /** Cette fonction compte les nombre de docteurs anesthésistes */
         int compteur = 0;
         try {
             String query = "select * from personnel_medical where TYPE_P ='DOCTEUR' and SPE ='"+ Specialite.ANESTHESIE+"'"; // la query à entrer pour accéder aux données de nos tables 
@@ -165,7 +200,14 @@ public class PH extends PersonnelMedical {
     }
 
     //affichage de la liste des Anesthesistes
+
+    /**
+     *
+     * @return
+     */
     public String[] afficherListePHAnes() {
+        /** Cette fonction va renvoyer dans un tableau de Strings la liste des docteurs anesthésistes.
+         Ce format est plus simplé à exploiter pour l'ui */
         int compteur = nombrePHAnes() + 1;
         int i = 0;
         String[] listePH = new String[compteur];
@@ -190,7 +232,13 @@ public class PH extends PersonnelMedical {
     }
 
     //compter le nombre des Radiologues
+
+    /**
+     *
+     * @return
+     */
     public int nombrePHRadio() {
+        /** Cette fonction renvoie le nombre de docteurs radiologues */
         int compteur = 0;
         try {
             String query = "select * from personnel_medical where TYPE_P ='DOCTEUR' and SPE ='"+ Specialite.RADIOLOGIE+"'"; // la query à entrer pour accéder aux données de nos tables 
@@ -207,7 +255,14 @@ public class PH extends PersonnelMedical {
     }
 
     //affichage de la liste des Radiologues
+
+    /**
+     *
+     * @return
+     */
     public String[] afficherListePHRadio() {
+        /** Cette fonction va renvoyer dans un tableau de Strings la liste des docteurs radiologues.
+         Ce format est plus simple à exploiter pour l'ui */
         int compteur = nombrePHRadio();
 
         int i = 0;
@@ -232,7 +287,13 @@ public class PH extends PersonnelMedical {
         System.out.println();
         return listePH;
     }
-      public int nombrePHLabo() {
+
+    /**
+     *
+     * @return
+     */
+    public int nombrePHLabo() {
+          /** Cette fonction va renvoyer le nombre de docteurs en laboratoire d'analyse */
         int compteur = 0;
         try {
             String query = "select * from personnel_medical where TYPE_P ='DOCTEUR' and SPE ='"+ Specialite.LABORATOIRE_ANALYSE+"'"; // la query à entrer pour accéder aux données de nos tables 
@@ -249,7 +310,14 @@ public class PH extends PersonnelMedical {
     }
     
      //affichage de la liste des Radiologues
+
+    /**
+     *
+     * @return
+     */
     public String[] afficherListePHLabo() {
+        /** Cette fonction va renvoyer dans un tableau de Strings la liste des docteurs en laboratoire d'analyse.
+         Ce format est plus simple à exploiter pour l'ui */
         int compteur = nombrePHRadio();
        
         int i=0;
@@ -275,7 +343,15 @@ public class PH extends PersonnelMedical {
         return listePH;
     }
    //Fonction qui retourne l'idMed du medecin lu dans la liste
+
+    /**
+     *
+     * @param lecture
+     * @return
+     */
     public String iPPMedecinListe(String lecture){
+        /** On prend en entrée le nom et le prénom concaténé dans un String, séparés par un espace et on
+         renvoie l'id du médecin associé*/
         String ipp="";
          try {
              String nomLu ="";
@@ -302,7 +378,14 @@ public class PH extends PersonnelMedical {
         return ipp;
     }
 //Fonction qui retourne l'idMed du medecin lu dans la liste
+
+    /**
+     *
+     * @param idmed
+     * @return
+     */
     public Specialite speIDPH(String idmed){
+        /** On prend en entrée l'id d'un médecin et on renvoie la spécialité du médecin associée */
         String spe="";
        try{
        String query = "select * from personnel_medical where ID_P='"+idmed+"'"; // la query à entrer pour accéder aux données de nos tables 
@@ -322,28 +405,15 @@ public class PH extends PersonnelMedical {
        Specialite speS = Specialite.valueOf(spe);
         return speS ;
     }
-    
-    //Fonction qui retourne l'idMed du medecin lu dans la liste
-    public String iDPH(String idmed){
-        String idph="";
-       try{
-       String query = "select * from ph where ID_PH='"+idmed+"'"; // la query à entrer pour accéder aux données de nos tables 
-             System.out.println(query);
-            rs = st.executeQuery(query);
-            while (rs.next()) {
-                idph = rs.getString("ID_PH");
-                System.out.println(idph);
-
-            }
-        } catch (Exception ex) {
-            System.out.println(ex);
-
-        }
-        return idph;
-    }
 
     //compter le nombre de HEMATOLOGUE
+
+    /**
+     *
+     * @return
+     */
     public int nombrePHHemato() {
+        /** Cete fonction va renvoyer le nombre de docteurs hématologues */
         int compteur = 0;
         try {
             String query = "select * from personnel_medical where TYPE_P ='DOCTEUR' and SPE ='"+ Specialite.HEMATOLOGIE+"'"; // la query à entrer pour accéder aux données de nos tables 
@@ -360,7 +430,14 @@ public class PH extends PersonnelMedical {
     }
 
     //affichage de la liste des Hematologues
+
+    /**
+     *
+     * @return
+     */
     public String[] afficherListePHHemato() {
+        /** Cette fonction va renvoyer dans un tableau de Strings le nom et le prénom des docteurs hématologues
+         sous la forme "nom prénom". Ce format de tableau est plus simple à exploiter pour l'ui */
         int compteur = nombrePHHemato();
 
         int i = 0;
@@ -387,7 +464,13 @@ public class PH extends PersonnelMedical {
     }
 
     //compter le nombre de Anapathologues
+
+    /**
+     *
+     * @return
+     */
     public int nombrePHAnapatho() {
+        /** Cette fonction va renvoyer le nombre de docteurs anapathologues*/
         int compteur = 0;
         try {
             String query = "select * from personnel_medical where TYPE_P ='DOCTEUR' and SPE ='"+ Specialite.ANAPATHOLOGIE+"'"; // la query à entrer pour accéder aux données de nos tables 
@@ -404,7 +487,14 @@ public class PH extends PersonnelMedical {
     }
 
     //affichage de la liste des anapathologues
+
+    /**
+     *
+     * @return
+     */
     public String[] afficherListePHAnapatho() {
+        /** Cette fonction va renvoyer un tableau de Strings des docteurs anapathologues sous la forme
+         "nom prénom". Ce format de tableau est plus simple à exploiter pour l'ui */
         int compteur = nombrePHRadio();
 
         int i = 0;
@@ -431,7 +521,15 @@ public class PH extends PersonnelMedical {
     }
 
     //affichage du PH referent du patient dans le DMA
+
+    /**
+     *
+     * @param IPP
+     * @return
+     */
     public String afficherPHR(String IPP) {
+        /** Cette fonction prend en entrée l'IPP d'un patient, et renvoie sous la forme d'un String le nom 
+         et le prénom du ph référent, concaténés et séparés par un espace */
         String PHref = " ";
         try {
             String query = "select * from personnel_medical join ph_referent on (personnel_medical.ID_P=ph_referent.ID_PHR) where IPP='" + IPP + "'"; // la query à entrer pour accéder aux données de nos tables 

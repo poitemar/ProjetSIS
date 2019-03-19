@@ -23,6 +23,16 @@ public class SecretaireAdministrative extends PersonnelMedical{
       private Specialite specialite;
       private ResultSet rs;
      
+    /**
+     *
+     * @param idMed
+     * @param nom
+     * @param prenom
+     * @param login
+     * @param password
+     * @param spe
+     * @param service
+     */
     public SecretaireAdministrative(String idMed,String nom, String prenom, String login, String password, Specialite spe,Service service) {
         super(idMed,nom, prenom,login,password,spe,service);
         this.specialite = Specialite.ACCUEIL;
@@ -38,7 +48,20 @@ public class SecretaireAdministrative extends PersonnelMedical{
         }
     }
     
-
+    /**
+     *
+     * @param ipp
+     * @param nom
+     * @param prenom
+     * @param sexe
+     * @param dateDeNaissance
+     * @param adresse
+     * @param telephone
+     * @param nomCONF
+     * @param prenomCONF
+     * @param adresseCONF
+     * @param telCONF
+     */
     public void ajouterNouveauPatient(String ipp, String nom, String prenom, Sexe sexe, String dateDeNaissance, String adresse, String telephone,String nomCONF,String prenomCONF, String adresseCONF,String telCONF){
         
         Patient p = new Patient(ipp,nom,prenom,sexe,dateDeNaissance,adresse,telephone,nomCONF,prenomCONF,adresseCONF,telCONF);
@@ -69,7 +92,12 @@ public class SecretaireAdministrative extends PersonnelMedical{
             System.out.println(ex);
         }
     } 
-public int nombrePatients() {
+
+    /**
+     *
+     * @return
+     */
+    public int nombrePatients() {
         int compteur = 0;
         try {
             String query = "select * from patients"; // la query à entrer pour accéder aux données de nos tables 
@@ -85,6 +113,10 @@ public int nombrePatients() {
         return compteur;
     }
 
+    /**
+     *
+     * @return
+     */
     public String[] afficherListePatients() {
         int compteur = nombrePatients();
         int i=0;
@@ -110,6 +142,20 @@ public int nombrePatients() {
         return listePatients;
     }
     
+    /**
+     *
+     * @param ipp
+     * @param nom
+     * @param prenom
+     * @param sexe
+     * @param dateNaissance
+     * @param adresse
+     * @param telephone
+     * @param nomCONF
+     * @param prenomCONF
+     * @param adresseCONF
+     * @param telCONF
+     */
     public void modifierPatient(String ipp, String nom, String prenom, Sexe sexe, String dateNaissance, String adresse, String telephone,String nomCONF,String prenomCONF, String adresseCONF,String telCONF){
         Patient patient = new Patient(ipp, nom, prenom, sexe, dateNaissance, adresse, telephone,nomCONF,prenomCONF,adresseCONF,telCONF);
         String sql = "update patient set NOM='"+patient.getNom()

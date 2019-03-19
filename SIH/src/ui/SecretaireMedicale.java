@@ -36,6 +36,10 @@ public class SecretaireMedicale extends javax.swing.JFrame {
     DefaultListModel DLM = new DefaultListModel();
     private DefaultTreeCellRenderer tCellRenderer = new DefaultTreeCellRenderer();
 
+    /**
+     *
+     * @param p
+     */
     public SecretaireMedicale(nf.PersonnelMedical p) {
 
         initComponents();
@@ -79,7 +83,10 @@ public class SecretaireMedicale extends javax.swing.JFrame {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-   public void buildTree1() {
+    /**
+     *
+     */
+    public void buildTree1() {
         this.tCellRenderer.setClosedIcon(null);
         this.tCellRenderer.setOpenIcon(null);
         this.tCellRenderer.setLeafIcon(null);

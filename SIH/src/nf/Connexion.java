@@ -24,6 +24,9 @@ public class Connexion {
     private Statement st;
     private ResultSet rs;
 
+    /**
+     *
+     */
     public Connexion() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -37,7 +40,16 @@ public class Connexion {
         }
     }
 
+    /**
+     *
+     * @param idLogin
+     * @param passwordLogin
+     * @return
+     */
     public String seConnecter(String idLogin, String passwordLogin) {
+        /** on prend en entrée le login et le mot de passe de l'utilisateur qui se connecte,
+         on compare les valeurs d'entrées avec celles de la base de données, et si elles concordent,
+         le type de personnel médical (docteur, secrétaire médicale ...) est renvoyé*/
         List<String> listLogin = new ArrayList<String>();
         List<String> listPassword = new ArrayList<String>();
         List<String> listTypeMed = new ArrayList<String>();
@@ -59,10 +71,11 @@ public class Connexion {
             for (int i = 0; i < listLogin.size(); i++) {
                
                 if (idLogin.equals(listLogin.get(i))) {
-                    System.out.println("login bon");
+                    System.out.println("login bon"); // si le login correspond ...
                     if (passwordLogin.equals(listPassword.get(i))) {
-                        System.out.println("password bon");
-                        System.out.println("c'est un(e)" + listTypeMed.get(i));
+                        System.out.println("password bon"); // ... et le mot de passe aussi ...
+                        System.out.println("c'est un(e)" + listTypeMed.get(i)); // ... c'est bon, et on
+                        //renvoie le type du personnel médical aussi
                         return listTypeMed.get(i);
                     }
                 } 
@@ -80,7 +93,15 @@ public class Connexion {
         return "";
         
     }
-     public String nomPersonnel(String id) {
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public String nomPersonnel(String id) {
+         /** on prend en entrée l'id du personnel pour le comparer à ceux dans la table "personnel_medical"
+           dans la base de données, et on renvoie le nom associé à l'id */
         try {
             String nomQuery = "select * from personnel_medical where ID_P='" + id + "'"; // la query à entrer pour accéder aux données de nos tables 
             st = con.createStatement();
@@ -100,7 +121,14 @@ public class Connexion {
         return "";
     }
      
-     public String prenomPersonnel(String id) {
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public String prenomPersonnel(String id) {
+         /** on prend en entrée l'id du personnel pour le comparer à ceux dans la table "personnel_medical"
+           dans la base de données, et on renvoie le prénom associé à l'id */
         try {
             String nomQuery = "select * from personnel_medical where ID_P='" + id + "'"; // la query à entrer pour accéder aux données de nos tables 
             st = con.createStatement();
@@ -120,7 +148,15 @@ public class Connexion {
         return "";
     }
  
-public Service ServicePersonnel(String id) {try {
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public Service ServicePersonnel(String id) {
+    /** on prend en entrée l'id du personnel pour le comparer à ceux dans la table "personnel_medical"
+           dans la base de données, et on renvoie le service associé à l'id */
+    try {
             String nomQuery = "select * from personnel_medical where ID_P='" + id + "'"; // la query à entrer pour accéder aux données de nos tables 
             st = con.createStatement();
             rs = st.executeQuery(nomQuery);
@@ -142,7 +178,16 @@ public Service ServicePersonnel(String id) {try {
      
        //Retourne l'id personnel medical associe à l'id et au mdp dans la base de donnees
 
+    /**
+     *
+     * @param login
+     * @param mdp
+     * @return
+     */
+
     public String choixPersonnel(String login, String mdp) {
+        /** on prend en entrée le login et le mdp du personnel pour le comparer à ceux dans la table "personnel_medical"
+           dans la base de données, et on renvoie l'id associé au login et au mdp */
         List<String> listLogin = new ArrayList<String>();
         List<String> listPassword = new ArrayList<String>();
         List<String> listId = new ArrayList<String>();
@@ -184,7 +229,14 @@ public Service ServicePersonnel(String id) {try {
 
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public Specialite spePersonnel(String id) {
+        /** on prend en entrée l'id du personnel pour le comparer à ceux dans la table "personnel_medical"
+           dans la base de données, et on renvoie la spécialité associé à l'id */
         try {
             String nomQuery = "select * from personnel_medical where ID_P='" + id + "'"; // la query à entrer pour accéder aux données de nos tables 
             st = con.createStatement();

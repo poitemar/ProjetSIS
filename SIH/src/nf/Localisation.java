@@ -27,6 +27,9 @@ public class Localisation {
     private Statement st;
     private ResultSet rs;
     
+    /**
+     *
+     */
     public Localisation(){
       try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -43,6 +46,15 @@ public class Localisation {
     }
     
     //Constructeur de localisation
+
+    /**
+     *
+     * @param service
+     * @param orientation
+     * @param etage
+     * @param chambre
+     * @param lit
+     */
     
     public Localisation(Specialite service, Orientation orientation,int etage, int chambre, Lit lit){
         this.specialite = service;
@@ -52,6 +64,13 @@ public class Localisation {
         this.lit =lit;
     }
     
+    /**
+     *
+     * @param patient
+     * @param date
+     * @param service
+     * @param codeLocalisation
+     */
     public Localisation(Patient patient, java.util.Date date, Specialite service, String codeLocalisation){
         patient = new Patient(patient.getIpp(),patient.getNom(), patient.getPrenom(), this);
         java.util.Date maDate = new java.util.Date();
@@ -61,8 +80,12 @@ public class Localisation {
         codeLocalisation = this.codeLocalisation();
     }
 
+    /**
+     *
+     * @return
+     */
     public String codeLocalisation(){
-        /*on utilise un code de localisation qui regroupe toutes les informations de localisation sous le format :
+        /**on utilise un code de localisation qui regroupe toutes les informations de localisation sous le format :
         X-X-XXX-X = ORIENTATION-ETAGE-CHAMBRE-LIT
         exemple : N-2-220-F */
         String Code_Localisation = " " + this.orientation.toString().substring(0,1) +"-"+this.etage+"-"+this.chambre+"-"+this.lit.toString().substring(0,1);
@@ -79,6 +102,7 @@ public class Localisation {
     }
 
     /**
+     * @param spe
      * @param service the service to set
      */
     public void setSpecialite(Specialite spe) {

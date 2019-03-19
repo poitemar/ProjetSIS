@@ -11,9 +11,25 @@ package nf;
  * @author poite
  */
 public enum Service {
+
+    /**
+     *
+     */
     CLINIQUE,
+
+    /**
+     *
+     */
     ACCUEIL,
+
+    /**
+     *
+     */
     URGENCE,
+
+    /**
+     *
+     */
     MEDICO_TECHNIQUE;
   
 }

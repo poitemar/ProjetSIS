@@ -36,6 +36,7 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
 
     /**
      * Creates new form SecretaireAdministrative
+     * @param p
      */
     public SecretaireAdministrative(nf.PersonnelMedical p) {
         liste = secrAdm.afficherListePatients();
@@ -48,7 +49,10 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
 
     }
 
-     public void buildTree1() {
+    /**
+     *
+     */
+    public void buildTree1() {
         this.tCellRenderer.setClosedIcon(null);
         this.tCellRenderer.setOpenIcon(null);
         this.tCellRenderer.setLeafIcon(null);

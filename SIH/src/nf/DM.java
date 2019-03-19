@@ -20,6 +20,11 @@ public class DM {
     
     // Constructeur DM
     //Creation d'un DM implique un patient en parametre
+
+    /**
+     *
+     * @param patient
+     */
     public DM(Patient patient){
         this.patient = patient;
         this.listeDeSejour = new ArrayList<Sejour>();

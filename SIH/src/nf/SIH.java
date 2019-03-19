@@ -30,8 +30,8 @@ public class SIH {
         Sejour sejourbluff = new Sejour("idSejour", "idPatient", "idPhReferent", localisationbluff);
         int a =  Integer.parseInt("753963712");
         System.out.println(a);
-        HL7 hl7 = new HL7();
-         hl7.sendMessage(p,2);
+
+         
        
        // System.out.println(sejourbluff.listeLocalisation("190339786"));
 //pour la BD 

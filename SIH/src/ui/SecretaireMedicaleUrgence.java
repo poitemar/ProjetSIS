@@ -22,11 +22,20 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
      * Creates new form Urgence
      */
         nf.PersonnelMedical p;
-        public static String selection="";
+
+    /**
+     *
+     */
+    public static String selection="";
         nf.SecretaireMedicaleUrgence secrMedUrg = new nf.SecretaireMedicaleUrgence("null","null", "null", "null", "null",Specialite.ONCOLOGIE,Service.MEDICO_TECHNIQUE);
         String[] listePatientsActuels = new String[secrMedUrg.nombrePatientsActuels()];
         String[] listePatients = new String[secrMedUrg.nombrePatients()];
         int compteur = 0;
+
+    /**
+     *
+     * @param p
+     */
     public SecretaireMedicaleUrgence(nf.PersonnelMedical p) {
         listePatientsActuels = secrMedUrg.afficherListePatientsActuels();
         listePatients = secrMedUrg.afficherListePatients();
@@ -38,10 +47,17 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
         this.setSize(700,600);
     }
 
+    /**
+     *
+     */
     public SecretaireMedicaleUrgence() {
          //To change body of generated methods, choose Tools | Templates.
     }
     
+    /**
+     *
+     * @return
+     */
     public String getPrenom() {
         String prenom="";
         int compteur=0;
@@ -56,6 +72,10 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
         return prenom;
     }
     
+    /**
+     *
+     * @return
+     */
     public String getNom() {
         String nom="";
         System.out.println("ceci est la séléction : "+selection);

@@ -27,8 +27,22 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
     private ResultSet rs;
     private ResultSet rs1;
     private ResultSet rs2;
+
+    /**
+     *
+     */
     public static ArrayList<String> listePatientsUrgence= new ArrayList<>();
 
+    /**
+     *
+     * @param idMed
+     * @param nom
+     * @param prenom
+     * @param login
+     * @param password
+     * @param spe
+     * @param service
+     */
     public SecretaireMedicaleUrgence(String idMed, String nom, String prenom, String login, String password, Specialite spe, Service service) {
         super(idMed, nom, prenom, login, password, spe, service);
         service = service.URGENCE;
@@ -46,6 +60,13 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
         }
     }
 
+    /**
+     *
+     * @param ipp
+     * @param nom
+     * @param prenom
+     * @param dateNaissance
+     */
     public void ajouterPatient(String ipp,String nom, String prenom, String dateNaissance) {
         String sql = "insert into patients_temp(IPP_TEMP,NOM,PRENOM,DATE_NAISSANCE,DATE_ENTREE) values (?,?,?,?,?)";
         java.util.Date maDate;
@@ -71,6 +92,10 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public int nombrePatientsActuels() {
         int compteur = 0;
         try {
@@ -87,6 +112,10 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
         return compteur;
     }
 
+    /**
+     *
+     * @return
+     */
     public String[] afficherListePatientsActuels() {
         int compteur = nombrePatientsActuels();
         int i = 0;
@@ -109,10 +138,18 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
         return listePatientsActuels;
     }
 
+    /**
+     *
+     * @return
+     */
     public int nombrePatients() {
         return listePatientsUrgence.size();
     }
     
+    /**
+     *
+     * @param nomEntier
+     */
     public void MajListe(String nomEntier){
         String[] liste = new String[listePatientsUrgence.size()];
         for (int i = 0; i < listePatientsUrgence.size(); i++) {
@@ -121,6 +158,10 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public String[] afficherListePatients() {
         System.out.println(listePatientsUrgence.size());
         String[] liste = new String[listePatientsUrgence.size()];
@@ -131,6 +172,17 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
         return liste;
     }
 
+    /**
+     *
+     * @param IPP_temp
+     * @param sexe
+     * @param adresse
+     * @param numTel
+     * @param nomC
+     * @param prenomC
+     * @param adresseC
+     * @param telC
+     */
     public void affecterPatient(String IPP_temp, Sexe sexe, String adresse, String numTel, String nomC,String prenomC,String adresseC,String telC) {
         String IPP;
         String NOM="";
@@ -194,6 +246,20 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
 
     }
     
+    /**
+     *
+     * @param ipp
+     * @param nom
+     * @param prenom
+     * @param sexe
+     * @param dateDeNaissance
+     * @param adresse
+     * @param telephone
+     * @param nomCONF
+     * @param prenomCONF
+     * @param adresseCONF
+     * @param telCONF
+     */
     public void ajouterNouveauPatient(String ipp, String nom, String prenom, Sexe sexe, String dateDeNaissance, String adresse, String telephone,String nomCONF,String prenomCONF, String adresseCONF,String telCONF){
         
         Patient p = new Patient(ipp,nom,prenom,sexe,dateDeNaissance,adresse,telephone,nomCONF,prenomCONF,adresseCONF,telCONF);
@@ -225,6 +291,13 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
         }
     }
     
+    /**
+     *
+     * @param nom
+     * @param prenom
+     * @param dateNaissance
+     * @return
+     */
     public String getIPP_temp(String nom,String prenom,String dateNaissance){
         String resultat="";
         String NOM="";
@@ -275,6 +348,12 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
         return resultat;
     }
     
+    /**
+     *
+     * @param nom
+     * @param prenom
+     * @return
+     */
     public String getDateNaissance(String nom, String prenom){
         String resultat="";
         try {

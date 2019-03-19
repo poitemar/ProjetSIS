@@ -48,6 +48,7 @@ public class PH_MT extends javax.swing.JFrame {
 
     /**
      * Creates new form PH_MT
+     * @param p
      */
     public PH_MT(nf.PersonnelMedical p) {
 
@@ -95,6 +96,9 @@ public class PH_MT extends javax.swing.JFrame {
         this.tCellRenderer.setLeafIcon(null);
     }
 
+    /**
+     *
+     */
     public void buildTree() {
         DM.setCellRenderer(this.tCellRenderer);
         if (!jList1.isSelectionEmpty()) {
@@ -206,7 +210,11 @@ public class PH_MT extends javax.swing.JFrame {
         DM.setModel(arbre);
 
     }
-public void buildTree1() {
+
+    /**
+     *
+     */
+    public void buildTree1() {
         this.tCellRenderer.setClosedIcon(null);
         this.tCellRenderer.setOpenIcon(null);
         this.tCellRenderer.setLeafIcon(null);

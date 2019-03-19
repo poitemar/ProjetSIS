@@ -59,6 +59,10 @@ public class PH extends JFrame implements ActionListener {
     ArrayList<Patient> listePatient;
     nf.PersonnelMedical perso;
     String PatientSelection = "";
+
+    /**
+     *
+     */
     public static String selection = "";
     DefaultListModel DLM = new DefaultListModel();
     DefaultListModel DLM_recherche;
@@ -76,6 +80,7 @@ public class PH extends JFrame implements ActionListener {
 
     /**
      * Creates new form PH
+     * @param p
      */
     public PH(nf.PersonnelMedical p) {
 
@@ -125,10 +130,17 @@ public class PH extends JFrame implements ActionListener {
 
     }
 
+    /**
+     *
+     */
     public PH() {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public String getPrenom() {
         compteur = getNom().length() + 9;
         System.out.println("le compteur est de : " + compteur);
@@ -144,6 +156,10 @@ public class PH extends JFrame implements ActionListener {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public String getNom() {
         String nom = "";
         System.out.println("ceci est la séléction : " + selection);
@@ -159,6 +175,12 @@ public class PH extends JFrame implements ActionListener {
         return nom;
     }
 
+    /**
+     *
+     * @param nom
+     * @param prenom
+     * @return
+     */
     public String getDateNaissance(String nom, String prenom) {
         compteur = getNom().length() + getPrenom().length() + 19;
         System.out.println("le compteur est : " + compteur);
@@ -186,6 +208,9 @@ public class PH extends JFrame implements ActionListener {
         this.tCellRenderer.setLeafIcon(null);
     }
 
+    /**
+     *
+     */
     public void buildTree() {
         DM.setCellRenderer(this.tCellRenderer);
         if (!jList1.isSelectionEmpty()) {
@@ -298,7 +323,10 @@ public class PH extends JFrame implements ActionListener {
 
     }
 
-   public void buildTree1() {
+    /**
+     *
+     */
+    public void buildTree1() {
         this.tCellRenderer.setClosedIcon(null);
         this.tCellRenderer.setOpenIcon(null);
         this.tCellRenderer.setLeafIcon(null);
@@ -439,6 +467,9 @@ public class PH extends JFrame implements ActionListener {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     */
     public class bouton {
 
         Connection con = null;
@@ -1138,7 +1169,7 @@ public class PH extends JFrame implements ActionListener {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(interfacePH, javax.swing.GroupLayout.PREFERRED_SIZE, 601, Short.MAX_VALUE)
+            .addComponent(interfacePH, javax.swing.GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE)
         );
 
         pack();

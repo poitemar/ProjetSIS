@@ -55,6 +55,16 @@ public class PersonnelMedical {
     private Statement st;
     private ResultSet rs;
 
+    /**
+     *
+     * @param idMed
+     * @param nom
+     * @param prenom
+     * @param login
+     * @param password
+     * @param spe
+     * @param service
+     */
     public PersonnelMedical(String idMed, String nom, String prenom, String login, String password, Specialite spe, Service service) {
         this.idMed = idMed;
         this.nom = nom;
@@ -76,9 +86,15 @@ public class PersonnelMedical {
         }
     }
 
-    
-
+    /**
+     *
+     * @param loginTest
+     * @param mdpTest
+     * @param newmdp
+     */
     public void changerMotDePasse(String loginTest, String mdpTest,String newmdp) {
+        /** On prend en entrée le login actuel, le mot de passe actuel et le nouveau mot de passe
+         et on met à jour la base de données afin que le mot de passe soit modifié */
 //Exemple de modification de donnees dans la BD:
 //"update reservation set busname='"+jTextField10.getText()+"',busno='"+jTextField9.getText()+"',cusname='"+jTextField8.getText()+"',noofpass='"+jTextField7.getText()+"',amount='"+jTextField6.getText()+"' where cusname='"+jTextField8.getText()+"' ")
            
@@ -99,7 +115,15 @@ public class PersonnelMedical {
     
     
    //Afficher la liste des patients pour lequel le ph a reçu une prestation 
+
+    /**
+     *
+     * @param idmed
+     * @return
+     */
     public ArrayList<Patient> afficherListePatientPrestation(String idmed){
+        /** On prend en entrée l'id d'un médecin et on renvoie une liste des patients dont le médecin
+         est réferent */
         ArrayList<Patient> listePatient = new ArrayList<Patient>();
         
          try {
@@ -149,7 +173,16 @@ public class PersonnelMedical {
         
     
      //Retourne la liste de prestation d'un medecin
+
+    /**
+     *
+     * @param idmed
+     * @param idSejour
+     * @return
+     */
     public ArrayList<String> afficherDatePrestation(String idmed,String idSejour){
+        /** On prend en entrée l'id d'un médecin et l'id d'un séjour et on renvoie les dates auxquelles
+         les prestations ont été réalisées*/
         ArrayList<String> listePrestations = new ArrayList<String>();
         
          try {
@@ -175,7 +208,14 @@ public class PersonnelMedical {
          return listePrestations;
     } 
     
-     public String afficherPrestation(String date, String idSejour){
+    /**
+     *
+     * @param date
+     * @param idSejour
+     * @return
+     */
+    public String afficherPrestation(String date, String idSejour){
+         /** On prend en entrée une date et un id séjour et on renvoie la prestation associée dans un String */
       String prest ="";
         
          try {
@@ -201,7 +241,15 @@ public class PersonnelMedical {
     } 
     
        //Fonction qui retourne la prestation associée à la selection dans une liste
+
+    /**
+     *
+     * @param lecture
+     * @return
+     */
     public String prestationPatientListe(String lecture){
+        /** On prend en entrée une sélection dans une liste et on renvoie
+         le nom, le prénom, la date de prestation et la prestation associés à la sélection */
        
        
              String nomLu ="";
@@ -225,32 +273,62 @@ public class PersonnelMedical {
     }
     
         //to set the last name of the medical staff
+
+    /**
+     *
+     * @param nom
+     */
     public void setNom(String nom) {
         this.nom = nom;
 
     }
 
     //to set the first name of the medical staff
+
+    /**
+     *
+     * @param prenom
+     */
     public void setPrenom(String prenom) {
         this.prenom = prenom;
     }
 
     //to set the Id of  the medical staff
+
+    /**
+     *
+     * @param idMed
+     */
     public void setIdMed(String idMed) {
         this.idMed = idMed;
     }
 
     //to get the last name of the medical staff
+
+    /**
+     *
+     * @return
+     */
     public String getNom() {
         return nom;
     }
 
     //to get the first name of the medical staff
+
+    /**
+     *
+     * @return
+     */
     public String getPrenom() {
         return prenom;
     }
 
     //to get the ID of the medical staff
+
+    /**
+     *
+     * @return
+     */
     public String getIdMed() {
         return idMed;
     }
@@ -271,7 +349,16 @@ public class PersonnelMedical {
     
     
     //retourne true si le medecin est le ph référent du séjour
+
+    /**
+     *
+     * @param idMed
+     * @param idSejour
+     * @return
+     */
     public boolean estReferent(String idMed,String idSejour){
+        /** On prend en entrée l'id médecin et l'id d'un séjour et on renvoie true ou false selon
+         si le médecin était référent ou non pour ce séjour */
         try {
             String query = "select ID_PHR from ph_referent where ID_SEJOUR ='"+idSejour+"'"; // la query à entrer pour accéder aux données de nos tables 
              System.out.println(query);

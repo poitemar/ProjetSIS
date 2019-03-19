@@ -36,11 +36,21 @@ public class Patient {
     private String prenomC;
      private String adresseC;
     private String telC;
+
+    /**
+     *
+     */
     public Patient() {
 
     }
    
     //Constructeur nom prenom pour rechercher le patient par nom et prenom 
+
+    /**
+     *
+     * @param nom
+     * @param prenom
+     */
     public Patient(String nom, String prenom) {
         this.nom = nom;
         this.prenom = prenom;
@@ -62,6 +72,13 @@ public class Patient {
         
         
     //Constructeur utilisé pour rechercher les patients par nom, prenom et date --> pour bien gérer les doublons
+
+    /**
+     *
+     * @param nom
+     * @param prenom
+     * @param date
+     */
      public Patient(String nom, String prenom, String date) {
         this.nom = nom;
         this.prenom = prenom;
@@ -84,7 +101,15 @@ public class Patient {
         
         
      //Fonction qui retourne l'id du patient lu dans une liste
+
+    /**
+     *
+     * @param lecture
+     * @return
+     */
     public String ippPatientListe(String lecture){
+        /** on prend en entrée le nom et le prénom d'un patient, séparés par un espace et concaténés 
+         dans un String et on renvoie son IPP associé*/
         String p ="";
          try {
              String nomLu ="";
@@ -118,7 +143,13 @@ public class Patient {
         return p;
     }
 
-      public Patient getPatient(String ipp){
+    /**
+     *
+     * @param ipp
+     * @return
+     */
+    public Patient getPatient(String ipp){
+          /** on prend en entrée l'ipp d'un patient, et on renvoie un patient en sortie */
         String nomp,prenomp,datep,ippp ="";
         Patient p = new Patient("","","");
          try {
@@ -145,7 +176,16 @@ public class Patient {
     
     
         //Fonction qui retourne le nom et le prenom du patient lu dans une liste
+
+    /**
+     *
+     * @param lecture
+     * @return
+     */
     public String patientListe(String lecture){
+        /** On prend en entrée le nom et le prénom d'un patient séparés par un espace et
+         concaténés dans un String et on renvoie le nom et le prénom de ce patient séparés par un espace
+         et concaténés dans un String */
         String p ="";
          
              String nomLu ="";
@@ -167,7 +207,15 @@ public class Patient {
     }
     return p;}
     
-        public Patient(String ipp, String nom, String prenom,String date, Sexe sexe){
+    /**
+     *
+     * @param ipp
+     * @param nom
+     * @param prenom
+     * @param date
+     * @param sexe
+     */
+    public Patient(String ipp, String nom, String prenom,String date, Sexe sexe){
         this.nom = nom;
         this.ipp = ipp;
         this.prenom = prenom;
@@ -176,6 +224,21 @@ public class Patient {
         }
         
     // Constructeur de Patient
+
+    /**
+     *
+     * @param ipp
+     * @param nom
+     * @param prenom
+     * @param sexe
+     * @param dateDeNaissance
+     * @param adresse
+     * @param telephone
+     * @param nomCONF
+     * @param prenomCONF
+     * @param adresseCONF
+     * @param telCONF
+     */
     public Patient(String ipp, String nom, String prenom, Sexe sexe, String dateDeNaissance, String adresse, String telephone,String nomCONF,String prenomCONF,String adresseCONF,String telCONF){
         this.nom = nom;
         this.ipp = ipp;
@@ -207,6 +270,13 @@ public class Patient {
         }
     }
     
+    /**
+     *
+     * @param ipp
+     * @param nom
+     * @param prenom
+     * @param localisation
+     */
     public Patient(String ipp, String nom, String prenom, Localisation localisation){
         this.ipp = ipp;
         this.nom = nom;
@@ -229,6 +299,11 @@ public class Patient {
         }
     }
     //Cette methode genere un ipp pour l'ajout d'un nouveau patient
+
+    /**
+     *
+     * @return
+     */
     public String creationIPP_pour_ajout_patient (){
  
     Date maDate;
@@ -253,6 +328,11 @@ public class Patient {
         //System.out.println(IPP);
         return IPP;
     }
+
+    /**
+     *
+     * @return
+     */
     public String getipp() {
         return this.ipp;
     }
@@ -265,7 +345,7 @@ public class Patient {
         try{
               String query = "select ipp from patients "; // la query à entrer pour accéder aux données de nos tables 
               rs= st.executeQuery(query);
-              System.out.println("contenue de la base de donnée"); 
+              System.out.println("contenu de la base de donnée"); 
               while (rs.next()){
               String ipp = rs.getString("IPP");
               }
@@ -275,7 +355,16 @@ public class Patient {
 
         return ipp;
     }
-     public String getLocalisation(String iPP,String idSejour) {
+    
+    /**
+     *
+     * @param iPP
+     * @param idSejour
+     * @return
+     */
+    public String getLocalisation(String iPP,String idSejour) {
+         /** on prend en entrée l'ipp et l'id séjour d'un patient et on renvoie dans un String le service
+          dans lequel il se trouve, son orientation, son étage, sa chambre et son lit*/
      String loc="";
         try{
               String query = "select * from localisation join ph_referent using(ID_SEJOUR) join patients where patients.IPP='"+iPP+"' and ID_SEJOUR='"+idSejour+"'"; // la query à entrer pour accéder aux données de nos tables 
@@ -402,6 +491,7 @@ public class Patient {
     }
 
     /**
+     * @param localisation
      * @param telephone the telephone to set
      */
     public void setLocalisation(Localisation localisation) {
@@ -409,6 +499,11 @@ public class Patient {
     }
 
     //Fonctions à coder en dessous
+
+    /**
+     *
+     * @return
+     */
     
     public String servicePatient(){
         String service="";
@@ -417,7 +512,14 @@ public class Patient {
         return service; 
     }
     
+    /**
+     *
+     * @param IPP
+     * @return
+     */
     public String afficherPersonneConfiance(String IPP){
+        /** on prend en entrée l'ipp d'un patient et on renvoie le nom, le prénom, l'adresse et le téléphone
+         de la personne de confiance associée dans un seul String*/
         String persConf = "";
         String adresse="";
         String tel="";

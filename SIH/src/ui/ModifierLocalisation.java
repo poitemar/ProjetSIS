@@ -28,6 +28,7 @@ public class ModifierLocalisation extends javax.swing.JFrame {
     
     /**
      * Creates new form ModifierLocalisation
+     * @param ipp
      */
     public ModifierLocalisation(String ipp) {
         initComponents();

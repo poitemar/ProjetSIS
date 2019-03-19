@@ -16,6 +16,7 @@ public class ChangerMDP extends javax.swing.JFrame {
 PersonnelMedical perso;
     /**
      * Creates new form ChangerMDP
+     * @param p
      */
     public ChangerMDP(PersonnelMedical p){
         this.perso =p;

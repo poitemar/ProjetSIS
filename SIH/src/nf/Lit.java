@@ -12,7 +12,18 @@ package nf;
  */
 public enum Lit {
     
+    /**
+     *
+     */
     FENETRE,
+
+    /**
+     *
+     */
     PORTE,
+
+    /**
+     *
+     */
     NULL;
 }

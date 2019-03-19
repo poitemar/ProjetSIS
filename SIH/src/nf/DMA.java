@@ -23,6 +23,11 @@ public class DMA {
     
     // Constructeur d'un DMA 
     // Creation d'un DMA implique d'avoir un patient en parametre
+
+    /**
+     *
+     * @param patient
+     */
     public DMA(Patient patient){
         this.patient = patient;
         this.listeDeSejour = new ArrayList<Sejour>();

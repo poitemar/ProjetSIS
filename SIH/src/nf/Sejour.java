@@ -54,6 +54,13 @@ public class Sejour {
     String IPP;
     String phRef;
 
+    /**
+     *
+     * @param idSejour
+     * @param idPatient
+     * @param idphReferant
+     * @param localisation
+     */
     public Sejour(String idSejour, String idPatient, String idphReferant, Localisation localisation) {
         this.idSejour = idSejour;
         this.idPatient = idPatient;
@@ -82,6 +89,12 @@ public class Sejour {
     }
 
     // Ici on implémente la fonction qui retourne la liste des Id_Sejours d'un patient
+
+    /**
+     *
+     * @param iPP
+     * @return
+     */
     public List<String> listeSejour(String iPP) {
         List<String> liste = new ArrayList<String>();
         List<String> listeDate = new ArrayList<String>();
@@ -151,6 +164,12 @@ public class Sejour {
     }
 
     //Méthode qui formate l'affichage des séjours dans le jTree
+
+    /**
+     *
+     * @param idSejour
+     * @return
+     */
     public String listeSejourtoString(String idSejour) {
         String format = "";
         Boolean rep = sejourEnCours(idSejour);
@@ -192,6 +211,12 @@ public class Sejour {
     }
 
     // Ici on implémente la fonction qui retourne la liste des localisations dans un séjour
+
+    /**
+     *
+     * @param idSejour
+     * @return
+     */
     public List<String> listeLoc(String idSejour) {
         List<String> liste = new ArrayList<String>();
         List<String> listeDate = new ArrayList<String>();
@@ -263,6 +288,12 @@ public class Sejour {
     }
 
     // Ici on implémente la fonction qui retourne la liste des saisies dans un séjour
+
+    /**
+     *
+     * @param idSejour
+     * @return
+     */
     public List<String> listeSaisie(String idSejour) {
         List<String> liste = new ArrayList<String>();
         List<String> listeDate = new ArrayList<String>();
@@ -341,6 +372,13 @@ public class Sejour {
     }
 
 //Méthode qui formate l'affichage des saisies dans le séjour dans le jtree
+
+    /**
+     *
+     * @param dateSaisie
+     * @param idSejour
+     * @return
+     */
     public String listeSaisietoString(String dateSaisie, String idSejour) {
         String format = "";
         Boolean rep = sejourEnCours(idSejour);
@@ -409,6 +447,13 @@ public class Sejour {
     }
 
     //Méthode qui formate l'affichage des saisies dans le séjour dans le jtree
+
+    /**
+     *
+     * @param dateSaisie
+     * @param idSejour
+     * @return
+     */
     public String listeLoctoString(String dateSaisie, String idSejour) {
         String format = "";
         Boolean rep = false;
@@ -476,6 +521,13 @@ public class Sejour {
     }
 
     // Ici on implémente la fonction qui retourne la liste des informations par saisie
+
+    /**
+     *
+     * @param dateSaisie
+     * @param idSejour
+     * @return
+     */
     public TreeMap<String, String> listeInfos(String dateSaisie, String idSejour) {
 
         TreeMap<String, String> liste = new TreeMap<String, String>(new Comparator<String>() {
@@ -532,6 +584,13 @@ public class Sejour {
     }
 
     // Ici on implémente la fonction qui retourne la liste des informations par saisie pour un Médico-technique
+
+    /**
+     *
+     * @param dateSaisie
+     * @param idSejour
+     * @return
+     */
     public TreeMap<String, String> listeInfosPHMT(String dateSaisie, String idSejour) {
 
         TreeMap<String, String> liste = new TreeMap<String, String>(new Comparator<String>() {
@@ -568,6 +627,13 @@ public class Sejour {
     }
 
     // Ici on implémente la fonction qui retourne la liste des informations par saisie pour un Médico-technique
+
+    /**
+     *
+     * @param dateSaisie
+     * @param idSejour
+     * @return
+     */
     public TreeMap<String, String> listeInfosRadio(String dateSaisie, String idSejour) {
 
         TreeMap<String, String> liste = new TreeMap<String, String>(new Comparator<String>() {
@@ -608,6 +674,12 @@ public class Sejour {
     }
     // Ici on implémente la fonction qui retourne la liste des informations par saisie pour un Médico-technique
 
+    /**
+     *
+     * @param dateSaisie
+     * @param idSejour
+     * @return
+     */
     public TreeMap<String, String> listeInfosAnesth(String dateSaisie, String idSejour) {
 
         TreeMap<String, String> liste = new TreeMap<String, String>(new Comparator<String>() {
@@ -648,6 +720,19 @@ public class Sejour {
     }
 
     //Completer la base de données avec les informations, cette fonction est pour un PH clinique
+
+    /**
+     *
+     * @param idSejour
+     * @param idMed
+     * @param Ipp
+     * @param observations
+     * @param titreOperations
+     * @param detailsOperations
+     * @param resultats
+     * @param prescriptions
+     * @return
+     */
     public String completerSejour(String idSejour, String idMed, String Ipp, String observations, String titreOperations, String detailsOperations, String resultats, String prescriptions) {
         if (sejourEnCours(idSejour)) {
             String sql = "insert into ph (ID_PH,IPP_PATIENT,ID_SEJOUR,DATE_SAISIE,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,TITRE_OPERATION,OPERATION,COMPTE_RENDU) values (?,?,?,?,?,?,?,?,?,?,?)";
@@ -830,6 +915,14 @@ public class Sejour {
     }
 
     // Fonctions a coder en dessous
+
+    /**
+     *
+     * @param idSejour
+     * @param idMedD
+     * @param idMedR
+     * @param prestation
+     */
     public void ajouterPrestation(String idSejour, String idMedD, String idMedR, String prestation) {
         this.listePrestations.add(prestation);
         {
@@ -864,6 +957,14 @@ public class Sejour {
         }
     }
 
+    /**
+     *
+     * @param idSejour
+     * @param idMed
+     * @param Ipp
+     * @param prescription
+     * @return
+     */
     public String ajouterPrescription(String idSejour, String idMed, String Ipp, String prescription) {
         this.listePrescriptions.add(prescription);
         {
@@ -907,6 +1008,14 @@ public class Sejour {
         return "";
     }
 
+    /**
+     *
+     * @param idSejour
+     * @param idMed
+     * @param Ipp
+     * @param observation
+     * @return
+     */
     public String ajouterObservation(String idSejour, String idMed, String Ipp, String observation) {
         this.listeObservations.add(observation);
         {
@@ -952,6 +1061,14 @@ public class Sejour {
         return "";
     }
 
+    /**
+     *
+     * @param idSejour
+     * @param idMed
+     * @param Ipp
+     * @param prestation
+     * @param compterendu
+     */
     public void ajouterCompteRendu(String idSejour, String idMed, String Ipp, String prestation, String compterendu) {
         listeDeCompteRenduRadio.add(compterendu);
         {
@@ -995,6 +1112,14 @@ public class Sejour {
         }
     }
 
+    /**
+     *
+     * @param idSejour
+     * @param idMed
+     * @param Ipp
+     * @param resultat
+     * @return
+     */
     public String ajouterResultat(String idSejour, String idMed, String Ipp, String resultat) {
         this.listeDeResultats.add(resultat);
         {
@@ -1039,6 +1164,14 @@ public class Sejour {
         return "";
     }
 
+    /**
+     *
+     * @param idSejour
+     * @param idMed
+     * @param Ipp
+     * @param prestation
+     * @param resultat
+     */
     public void ajouterResultatPrestation(String idSejour, String idMed, String Ipp, String prestation, String resultat) {
         this.listeDeResultats.add(resultat);
         {
@@ -1086,6 +1219,14 @@ public class Sejour {
         }
     }
 
+    /**
+     *
+     * @param idSejour
+     * @param idMed
+     * @param Ipp
+     * @param lettre
+     * @return
+     */
     public String editerLettreDeSortie(String idSejour, String idMed, String Ipp, String lettre) {
         this.setLettreDeSortie(lettre);
         {
@@ -1128,6 +1269,15 @@ public class Sejour {
         return "";
     }
 
+    /**
+     *
+     * @param idSejour
+     * @param idMed
+     * @param Ipp
+     * @param titreOperation
+     * @param detailOperation
+     * @return
+     */
     public String ajouterOperations(String idSejour, String idMed, String Ipp, String titreOperation, String detailOperation) {
         this.listeTitreOperations.add(titreOperation);
         this.listeDetailsOperations.add(detailOperation);
@@ -1174,6 +1324,12 @@ public class Sejour {
     }
 
     // Retourne true si le sejour correspondant à l'id rentré est en cours = si il n'y a pas de lettre de sorties
+
+    /**
+     *
+     * @param idSejour
+     * @return
+     */
     public boolean sejourEnCours(String idSejour) {
         Boolean rep = true;
         try {
@@ -1202,6 +1358,12 @@ public class Sejour {
         return rep;
     }
 
+    /**
+     *
+     * @param dateSaisie
+     * @param idSejour
+     * @return
+     */
     public boolean prestationRealisee(String dateSaisie, String idSejour) {
         boolean rep = false;
 
@@ -1228,6 +1390,11 @@ public class Sejour {
         return rep;
     }
 
+    /**
+     *
+     * @param IPP
+     * @return
+     */
     public String AfficherIDSejour(String IPP) {
         String idsej = "";
         Boolean rep =false;
@@ -1259,6 +1426,11 @@ public class Sejour {
     }
     //afficher les infos administratives du patient
 
+    /**
+     *
+     * @param ipp
+     * @return
+     */
     public String AfficherPATIENT(String ipp) {
         String patient = "";
 
@@ -1287,6 +1459,11 @@ public class Sejour {
     }
     //afficher la localisation du patient en cours 
 
+    /**
+     *
+     * @param IDsej
+     * @return
+     */
     public String afficherLOCALISATION(String IDsej) {
         String local = "";
         try {
@@ -1315,6 +1492,12 @@ public class Sejour {
     }
 
     //recupere les infos Du DM qui doivent s'afficher dans un DMA (lettre de sortie et titre operation )
+
+    /**
+     *
+     * @param Idsej
+     * @return
+     */
     public String infoDMA(String Idsej) {
         String sej = "";
         try {
@@ -1340,6 +1523,11 @@ public class Sejour {
         return sej;
     }
 
+    /**
+     *
+     * @param ID_Sejour
+     * @return
+     */
     public ArrayList<String> affichePrestation(String ID_Sejour) {
         ArrayList<String> pres = new ArrayList<String>();
         try {
@@ -1364,6 +1552,11 @@ public class Sejour {
         return pres;
     }
 
+    /**
+     *
+     * @param IPP
+     * @return
+     */
     public ArrayList<String> afficherLettreSortie(String IPP) {
         ArrayList<String> lettreSortie = new ArrayList<String>();
         try {
@@ -1384,6 +1577,11 @@ public class Sejour {
         return lettreSortie;
     }
 
+    /**
+     *
+     * @param idsej
+     * @return
+     */
     public ArrayList afficherTousLoc(String idsej) {
         ArrayList<String> tousLoc = new ArrayList<String>();
         try {

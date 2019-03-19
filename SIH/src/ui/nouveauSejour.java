@@ -32,6 +32,7 @@ public class nouveauSejour extends javax.swing.JFrame {
     nf.PersonnelMedical pm;
     /**
      * Creates new form nouveauSejour
+     * @param perso
      */
     public nouveauSejour(nf.PersonnelMedical perso) {
         initComponents();
@@ -60,6 +61,11 @@ public class nouveauSejour extends javax.swing.JFrame {
         listePatient.repaint();
     }
 
+    /**
+     *
+     * @param specialite
+     * @param ipp
+     */
     public nouveauSejour(Specialite specialite, String ipp) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

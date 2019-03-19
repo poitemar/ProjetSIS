@@ -13,18 +13,70 @@ import java.util.logging.Logger;
  * @author poite
  */
 public enum Specialite {
+
+    /**
+     *
+     */
     Sélectionner,
+
+    /**
+     *
+     */
     ACCUEIL,
+
+    /**
+     *
+     */
     CARDIOLOGIE,
+
+    /**
+     *
+     */
     ANESTHESIE,
+
+    /**
+     *
+     */
     RADIOLOGIE,
+
+    /**
+     *
+     */
     GYNECOLOGIE,
+
+    /**
+     *
+     */
     PEDIATRIE,
+
+    /**
+     *
+     */
     PNEUMOLOGIE,
+
+    /**
+     *
+     */
     HEMATOLOGIE,
+
+    /**
+     *
+     */
     OPHTALMOLOGIE,
+
+    /**
+     *
+     */
     ANAPATHOLOGIE,
+
+    /**
+     *
+     */
     LABORATOIRE_ANALYSE,
+
+    /**
+     *
+     */
     ONCOLOGIE;
 
     private static Specialite[] value() {

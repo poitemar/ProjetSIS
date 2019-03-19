@@ -17,6 +17,12 @@ public class DPI {
     private DMA dma;
     private DM dm;
     
+    /**
+     *
+     * @param p
+     * @param dm
+     * @param dma
+     */
     public DPI(Patient p, DM dm, DMA dma){
         this.patient =patient;
         this.dma=dma;
