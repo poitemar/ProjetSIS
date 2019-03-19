@@ -47,7 +47,7 @@ public class nouveauPatientArchive extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 153, 153));
-        jLabel1.setText("Cause décès");
+        jLabel1.setText("Cause du décès");
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);

@@ -119,13 +119,12 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
 
         jLabel2.setBackground(new java.awt.Color(0, 153, 153));
         jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel2.setText("Mme Secrétaire MEDICALE");
         jLabel2.setOpaque(true);
 
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel1.setText("Rechercher par...");
 
-        jLabel3.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel3.setText("Nom");
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -134,10 +133,10 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel4.setText("Prénom");
 
-        jLabel5.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel5.setText("Date de naissance");
 
         jButton2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -165,6 +164,7 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
         });
 
         jList3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Liste de patients", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Arial", 1, 14), new java.awt.Color(0, 153, 153))); // NOI18N
+        jList3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jList3.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = listePatients;
             public int getSize() { return strings.length; }
@@ -178,6 +178,7 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jList3);
 
         jList1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Patients non assignés", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Arial", 1, 14), new java.awt.Color(0, 153, 153))); // NOI18N
+        jList1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = listePatientsActuels;
             public int getSize() { return strings.length; }
@@ -209,7 +210,6 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
 
         jLabel10.setBackground(new java.awt.Color(0, 153, 153));
         jLabel10.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jLabel10.setText("URGENCES");
         jLabel10.setOpaque(true);
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PPTHlogo.png"))); // NOI18N
@@ -253,7 +253,7 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
                                 .addComponent(jButton4)
                                 .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -308,7 +308,7 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton3)
                             .addComponent(jButton1))
-                        .addContainerGap(35, Short.MAX_VALUE))
+                        .addContainerGap(31, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel7))))

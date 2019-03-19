@@ -258,13 +258,12 @@ public class SecretaireMedicale extends javax.swing.JFrame {
 
         jLabel2.setBackground(new java.awt.Color(0, 153, 153));
         jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel2.setText("Mme Secrétaire MEDICALE");
         jLabel2.setOpaque(true);
 
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel1.setText("Rechercher par...");
 
-        jLabel3.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel3.setText("Nom");
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -273,7 +272,7 @@ public class SecretaireMedicale extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel4.setText("Prénom");
 
         jList1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Liste des patients du service", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Arial", 1, 14), new java.awt.Color(0, 153, 153))); // NOI18N
@@ -285,7 +284,7 @@ public class SecretaireMedicale extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jList1);
 
-        jLabel5.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel5.setText("Date de naissance");
 
         jButton1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -361,7 +360,6 @@ public class SecretaireMedicale extends javax.swing.JFrame {
 
         jLabel8.setBackground(new java.awt.Color(0, 153, 153));
         jLabel8.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jLabel8.setText("ONCOLOGIE");
         jLabel8.setOpaque(true);
 
         jButton5.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -492,7 +490,7 @@ public class SecretaireMedicale extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 707, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 707, Short.MAX_VALUE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
