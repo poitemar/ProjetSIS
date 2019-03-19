@@ -575,7 +575,7 @@ public class PH extends JFrame implements ActionListener {
         medPres = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox();
         jScrollPane9 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
+        jList2 = new javax.swing.JList<String>();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         panelSortie = new javax.swing.JPanel();
@@ -607,12 +607,10 @@ public class PH extends JFrame implements ActionListener {
 
         jLabel1.setBackground(new java.awt.Color(0, 153, 153));
         jLabel1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel1.setText("Dr DUPONT Laurent");
         jLabel1.setOpaque(true);
 
         jLabel2.setBackground(new java.awt.Color(0, 153, 153));
         jLabel2.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jLabel2.setText("ONCOLOGIE");
         jLabel2.setOpaque(true);
 
         jScrollPane1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -634,7 +632,7 @@ public class PH extends JFrame implements ActionListener {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel4.setText("Rechercher ...");
 
         jTextField1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -700,6 +698,7 @@ public class PH extends JFrame implements ActionListener {
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PPTHlogo.png"))); // NOI18N
 
+        jButton2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButton2.setText("Déplacer patient");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -883,7 +882,6 @@ public class PH extends JFrame implements ActionListener {
         jLabelOp.setText("Opérations :");
 
         jLabel10.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(0, 153, 153));
         jLabel10.setText("Titre :");
 
         textDetailsOperations.setColumns(20);
@@ -891,7 +889,6 @@ public class PH extends JFrame implements ActionListener {
         jScrollPane3.setViewportView(textDetailsOperations);
 
         jLabel11.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(0, 153, 153));
         jLabel11.setText("Détails :");
 
         jLabel12.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -1010,7 +1007,7 @@ public class PH extends JFrame implements ActionListener {
 
         panelDemandeDePrestation.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel20.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel20.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel20.setForeground(new java.awt.Color(0, 153, 153));
         jLabel20.setText("Demande de prestation");
 
@@ -1110,7 +1107,7 @@ public class PH extends JFrame implements ActionListener {
 
         panelSortie.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel17.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel17.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(0, 153, 153));
         jLabel17.setText("Lettre de sortie :");
 
