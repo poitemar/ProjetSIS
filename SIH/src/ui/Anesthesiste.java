@@ -343,7 +343,7 @@ public class Anesthesiste extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        jList1 = new javax.swing.JList<String>();
         jLabel2 = new javax.swing.JLabel();
         labelPrestation = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
@@ -360,9 +360,9 @@ public class Anesthesiste extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         textPrestation = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<String>();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
+        jList2 = new javax.swing.JList<String>();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -377,12 +377,16 @@ public class Anesthesiste extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        ANESTHESISTE.setBackground(new java.awt.Color(255, 255, 255));
+        ANESTHESISTE.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         ANESTHESISTE.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ANESTHESISTEMouseClicked(evt);
             }
         });
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setPreferredSize(new java.awt.Dimension(700, 600));
         jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPanel1MouseClicked(evt);
@@ -390,12 +394,13 @@ public class Anesthesiste extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 153, 153));
         jLabel1.setText("Liste des prestations :");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        jList1.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { " " };
             public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+            public Object getElementAt(int i) { return strings[i]; }
         });
         jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -404,11 +409,13 @@ public class Anesthesiste extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jList1);
 
-        jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 153, 153));
         jLabel2.setText("Prestation à effectuer :");
 
         labelPrestation.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
 
+        jButton1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jButton1.setText("Déconnexion");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -416,6 +423,7 @@ public class Anesthesiste extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jButton2.setText("Suivant");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -423,8 +431,11 @@ public class Anesthesiste extends javax.swing.JFrame {
             }
         });
 
+        nomMed.setBackground(new java.awt.Color(0, 153, 153));
         nomMed.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        nomMed.setOpaque(true);
 
+        jButton5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jButton5.setText("Changer Mot de passe");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -440,55 +451,63 @@ public class Anesthesiste extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addContainerGap())
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)
-                        .addGap(25, 25, 25))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(206, 206, 206)
                         .addComponent(labelPrestation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(24, 24, 24))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(nomMed, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 363, Short.MAX_VALUE))))
+                            .addComponent(jScrollPane1)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(475, 475, 475))
+                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(261, 261, 261)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jButton1)
+                                    .addComponent(jButton5))
+                                .addGap(62, 62, 62)))
+                        .addContainerGap())))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(nomMed, javax.swing.GroupLayout.PREFERRED_SIZE, 546, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(nomMed, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jButton5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(labelPrestation, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(41, 41, 41)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton5))
-                .addContainerGap())
+                .addComponent(jLabel2)
+                .addGap(17, 17, 17)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(labelPrestation, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(75, 75, 75))
         );
 
         ANESTHESISTE.addTab("ACCUEIL", jPanel1);
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel3.setText("Dossier médical administratif :");
 
         jLabel10.setText("Dossier médical :");
 
+        jTree1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Dossier Médical Administratif", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Arial", 1, 14), new java.awt.Color(0, 153, 153))); // NOI18N
+        jTree1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jScrollPane4.setViewportView(jTree1);
 
+        DM.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Dossier Médical", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Arial", 1, 14), new java.awt.Color(0, 153, 153))); // NOI18N
+        DM.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jScrollPane5.setViewportView(DM);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -505,7 +524,7 @@ public class Anesthesiste extends javax.swing.JFrame {
                     .addComponent(jScrollPane5)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel10)
-                        .addGap(0, 295, Short.MAX_VALUE))))
+                        .addGap(0, 342, Short.MAX_VALUE))))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -516,14 +535,17 @@ public class Anesthesiste extends javax.swing.JFrame {
                     .addComponent(jLabel10))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
                     .addComponent(jScrollPane5))
                 .addContainerGap())
         );
 
         ANESTHESISTE.addTab("INFORMATIONS PATIENT", jPanel4);
 
-        jLabel6.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel6.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 153, 153));
         jLabel6.setText("Demande de prestation :");
 
         textPrestation.addActionListener(new java.awt.event.ActionListener() {
@@ -535,6 +557,7 @@ public class Anesthesiste extends javax.swing.JFrame {
         Specialite spe[]={Specialite.Sélectionner, Specialite.ANAPATHOLOGIE,Specialite.HEMATOLOGIE , Specialite.LABORATOIRE_ANALYSE};
 
         DefaultComboBoxModel model = new DefaultComboBoxModel(spe);
+        jComboBox1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jComboBox1.setModel(model);
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -542,6 +565,7 @@ public class Anesthesiste extends javax.swing.JFrame {
             }
         });
 
+        jList2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jList2.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 jList2ValueChanged(evt);
@@ -549,10 +573,13 @@ public class Anesthesiste extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(jList2);
 
+        jLabel7.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel7.setText("Liste des médecins :");
 
+        jLabel9.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel9.setText("à :");
 
+        jButton4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButton4.setText("OK");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -578,7 +605,7 @@ public class Anesthesiste extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(medPres, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                                .addComponent(medPres, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton4))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -602,7 +629,7 @@ public class Anesthesiste extends javax.swing.JFrame {
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(4, 4, 4)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -618,15 +645,18 @@ public class Anesthesiste extends javax.swing.JFrame {
 
         ANESTHESISTE.addTab("DEMANDE PRESTATION", jPanel3);
 
-        jLabel4.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 153, 153));
         jLabel4.setText("Prestation :");
 
         Resultat.setColumns(20);
         Resultat.setRows(5);
         jScrollPane2.setViewportView(Resultat);
 
+        jLabel5.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel5.setText("Résultats :");
 
+        jButton3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButton3.setText("Envoyer");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -641,7 +671,7 @@ public class Anesthesiste extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 675, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
@@ -663,7 +693,7 @@ public class Anesthesiste extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton3)
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addContainerGap(104, Short.MAX_VALUE))
         );
 
         ANESTHESISTE.addTab("COMPLETER", jPanel2);
