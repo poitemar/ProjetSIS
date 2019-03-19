@@ -420,9 +420,9 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                      <Component id="jScrollPane6" min="-2" pref="258" max="-2" attributes="0"/>
+                      <Component id="jScrollPane6" min="-2" pref="379" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane7" pref="405" max="32767" attributes="0"/>
+                      <Component id="jScrollPane7" pref="284" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
@@ -447,7 +447,7 @@
                           <Component id="jScrollPane6" min="-2" pref="361" max="-2" attributes="0"/>
                           <Component id="jScrollPane7" min="-2" pref="361" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="141" max="32767" attributes="0"/>
+                      <EmptySpace pref="136" max="32767" attributes="0"/>
                       <Component id="jLabel24" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -475,6 +475,10 @@
                       <Font name="Arial" size="14" style="0"/>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="}"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="if(jList1.isSelectionEmpty()){&#xa;javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode(&quot;Selectionnez un patient&quot;);&#xa;jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode3));&#xa;}&#xa;else{"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>
@@ -501,6 +505,8 @@
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTree(racine)"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="}"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="if(jList1.isSelectionEmpty()){&#xa;javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode(&quot;Selectionnez un patient&quot;);&#xa;DM.setModel(new javax.swing.tree.DefaultTreeModel(treeNode3));&#xa;}&#xa;else{"/>
                   </AuxValues>
                 </Component>
               </SubComponents>

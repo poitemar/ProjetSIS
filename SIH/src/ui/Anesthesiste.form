@@ -262,6 +262,9 @@
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
                 <Component class="javax.swing.JTree" name="jTree1">
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="if(jList1.isSelectionEmpty()){&#xa;javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode(&quot;Selectionnez un patient&quot;);&#xa;jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode3));&#xa;}"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>
@@ -273,6 +276,9 @@
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
                 <Component class="javax.swing.JTree" name="DM">
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="if(jList1.isSelectionEmpty()){&#xa;javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode(&quot;Selectionnez un patient&quot;);&#xa;DM.setModel(new javax.swing.tree.DefaultTreeModel(treeNode3));&#xa;}"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>
