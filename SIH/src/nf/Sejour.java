@@ -190,22 +190,22 @@ public class Sejour {
         return format;
 
     }
+
     // Ici on implémente la fonction qui retourne la liste des localisations dans un séjour
     public List<String> listeLoc(String idSejour) {
         List<String> liste = new ArrayList<String>();
         List<String> listeDate = new ArrayList<String>();
         try {
             String query = "select * from historique_localisation where ID_SEJOUR='" + idSejour + "'"; // la query à entrer pour accéder aux données de nos tables 
-            
+
             System.out.println(query);
             rs = st.executeQuery(query);
             while (rs.next()) {
                 String date = rs.getString("DATE");
                 String observation = rs.getString("SERVICE");
                 String resultat = rs.getString("CODE_LOCALISATION");
-                
-                    listeDate.add(date);
-                
+
+                listeDate.add(date);
 
             }
 
@@ -262,8 +262,6 @@ public class Sejour {
         return liste;
     }
 
-    
-    
     // Ici on implémente la fonction qui retourne la liste des saisies dans un séjour
     public List<String> listeSaisie(String idSejour) {
         List<String> liste = new ArrayList<String>();
@@ -409,71 +407,65 @@ public class Sejour {
         return format;
 
     }
-    
+
     //Méthode qui formate l'affichage des saisies dans le séjour dans le jtree
     public String listeLoctoString(String dateSaisie, String idSejour) {
         String format = "";
-        Boolean rep =false;
-        
+        Boolean rep = false;
+
         System.out.println("rep=" + rep);
         System.out.println("TOSTRING");
         String doc = "";
         try {
-            String query = "select * from historique_localisation where DATE='" + dateSaisie + "' and ID_SEJOUR='"+idSejour+"'"; // la query à entrer pour accéder aux données de nos tables 
+            String query = "select * from historique_localisation where DATE='" + dateSaisie + "' and ID_SEJOUR='" + idSejour + "'"; // la query à entrer pour accéder aux données de nos tables 
             String query2 = "select ID_SEJOUR,SERVICE,ORIENTATION,CHAMBRE,ETAGE,LIT from localisation where ID_SEJOUR='" + idSejour + "';";
-            System.out.println("LA         +++++++++++++++++++++++++++"+query);
-            if(dateSaisie == ""){
-                rs2 = st2.executeQuery(query2); 
-                rep=true;
+            System.out.println("LA         +++++++++++++++++++++++++++" + query);
+            if (dateSaisie == "") {
+                rs2 = st2.executeQuery(query2);
+                rep = true;
+            } else {
+                rs = st.executeQuery(query);
             }
-            else{
-                 rs = st.executeQuery(query);
-            }
-          
+
             if (rep == false) {
-               
-               
+
                 while (rs.next()) {
                     System.out.println("query 1 test");
                     String date = rs.getString("DATE");
                     String service1 = rs.getString("SERVICE");
                     String codeL = rs.getString("CODE_LOCALISATION");
 
-                    format = "Nouvelle localisation le: " + date + " dans le service de: " + service1+". ";
-                    
-                    if(!codeL.equals(" N-0-0-N")){
-                        format = format + "Le patient a été hospitalisé en: "+codeL+".";
+                    format = "Nouvelle localisation le: " + date + " dans le service de: " + service1 + ". ";
+
+                    if (!codeL.equals(" N-0-0-N")) {
+                        format = format + "Le patient a été hospitalisé en: " + codeL + ".";
                     }
 
                 }
-            }
-          else if (rep == true) {
-               
-                System.out.println("okkkkkk");
-                
-            while (rs2.next()) {
-               
-                String service = rs2.getString("SERVICE");// pour avoir accès a la colonne de ma table 
-                String orientation = rs2.getString("ORIENTATION");
-                int chambre = rs2.getInt("CHAMBRE");
-                int etage = rs2.getInt("ETAGE");
-                String lit = rs2.getString("LIT");
-                
-                System.out.println("PETIT TEST LA          ");
-                System.out.println(service);
-                System.out.println(etage);
-                if(etage==0 && chambre==0){
-                    format = "Le patient se trouve dans le service de: " + service+". ";
-                }
-                
-                else{
-                    format = "Le patient est hospitalité dans le service de: " + service+", "+orientation+", Chambre: "+chambre+", Lit: "+lit+", étage: "+etage;
-                }
-//                 
-                   
+            } else if (rep == true) {
 
-                }}
-            
+                System.out.println("okkkkkk");
+
+                while (rs2.next()) {
+
+                    String service = rs2.getString("SERVICE");// pour avoir accès a la colonne de ma table 
+                    String orientation = rs2.getString("ORIENTATION");
+                    int chambre = rs2.getInt("CHAMBRE");
+                    int etage = rs2.getInt("ETAGE");
+                    String lit = rs2.getString("LIT");
+
+                    System.out.println("PETIT TEST LA          ");
+                    System.out.println(service);
+                    System.out.println(etage);
+                    if (etage == 0 && chambre == 0) {
+                        format = "Le patient se trouve dans le service de: " + service + ". ";
+                    } else {
+                        format = "Le patient est hospitalité dans le service de: " + service + ", " + orientation + ", Chambre: " + chambre + ", Lit: " + lit + ", étage: " + etage;
+                    }
+//                 
+
+                }
+            }
 
         } catch (Exception ex) {
             System.out.println(ex);
@@ -482,7 +474,6 @@ public class Sejour {
         return format;
 
     }
-      
 
     // Ici on implémente la fonction qui retourne la liste des informations par saisie
     public TreeMap<String, String> listeInfos(String dateSaisie, String idSejour) {
@@ -1211,12 +1202,12 @@ public class Sejour {
         return rep;
     }
 
-    public boolean prestationRealisee(String dateSaisie,String idSejour) {
+    public boolean prestationRealisee(String dateSaisie, String idSejour) {
         boolean rep = false;
 
         try {
 
-            String query = "select * from prestations where DATE_SAISIE='"+dateSaisie+"' and ID_SEJOUR='"+idSejour+"'"; // la query à entrer pour accéder aux données de nos tables 
+            String query = "select * from prestations where DATE_SAISIE='" + dateSaisie + "' and ID_SEJOUR='" + idSejour + "'"; // la query à entrer pour accéder aux données de nos tables 
             System.out.println(query);
             rs = st.executeQuery(query);
             while (rs.next()) {
@@ -1239,11 +1230,13 @@ public class Sejour {
 
     public String AfficherIDSejour(String IPP) {
         String idsej = "";
+        Boolean rep =false;
         try {
             String query = "select ID_PH,IPP_PATIENT,ID_SEJOUR,DATE_SAISIE,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,TITRE_OPERATION,OPERATION,COMPTE_RENDU from ph where IPP_PATIENT='" + IPP + "';";
             System.out.println(query);
             rs = st.executeQuery(query);
             while (rs.next()) {
+                rep=true;
                 String IdPH = rs.getString("ID_PH");
                 String Ipp = rs.getString("IPP_PATIENT");// pour avoir accès a la colonne de ma table 
                 String IDsejour = rs.getString("ID_SEJOUR");
@@ -1254,6 +1247,7 @@ public class Sejour {
                 // String chambre = rs.getString("PRESCRIPTION");
                 String titreOperation = rs.getString("TITRE_OPERATION");
                 // String compteRendu = rs.getString("COMPTE_RENDU");
+             
                 idsej = IDsejour + "";
             }
         } catch (Exception ex) {
@@ -1306,8 +1300,11 @@ public class Sejour {
                 String chambre = rs.getString("CHAMBRE");
                 String etage = rs.getString("ETAGE");
                 String lit = rs.getString("LIT");
-
-                local = IDsej + " " + service + " " + orientation + " " + chambre + " " + etage + " " + lit;
+                if (orientation.endsWith("NULL")) {
+                    local = " " + "Consultation" + " " + service;
+                } else {
+                    local = " " + "Hospitalisation" + " " + service + " " + orientation + " " + chambre + " " + etage + " " + lit;
+                }
             }
         } catch (Exception ex) {
             System.out.println(ex);
@@ -1398,7 +1395,7 @@ public class Sejour {
                 String date = rs.getString("DATE");
                 String service = rs.getString("SERVICE");
                 String codeLoc = rs.getString("CODE_LOCALISATION");
-                String loc= ""+idsejour+" "+date+" "+service+" "+codeLoc;
+                String loc = "" + idsejour + " " + date + " " + service + " " + codeLoc;
                 tousLoc.add(loc);
             }
 
@@ -1411,7 +1408,6 @@ public class Sejour {
     }
 
 }
-
 
 //    public  boolean sejourClos(String sejour){
 //        boolean doss = true;

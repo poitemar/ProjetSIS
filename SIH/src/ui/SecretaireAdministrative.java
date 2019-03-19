@@ -48,7 +48,7 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
 
     }
 
-    public void buildTree1() {
+     public void buildTree1() {
         this.tCellRenderer.setClosedIcon(null);
         this.tCellRenderer.setOpenIcon(null);
         this.tCellRenderer.setLeafIcon(null);
@@ -59,19 +59,27 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
         Sejour sej = new Sejour("dSejour", "idPatient", "idphReferan", locBluff);
         nf.PH ph = new nf.PH("bono", "jean", "hello", "i am", "here", Specialite.ANESTHESIE, Service.MEDICO_TECHNIQUE);
 
-        String IDSej = sej.AfficherIDSejour(pat.ippPatientListe(jList1.getSelectedValue().toString()));
+        String IDSej = ph.idSejourPatientSelection(pat.ippPatientListe(jList1.getSelectedValue().toString()));
+         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Identité patient");
         String lecture1 = jList1.getSelectedValue().toString();
         String lecture2 = sej.AfficherPATIENT(pat.ippPatientListe(jList1.getSelectedValue().toString()));
         String lectureLocalisation = sej.afficherLOCALISATION(sej.AfficherIDSejour(pat.ippPatientListe(jList1.getSelectedValue().toString())));
         String affichageDma = sej.infoDMA(sej.AfficherIDSejour(pat.ippPatientListe(jList1.getSelectedValue().toString())));
         String personneConfiance = pat.afficherPersonneConfiance(pat.ippPatientListe(jList1.getSelectedValue().toString()));
+        
+        if(IDSej.equals("0000")){
+            javax.swing.tree.DefaultMutableTreeNode treeNodeTEST = new javax.swing.tree.DefaultMutableTreeNode("Le patient n'a pas encore été admis");
+         treeNode1.add(treeNodeTEST);
+        }
+        else{
+       
+
 //afficher infos patient
         System.out.println("selected value : " + jList1.getSelectedValue().toString());
-        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Identité patient");
-        String[] result = lecture1.split("\\s\\s\\s\\s\\s\\s\\s\\s\\s");
+          String[] result = lecture1.split("\\s\\s\\s\\s\\s\\s\\s\\s\\s");
         javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Nom : " + result[0]);
         javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Prenom : " + result[1]);
-        javax.swing.tree.DefaultMutableTreeNode treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("Nom : " + result[2]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("Date de naissance : " + result[2]);
         treeNode1.add(treeNode2);
         treeNode1.add(treeNode3);
         treeNode1.add(treeNode4);
@@ -120,31 +128,42 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
 
         // Afficher personne de confiance: 
         String[] persConf = personneConfiance.split("\n");
-        javax.swing.tree.DefaultMutableTreeNode treeNode15 = new javax.swing.tree.DefaultMutableTreeNode("Personne De Confiance:");
+        javax.swing.tree.DefaultMutableTreeNode treeNodePersonneConfiance = new javax.swing.tree.DefaultMutableTreeNode("Personne De Confiance:");
         javax.swing.tree.DefaultMutableTreeNode treeNode16 = new javax.swing.tree.DefaultMutableTreeNode(persConf[0]);
         javax.swing.tree.DefaultMutableTreeNode treeNode17 = new javax.swing.tree.DefaultMutableTreeNode("Adresse :" + persConf[1]);
         javax.swing.tree.DefaultMutableTreeNode treeNode18 = new javax.swing.tree.DefaultMutableTreeNode("Telephone :" + persConf[2]);
-        treeNode15.add(treeNode16);
-        treeNode15.add(treeNode17);
-        treeNode15.add(treeNode18);
-        treeNode1.add(treeNode15);
+        treeNodePersonneConfiance.add(treeNode16);
+        treeNodePersonneConfiance.add(treeNode17);
+        treeNodePersonneConfiance.add(treeNode18);
+        treeNode1.add(treeNodePersonneConfiance);
 
-        //Afficher Localisation 
+//Afficher medecin référent 
         String[] localisation = lectureLocalisation.split("\\s");
         javax.swing.tree.DefaultMutableTreeNode treeNodeLocalisation = new javax.swing.tree.DefaultMutableTreeNode("Localisation (En Cours)");
-        javax.swing.tree.DefaultMutableTreeNode treeNode20 = new javax.swing.tree.DefaultMutableTreeNode("Service : " + localisation[1]);
-        javax.swing.tree.DefaultMutableTreeNode treeNode21 = new javax.swing.tree.DefaultMutableTreeNode("Orientation : " + localisation[2]);
-        javax.swing.tree.DefaultMutableTreeNode treeNode22 = new javax.swing.tree.DefaultMutableTreeNode("Chambre: " + localisation[3]);
-        javax.swing.tree.DefaultMutableTreeNode treeNode23 = new javax.swing.tree.DefaultMutableTreeNode("Etage : " + localisation[4]);
-        javax.swing.tree.DefaultMutableTreeNode treeNode24 = new javax.swing.tree.DefaultMutableTreeNode("Lit : " + localisation[5]);
+       if(localisation[1].contains("Consultation")){
+             javax.swing.tree.DefaultMutableTreeNode treeNodeconsultation = new javax.swing.tree.DefaultMutableTreeNode("Type de sejour : Consultation");
+             javax.swing.tree.DefaultMutableTreeNode treeNodeservice = new javax.swing.tree.DefaultMutableTreeNode("Service :" + localisation[2]);
+        treeNodeLocalisation.add(treeNodeconsultation);
+        treeNodeLocalisation.add(treeNodeservice);
+        }
+       else{
+           
+       
+        javax.swing.tree.DefaultMutableTreeNode treeNode19 = new javax.swing.tree.DefaultMutableTreeNode("Type de sejour : Hospitalisation ");
+        javax.swing.tree.DefaultMutableTreeNode treeNode20 = new javax.swing.tree.DefaultMutableTreeNode("Service : " + localisation[2]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode21 = new javax.swing.tree.DefaultMutableTreeNode("Orientation : " + localisation[3]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode22 = new javax.swing.tree.DefaultMutableTreeNode("Chambre: " + localisation[4]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode23 = new javax.swing.tree.DefaultMutableTreeNode("Etage : " + localisation[5]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode24 = new javax.swing.tree.DefaultMutableTreeNode("Lit : " + localisation[6]);
         treeNodeLocalisation.add(treeNode20);
         treeNodeLocalisation.add(treeNode21);
         treeNodeLocalisation.add(treeNode22);
         treeNodeLocalisation.add(treeNode23);
-        treeNodeLocalisation.add(treeNode24);
-
+        treeNodeLocalisation.add(treeNode24);}
+//        treeNode8.add(treeNode13);
+//        treeNode8.add(treeNode14);
         treeNode1.add(treeNodeLocalisation);
-
+//
 //        String[] adm = affichageDma.split("\\s");
 //        javax.swing.tree.DefaultMutableTreeNode treeNode15 = new javax.swing.tree.DefaultMutableTreeNode("Information complémentaire");
 //        javax.swing.tree.DefaultMutableTreeNode treeNode16 = new javax.swing.tree.DefaultMutableTreeNode("IDPH : " + adm[0]);
@@ -160,6 +179,7 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
 //        treeNode15.add(treeNode19);
 //        treeNode15.add(treeNode20);
 //        treeNode1.add(treeNode15);
+        }
         jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         jTree1.setCellRenderer(this.tCellRenderer);
     }

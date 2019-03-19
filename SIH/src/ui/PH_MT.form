@@ -274,6 +274,9 @@
                       </Border>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="if(jList1.isSelectionEmpty()){&#xa;javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode(&quot;Selectionnez un patient&quot;);&#xa;jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode3));&#xa;}"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>
@@ -295,6 +298,9 @@
                       </Border>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="if(jList1.isSelectionEmpty()){&#xa;javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode(&quot;Selectionnez un patient&quot;);&#xa;DM.setModel(new javax.swing.tree.DefaultTreeModel(treeNode3));&#xa;}"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>

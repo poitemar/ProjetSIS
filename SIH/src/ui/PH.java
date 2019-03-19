@@ -298,7 +298,7 @@ public class PH extends JFrame implements ActionListener {
 
     }
 
-    public void buildTree1() {
+   public void buildTree1() {
         this.tCellRenderer.setClosedIcon(null);
         this.tCellRenderer.setOpenIcon(null);
         this.tCellRenderer.setLeafIcon(null);
@@ -309,19 +309,27 @@ public class PH extends JFrame implements ActionListener {
         Sejour sej = new Sejour("dSejour", "idPatient", "idphReferan", locBluff);
         nf.PH ph = new nf.PH("bono", "jean", "hello", "i am", "here", Specialite.ANESTHESIE, Service.MEDICO_TECHNIQUE);
 
-        String IDSej = sej.AfficherIDSejour(pat.ippPatientListe(jList1.getSelectedValue().toString()));
+        String IDSej = ph.idSejourPatientSelection(pat.ippPatientListe(jList1.getSelectedValue().toString()));
+         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Identité patient");
         String lecture1 = jList1.getSelectedValue().toString();
         String lecture2 = sej.AfficherPATIENT(pat.ippPatientListe(jList1.getSelectedValue().toString()));
         String lectureLocalisation = sej.afficherLOCALISATION(sej.AfficherIDSejour(pat.ippPatientListe(jList1.getSelectedValue().toString())));
         String affichageDma = sej.infoDMA(sej.AfficherIDSejour(pat.ippPatientListe(jList1.getSelectedValue().toString())));
         String personneConfiance = pat.afficherPersonneConfiance(pat.ippPatientListe(jList1.getSelectedValue().toString()));
+        
+        if(IDSej.equals("0000")){
+            javax.swing.tree.DefaultMutableTreeNode treeNodeTEST = new javax.swing.tree.DefaultMutableTreeNode("Le patient n'a pas encore été admis");
+         treeNode1.add(treeNodeTEST);
+        }
+        else{
+       
+
 //afficher infos patient
         System.out.println("selected value : " + jList1.getSelectedValue().toString());
-        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Identité patient");
-        String[] result = lecture1.split("\\s\\s\\s\\s\\s\\s\\s\\s\\s");
+          String[] result = lecture1.split("\\s\\s\\s\\s\\s\\s\\s\\s\\s");
         javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Nom : " + result[0]);
         javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Prenom : " + result[1]);
-        javax.swing.tree.DefaultMutableTreeNode treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("Nom : " + result[2]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("Date de naissance : " + result[2]);
         treeNode1.add(treeNode2);
         treeNode1.add(treeNode3);
         treeNode1.add(treeNode4);
@@ -382,17 +390,26 @@ public class PH extends JFrame implements ActionListener {
 //Afficher medecin référent 
         String[] localisation = lectureLocalisation.split("\\s");
         javax.swing.tree.DefaultMutableTreeNode treeNodeLocalisation = new javax.swing.tree.DefaultMutableTreeNode("Localisation (En Cours)");
-        //    javax.swing.tree.DefaultMutableTreeNode treeNode19 = new javax.swing.tree.DefaultMutableTreeNode("ID SEJOUR : " + localisation[0]);
-        javax.swing.tree.DefaultMutableTreeNode treeNode20 = new javax.swing.tree.DefaultMutableTreeNode("Service : " + localisation[1]);
-        javax.swing.tree.DefaultMutableTreeNode treeNode21 = new javax.swing.tree.DefaultMutableTreeNode("Orientation : " + localisation[2]);
-        javax.swing.tree.DefaultMutableTreeNode treeNode22 = new javax.swing.tree.DefaultMutableTreeNode("Chambre: " + localisation[3]);
-        javax.swing.tree.DefaultMutableTreeNode treeNode23 = new javax.swing.tree.DefaultMutableTreeNode("Etage : " + localisation[4]);
-        javax.swing.tree.DefaultMutableTreeNode treeNode24 = new javax.swing.tree.DefaultMutableTreeNode("Lit : " + localisation[5]);
+       if(localisation[1].contains("Consultation")){
+             javax.swing.tree.DefaultMutableTreeNode treeNodeconsultation = new javax.swing.tree.DefaultMutableTreeNode("Type de sejour : Consultation");
+             javax.swing.tree.DefaultMutableTreeNode treeNodeservice = new javax.swing.tree.DefaultMutableTreeNode("Service :" + localisation[2]);
+        treeNodeLocalisation.add(treeNodeconsultation);
+        treeNodeLocalisation.add(treeNodeservice);
+        }
+       else{
+           
+       
+        javax.swing.tree.DefaultMutableTreeNode treeNode19 = new javax.swing.tree.DefaultMutableTreeNode("Type de sejour : Hospitalisation ");
+        javax.swing.tree.DefaultMutableTreeNode treeNode20 = new javax.swing.tree.DefaultMutableTreeNode("Service : " + localisation[2]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode21 = new javax.swing.tree.DefaultMutableTreeNode("Orientation : " + localisation[3]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode22 = new javax.swing.tree.DefaultMutableTreeNode("Chambre: " + localisation[4]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode23 = new javax.swing.tree.DefaultMutableTreeNode("Etage : " + localisation[5]);
+        javax.swing.tree.DefaultMutableTreeNode treeNode24 = new javax.swing.tree.DefaultMutableTreeNode("Lit : " + localisation[6]);
         treeNodeLocalisation.add(treeNode20);
         treeNodeLocalisation.add(treeNode21);
         treeNodeLocalisation.add(treeNode22);
         treeNodeLocalisation.add(treeNode23);
-        treeNodeLocalisation.add(treeNode24);
+        treeNodeLocalisation.add(treeNode24);}
 //        treeNode8.add(treeNode13);
 //        treeNode8.add(treeNode14);
         treeNode1.add(treeNodeLocalisation);
@@ -412,6 +429,7 @@ public class PH extends JFrame implements ActionListener {
 //        treeNode15.add(treeNode19);
 //        treeNode15.add(treeNode20);
 //        treeNode1.add(treeNode15);
+        }
         jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         jTree1.setCellRenderer(this.tCellRenderer);
     }
@@ -758,12 +776,24 @@ public class PH extends JFrame implements ActionListener {
             }
         });
 
-        jTree1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Dossier Administratif", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Arial", 1, 14), new java.awt.Color(0, 153, 153))); // NOI18N
-        jTree1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        if(jList1.isSelectionEmpty()){
+            javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Selectionnez un patient");
+            jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode3));
+        }
+        else{
+            jTree1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Dossier Administratif", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Arial", 1, 14), new java.awt.Color(0, 153, 153))); // NOI18N
+            jTree1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        }
         jScrollPane6.setViewportView(jTree1);
 
-        DM.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Dossier Médical", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Arial", 1, 14), new java.awt.Color(0, 153, 153))); // NOI18N
-        DM.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        if(jList1.isSelectionEmpty()){
+            javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Selectionnez un patient");
+            DM.setModel(new javax.swing.tree.DefaultTreeModel(treeNode3));
+        }
+        else{
+            DM.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Dossier Médical", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Arial", 1, 14), new java.awt.Color(0, 153, 153))); // NOI18N
+            DM.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        }
         jScrollPane7.setViewportView(DM);
 
         jLabel16.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -777,9 +807,9 @@ public class PH extends JFrame implements ActionListener {
             panelInformationsPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelInformationsPatientLayout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelInformationsPatientLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -798,7 +828,7 @@ public class PH extends JFrame implements ActionListener {
                 .addGroup(panelInformationsPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
                 .addComponent(jLabel24))
         );
 
@@ -1398,8 +1428,13 @@ public class PH extends JFrame implements ActionListener {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
         if (phref == true) {
-            sejourCourant.editerLettreDeSortie(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textLettreDeSortie.getText());
+            int retour = JOptionPane.showConfirmDialog(this, "Voulez-vous cloturer le séjour du patient ?", "ATTENTION", JOptionPane.OK_CANCEL_OPTION);
+            if (retour == 0) {
+                sejourCourant.editerLettreDeSortie(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), patient.ippPatientListe(PatientSelection), textLettreDeSortie.getText());
+            
             textLettreDeSortie.setText("");
+            JOptionPane.showMessageDialog(this, "Le séjour du patient est cloturé", "OK", JOptionPane.INFORMATION_MESSAGE);
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Vous n'êtes pas autorisé(e) à éditer la lettre de sortie", "ATTENTION : Vous n'êtes pas le PH référent", JOptionPane.ERROR_MESSAGE);
 
@@ -1478,7 +1513,7 @@ public class PH extends JFrame implements ActionListener {
             if(ph.speIDPH(idp)==Specialite.RADIOLOGIE){
                 Patient p = patient.getPatient(patient.ippPatientListe(PatientSelection));
                 System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA+"+p.getipp());
-                hl7.sendMessage(patient.getPatient(patient.ippPatientListe(PatientSelection)),2);
+                //hl7.sendMessage(patient.getPatient(patient.ippPatientListe(PatientSelection)),2);
                    //JOptionPane.showMessageDialog(this, "Echec de connexion avec le serveur HL7", "ERREUR", JOptionPane.ERROR_MESSAGE);
 
                
