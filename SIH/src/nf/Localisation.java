@@ -103,7 +103,6 @@ public class Localisation {
 
     /**
      * @param spe
-     * @param service the service to set
      */
     public void setSpecialite(Specialite spe) {
         this.specialite = spe;

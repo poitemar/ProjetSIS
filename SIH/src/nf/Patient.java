@@ -492,7 +492,6 @@ public class Patient {
 
     /**
      * @param localisation
-     * @param telephone the telephone to set
      */
     public void setLocalisation(Localisation localisation) {
         this.localisation = localisation;
