@@ -61,6 +61,7 @@ public class SecretaireMedicale extends PersonnelMedical {
      * @param localisation
      */
     public void ajouterSejour(String idSejour, String iPP, String idPHReferent, Localisation localisation) {
+        /* On ajoute un nouveau séjour pour un patient à l'aide des paramètres en entrée **/
         Sejour s = new Sejour(idSejour, iPP, idPHReferent, localisation);
         String sql = "insert into ph_referent(ID_PHR,ID_SEJOUR,IPP,DATE_CREATION_SEJOUR) values (?,?,?,?)";
         String sql2 = "insert into localisation (ID_SEJOUR,SERVICE,ORIENTATION,ETAGE,CHAMBRE,LIT) values (?,?,?,?,?,?)";
@@ -123,6 +124,7 @@ public class SecretaireMedicale extends PersonnelMedical {
      * @return
      */
     public String idSejourPatientSelection(String iPP) {
+        /* On renvoie l'id du séjour d'un patient sélectionnée à l'aide son ipp en entrée **/
 
         String idSejour = "";
         String dateLaPlusRecente = "01/01/0001";
@@ -172,6 +174,7 @@ public class SecretaireMedicale extends PersonnelMedical {
      * @param loc
      */
     public void enregistrerLocalisation(String idSejour, Localisation loc) {
+        /* On ajoute dans la bd les locations afin de garder un historique des localisations d'un patient **/
         String sql1 = "insert into historique_localisation (ID_SEJOUR,DATE,SERVICE,CODE_LOCALISATION) values (?,?,?,?)";
         try {
             PreparedStatement pstm = con.prepareStatement(sql1);
@@ -196,6 +199,7 @@ public class SecretaireMedicale extends PersonnelMedical {
      * @param localisation
      */
     public void modifierLocalisation(String idSejour,Localisation localisation) {
+        /* On update le localisation d'un patient à l'aide des paramètres en entrée **/
       
         String sql2 = "update localisation set SERVICE='" + localisation.getSpecialite()
                 + "', ORIENTATION='" + localisation.getOrientation()
@@ -220,6 +224,7 @@ public class SecretaireMedicale extends PersonnelMedical {
      * @return
      */
     public String iPPMedecinListe(String lecture) {
+        /* On renvoie l'ipp d'un médecin dans une lsite en fonction de ce qui est lu dans la liste **/
         String ipp = "";
         try {
             String nomLu = "";
@@ -278,6 +283,7 @@ public class SecretaireMedicale extends PersonnelMedical {
      * @return
      */
     public int nombrePatients() {
+        /* renvoie le nombre de patients de la spécialité de la secrétaire médicale **/
         int compteur = 0;
         try {
             String query = "select * from patients join PH on (IPP=IPP_PATIENT) join personnel_medical on (ID_PH = ID_P) join localisation using (ID_SEJOUR) where LOCALISATION.service = 'Oncologie'"; // la query à entrer pour accéder aux données de nos tables 
@@ -299,6 +305,7 @@ public class SecretaireMedicale extends PersonnelMedical {
      * @return
      */
     public ArrayList<Patient> afficherListePatientParService(Specialite spe) {
+        /* renvoie une liste de patients du service de la secrétaire médicale associée **/
         ArrayList<Patient> listePatient = new ArrayList<Patient>();
 
         try {
@@ -356,6 +363,7 @@ public class SecretaireMedicale extends PersonnelMedical {
      * @return
      */
     public Patient recuperationPatient(String iPP) {
+        /* On renvoie le patient associé à un IPP en entrée **/
         Patient patient = new Patient("","");
         try {
             String query = "select * from patients where IPP ='" + iPP + "'"; // la query à entrer pour accéder aux données de nos tables 
@@ -395,6 +403,7 @@ public class SecretaireMedicale extends PersonnelMedical {
      * @return
      */
     public ArrayList<PH> afficherListeMedecinParService(Specialite spe) {
+        /* On renvoie une liste de ph de la spécialité de la secrétaire médicale **/
         ArrayList<PH> listeMed = new ArrayList<PH>();
 
         try {
@@ -449,6 +458,7 @@ public class SecretaireMedicale extends PersonnelMedical {
      * @param telCONF
      */
     public void modifierPatient(String ipp, String nom, String prenom, Sexe sexe, String dateNaissance, String adresse, String telephone, String nomCONF, String prenomCONF, String adresseCONF, String telCONF) {
+       /* On modifie dans la bd les données d'un patient en fonction des données en entrée **/
         Patient patient = new Patient(ipp, nom, prenom, sexe, dateNaissance, adresse, telephone, nomCONF, prenomCONF, adresseCONF, telCONF);
        
         String sql = "update patients set NOM='" + nom

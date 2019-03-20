@@ -96,6 +96,7 @@ public class Sejour {
      * @return
      */
     public List<String> listeSejour(String iPP) {
+        /* On renvoie une liste de String contenant les séjours associés à un ipp en entrée **/
         List<String> liste = new ArrayList<String>();
         List<String> listeDate = new ArrayList<String>();
         try {
@@ -171,6 +172,7 @@ public class Sejour {
      * @return
      */
     public String listeSejourtoString(String idSejour) {
+        /* On renvoie la liste des séjours regroupée dans un seul String grâce à l'id séjour en entrée **/
         String format = "";
         Boolean rep = sejourEnCours(idSejour);
 
@@ -218,6 +220,7 @@ public class Sejour {
      * @return
      */
     public List<String> listeLoc(String idSejour) {
+        /* On renvoie une liste de Strings de locations avec l'id séjour en entrée **/
         List<String> liste = new ArrayList<String>();
         List<String> listeDate = new ArrayList<String>();
         try {
@@ -295,6 +298,7 @@ public class Sejour {
      * @return
      */
     public List<String> listeSaisie(String idSejour) {
+        /* On renvoie une liste de date pour lesquelles les séjours ont été modifié grâce à un id séjour en entrée **/
         List<String> liste = new ArrayList<String>();
         List<String> listeDate = new ArrayList<String>();
         try {
@@ -380,6 +384,7 @@ public class Sejour {
      * @return
      */
     public String listeSaisietoString(String dateSaisie, String idSejour) {
+        /* On converti le résultat de la fonction précédente en un String **/
         String format = "";
         Boolean rep = sejourEnCours(idSejour);
         System.out.println("rep=" + rep);
@@ -415,12 +420,6 @@ public class Sejour {
                 System.out.println("okkkkkk");
                 while (rs.next()) {
                     String sql2 = "select * from ph_referent join personnel_medical on ID_PHR =ID_P where ID_SEJOUR='" + idSejour + "'"; // la query à entrer pour accéder aux données de nos tables 
-//          System.out.println(sql2);     
-//           rs3 = st3.executeQuery(sql2);
-//               while(rs3.next()){
-//                   doc   = "Dr. REFERENT : " + rs3.getString("NOM")+ "\n "+rs3.getString("PRENOM");
-//                   format = doc +"\n";
-//               }
                     String date = rs.getString("DATE_SAISIE");
                     String idPH = rs.getString("ID_PH");
                     String sql = "select * from personnel_medical where ID_P='" + idPH + "'"; // la query à entrer pour accéder aux données de nos tables 
@@ -455,6 +454,7 @@ public class Sejour {
      * @return
      */
     public String listeLoctoString(String dateSaisie, String idSejour) {
+        /* On renvoie une liste de locations contenu dans un seul String avec la date de Saisie et l'id séjour **/
         String format = "";
         Boolean rep = false;
 
@@ -734,6 +734,7 @@ public class Sejour {
      * @return
      */
     public String completerSejour(String idSejour, String idMed, String Ipp, String observations, String titreOperations, String detailsOperations, String resultats, String prescriptions) {
+        /* On complète le séjour dans la bd à l'aide des paramètres d'entrée **/
         if (sejourEnCours(idSejour)) {
             String sql = "insert into ph (ID_PH,IPP_PATIENT,ID_SEJOUR,DATE_SAISIE,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,TITRE_OPERATION,OPERATION,COMPTE_RENDU) values (?,?,?,?,?,?,?,?,?,?,?)";
 
@@ -924,6 +925,7 @@ public class Sejour {
      * @param prestation
      */
     public void ajouterPrestation(String idSejour, String idMedD, String idMedR, String prestation) {
+        /* On ajoute une prestation avec les paramètres d'entrées dans la base de données **/
         this.listePrestations.add(prestation);
         {
             if (sejourEnCours(idSejour)) {
@@ -966,6 +968,7 @@ public class Sejour {
      * @return
      */
     public String ajouterPrescription(String idSejour, String idMed, String Ipp, String prescription) {
+        /* On ajoute une prescription avec les paramètres d'entrées dans la base de données **/
         this.listePrescriptions.add(prescription);
         {
             if (sejourEnCours(idSejour)) {
@@ -1017,6 +1020,7 @@ public class Sejour {
      * @return
      */
     public String ajouterObservation(String idSejour, String idMed, String Ipp, String observation) {
+        /* On ajoute une observation avec les paramètres d'entrées dans la base de données **/
         this.listeObservations.add(observation);
         {
             if (sejourEnCours(idSejour)) {
@@ -1070,6 +1074,7 @@ public class Sejour {
      * @param compterendu
      */
     public void ajouterCompteRendu(String idSejour, String idMed, String Ipp, String prestation, String compterendu) {
+        /* On ajoute un compte rendu avec les paramètres d'entrées dans la base de données **/
         listeDeCompteRenduRadio.add(compterendu);
         {
             if (sejourEnCours(idSejour)) {
@@ -1121,6 +1126,7 @@ public class Sejour {
      * @return
      */
     public String ajouterResultat(String idSejour, String idMed, String Ipp, String resultat) {
+        /* On ajoute un résultat avec les paramètres d'entrées dans la base de données **/
         this.listeDeResultats.add(resultat);
         {
             if (sejourEnCours(idSejour)) {
@@ -1173,6 +1179,7 @@ public class Sejour {
      * @param resultat
      */
     public void ajouterResultatPrestation(String idSejour, String idMed, String Ipp, String prestation, String resultat) {
+        /* On ajoute le résultat d'une prestation avec les paramètres d'entrées dans la base de données **/
         this.listeDeResultats.add(resultat);
         {
             if (sejourEnCours(idSejour)) {
@@ -1228,6 +1235,7 @@ public class Sejour {
      * @return
      */
     public String editerLettreDeSortie(String idSejour, String idMed, String Ipp, String lettre) {
+        /* On édite la lettre de sortie en ajoutant dans la bd les paramètres d'entrée **/
         this.setLettreDeSortie(lettre);
         {
             if (sejourEnCours(idSejour)) {
@@ -1279,6 +1287,7 @@ public class Sejour {
      * @return
      */
     public String ajouterOperations(String idSejour, String idMed, String Ipp, String titreOperation, String detailOperation) {
+        /* On ajoute une opération avec les paramètres d'entrées dans la base de données **/
         this.listeTitreOperations.add(titreOperation);
         this.listeDetailsOperations.add(detailOperation);
         {
@@ -1331,6 +1340,7 @@ public class Sejour {
      * @return
      */
     public boolean sejourEnCours(String idSejour) {
+        /* On renvoie true si le séjour est en cours (lettre de sortie non clôturée), false sinon **/
         Boolean rep = true;
         try {
 
@@ -1365,6 +1375,7 @@ public class Sejour {
      * @return
      */
     public boolean prestationRealisee(String dateSaisie, String idSejour) {
+        /* renvoie true si la prestation a été réalisée (à l'aide de la date de saisie), false sinon **/
         boolean rep = false;
 
         try {
@@ -1396,6 +1407,7 @@ public class Sejour {
      * @return
      */
     public String AfficherIDSejour(String IPP) {
+        /* On renvoie l'id séjour à l'aide de l'ipp en entrée **/
         String idsej = "";
         Boolean rep =false;
         try {
@@ -1432,6 +1444,7 @@ public class Sejour {
      * @return
      */
     public String AfficherPATIENT(String ipp) {
+        /* On renvoie le nom et le prénom du patient concaténés dans un String à l'aide de l'ipp en entrée  **/
         String patient = "";
 
         try {
@@ -1465,6 +1478,7 @@ public class Sejour {
      * @return
      */
     public String afficherLOCALISATION(String IDsej) {
+        /* On renvoie la localisation d'un patient en un String à l'aide de l'id séjour en entrée **/
         String local = "";
         try {
             String query = "select ID_SEJOUR,SERVICE,ORIENTATION,CHAMBRE,ETAGE,LIT from localisation where ID_SEJOUR='" + IDsej + "';";
@@ -1499,6 +1513,7 @@ public class Sejour {
      * @return
      */
     public String infoDMA(String Idsej) {
+        /* On renvoie les informations du DMA associé à l'id séjour en entrée **/
         String sej = "";
         try {
             String query = "select ID_PH,IPP_PATIENT,ID_SEJOUR,DATE_SAISIE,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,TITRE_OPERATION,OPERATION,COMPTE_RENDU from ph where ID_SEJOUR='" + Idsej + "';";
@@ -1529,6 +1544,7 @@ public class Sejour {
      * @return
      */
     public ArrayList<String> affichePrestation(String ID_Sejour) {
+        /* On renvoie une liste de prestations associée à un id séjour en entrée **/
         ArrayList<String> pres = new ArrayList<String>();
         try {
             String query = "select prestation from prestations where ID_SEJOUR='" + ID_Sejour + "'";
@@ -1558,6 +1574,7 @@ public class Sejour {
      * @return
      */
     public ArrayList<String> afficherLettreSortie(String IPP) {
+        /** On renvoie une liste de lettres de sortie associée à un ipp en entrée */
         ArrayList<String> lettreSortie = new ArrayList<String>();
         try {
             String query = " select LETTRE_SORTIE from ph where IPP_PATIENT='" + IPP + "'";
@@ -1583,6 +1600,7 @@ public class Sejour {
      * @return
      */
     public ArrayList afficherTousLoc(String idsej) {
+        /* On renvoie une liste de toutes les locations associées à un id séjour **/
         ArrayList<String> tousLoc = new ArrayList<String>();
         try {
             String query = " select * from historique_localisation where ID_SEJOUR='" + idsej + "'";
@@ -1606,28 +1624,3 @@ public class Sejour {
     }
 
 }
-
-//    public  boolean sejourClos(String sejour){
-//        boolean doss = true;
-//      try {
-//            String query = " select LETTRE_SORTIE from ph where LETTRE_SORTIE ='"+""+"' ";
-//            
-//            System.out.println(query);
-//            rs = st.executeQuery(query);
-//            while (rs.next()) {
-//             String lettre = rs.getString("LETTRE_SORTIE");
-//            if(lettre != ""){    
-//                    doss = true ; 
-//                    System.out.println("sejour clos");
-//                
-//            }}
-//
-//        } catch (Exception ex) {
-//            System.out.println(ex);
-//
-//        }
-//      return doss; 
-//               }
-//        
-//    }
-

@@ -13,6 +13,7 @@ import java.util.logging.Logger;
  * @author poite
  */
 public enum Specialite {
+    // Une spécialité peut être une suivante :
 
     /**
      *
@@ -79,14 +80,5 @@ public enum Specialite {
      */
     ONCOLOGIE;
 
-    private static Specialite[] value() {
-        Specialite[] pres = {ANESTHESIE, RADIOLOGIE};
-
-        return pres;
-    }
-
- 
-    
-  
 }
 

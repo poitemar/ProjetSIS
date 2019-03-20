@@ -65,6 +65,7 @@ public class RechercherInfo {
      * @return
      */
     public ArrayList<Patient> rechercheListPatientNomPrenom(String nom, String prenom) {
+        /* On recherche un patient avec son nom et son prénom et on renvoie une liste des patients repondant aux critères **/
         Lp = new ArrayList<Patient>();
         Patient p = null;
         try {
@@ -110,6 +111,7 @@ public class RechercherInfo {
      * @return
      */
     public ArrayList<Patient> recherchePatientListNomPrenomDate(String nom, String prenom, String date) {
+        /* On recherche un patient avec son nom, son prénom et sa date de naissance et on renvoie une liste de patients répondatn à ces critères **/
 //       SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 //            String d = format.format(date);  
         Lp = new ArrayList<Patient>();
@@ -154,6 +156,7 @@ public class RechercherInfo {
      * @return
      */
     public ArrayList<Patient> afficherListPatient() {
+        /* On affiche une ArrayList de patients en passant par la base de données **/
         ArrayList<Patient> patients = null;
         Patient p = null;
         try {
@@ -199,6 +202,7 @@ public class RechercherInfo {
      * @return
      */
     public ArrayList<Patient> patientServiceNomPrenom(Specialite spe,String nom1,String prenom1) {
+        /* On renvoie une liste de patients étant dans une spécialité ayant un nom de famille "nom1" et un prénom "prenom1" **/
         ArrayList<Patient> listePatient = new ArrayList<Patient>();
 
         try {
@@ -249,6 +253,7 @@ public class RechercherInfo {
      * @return
      */
     public ArrayList<Patient> patientServiceNomPrenomDate(Specialite spe,String nom1,String prenom1,String date1) {
+        /* On renvoie une liste de patients d'une spécialité avec une date de naissance, un nom et un prénom donnés **/
         ArrayList<Patient> listePatient = new ArrayList<Patient>();
 
         try {
@@ -297,6 +302,7 @@ public class RechercherInfo {
      * @return
      */
     public ArrayList<Patient> patientServiceNom(Specialite spe,String nom1) {
+        /* On renvoie une liste de patients d'une spécialité donnée ayant un nom de famille "nom1" **/
         ArrayList<Patient> listePatient = new ArrayList<Patient>();
 
         try {
@@ -345,6 +351,7 @@ public class RechercherInfo {
      * @return
      */
     public Patient recherchePatientNomPrenom(String nom, String prenom) {
+        /* On renvoie un patient de la base de données qui a un nom "nom" et un prénom "prenom" **/
         p = new Patient(null, null);
 
         try {
@@ -390,6 +397,7 @@ public class RechercherInfo {
      * @return
      */
     public ArrayList<Patient> recherchePatientNomPrenomDate(String nom, String prenom, String date) {
+        /* On renvoie une liste de patients ayant un nom "nom", un prénom "prenom" et une date de naissance "date" **/
 //       SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 //            String d = format.format(date);  
         Lp = new ArrayList<Patient>();
@@ -433,6 +441,7 @@ public class RechercherInfo {
      * @return
      */
     public ArrayList<Patient> rechercheListPatientNom(String nom) {
+        /* On renvoie une liste de patients de la base de données ayant comme nom de famille "nom" **/
         Lp = new ArrayList<Patient>();
         Patient p = null;
         try {
@@ -469,31 +478,4 @@ public class RechercherInfo {
         return Lp;
 
  }   }
-
-//    public ResultSet recherchePatientNomPrenomDate(String nom, String prenom, Calendar date) throws SQLException {
-//        String datedenaiss = date.get(date.YEAR) + "-" + (date.get(date.MONTH) + 1) + "-" + date.get(date.DAY_OF_MONTH);
-//        Connection c = new Connection();
-//        c.connecter();
-//        Statement previous = c.c.createStatement();
-//        ResultSet r = previous.executeQuery("select * from patients"
-//                + " where nom='" + nom + "' and date_naissance ='" + datedenaiss + "' and prenom='" + prenom + "'");
-//        //r.first();
-//        return r;
-//    }
-//    //affichage de La Liste des Patients par nom et prenom 
-//    public ArrayList <Patient> afficherListPatient() {
-//     DefaultTableModel DTM = new DefaultTableModel();
-//     DTM = (DefaultTableModel) rechercheTable.getModel();
-//        DTM.setRowCount(0);
-//      if (!jTextField1.getText().isEmpty() && !jTextField2.getText().isEmpty()){
-//                    
-//            ArrayList<Patient> lp;
-//            lp= inf.recherchePatientsNomPrenom(jTextField1.getText(), jTextField2.getText());
-//            for(int i=0 ; i<Lp.size(); i++){  
-//            Lp.get(i);
-//            DTM.addRow(new Object[]{Lp.get(i).getNom(), Lp.get(i).getPrenom(),});
-//        }
-//                jList1.setModel(DTM);
-//    } 
-//    }
 

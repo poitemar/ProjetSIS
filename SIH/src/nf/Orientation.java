@@ -10,7 +10,7 @@ package nf;
  *
  * @author poite
  */
-public enum Orientation {
+public enum Orientation { //une chambre peut être au Nord, au Sud, à l'Est, à l'Ouest ou au Centre ou null pour les personnes non hospitalisées
 
     /**
      *

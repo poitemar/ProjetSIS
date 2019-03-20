@@ -63,7 +63,7 @@ public class SecretaireAdministrative extends PersonnelMedical{
      * @param telCONF
      */
     public void ajouterNouveauPatient(String ipp, String nom, String prenom, Sexe sexe, String dateDeNaissance, String adresse, String telephone,String nomCONF,String prenomCONF, String adresseCONF,String telCONF){
-        
+        /* On ajoute un nouveau patient avec un ipp, un nom, un prénom, un sexe, une date de naissance, une adresse, un numéro de téléphone, le nom de la personne de confiance, son prénom, son adresse et son numéro de téléphone dans la bd **/
         Patient p = new Patient(ipp,nom,prenom,sexe,dateDeNaissance,adresse,telephone,nomCONF,prenomCONF,adresseCONF,telCONF);
         DMA dma = new DMA(p);
         DM dm = new DM(p);
@@ -98,6 +98,7 @@ public class SecretaireAdministrative extends PersonnelMedical{
      * @return
      */
     public int nombrePatients() {
+        /* Renvoie le nombre de patients dans la bd **/
         int compteur = 0;
         try {
             String query = "select * from patients"; // la query à entrer pour accéder aux données de nos tables 
@@ -118,6 +119,7 @@ public class SecretaireAdministrative extends PersonnelMedical{
      * @return
      */
     public String[] afficherListePatients() {
+        /* On renvoie un tableau de String contenant les noms et prénoms des patients de la base de données **/
         int compteur = nombrePatients();
         int i=0;
         String[] listePatients = new String[compteur];
@@ -157,6 +159,7 @@ public class SecretaireAdministrative extends PersonnelMedical{
      * @param telCONF
      */
     public void modifierPatient(String ipp, String nom, String prenom, Sexe sexe, String dateNaissance, String adresse, String telephone,String nomCONF,String prenomCONF, String adresseCONF,String telCONF){
+        /* On modifie les champs de la table "patient" avec ceux en entrée de cette fonction **/
         Patient patient = new Patient(ipp, nom, prenom, sexe, dateNaissance, adresse, telephone,nomCONF,prenomCONF,adresseCONF,telCONF);
         String sql = "update patient set NOM='"+patient.getNom()
                 +"', PRENOM='"+patient.getPrenom()

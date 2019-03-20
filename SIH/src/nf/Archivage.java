@@ -49,13 +49,13 @@ public class Archivage {
         /** prend en entrée le nom, le prénom, la date de Naissance et la cause du décès d'un patient
          et l'ajoute dans la table "patients_decedes" de la base de données, en le supprimant de la table
          "patients" */
-        String idPHR="";
-        String specialite="";
-        String idSejour="";
-        String ipp="";
+        String idPHR=""; //id du ph référent
+        String specialite=""; //id de la spécialité dans laquelle le patient était (oncologie, gynecologie ...)
+        String idSejour=""; //id du dernier séjour associé au patient et au ph référent
+        String ipp=""; //ipp du nouveau patient
         java.util.Date maDate;
         SimpleDateFormat maDateLongue;
-        maDateLongue= new SimpleDateFormat("dd/MM/yyyy");
+        maDateLongue= new SimpleDateFormat("dd/MM/yyyy"); 
         maDate= new java.util.Date();
         try {
             String query = "select * from PATIENTS natural join PH_REFERENT natural join LOCALISATION"; // la query à entrer pour accéder aux données de nos tables 
@@ -72,13 +72,7 @@ public class Archivage {
         }
         
         String sql = "insert into PATIENTS_DECEDES(IPP,NOM,PRENOM,DATE_NAISSANCE,ID_PHR,SPECIALITE,DATE_DECES,CAUSE_DECES) values (?,?,?,?,?,?,?,?)";
-        System.out.println("Nom : "+nom);
-        System.out.println("Prenom : "+prenom);
-        System.out.println("Date naissance : "+dateNaissance);
-        System.out.println("idPHR : "+idPHR);
-        System.out.println("Spe : "+specialite);
-        System.out.println("Date dc : "+maDateLongue.format(maDate));
-        System.out.println("Cause dc : "+causeDeces);
+        // on ajoute dans la base de données les paramètres d'entrées de la fonction avec les données récupérées dans la table "patient"
         try {
             PreparedStatement pstm = con.prepareStatement(sql); //c'est ici qu'on ajoute le patient dans la table "patients_decedes"
             
@@ -110,7 +104,7 @@ public class Archivage {
         
         try {
                 String requete = "delete from LOCALISATION where ID_SEJOUR='"+ idSejour+"'";
-                 st.executeUpdate(requete); //on supprime le séjour du patient dans la tale "localisation"
+                 st.executeUpdate(requete); //on supprime le séjour du patient dans la table "localisation"
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

@@ -64,10 +64,5 @@ public class DMA {
     public void setListeDeSejour(List<Sejour> listeDeSejour) {
         this.listeDeSejour = listeDeSejour;
     }
-    
-    
-   
-    // Fonctions à coder en dessous
-    
- 
+
 }

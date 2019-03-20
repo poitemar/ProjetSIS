@@ -198,7 +198,7 @@ public class PersonnelMedical {
                    //   System.out.println(docteur.getNom());
                  //System.out.println(docteur.getSpecialite().toString());
                  
-                 listePrestations.add(date);
+                 listePrestations.add(date); //on ajoute dans une liste les dates des prestations
                 
             }
         } catch (Exception ex) {
@@ -367,9 +367,9 @@ public class PersonnelMedical {
            
                 String idMed2 = rs.getString("ID_PHR");
           
-           if (idMed2.equals(idMed)){
+           if (idMed2.equals(idMed)){ //si l'id en entrée correspond à l'id d'un ph référent à un séjour donné
                System.out.println("C'est le med referent");
-               return true;
+               return true; //si c'est le ph référent
                
            }
         
@@ -381,7 +381,7 @@ public class PersonnelMedical {
         }
     
         
-        return false;
+        return false; // si ce n'est pas le ph référent
     }
     
 }

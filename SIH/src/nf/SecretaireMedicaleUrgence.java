@@ -68,6 +68,7 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
      * @param dateNaissance
      */
     public void ajouterPatient(String ipp,String nom, String prenom, String dateNaissance) {
+        /* On ajoute un patient dans la table de patients temporaires (en urgences) **/
         String sql = "insert into patients_temp(IPP_TEMP,NOM,PRENOM,DATE_NAISSANCE,DATE_ENTREE) values (?,?,?,?,?)";
         java.util.Date maDate;
             SimpleDateFormat maDateLongue;
@@ -97,6 +98,7 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
      * @return
      */
     public int nombrePatientsActuels() {
+        /* On renvoie le nombre de patients actuellement aux urgences **/
         int compteur = 0;
         try {
             String query = "select * from patients_temp"; // la query à entrer pour accéder aux données de nos tables 
@@ -117,6 +119,7 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
      * @return
      */
     public String[] afficherListePatientsActuels() {
+        /* On renvoie un tableau de String composé des noms et des prénoms concaténés des patients actuellement aux urgences  **/
         int compteur = nombrePatientsActuels();
         int i = 0;
         String[] listePatientsActuels = new String[compteur];

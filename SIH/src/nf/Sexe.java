@@ -11,6 +11,7 @@ package nf;
  * @author poite
  */
 public enum Sexe {
+    // un sexe peut être homme, femme ou autre
 
     /**
      *

@@ -86,7 +86,7 @@ public class Connexion {
         } catch (Exception ex) {
             
                System.out.println(ex);
-            return "ERREUR";
+            return "ERREUR"; //si ça ne fonctionne pas, on renvoie "erreur"
          
         }
         
@@ -106,11 +106,9 @@ public class Connexion {
             String nomQuery = "select * from personnel_medical where ID_P='" + id + "'"; // la query à entrer pour accéder aux données de nos tables 
             st = con.createStatement();
             rs = st.executeQuery(nomQuery);
-            System.out.println(nomQuery);
             while (rs.next()) {
-                // Patient p = new Patient(nom, prenom);
-                String idp = rs.getString("nom");
-                return idp;
+                String nom = rs.getString("nom");
+                return nom;
             }
 
             rs.close();
@@ -135,9 +133,8 @@ public class Connexion {
             rs = st.executeQuery(nomQuery);
             System.out.println(nomQuery);
             while (rs.next()) {
-                // Patient p = new Patient(nom, prenom);
-                String idp = rs.getString("prenom");
-                return idp;
+                String prenom = rs.getString("prenom");
+                return prenom;
             }
 
             rs.close();
@@ -162,8 +159,7 @@ public class Connexion {
             rs = st.executeQuery(nomQuery);
             System.out.println(nomQuery);
             while (rs.next()) {
-                // Patient p = new Patient(nom, prenom);
-                Service service = (Service) Enum.valueOf(Service.class, rs.getString("SERVICE"));
+                Service service = (Service) Enum.valueOf(Service.class, rs.getString("SERVICE")); //on cast en "service" le service qu'on récupère dans la bd sous la forme "String"
                 return service;
             }
 
@@ -174,10 +170,7 @@ public class Connexion {
         }
         return Service.ACCUEIL;
     }
- 
-     
-       //Retourne l'id personnel medical associe à l'id et au mdp dans la base de donnees
-
+    
     /**
      *
      * @param login
@@ -208,18 +201,18 @@ public class Connexion {
             }
             for (int i = 0; i < listLogin.size(); i++) {
 
-                if (login.equals(listLogin.get(i))) {
+                if (login.equals(listLogin.get(i))) { //si le login est bon ...
                     System.out.println("login bon");
-                    if (mdp.equals(listPassword.get(i))) {
+                    if (mdp.equals(listPassword.get(i))) { //et que le mdp aussi ../
                         System.out.println("password bon");
 
-                        return listId.get(i);
+                        return listId.get(i); // on renvoie l'id de la personne connectée
                     }
                 }
 
             }
             System.out.println("Identifiant ou mot de passe incorrect");
-            return "Identifiant ou mot de passe incorrect";
+            return "Identifiant ou mot de passe incorrect"; //sinon, on empêche la connexion
 
         } catch (Exception ex) {
             System.out.println(ex);
@@ -244,7 +237,7 @@ public class Connexion {
             System.out.println(nomQuery);
             while (rs.next()) {
                
-                Specialite spe = (Specialite) Enum.valueOf(Specialite.class, rs.getString("SPE"));
+                Specialite spe = (Specialite) Enum.valueOf(Specialite.class, rs.getString("SPE")); // on cast en type "Specialite" la spécialité récupérée dans la bd sous la forme "String"
                 System.out.println(spe.toString());
                 return spe;
             }

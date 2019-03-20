@@ -163,9 +163,5 @@ public class Localisation {
     public void setLit(Lit lit) {
         this.lit = lit;
     }
-    
-    
-    
-    
-    // Fonctions a coder en dessous
+
 }

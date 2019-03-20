@@ -11,6 +11,7 @@ package nf;
  * @author poite
  */
 public enum Service {
+    // un service peut être un suivant :
 
     /**
      *

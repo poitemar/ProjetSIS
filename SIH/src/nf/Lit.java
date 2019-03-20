@@ -10,7 +10,7 @@ package nf;
  *
  * @author poite
  */
-public enum Lit {
+public enum Lit { //un lit peut être orienté côté fenêtre ou porte ou null, pour les personnes non hospitalisées
     
     /**
      *
