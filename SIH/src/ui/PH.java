@@ -575,7 +575,7 @@ public class PH extends JFrame implements ActionListener {
         medPres = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox();
         jScrollPane9 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<String>();
+        jList2 = new javax.swing.JList<>();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         panelSortie = new javax.swing.JPanel();
@@ -1166,7 +1166,7 @@ public class PH extends JFrame implements ActionListener {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(interfacePH, javax.swing.GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE)
+            .addComponent(interfacePH, javax.swing.GroupLayout.PREFERRED_SIZE, 601, Short.MAX_VALUE)
         );
 
         pack();
@@ -1588,8 +1588,13 @@ public class PH extends JFrame implements ActionListener {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         // TODO add your handling code here:
+        if (!jList1.isSelectionEmpty()) {
         String ipp = patient.ippPatientListe(PatientSelection);
-        new ModifierLocalisation(ipp).setVisible(true);
+        new ModifierLocalisation(ipp).setVisible(true);}
+        else{
+            JOptionPane.showMessageDialog(this, "Veuillez selectionner un patient", "ATTENTION", JOptionPane.ERROR_MESSAGE);
+
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
