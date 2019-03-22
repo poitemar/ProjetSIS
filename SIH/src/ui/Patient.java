@@ -5,7 +5,13 @@
  */
 package ui;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import nf.DMA;
 import nf.Lit;
 import nf.Localisation;
@@ -14,176 +20,160 @@ import nf.Sejour;
 import nf.Service;
 import nf.Specialite;
 import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.DefaultTreeModel;
 
 /**
  *
  * @author racam
  */
 public class Patient extends javax.swing.JFrame {
-nf.PersonnelMedical p;
-String IPP;
-nf.Patient patient;
-String nom;
-String prenom;
-String sexe;
-String dateNaissance;
-String adresse;
-String numero;
-String idSej;
-String PHRef;
-String PersConf;
-String adresseConf;
-String telConf;
-String service;
-String orientation;
-String etage;
-String chambre;
-String lit;
-private DefaultTreeCellRenderer tCellRenderer = new DefaultTreeCellRenderer();
+
+   
+  
+ 
+    private DefaultTreeCellRenderer tCellRenderer = new DefaultTreeCellRenderer();
+    nf.Patient pat = new nf.Patient("", "", "");
+    nf.Localisation locCourant = new nf.Localisation(Specialite.ACCUEIL, Orientation.OUEST, 1, 133, Lit.PORTE);
+
+    nf.Sejour sejourCourant = new nf.Sejour("bluff", "bluff", "bluff", locCourant);
+
     /**
      * Creates new form Patients
      */
-    public Patient() {
+    public Patient(nf.Patient p) {
         initComponents();
+        setSize(900, 800);
+        this.pat = p;
+        initRenderer();
+        buildTree();
     }
-    
-     public void buildTree1() {
+
+    private void initRenderer() {
+        //Instanciation
+
         this.tCellRenderer.setClosedIcon(null);
         this.tCellRenderer.setOpenIcon(null);
         this.tCellRenderer.setLeafIcon(null);
-
-        nf.Patient pat = new nf.Patient("bluff", "bluff");
-        DMA dma = new DMA(pat);
-        Localisation locBluff = new Localisation(Specialite.ANESTHESIE, Orientation.NORD, 5, 3, Lit.FENETRE);
-        Sejour sej = new Sejour("dSejour", "idPatient", "idphReferan", locBluff);
-        nf.PH ph = new nf.PH("bono", "jean", "hello", "i am", "here", Specialite.ANESTHESIE, Service.MEDICO_TECHNIQUE);
-        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Identité patient");
-
-        
-
-//afficher infos patient
-         
-        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Nom : " + nom);
-        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Prenom : " + prenom);
-        javax.swing.tree.DefaultMutableTreeNode treeNode4 = new javax.swing.tree.DefaultMutableTreeNode("Date de naissance : " + dateNaissance);
-        treeNode1.add(treeNode2);
-        treeNode1.add(treeNode3);
-        treeNode1.add(treeNode4);
-
-        //complement des infos patient 
-        javax.swing.tree.DefaultMutableTreeNode treeNode5 = new javax.swing.tree.DefaultMutableTreeNode("Sexe : " + sexe);
-        javax.swing.tree.DefaultMutableTreeNode treeNode6 = new javax.swing.tree.DefaultMutableTreeNode("Adresse : " + adresse);
-        javax.swing.tree.DefaultMutableTreeNode treeNode7 = new javax.swing.tree.DefaultMutableTreeNode("Telephone : " + numero);
-        treeNode1.add(treeNode5);
-        treeNode1.add(treeNode6);
-        treeNode1.add(treeNode7);
-
-        //afficher le sejour en cours 
-        javax.swing.tree.DefaultMutableTreeNode treeNode13 = new javax.swing.tree.DefaultMutableTreeNode("Sejour En Cours :");
-        javax.swing.tree.DefaultMutableTreeNode treeNode8 = new javax.swing.tree.DefaultMutableTreeNode("ID_Sejour : " + idSej);
-        treeNode13.add(treeNode8);
-        javax.swing.tree.DefaultMutableTreeNode treeNode14 = new javax.swing.tree.DefaultMutableTreeNode("PH Referent : " + PHRef);
-        treeNode13.add(treeNode14);
-        treeNode1.add(treeNode13);
-
-        //Afficher les prestations 
-        javax.swing.tree.DefaultMutableTreeNode treeNode9 = new javax.swing.tree.DefaultMutableTreeNode("Prestations");
-        ArrayList<String> pres = sej.affichePrestation(idSej);
-        if (sej.sejourEnCours(idSej) == true) {
-            for (int i = 0; i < pres.size(); i++) {
-                String prest = pres.get(i);
-                System.out.println(pres.get(i));
-
-                javax.swing.tree.DefaultMutableTreeNode treeNode10 = new javax.swing.tree.DefaultMutableTreeNode(prest);
-                treeNode9.add(treeNode10);
-                treeNode1.add(treeNode9);
-            }
-        }
-        //   Lettre de sortie
-        ArrayList<String> lettre = sej.afficherLettreSortie(IPP);
-        javax.swing.tree.DefaultMutableTreeNode treeNode11 = new javax.swing.tree.DefaultMutableTreeNode("Lettre De Sortie");
-        for (int i = 0; i < lettre.size(); i++) {
-            String letter = lettre.get(i);
-            System.out.println(lettre.get(i));
-            javax.swing.tree.DefaultMutableTreeNode treeNode12 = new javax.swing.tree.DefaultMutableTreeNode(letter);
-            treeNode11.add(treeNode12);
-            treeNode1.add(treeNode11);
-        }
-
-        // Afficher personne de confiance: 
-        javax.swing.tree.DefaultMutableTreeNode treeNodePersonneConfiance = new javax.swing.tree.DefaultMutableTreeNode("Personne De Confiance:");
-        javax.swing.tree.DefaultMutableTreeNode treeNode16 = new javax.swing.tree.DefaultMutableTreeNode(PersConf);
-        javax.swing.tree.DefaultMutableTreeNode treeNode17 = new javax.swing.tree.DefaultMutableTreeNode(adresseConf);
-        javax.swing.tree.DefaultMutableTreeNode treeNode18 = new javax.swing.tree.DefaultMutableTreeNode(telConf);
-        treeNodePersonneConfiance.add(treeNode16);
-        treeNodePersonneConfiance.add(treeNode17);
-        treeNodePersonneConfiance.add(treeNode18);
-        treeNode1.add(treeNodePersonneConfiance);
-
-//Afficher medecin référent 
-        javax.swing.tree.DefaultMutableTreeNode treeNodeLocalisation = new javax.swing.tree.DefaultMutableTreeNode("Localisation (En Cours)");
-       
-       
-        javax.swing.tree.DefaultMutableTreeNode treeNode19 = new javax.swing.tree.DefaultMutableTreeNode("Type de sejour : Hospitalisation ");
-        javax.swing.tree.DefaultMutableTreeNode treeNode20 = new javax.swing.tree.DefaultMutableTreeNode("Service : " + service);
-        javax.swing.tree.DefaultMutableTreeNode treeNode21 = new javax.swing.tree.DefaultMutableTreeNode("Orientation : " + orientation);
-        javax.swing.tree.DefaultMutableTreeNode treeNode22 = new javax.swing.tree.DefaultMutableTreeNode("Chambre: " + chambre);
-        javax.swing.tree.DefaultMutableTreeNode treeNode23 = new javax.swing.tree.DefaultMutableTreeNode("Etage : " + etage);
-        javax.swing.tree.DefaultMutableTreeNode treeNode24 = new javax.swing.tree.DefaultMutableTreeNode("Lit : " + lit);
-        treeNodeLocalisation.add(treeNode20);
-        treeNodeLocalisation.add(treeNode21);
-        treeNodeLocalisation.add(treeNode22);
-        treeNodeLocalisation.add(treeNode23);
-        treeNodeLocalisation.add(treeNode24);
-//        treeNode8.add(treeNode13);
-//        treeNode8.add(treeNode14);
-        treeNode1.add(treeNodeLocalisation);
-//
-//        String[] adm = affichageDma.split("\\s");
-//        javax.swing.tree.DefaultMutableTreeNode treeNode15 = new javax.swing.tree.DefaultMutableTreeNode("Information complémentaire");
-//        javax.swing.tree.DefaultMutableTreeNode treeNode16 = new javax.swing.tree.DefaultMutableTreeNode("IDPH : " + adm[0]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode17 = new javax.swing.tree.DefaultMutableTreeNode("ID Sejour : " + adm[1]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode18 = new javax.swing.tree.DefaultMutableTreeNode("Date de Saisie : " + adm[2]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode21 = new javax.swing.tree.DefaultMutableTreeNode("heure:de saise " + adm[3]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode19 = new javax.swing.tree.DefaultMutableTreeNode("Lettre de Sortie : " + adm[4]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode20 = new javax.swing.tree.DefaultMutableTreeNode("Titre Operation : " + adm[5]);
-//        treeNode15.add(treeNode16);
-//        treeNode15.add(treeNode17);
-//        treeNode15.add(treeNode18);
-//        treeNode15.add(treeNode21);
-//        treeNode15.add(treeNode19);
-//        treeNode15.add(treeNode20);
-//        treeNode1.add(treeNode15);
-        
-        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        jTree1.setCellRenderer(this.tCellRenderer);
     }
-    
-//    public Patient(nf.PersonnelMedical p){
-//        System.out.println("on serait pas là ??");
-//        initComponents();      
-//        this.p=p;
-//        IPP=p.getIdMed(); 
-//        patient = new nf.Patient();
-//        nom = patient.getNom(IPP);
-//        prenom = patient.getPrenom(IPP);
-//        sexe = patient.getSexe(IPP);
-//        dateNaissance = patient.getDateDeNaissance(IPP);
-//        adresse = patient.getAdresse(IPP);
-//        numero = patient.getTelephone(IPP);
-//        idSej = patient.getIdSejourCourant(IPP);
-//        PHRef = patient.getPHReferent(IPP);
-//        PersConf = patient.afficherNomPersonneConfiance(IPP);
-//        adresseConf = patient.afficherAdressePersonneConfiance(IPP);
-//        telConf = patient.afficherTelPersonneConfiance(IPP);
-//        service = patient.getService(IPP);
-//        orientation = patient.getOrientation(IPP);
-//        chambre = patient.getChambre(IPP);
-//        etage = patient.getEtage(IPP);
-//        lit = patient.getLit(IPP);
-//        System.out.println("déjà, affichons ça");
-//        buildTree1();
-//    }
+
+    /**
+     *
+     */
+    public void buildTree() {
+        DM.setCellRenderer(this.tCellRenderer);
+
+        List<String> listeIdSejours = sejourCourant.listeSejour(pat.getipp());
+        List<String> listedateSaisie;
+        List<String> listeDateLoc;
+        List<String> listeLoc;
+        TreeMap<String, String> listeInfos;
+        String dateS = "";
+        java.util.Date date1 = new java.util.Date();
+        java.util.Date date2 = new java.util.Date();
+        String dateS2 = "";
+        javax.swing.tree.DefaultMutableTreeNode racine = new javax.swing.tree.DefaultMutableTreeNode("Mme/M." + pat.getNom() + " " + pat.getPrenom());
+
+        for (int i = 0; i < listeIdSejours.size(); i++) {
+            listedateSaisie = sejourCourant.listeSaisie(listeIdSejours.get(i));
+            listeDateLoc = sejourCourant.listeLoc(listeIdSejours.get(i));
+            System.out.println("REGARDE PAR IC ++++++++++++++++++++++++++++     ");
+            System.out.println(listedateSaisie);
+            System.out.println(listeDateLoc);
+            javax.swing.tree.DefaultMutableTreeNode sejour = new javax.swing.tree.DefaultMutableTreeNode(sejourCourant.listeSejourtoString(listeIdSejours.get(i)));
+            java.text.SimpleDateFormat format = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+            int isaisie = 0, iloc = 0;
+
+            String dsaisie = null, loc = null;
+
+            javax.swing.tree.DefaultMutableTreeNode localisation, saisie;
+
+            while (isaisie < listedateSaisie.size() && iloc < listeDateLoc.size()) {
+
+                dsaisie = listedateSaisie.get(isaisie);
+                loc = listeDateLoc.get(iloc);
+
+                localisation = new javax.swing.tree.DefaultMutableTreeNode(sejourCourant.listeLoctoString(loc, listeIdSejours.get(i)));
+                saisie = new javax.swing.tree.DefaultMutableTreeNode(sejourCourant.listeSaisietoString(dsaisie, listeIdSejours.get(i)));
+
+                try {
+                    date1 = format.parse(dsaisie);
+                    date2 = format.parse(loc);
+                } catch (ParseException ex) {
+
+                    Logger.getLogger(Sejour.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                if (date1.compareTo(date2) > 0) {
+
+                    sejour.add(localisation);
+
+                    iloc++;
+                } else {
+                    sejour.add(saisie);
+
+                    listeInfos = sejourCourant.listeInfos(dsaisie, listeIdSejours.get(i));
+
+                    for (Map.Entry mapentry : listeInfos.entrySet()) {
+                        String[] tab = mapentry.getKey().toString().split("X");
+                        for (int k = 1; k < tab.length; k++) {
+                            javax.swing.tree.DefaultMutableTreeNode info = new javax.swing.tree.DefaultMutableTreeNode(tab[k] + " : " + mapentry.getValue());
+                            saisie.add(info);
+
+                        }
+                    }
+
+                    isaisie++;
+                }
+
+            }
+
+            if (isaisie == listedateSaisie.size()) {
+                while (iloc < listeDateLoc.size()) {
+                    loc = listeDateLoc.get(iloc);
+
+                    localisation = new javax.swing.tree.DefaultMutableTreeNode(sejourCourant.listeLoctoString(loc, listeIdSejours.get(i)));
+                    sejour.add(localisation);
+
+                    iloc++;
+                }
+            } else if (iloc == listeDateLoc.size()) {
+                while (isaisie < listedateSaisie.size()) {
+                    dsaisie = listedateSaisie.get(isaisie);
+                    saisie = new javax.swing.tree.DefaultMutableTreeNode(sejourCourant.listeSaisietoString(dsaisie, listeIdSejours.get(i)));
+                    sejour.add(saisie);
+
+                    listeInfos = sejourCourant.listeInfos(dsaisie, listeIdSejours.get(i));
+
+                    for (Map.Entry mapentry : listeInfos.entrySet()) {
+                        String[] tab = mapentry.getKey().toString().split("X");
+                        for (int k = 1; k < tab.length; k++) {
+                            javax.swing.tree.DefaultMutableTreeNode info = new javax.swing.tree.DefaultMutableTreeNode(tab[k] + " : " + mapentry.getValue());
+                            saisie.add(info);
+
+                        }
+                    }
+
+                    isaisie++;
+                }
+            }
+
+            if (sejourCourant.sejourEnCours(listeIdSejours.get(i))) {
+
+                localisation = new javax.swing.tree.DefaultMutableTreeNode(sejourCourant.listeLoctoString("", listeIdSejours.get(i)));
+
+                sejour.add(localisation);
+
+            }
+
+            racine.add(sejour);
+
+        }
+
+        DefaultTreeModel arbre = new DefaultTreeModel(racine);
+        DM.setModel(arbre);
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -198,7 +188,7 @@ private DefaultTreeCellRenderer tCellRenderer = new DefaultTreeCellRenderer();
         jLabel3 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
+        DM = new javax.swing.JTree();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addMouseListener(new java.awt.event.MouseAdapter() {
@@ -222,8 +212,8 @@ private DefaultTreeCellRenderer tCellRenderer = new DefaultTreeCellRenderer();
             }
         });
 
-        jScrollPane1.setViewportView(jTree1);
-        jTree1.getAccessibleContext().setAccessibleName("Dossier Médical Administratif");
+        jScrollPane1.setViewportView(DM);
+        DM.getAccessibleContext().setAccessibleName("Dossier Médical Administratif");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -250,7 +240,7 @@ private DefaultTreeCellRenderer tCellRenderer = new DefaultTreeCellRenderer();
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addGap(18, 21, Short.MAX_VALUE)
                 .addComponent(jButton3)
                 .addGap(19, 19, 19))
         );
@@ -265,7 +255,7 @@ private DefaultTreeCellRenderer tCellRenderer = new DefaultTreeCellRenderer();
 
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_formMouseEntered
 
     /**
@@ -299,16 +289,16 @@ private DefaultTreeCellRenderer tCellRenderer = new DefaultTreeCellRenderer();
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Patient().setVisible(true);
+            //    new Patient().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTree DM;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
 }

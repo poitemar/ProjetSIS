@@ -83,7 +83,7 @@ public class nouveauPersonnel extends javax.swing.JFrame {
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dossMed_logo_1.PNG"))); // NOI18N
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ANESTHESISTE", "DOCTEUR", "RADIOLOGUE", "SECRETAIRE_MEDICALE", "SECRETAIRE_ADMINISTRATIVE" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ANESTHESISTE", "DOCTEUR", "RADIOLOGUE", "SECRETAIRE_MEDICALE", "SECRETAIRE_ADMINISTRATIVE", "INFIRMIERE" }));
 
         Specialite labels[] = Specialite.values();
         DefaultComboBoxModel model = new DefaultComboBoxModel(labels);

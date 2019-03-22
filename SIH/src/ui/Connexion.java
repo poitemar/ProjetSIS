@@ -7,6 +7,7 @@ package ui;
 
 import javax.swing.JOptionPane;
 import nf.Service;
+import nf.Sexe;
 import nf.Specialite;
 
 /**
@@ -191,22 +192,54 @@ public class Connexion extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         //Je cree un personnel qui recupere les infos de celui qui se connecte pour le faire passer aux prochaines interfaces par le constructeur 
-        personnel = new nf.PersonnelMedical(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText()), cx.nomPersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())), cx.prenomPersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())), saisieId.getText(), saisieMdp.getText(), cx.spePersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())), cx.ServicePersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())));
-        //  System.out.println(personnel.getIdMed()+";"+personnel.getNom()+";"+personnel.getPrenom());
-        try {
-            if(cx.seConnecter(saisieId.getText(), saisieMdp.getText()).equals("ERREUR")){
+         nf.SecretaireMedicale secrMed = new nf.SecretaireMedicale("null", "null", "null", "null", "null", Specialite.ONCOLOGIE, Service.CLINIQUE);
+    
+  
+        
+        if (cx.choixPersonnel(saisieId.getText(), saisieMdp.getText()).equals("Erreur de connexion")){
+              nf.Patient pat = new nf.Patient("null", "null", "null", Sexe.FEMME, "null", "null", "null","","","","");
+        pat= secrMed.recuperationPatient(cx.choixPatient(saisieId.getText(),saisieMdp.getText()));
+            try {
+                System.out.println("TEST2    "+cx.seConnecter(saisieId.getText(), saisieMdp.getText(),false));
+             if(cx.seConnecter(saisieId.getText(), saisieMdp.getText(),false).equals("ERREUR")){
                 JOptionPane.showMessageDialog(this, "L'identifiant ou le mot de passe saisi est incorrect, Veuillez réessayer", "ATTENTION", JOptionPane.ERROR_MESSAGE);
                 this.dispose();
                 new Connexion().setVisible(true);
             }
+             if(cx.seConnecter(saisieId.getText(), saisieMdp.getText(),false).equals("PATIENT")){
+             new Patient(pat).setVisible(true);
+             this.dispose();
+             }}
+              catch (Exception ex) {
+            System.out.println(ex);
+            
+        }}
+        
+        else{
+             personnel = new nf.PersonnelMedical(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText()), cx.nomPersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())), cx.prenomPersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())), saisieId.getText(), saisieMdp.getText(), cx.spePersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())), cx.ServicePersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())));
+       
+        
+        try {
+             
+            if(cx.seConnecter(saisieId.getText(), saisieMdp.getText(),true).equals("ERREUR")){
+                JOptionPane.showMessageDialog(this, "L'identifiant ou le mot de passe saisi est incorrect, Veuillez réessayer", "ATTENTION", JOptionPane.ERROR_MESSAGE);
+                this.dispose();
+                new Connexion().setVisible(true);
+            }
+            //connexion d'une infirmiere
+            if (cx.seConnecter(saisieId.getText(), saisieMdp.getText(),true).equals("INFIRMIERE")) {
+                new Infirmiere(personnel).setVisible(true);
+
+                this.dispose();
+            }
             //connexion d'une secretaire administrative
-            if (cx.seConnecter(saisieId.getText(), saisieMdp.getText()).equals("SECRETAIRE_ADMINISTRATIVE")) {
+            if (cx.seConnecter(saisieId.getText(), saisieMdp.getText(),true).equals("SECRETAIRE_ADMINISTRATIVE")) {
                 new SecretaireAdministrative(personnel).setVisible(true);
 
                 this.dispose();
             }
             //connexion d'une secretaire medicale
-            if (cx.seConnecter(saisieId.getText(), saisieMdp.getText()).equals("SECRETAIRE_MEDICALE")) {
+            if (cx.seConnecter(saisieId.getText(), saisieMdp.getText(),true).equals("SECRETAIRE_MEDICALE")) {
                 if (cx.spePersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())).toString().equals("URGENCE")) {
                     new SecretaireMedicaleUrgence(personnel).setVisible(true);
                     this.dispose();
@@ -218,7 +251,7 @@ public class Connexion extends javax.swing.JFrame {
                 }
             }
             //connexion d'un ph
-            if (cx.seConnecter(saisieId.getText(), saisieMdp.getText()).equals("DOCTEUR")) {
+            if (cx.seConnecter(saisieId.getText(), saisieMdp.getText(),true).equals("DOCTEUR")) {
                 System.out.println(cx.spePersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())).toString());
                 if (cx.spePersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())).toString().equals("RADIOLOGIE")) {
                     new Radiologue(personnel).setVisible(true);
@@ -235,11 +268,11 @@ public class Connexion extends javax.swing.JFrame {
                     new PH(personnel).setVisible(true);
                     this.dispose();
                 }
-            }
-        } catch (Exception ex) {
+            }}
+         catch (Exception ex) {
             System.out.println(ex);
             
-        }
+        }}
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void saisieMdpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saisieMdpMouseClicked

@@ -119,9 +119,7 @@ public class PH extends JFrame implements ActionListener {
             String ipp = patient.ippPatientListe(element);
 
             String idDernierSejour = ph.idSejourPatientSelection(ipp);
-            System.out.println("L LLLLLLLLLLLLLL");
-
-            System.out.println(idDernierSejour);
+           
             if (sejourBluff.sejourEnCours(idDernierSejour)) {
                 DLM.addElement(element);
             }
@@ -1781,6 +1779,38 @@ public class PH extends JFrame implements ActionListener {
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
         new AffichageArchives().setVisible(true);
+        if(!jList1.isSelectionEmpty()){
+             DLM.clear();
+        listePatient = secrMed.afficherListePatientParService(perso.getSpecialite());
+
+        for (int i = 0; i < listePatient.size(); i++) {
+            String element = "" + listePatient.get(i).getNom() + "         " + listePatient.get(i).getPrenom() + "         " + listePatient.get(i).getDateDeNaissance();
+            //Verifier que le dernier sejour du patient soit en cours avant de lafficher
+            nf.Localisation lbluff = new nf.Localisation(Specialite.ACCUEIL, Orientation.OUEST, ERROR, ABORT, Lit.PORTE);
+            nf.Sejour sejourBluff = new nf.Sejour("", "", "", lbluff);
+            nf.PH ph = new nf.PH("", "", "", "", "", Specialite.ACCUEIL, Service.CLINIQUE);
+            String ipp = patient.ippPatientListe(element);
+            String idDernierSejour = ph.idSejourPatientSelection(ipp);
+            System.out.println("\n\n");
+            System.out.println("              ICI                ");
+            System.out.println(" a voiiiir" + idDernierSejour);
+            System.out.println(sejourBluff.sejourEnCours(idDernierSejour));
+            if (sejourBluff.sejourEnCours(idDernierSejour)) {
+                DLM.addElement(element);
+            }
+            jList1.setModel(DLM);
+            jList1.repaint();
+        }
+            
+            if (persoUrg == false) {
+            buildTree1();
+        } else {
+            buildTree2();
+        }
+        initRenderer();
+        buildTree();
+        }
+        
     }//GEN-LAST:event_jButton9ActionPerformed
 
     /**

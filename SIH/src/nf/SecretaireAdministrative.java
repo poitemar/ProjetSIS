@@ -23,7 +23,8 @@ public class SecretaireAdministrative extends PersonnelMedical {
     private Statement st;
     private Specialite specialite;
     private ResultSet rs;
-
+ private ResultSet rs1;
+   private Statement st1;
     /**
      *
      * @param idMed
@@ -42,6 +43,7 @@ public class SecretaireAdministrative extends PersonnelMedical {
 
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", "");
             st = con.createStatement();
+            st1 = con.createStatement();
 
         } catch (Exception ex) {
             System.out.println("error :" + ex);
@@ -63,17 +65,19 @@ public class SecretaireAdministrative extends PersonnelMedical {
      * @param adresseCONF
      * @param telCONF
      */
-    public void ajouterNouveauPatient(String ipp, String nom, String prenom, Sexe sexe, String dateDeNaissance, String adresse, String telephone, String nomCONF, String prenomCONF, String adresseCONF, String telCONF) {
+    public String ajouterNouveauPatient(String ipp, String nom, String prenom, Sexe sexe, String dateDeNaissance, String adresse, String telephone, String nomCONF, String prenomCONF, String adresseCONF, String telCONF) {
         /* On ajoute un nouveau patient avec un ipp, un nom, un prénom, un sexe, une date de naissance, une adresse, un numéro de téléphone, le nom de la personne de confiance, son prénom, son adresse et son numéro de téléphone dans la bd **/
         Patient p = new Patient(ipp, nom, prenom, sexe, dateDeNaissance, adresse, telephone, nomCONF, prenomCONF, adresseCONF, telCONF);
         DMA dma = new DMA(p);
         DM dm = new DM(p);
+        String login="";
+        String mdp="";
 
         String sql = "insert into patients(IPP,NOM,PRENOM,SEXE,DATENAISSANCE,ADRESSE,TELEPHONE,NOMCONF,PRENOMCONF,ADRESSECONF,TELEPHONECONF) values (?,?,?,?,?,?,?,?,?,?,?)";
-
+        String sql2 = "insert into patient_acces(IPP,LOGIN,MDP) values (?,?,?)";
         try {
             PreparedStatement pstm = con.prepareStatement(sql);
-
+            
             pstm.setString(1, ipp);
             pstm.setString(2, nom);
             pstm.setString(3, prenom);
@@ -87,9 +91,19 @@ public class SecretaireAdministrative extends PersonnelMedical {
             pstm.setString(11, telCONF);
             pstm.executeUpdate();
 
+            login =creationLogin(nom,prenom);
+            mdp=generateMdp(10);
+            PreparedStatement pstm1 = con.prepareStatement(sql2);
+            pstm1.setString(1, ipp);
+            pstm1.setString(2, login);
+            pstm1.setString(3,mdp);
+                pstm1.executeUpdate();
+            
+            
         } catch (Exception ex) {
             System.out.println(ex);
         }
+        return ""+login+" "+mdp;
     }
 
     public void ajouterPersonnel(String type, String nom, String prenom, Service service, String login, String mdp, Specialite spe) {

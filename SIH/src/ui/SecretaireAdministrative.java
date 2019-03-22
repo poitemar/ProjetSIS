@@ -63,7 +63,7 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
         Localisation locBluff = new Localisation(Specialite.ANESTHESIE, Orientation.NORD, 5, 3, Lit.FENETRE);
         Sejour sej = new Sejour("dSejour", "idPatient", "idphReferan", locBluff);
         nf.PH ph = new nf.PH("bono", "jean", "hello", "i am", "here", Specialite.ANESTHESIE, Service.MEDICO_TECHNIQUE);
-
+        if(!jList1.isSelectionEmpty()){
         String IDSej = ph.idSejourPatientSelection(pat.ippPatientListe(jList1.getSelectedValue().toString()));
          javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Identité patient");
         String lecture1 = jList1.getSelectedValue().toString();
@@ -201,7 +201,7 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
         jTree1.setCellRenderer(this.tCellRenderer);
        
       
-    }
+    }}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -252,21 +252,6 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
             String[] strings = liste;
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
-        });
-        jList1.addContainerListener(new java.awt.event.ContainerAdapter() {
-            public void componentAdded(java.awt.event.ContainerEvent evt) {
-                jList1ComponentAdded(evt);
-            }
-        });
-        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jList1MouseReleased(evt);
-            }
-        });
-        jList1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jList1PropertyChange(evt);
-            }
         });
         jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -581,35 +566,23 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
         if (!jList1.isSelectionEmpty()) {
             patientSelectionne = jList1.getSelectedValue().toString();
-
+           
             buildTree1();
 
         }
 
     }//GEN-LAST:event_jList1ValueChanged
 
-    private void jList1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jList1PropertyChange
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_jList1PropertyChange
-
-    private void jList1ComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_jList1ComponentAdded
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_jList1ComponentAdded
-
-    private void jList1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseReleased
-
-    }//GEN-LAST:event_jList1MouseReleased
-
     private void jTree1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTree1MouseClicked
 
     }//GEN-LAST:event_jTree1MouseClicked
 
     private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
+        
         String[] liste2 = new String[secrAdm.nombrePatients()];
         liste2 = secrAdm.afficherListePatients();
         DefaultListModel DLM = new DefaultListModel();
+        if(!jList1.isSelectionEmpty()){
         for (int i = 0; i < liste2.length; i++) {
             String element = liste2[i];
             DLM.addElement(element);
@@ -618,7 +591,7 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
         jList1.setModel(DLM);
         jList1.repaint();
         buildTree1();
-
+        }
     }//GEN-LAST:event_jPanel1MouseClicked
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed

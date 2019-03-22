@@ -5,7 +5,6 @@
  */
 package ui;
 
-
 import java.sql.Date;
 import java.util.ArrayList;
 import javax.swing.ComboBoxModel;
@@ -24,24 +23,25 @@ import nf.Specialite;
  */
 public class nouveauPatientUrgence extends javax.swing.JFrame {
 
-    nf.SecretaireMedicaleUrgence secrMedUrg = new nf.SecretaireMedicaleUrgence("1234","MAURIOL","Marine","087567","123",Specialite.ACCUEIL,Service.ACCUEIL);
-    
+    nf.SecretaireMedicaleUrgence secrMedUrg = new nf.SecretaireMedicaleUrgence("1234", "MAURIOL", "Marine", "087567", "123", Specialite.ACCUEIL, Service.ACCUEIL);
+
     nf.SecretaireAdministrative secrAdm = new nf.SecretaireAdministrative("null", "null", "null", "null", "null", Specialite.ACCUEIL, Service.CLINIQUE);
-        nf.PersonnelMedical perso;
-     nf.SecretaireMedicale secretaireMedicaleCourante = new nf.SecretaireMedicale("null", "null", "null", "null", "null", Specialite.ONCOLOGIE, Service.CLINIQUE);
+    nf.PersonnelMedical perso;
+    nf.SecretaireMedicale secretaireMedicaleCourante = new nf.SecretaireMedicale("null", "null", "null", "null", "null", Specialite.ONCOLOGIE, Service.CLINIQUE);
     ArrayList<nf.PH> listeMedU = new ArrayList<nf.PH>();
-     DefaultListModel DLM = new DefaultListModel();
-     String nouvel_ID_Sejour="";
+    DefaultListModel DLM = new DefaultListModel();
+    String nouvel_ID_Sejour = "";
+
     /**
      * Creates new form nouveauPatient
      */
     public nouveauPatientUrgence(nf.PersonnelMedical p) {
         initComponents();
-         setSize(700,600);
-         this.perso = p;
-      listeMedU = secretaireMedicaleCourante.afficherListeMedecinParService(perso.getSpecialite());
+        setSize(700, 600);
+        this.perso = p;
+        listeMedU = secretaireMedicaleCourante.afficherListeMedecinParService(perso.getSpecialite());
         for (int i = 0; i < listeMedU.size(); i++) {
-            String element = "" + listeMedU.get(i).getNom() + "         " + listeMedU.get(i).getPrenom() ;
+            String element = "" + listeMedU.get(i).getNom() + "         " + listeMedU.get(i).getPrenom();
             DLM.addElement(element);
         }
         listeMed.setModel(DLM);
@@ -227,34 +227,35 @@ public class nouveauPatientUrgence extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-          nf.Patient p = new nf.Patient("bluff","bluff") ;
-          String ipp="";
-          
-           if(secretaireMedicaleCourante.identitePatient(nom.getText(), prenom.getText(), dateN.getText()).equals("Nouveau patient")){
-               ipp = p.creationIPP_pour_ajout_patient();
-               secrAdm.ajouterNouveauPatient(ipp, nom.getText(), prenom.getText(),(nf.Sexe) sexe.getSelectedItem(), dateN.getText(),"","","","","","");
-         
-           }
-           
-           else{
-               ipp = secretaireMedicaleCourante.identitePatient(nom.getText(), prenom.getText(), dateN.getText());
-           }
-           
-           
-           nouvel_ID_Sejour = secretaireMedicaleCourante.creationID_Sejour();
-          String phSelection = listeMed.getSelectedValue().toString();
-        
-             nf.Localisation localisationCourante = new nf.Localisation(perso.getSpecialite(),Orientation.NULL,0,0,Lit.NULL);
-             secretaireMedicaleCourante.ajouterSejour(nouvel_ID_Sejour, ipp, secretaireMedicaleCourante.iPPMedecinListe(phSelection), localisationCourante);
-         
-         
-         JOptionPane.showMessageDialog(this, "Le patient a bien été ajouté", "OK", JOptionPane.INFORMATION_MESSAGE);
-         
-        
-          this.dispose();
-      
-        
-        
+        nf.Patient p = new nf.Patient("bluff", "bluff");
+        String ipp = "";
+
+        if (secretaireMedicaleCourante.identitePatient(nom.getText(), prenom.getText(), dateN.getText()).equals("Nouveau patient")) {
+            ipp = p.creationIPP_pour_ajout_patient();
+            String idmdp = secrAdm.ajouterNouveauPatient(ipp, nom.getText(), prenom.getText(), (nf.Sexe) sexe.getSelectedItem(), dateN.getText(), "", "", "", "", "", "");
+            String[] result = idmdp.split("\\s");
+            String id = result[0];
+            String mdp = result[1];
+            String info = "Le patient a bien été ajouté, retenez vos identifiants :\n";
+            info += "Identifiant : " + id + " \n";
+            info += "Mot de passe : " + mdp + " \n";
+
+            JOptionPane.showMessageDialog(this, info, "OK", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            ipp = secretaireMedicaleCourante.identitePatient(nom.getText(), prenom.getText(), dateN.getText());
+        }
+
+        nouvel_ID_Sejour = secretaireMedicaleCourante.creationID_Sejour();
+        String phSelection = listeMed.getSelectedValue().toString();
+
+        nf.Localisation localisationCourante = new nf.Localisation(perso.getSpecialite(), Orientation.NULL, 0, 0, Lit.NULL);
+        secretaireMedicaleCourante.ajouterSejour(nouvel_ID_Sejour, ipp, secretaireMedicaleCourante.iPPMedecinListe(phSelection), localisationCourante);
+
+        JOptionPane.showMessageDialog(this, "Le patient a bien été ajouté", "OK", JOptionPane.INFORMATION_MESSAGE);
+
+        this.dispose();
+
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -297,7 +298,7 @@ public class nouveauPatientUrgence extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-    //            new nouveauPatientUrgence(this.perso).setVisible(true);
+                //            new nouveauPatientUrgence(this.perso).setVisible(true);
             }
         });
     }

@@ -23,7 +23,8 @@ public class Connexion {
     private Connection con;
     private Statement st;
     private ResultSet rs;
-
+    private Statement st1;
+    private ResultSet rs1;
     /**
      *
      */
@@ -33,6 +34,7 @@ public class Connexion {
 
            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", "");
                    st = con.createStatement();
+                   st1 = con.createStatement();
 
         } catch (Exception ex) {
             System.out.println("error :" + ex);
@@ -46,13 +48,17 @@ public class Connexion {
      * @param passwordLogin
      * @return
      */
-    public String seConnecter(String idLogin, String passwordLogin) {
+    public String seConnecter(String idLogin, String passwordLogin,Boolean rep) {
         /** on prend en entrée le login et le mot de passe de l'utilisateur qui se connecte,
          on compare les valeurs d'entrées avec celles de la base de données, et si elles concordent,
          le type de personnel médical (docteur, secrétaire médicale ...) est renvoyé*/
         List<String> listLogin = new ArrayList<String>();
         List<String> listPassword = new ArrayList<String>();
         List<String> listTypeMed = new ArrayList<String>();
+          List<String> listLoginPatients = new ArrayList<String>();
+        List<String> listPasswordPatients = new ArrayList<String>();
+        if(rep==true){
+            System.out.println("LALALA");
         try {
             String loginQuery = "select * from personnel_medical"; // la query à entrer pour accéder aux données de nos tables 
             rs = st.executeQuery(loginQuery);
@@ -81,14 +87,48 @@ public class Connexion {
                 } 
                  
             }
-               
+            } catch (Exception ex) {
+            
+               System.out.println(ex);
+            return "ERREUR"; //si ça ne fonctionne pas, on renvoie "erreur"
          
-        } catch (Exception ex) {
+        }}
+        else{
+           
+              try {
+            String loginQuery2 = "select * from patient_acces"; // la query à entrer pour accéder aux données de nos tables 
+                  System.out.println(loginQuery2);
+                    rs1 = st1.executeQuery(loginQuery2);
+                 
+            while (rs1.next()) {
+                System.out.println("test mm");
+                String login = rs1.getString("LOGIN");
+                listLoginPatients.add(login);
+                String password = rs1.getString("MDP");
+                listPasswordPatients.add(password);
+            }
+            for (int i = 0; i < listLoginPatients.size(); i++) {
+               
+                if (idLogin.equals(listLoginPatients.get(i))) {
+                    System.out.println("login bon"); // si le login correspond ...
+                    if (passwordLogin.equals(listPasswordPatients.get(i))) {
+                        System.out.println("password bon"); // ... et le mot de passe aussi ...
+                        System.out.println("c'est un(e) PATIENT"); // ... c'est bon, et on
+                        //renvoie le type du personnel médical aussi
+                        return "PATIENT";
+                    }
+                } 
+                 
+            }
+            } catch (Exception ex) {
             
                System.out.println(ex);
             return "ERREUR"; //si ça ne fonctionne pas, on renvoie "erreur"
          
         }
+        }  
+         
+        
         
         return "";
         
@@ -111,8 +151,7 @@ public class Connexion {
                 return nom;
             }
 
-            rs.close();
-            st.close();
+           
         } catch (Exception ex) {
             System.out.println(ex);
         }
@@ -137,8 +176,7 @@ public class Connexion {
                 return prenom;
             }
 
-            rs.close();
-            st.close();
+        
         } catch (Exception ex) {
             System.out.println(ex);
         }
@@ -163,8 +201,7 @@ public class Connexion {
                 return service;
             }
 
-            rs.close();
-            st.close();
+           
         } catch (Exception ex) {
             System.out.println(ex);
         }
@@ -211,14 +248,60 @@ public class Connexion {
                 }
 
             }
-            System.out.println("Identifiant ou mot de passe incorrect");
-            return "Identifiant ou mot de passe incorrect"; //sinon, on empêche la connexion
+          
 
         } catch (Exception ex) {
             System.out.println(ex);
         }
         System.out.println("Erreur de connexion");
         return "Erreur de connexion";
+
+    }
+    
+     public String choixPatient(String login, String mdp) {
+        /** on prend en entrée le login et le mdp du patient pour le comparer à ceux dans la table "personnel_medical"
+           dans la base de données, et on renvoie l'id associé au login et au mdp */
+        List<String> listLogin = new ArrayList<String>();
+        List<String> listPassword = new ArrayList<String>();
+        List<String> listId = new ArrayList<String>();
+        try {
+            String loginQuery = "select * from patient_acces"; // la query à entrer pour accéder aux données de nos tables 
+            System.out.println(loginQuery);
+            System.out.println("contenur patient_acces");
+            rs = st.executeQuery(loginQuery);
+          
+            while (rs.next()) {
+
+                // exemple d'accès aux mots de passe et le log in de la connexion 
+                String log = rs.getString("LOGIN");
+                listLogin.add(log);
+                String password = rs.getString("MDP");
+                listPassword.add(password);
+                String id = rs.getString("IPP");
+                listId.add(id);
+
+            }
+            for (int i = 0; i < listLogin.size(); i++) {
+                System.out.println(listLogin.get(i));
+                System.out.println(listPassword.get(i));
+                if (login.equals(listLogin.get(i))) { //si le login est bon ...
+                    System.out.println("login bon");
+                    if (mdp.equals(listPassword.get(i))) { //et que le mdp aussi ../
+                        System.out.println("password bon");
+
+                        return listId.get(i); // on renvoie l'id de la personne connectée
+                    }
+                }
+
+            }
+          
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    
+          System.out.println("Identifiant ou mot de passe incorrect");
+            return "Identifiant ou mot de passe incorrect"; //sinon, on empêche la connexion
 
     }
 
@@ -242,8 +325,7 @@ public class Connexion {
                 return spe;
             }
 
-            rs.close();
-            st.close();
+            
         } catch (Exception ex) {
             System.out.println(ex);
         }
