@@ -43,7 +43,7 @@ public class SecretaireMedicale extends javax.swing.JFrame {
     public SecretaireMedicale(nf.PersonnelMedical p) {
 
         initComponents();
-        setSize(700, 600);
+       setSize(900, 800);
         this.perso = p;
         System.out.println(perso.getService() + "HEEEEEEE");
         if (perso.getService().toString().equals("MEDICO_TECHNIQUE")) {
@@ -55,8 +55,6 @@ public class SecretaireMedicale extends javax.swing.JFrame {
         jLabel8.setText(perso.getSpecialite().toString());
 
         listePatient = secrMed.afficherListePatientParService(perso.getSpecialite());
-//        nf.Localisation loc = new nf.Localisation(Specialite.ACCUEIL, Orientation.OUEST, ERROR, ABORT, Lit.PORTE);
-//        nf.Sejour sej = new nf.Sejour("", "", "", loc);
 
         for (int i = 0; i < listePatient.size(); i++) {
 
@@ -65,7 +63,7 @@ public class SecretaireMedicale extends javax.swing.JFrame {
             //Verifier que le dernier sejour du patient soit en cours avant de lafficher
             nf.Localisation lbluff = new nf.Localisation(Specialite.ACCUEIL, Orientation.OUEST, ERROR, ABORT, Lit.PORTE);
             nf.Sejour sejourBluff = new nf.Sejour("", "", "", lbluff);
-            nf.PH ph = new nf.PH("", "", "", "", "", Specialite.ACCUEIL, Service.URGENCE);
+            nf.PH ph = new nf.PH("", "", "", "", "", Specialite.ACCUEIL, Service.CLINIQUE);
             String ipp = patientSelection.ippPatientListe(element);
             String idDernierSejour = ph.idSejourPatientSelection(ipp);
 
@@ -96,7 +94,7 @@ public class SecretaireMedicale extends javax.swing.JFrame {
         Localisation locBluff = new Localisation(Specialite.ANESTHESIE, Orientation.NORD, 5, 3, Lit.FENETRE);
         Sejour sej = new Sejour("dSejour", "idPatient", "idphReferan", locBluff);
         nf.PH ph = new nf.PH("bono", "jean", "hello", "i am", "here", Specialite.ANESTHESIE, Service.MEDICO_TECHNIQUE);
-
+   if (!jList1.isSelectionEmpty()) {
         String IDSej = ph.idSejourPatientSelection(pat.ippPatientListe(jList1.getSelectedValue().toString()));
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Identité patient");
         String lecture1 = jList1.getSelectedValue().toString();
@@ -217,7 +215,7 @@ public class SecretaireMedicale extends javax.swing.JFrame {
         }
         jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         jTree1.setCellRenderer(this.tCellRenderer);
-    }
+    }}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -252,6 +250,7 @@ public class SecretaireMedicale extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(900, 800));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(700, 600));
@@ -495,13 +494,13 @@ public class SecretaireMedicale extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 707, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 707, Short.MAX_VALUE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 620, Short.MAX_VALUE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -592,7 +591,7 @@ public class SecretaireMedicale extends javax.swing.JFrame {
             //Verifier que le dernier sejour du patient soit en cours avant de lafficher
             nf.Localisation lbluff = new nf.Localisation(Specialite.ACCUEIL, Orientation.OUEST, ERROR, ABORT, Lit.PORTE);
             nf.Sejour sejourBluff = new nf.Sejour("", "", "", lbluff);
-            nf.PH ph = new nf.PH("", "", "", "", "", Specialite.ACCUEIL, Service.URGENCE);
+            nf.PH ph = new nf.PH("", "", "", "", "", Specialite.ACCUEIL, Service.CLINIQUE);
             String ipp = patientSelection.ippPatientListe(element);
             String idDernierSejour = ph.idSejourPatientSelection(ipp);
 
@@ -603,6 +602,7 @@ public class SecretaireMedicale extends javax.swing.JFrame {
 
             jList1.repaint();
         }
+        buildTree1();
     }//GEN-LAST:event_jPanel1MouseClicked
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed

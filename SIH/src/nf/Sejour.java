@@ -89,7 +89,6 @@ public class Sejour {
     }
 
     // Ici on implémente la fonction qui retourne la liste des Id_Sejours d'un patient
-
     /**
      *
      * @param iPP
@@ -165,7 +164,6 @@ public class Sejour {
     }
 
     //Méthode qui formate l'affichage des séjours dans le jTree
-
     /**
      *
      * @param idSejour
@@ -212,8 +210,47 @@ public class Sejour {
 
     }
 
-    // Ici on implémente la fonction qui retourne la liste des localisations dans un séjour
+    public String listeSejourArchivetoString(String idSejour) {
+        /* On renvoie la liste des séjours regroupée dans un seul String grâce à l'id séjour en entrée **/
+        String format = "";
+        Boolean rep = sejourEnCours(idSejour);
 
+        try {
+            String query = "select * from ph_referent join archive using(ID_SEJOUR) where ID_SEJOUR='" + idSejour + "' AND LETTRE_SORTIE !='" + "" + "'"; // la query à entrer pour accéder aux données de nos tables 
+            String query2 = "select * from ph_referent join archive using(ID_SEJOUR) where ID_SEJOUR='" + idSejour + "' AND LETTRE_SORTIE='" + "" + "' LIMIT 1"; // la query à entrer pour accéder aux données de nos tables 
+
+            if (rep == false) {
+
+                rs = st.executeQuery(query);
+                while (rs.next()) {
+
+                    String date = rs.getString("DATE_CREATION_SEJOUR");
+                    String dateFin = rs.getString("DATE_SAISIE");
+                    format = "Séjour du : " + date + " au: " + dateFin;
+
+                }
+            }
+            if (rep == true) {
+
+                rs = st.executeQuery(query2);
+                while (rs.next()) {
+
+                    String date = rs.getString("DATE_CREATION_SEJOUR");
+
+                    format = "Séjour du : " + date + " (dernier séjour)";
+
+                }
+            }
+
+        } catch (Exception ex) {
+
+            System.out.println(ex);
+
+        }
+        return format;
+
+    }
+    // Ici on implémente la fonction qui retourne la liste des localisations dans un séjour
     /**
      *
      * @param idSejour
@@ -290,8 +327,9 @@ public class Sejour {
         return liste;
     }
 
-    // Ici on implémente la fonction qui retourne la liste des saisies dans un séjour
+   
 
+    // Ici on implémente la fonction qui retourne la liste des saisies dans un séjour
     /**
      *
      * @param idSejour
@@ -376,7 +414,6 @@ public class Sejour {
     }
 
 //Méthode qui formate l'affichage des saisies dans le séjour dans le jtree
-
     /**
      *
      * @param dateSaisie
@@ -444,9 +481,70 @@ public class Sejour {
         return format;
 
     }
+    
+     public String listeSaisieArchivetoString(String dateSaisie, String idSejour) {
+        /* On converti le résultat de la fonction précédente en un String **/
+        String format = "";
+        Boolean rep = sejourEnCours(idSejour);
+        System.out.println("rep=" + rep);
+        System.out.println("TOSTRING");
+        String doc = "";
+        try {
+            String query = "select * from ph_referent join archive using(ID_SEJOUR) where DATE_SAISIE='" + dateSaisie + "'"; // la query à entrer pour accéder aux données de nos tables 
+
+            if (rep == false) {
+
+                rs = st.executeQuery(query);
+                while (rs.next()) {
+                    System.out.println("query 1 test");
+                    String date = rs.getString("DATE_SAISIE");
+                    String idPH = rs.getString("ID_PH");
+                    String sql = "select * from personnel_medical where ID_P='" + idPH + "'"; // la query à entrer pour accéder aux données de nos tables 
+                    System.out.println(sql);
+                    rs2 = st2.executeQuery(sql);
+                    while (rs2.next()) {
+                        System.out.println("boucle while");
+
+                        doc = "Dr." + rs2.getString("NOM") + " " + rs2.getString("PRENOM");
+                        System.out.println("TEST" + doc);
+                    }
+
+                    format = "Saisie le " + date + " par le " + doc;
+                    System.out.println("formatsaisie " + format);
+
+                }
+            }
+            if (rep == true) {
+                rs = st.executeQuery(query);
+                System.out.println("okkkkkk");
+                while (rs.next()) {
+                    String sql2 = "select * from ph_referent join personnel_medical on ID_PHR =ID_P where ID_SEJOUR='" + idSejour + "'"; // la query à entrer pour accéder aux données de nos tables 
+                    String date = rs.getString("DATE_SAISIE");
+                    String idPH = rs.getString("ID_PH");
+                    String sql = "select * from personnel_medical where ID_P='" + idPH + "'"; // la query à entrer pour accéder aux données de nos tables 
+                    System.out.println(sql);
+                    rs2 = st2.executeQuery(sql);
+                    while (rs2.next()) {
+                        System.out.println("boucle while");
+
+                        doc = "Dr." + rs2.getString("NOM") + " " + rs2.getString("PRENOM");
+                        System.out.println("TEST" + doc);
+                    }
+
+                    format = format + "\n" + "Saisie le " + date + " par le " + doc;
+                    System.out.println("formatsaisie " + format);
+                }
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+        return format;
+
+    }
 
     //Méthode qui formate l'affichage des saisies dans le séjour dans le jtree
-
     /**
      *
      * @param dateSaisie
@@ -521,7 +619,6 @@ public class Sejour {
     }
 
     // Ici on implémente la fonction qui retourne la liste des informations par saisie
-
     /**
      *
      * @param dateSaisie
@@ -583,8 +680,139 @@ public class Sejour {
         return liste;
     }
 
-    // Ici on implémente la fonction qui retourne la liste des informations par saisie pour un Médico-technique
+    public TreeMap<String, String> listeInfosarchive(String dateSaisie, String idSejour) {
 
+        TreeMap<String, String> liste = new TreeMap<String, String>(new Comparator<String>() {
+            public int compare(String s1, String s2) {
+
+                return s1.compareTo(s2);
+            }
+        });
+
+        try {
+            String query = "select * from archive where DATE_SAISIE='" + dateSaisie + "'"; // la query à entrer pour accéder aux données de nos tables 
+
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                String observation = rs.getString("OBSERVATION");
+                if (!observation.equals("")) {
+                    liste.put("A" + "X" + "Observation", observation);
+                }
+
+                String titreOperation = rs.getString("TITRE_OPERATION");
+                if (!titreOperation.equals("")) {
+                    liste.put("B" + "X" + "Operation", titreOperation);
+                }
+                String operation = rs.getString("OPERATION");
+                if (!operation.equals("")) {
+                    liste.put("C" + "X" + "Détails", operation);
+                }
+                String resultat = rs.getString("RESULTAT");
+                if (!resultat.equals("")) {
+                    liste.put("D" + "X" + "Resultat", resultat);
+                }
+                String prescription = rs.getString("PRESCRIPTION");
+                if (!prescription.equals("")) {
+                    liste.put("E" + "X" + "Prescription", prescription);
+                }
+                String CR = rs.getString("COMPTE_RENDU");
+                if (!CR.equals("")) {
+                    liste.put("F" + "X" + "Compte-rendu radiologique", CR);
+                }
+                String lettre = rs.getString("LETTRE_SORTIE");
+
+                if (!lettre.equals("")) {
+                    liste.put("G" + "X" + "Lettre de sortie", lettre);
+                }
+
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+
+        return liste;
+    }
+
+    public List<String> listedateSaisiearchive(String idSejour) {
+        List<String> liste = new ArrayList<String>();
+        List<String> listeDate = new ArrayList<String>();
+        try {
+            String query = "select * from archive where ID_SEJOUR='" + idSejour + "'"; // la query à entrer pour accéder aux données de nos tables 
+
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                String date = rs.getString("DATE_SAISIE");
+                String observation = rs.getString("OBSERVATION");
+                String resultat = rs.getString("RESULTAT");
+                String lettre = rs.getString("LETTRE_SORTIE");
+                String prescription = rs.getString("PRESCRIPTION");
+                String titreOperation = rs.getString("TITRE_OPERATION");
+                String operation = rs.getString("OPERATION");
+                String CR = rs.getString("COMPTE_RENDU");
+                if (observation.equals("") && resultat.equals("") && lettre.equals("") && prescription.equals("") && titreOperation.equals("") && operation.equals("") && CR.equals("")) {
+
+                } else {
+                    listeDate.add(date);
+                }
+
+            }
+
+            Collections.sort(listeDate, new Comparator<String>() {
+                public int compare(String s1, String s2) {
+                    // Write your logic here.
+                    String dateString1 = s1;
+                    String dateString2 = s2;
+                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                    Date date1;
+                    try {
+                        date1 = format.parse(dateString1);
+                    } catch (ParseException ex) {
+                        date1 = new Date();
+                        Logger.getLogger(Sejour.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    Date date2;
+                    try {
+                        date2 = format.parse(dateString2);
+                    } catch (ParseException ex) {
+                        date2 = new Date();
+                        Logger.getLogger(Sejour.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    return date1.compareTo(date2);
+                }
+            }
+            );
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+        System.out.println(listeDate);
+
+        for (int i = 0; i < listeDate.size(); i++) {
+            try {
+                String query = "select * from archive where DATE_SAISIE='" + listeDate.get(i) + "'"; // la query à entrer pour accéder aux données de nos tables 
+                System.out.println(query);
+                rs = st.executeQuery(query);
+                while (rs.next()) {
+
+                    String date = rs.getString("DATE_SAISIE");
+
+                    liste.add(date);
+
+                }
+            } catch (Exception ex) {
+                System.out.println(ex);
+
+            }
+        }
+//                
+        System.out.println("fghjkl  " + liste);
+        return liste;
+    }
+
+// Ici on implémente la fonction qui retourne la liste des informations par saisie pour un Médico-technique
     /**
      *
      * @param dateSaisie
@@ -627,7 +855,6 @@ public class Sejour {
     }
 
     // Ici on implémente la fonction qui retourne la liste des informations par saisie pour un Médico-technique
-
     /**
      *
      * @param dateSaisie
@@ -720,7 +947,6 @@ public class Sejour {
     }
 
     //Completer la base de données avec les informations, cette fonction est pour un PH clinique
-
     /**
      *
      * @param idSejour
@@ -916,7 +1142,6 @@ public class Sejour {
     }
 
     // Fonctions a coder en dessous
-
     /**
      *
      * @param idSejour
@@ -1333,7 +1558,6 @@ public class Sejour {
     }
 
     // Retourne true si le sejour correspondant à l'id rentré est en cours = si il n'y a pas de lettre de sorties
-
     /**
      *
      * @param idSejour
@@ -1409,13 +1633,13 @@ public class Sejour {
     public String AfficherIDSejour(String IPP) {
         /* On renvoie l'id séjour à l'aide de l'ipp en entrée **/
         String idsej = "";
-        Boolean rep =false;
+        Boolean rep = false;
         try {
             String query = "select ID_PH,IPP_PATIENT,ID_SEJOUR,DATE_SAISIE,OBSERVATION,RESULTAT,LETTRE_SORTIE,PRESCRIPTION,TITRE_OPERATION,OPERATION,COMPTE_RENDU from ph where IPP_PATIENT='" + IPP + "';";
             System.out.println(query);
             rs = st.executeQuery(query);
             while (rs.next()) {
-                rep=true;
+                rep = true;
                 String IdPH = rs.getString("ID_PH");
                 String Ipp = rs.getString("IPP_PATIENT");// pour avoir accès a la colonne de ma table 
                 String IDsejour = rs.getString("ID_SEJOUR");
@@ -1426,7 +1650,7 @@ public class Sejour {
                 // String chambre = rs.getString("PRESCRIPTION");
                 String titreOperation = rs.getString("TITRE_OPERATION");
                 // String compteRendu = rs.getString("COMPTE_RENDU");
-             
+
                 idsej = IDsejour + "";
             }
         } catch (Exception ex) {
@@ -1506,7 +1730,6 @@ public class Sejour {
     }
 
     //recupere les infos Du DM qui doivent s'afficher dans un DMA (lettre de sortie et titre operation )
-
     /**
      *
      * @param Idsej
@@ -1574,7 +1797,9 @@ public class Sejour {
      * @return
      */
     public ArrayList<String> afficherLettreSortie(String IPP) {
-        /** On renvoie une liste de lettres de sortie associée à un ipp en entrée */
+        /**
+         * On renvoie une liste de lettres de sortie associée à un ipp en entrée
+         */
         ArrayList<String> lettreSortie = new ArrayList<String>();
         try {
             String query = " select LETTRE_SORTIE from ph where IPP_PATIENT='" + IPP + "'";

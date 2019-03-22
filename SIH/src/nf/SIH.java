@@ -25,14 +25,16 @@ public class SIH {
 //        String idSejour = "190221999";
 //        String iPP = "idPatient";
 //        String idPH ="idphtestonc";
-        Patient p =new Patient("526341897","LELOUP","alain","13/01/1999",Sexe.HOMME);
-        Localisation localisationbluff = new Localisation(Specialite.CARDIOLOGIE, Orientation.CENTRE, 1, 123, Lit.FENETRE);
-        Sejour sejourbluff = new Sejour("idSejour", "idPatient", "idPhReferent", localisationbluff);
-        int a =  Integer.parseInt("753963712");
-        System.out.println(a);
-
-         
-       
+//        Patient p =new Patient("526341897","LELOUP","alain","13/01/1999",Sexe.HOMME);
+//        Localisation localisationbluff = new Localisation(Specialite.CARDIOLOGIE, Orientation.CENTRE, 1, 123, Lit.FENETRE);
+//        Sejour sejourbluff = new Sejour("idSejour", "idPatient", "idPhReferent", localisationbluff);
+//        int a =  Integer.parseInt("753963712");
+//        System.out.println(a);
+//
+//         Archivage archive = new Archivage();
+//         archive.archiverPatient("374281791","CHEVALIER", "hugo", "15/05/1971","21/03/2019", "accident voiture");
+//       
+//       
        // System.out.println(sejourbluff.listeLocalisation("190339786"));
 //pour la BD 
 //      BDconnect bd = new BDconnect(); 
@@ -40,7 +42,8 @@ public class SIH {
 //      bd.getData2();
 //      Connexion cx = new Connexion();
 //      cx.seConnecter("HYVES","YHEGEY");
-//        SecretaireAdministrative sm = new SecretaireAdministrative("MAURIOL", "Marine","087567","pomme");
+        SecretaireAdministrative sm = new SecretaireAdministrative("MAURIOL", "Marine","087567"," ","pomme",Specialite.ACCUEIL,Service.ACCUEIL);
+        System.out.println(sm.creationLogin("poitevin", "margaux"));
 //        Date d1 = new Date((1997-1900),(8-1),11);
 //        sm.ajouterNouveauPatient("1212122","HELLE","margaux",Sexe.FEMME,d1,"2 impasse","060504");
 //    Patient p = new Patient("21","Longchamp","Juliette",Sexe.FEMME,new Date(15,01,1996),"78 boulevard","46000");

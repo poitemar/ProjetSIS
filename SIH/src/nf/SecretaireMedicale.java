@@ -192,6 +192,18 @@ public class SecretaireMedicale extends PersonnelMedical {
             System.out.println(ex);
         }
     }
+    public void supprimerLocalisation(String idSejour) {
+        /* On ajoute dans la bd les locations afin de garder un historique des localisations d'un patient **/
+        String sql1 = "delete from localisation where ID_SEJOUR='"+idSejour+"'";
+        try {
+            PreparedStatement pstm = con.prepareStatement(sql1);
+
+           
+            pstm.executeUpdate();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
 
     /**
      *
@@ -481,5 +493,27 @@ public class SecretaireMedicale extends PersonnelMedical {
             System.out.println(ex);
         }
 
+    }
+    
+    // Fonction qui permet de chercher si un patient existe dans la base de données et d'en donner l'identifiant si c'est le cas
+     public String identitePatient(String nom,String prenom, String dateNaissance){
+        String ipp="";
+        Boolean rep =false;
+         try {
+            String query = "select * from patients where NOM='"+nom+"' and PRENOM='"+prenom+"' and DATENAISSANCE='"+dateNaissance+"'"; // la query à entrer pour accéder aux données de nos tables 
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                rep=true;
+                 ipp = rs.getString("IPP");
+   
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+            ex.printStackTrace();
+        }
+         if (rep==false){
+             ipp="Nouveau patient";         }
+         
+         return ipp;
     }
 }

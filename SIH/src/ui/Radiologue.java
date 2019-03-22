@@ -53,7 +53,7 @@ public class Radiologue extends javax.swing.JFrame {
      */
     public Radiologue(nf.PersonnelMedical p) {
         initComponents();
-        setSize(700, 600);
+        setSize(900, 800);
         HL7 hl7 = new HL7();
         this.perso = p;
         String s = "Dr. " + p.getNom() + " " + p.getPrenom();
@@ -73,7 +73,7 @@ public class Radiologue extends javax.swing.JFrame {
             //Verifier que le dernier sejour du patient soit en cours avant de lafficher
             nf.Localisation lbluff = new nf.Localisation(Specialite.ACCUEIL, Orientation.OUEST, 1, 12, Lit.PORTE);
             nf.Sejour sejourBluff = new nf.Sejour("", "", "", lbluff);
-            nf.PH ph = new nf.PH("", "", "", "", "", Specialite.ACCUEIL, Service.URGENCE);
+            nf.PH ph = new nf.PH("", "", "", "", "", Specialite.ACCUEIL, Service.CLINIQUE);
             String idDernierSejour = ph.idSejourPatientSelection(ipp);
             listePrestation = perso.afficherDatePrestation(perso.getIdMed(), idDernierSejour);
             
@@ -715,7 +715,7 @@ public class Radiologue extends javax.swing.JFrame {
             //Verifier que le dernier sejour du patient soit en cours avant de lafficher
             nf.Localisation lbluff = new nf.Localisation(Specialite.ACCUEIL, Orientation.OUEST, 1, 12, Lit.PORTE);
             nf.Sejour sejourBluff = new nf.Sejour("", "", "", lbluff);
-            nf.PH ph = new nf.PH("", "", "", "", "", Specialite.ACCUEIL, Service.URGENCE);
+            nf.PH ph = new nf.PH("", "", "", "", "", Specialite.ACCUEIL, Service.CLINIQUE);
             String idDernierSejour = ph.idSejourPatientSelection(ipp);
             listePrestation = perso.afficherDatePrestation(perso.getIdMed(), idDernierSejour);
             for (int j = 0; j < listePrestation.size(); j++) {

@@ -24,6 +24,9 @@ public class Connexion extends javax.swing.JFrame {
     public Connexion() {
         initComponents();
         setSize(700, 600);
+//        this.pack();
+//        Connexion.setDefaultLookAndFeelDecorated(true);
+//        this.setExtendedState(Connexion.MAXIMIZED_BOTH);
 
     }
 
@@ -204,7 +207,7 @@ public class Connexion extends javax.swing.JFrame {
             }
             //connexion d'une secretaire medicale
             if (cx.seConnecter(saisieId.getText(), saisieMdp.getText()).equals("SECRETAIRE_MEDICALE")) {
-                if (cx.ServicePersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())).toString().equals("URGENCE")) {
+                if (cx.spePersonnel(cx.choixPersonnel(saisieId.getText(), saisieMdp.getText())).toString().equals("URGENCE")) {
                     new SecretaireMedicaleUrgence(personnel).setVisible(true);
                     this.dispose();
                     System.out.println(personnel.getService());

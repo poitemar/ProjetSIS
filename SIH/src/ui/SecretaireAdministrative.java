@@ -26,6 +26,7 @@ import nf.Specialite;
 public class SecretaireAdministrative extends javax.swing.JFrame {
 
     nf.PersonnelMedical p;
+    String DMA="";
     nf.Patient patient = new nf.Patient("", "");
     nf.SecretaireAdministrative secrAdm = new nf.SecretaireAdministrative("null", "null", "null", "null", "null", Specialite.ACCUEIL, Service.CLINIQUE);
     String[] liste = new String[secrAdm.nombrePatients()];
@@ -42,7 +43,7 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
         liste = secrAdm.afficherListePatients();
 
         initComponents();
-        this.setSize(700, 600);
+        this.setSize(900, 800);
         this.p = p;
         String s = "Mme/M. " + p.getNom() + " " + p.getPrenom();
         jLabel3.setText(s);
@@ -74,6 +75,7 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
         if(IDSej.equals("0000")){
             javax.swing.tree.DefaultMutableTreeNode treeNodeTEST = new javax.swing.tree.DefaultMutableTreeNode("Le patient n'a pas encore été admis");
          treeNode1.add(treeNodeTEST);
+       //  DMA = "Le patient n'a pas encore été admis\n";
         }
         else{
        
@@ -87,6 +89,9 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
         treeNode1.add(treeNode2);
         treeNode1.add(treeNode3);
         treeNode1.add(treeNode4);
+       // DMA = treeNode2.toString();
+       // DMA = DMA +"\n"+ treeNode3.toString();
+       // DMA = DMA +"\n"+ treeNode4.toString();
 
         //complement des infos patient 
         String[] patient = lecture2.split("\\s\\s\\s\\s\\s\\s\\s\\s\\s");
@@ -96,15 +101,21 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
         treeNode1.add(treeNode5);
         treeNode1.add(treeNode6);
         treeNode1.add(treeNode7);
+        //DMA = DMA +"\n"+ treeNode5.toString();
+        //DMA = DMA +"\n"+ treeNode6.toString();
+       // DMA = DMA +"\n"+ treeNode7.toString();
 
         //afficher le sejour en cours 
         String[] IDSejour = IDSej.split("\\s");
         javax.swing.tree.DefaultMutableTreeNode treeNode13 = new javax.swing.tree.DefaultMutableTreeNode("Sejour En Cours :");
         javax.swing.tree.DefaultMutableTreeNode treeNode8 = new javax.swing.tree.DefaultMutableTreeNode("ID_Sejour : " + IDSejour[0]);
         treeNode13.add(treeNode8);
+          // DMA = DMA +"\n"+ treeNode8.toString();
         javax.swing.tree.DefaultMutableTreeNode treeNode14 = new javax.swing.tree.DefaultMutableTreeNode("PH Referent : " + ph.afficherPHR(pat.ippPatientListe(jList1.getSelectedValue().toString())));
         treeNode13.add(treeNode14);
+          // DMA = DMA +"\n"+ treeNode14.toString();
         treeNode1.add(treeNode13);
+          // DMA = DMA +"\n"+ treeNode13.toString();
 
         //Afficher les prestations 
         javax.swing.tree.DefaultMutableTreeNode treeNode9 = new javax.swing.tree.DefaultMutableTreeNode("Prestations");
@@ -116,7 +127,9 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
 
                 javax.swing.tree.DefaultMutableTreeNode treeNode10 = new javax.swing.tree.DefaultMutableTreeNode(prest);
                 treeNode9.add(treeNode10);
+                  // DMA = DMA +"\n"+ treeNode10.toString();
                 treeNode1.add(treeNode9);
+                //   DMA = DMA +"\n"+ treeNode9.toString();
             }
         }
         //   Lettre de sortie
@@ -127,7 +140,9 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
             System.out.println(lettre.get(i));
             javax.swing.tree.DefaultMutableTreeNode treeNode12 = new javax.swing.tree.DefaultMutableTreeNode(letter);
             treeNode11.add(treeNode12);
+              // DMA = DMA +"\n"+ treeNode12.toString();
             treeNode1.add(treeNode11);
+            //   DMA = DMA +"\n"+ treeNode11.toString();
         }
 
         // Afficher personne de confiance: 
@@ -137,9 +152,13 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
         javax.swing.tree.DefaultMutableTreeNode treeNode17 = new javax.swing.tree.DefaultMutableTreeNode("Adresse :" + persConf[1]);
         javax.swing.tree.DefaultMutableTreeNode treeNode18 = new javax.swing.tree.DefaultMutableTreeNode("Telephone :" + persConf[2]);
         treeNodePersonneConfiance.add(treeNode16);
+          // DMA = DMA +"\n"+ treeNode16.toString();
         treeNodePersonneConfiance.add(treeNode17);
+          // DMA = DMA +"\n"+ treeNode17.toString();
         treeNodePersonneConfiance.add(treeNode18);
+          // DMA = DMA +"\n"+ treeNode18.toString();
         treeNode1.add(treeNodePersonneConfiance);
+          // DMA = DMA +"\n"+ treeNodePersonneConfiance.toString();
 
 //Afficher medecin référent 
         String[] localisation = lectureLocalisation.split("\\s");
@@ -148,7 +167,9 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
              javax.swing.tree.DefaultMutableTreeNode treeNodeconsultation = new javax.swing.tree.DefaultMutableTreeNode("Type de sejour : Consultation");
              javax.swing.tree.DefaultMutableTreeNode treeNodeservice = new javax.swing.tree.DefaultMutableTreeNode("Service :" + localisation[2]);
         treeNodeLocalisation.add(treeNodeconsultation);
+             // DMA = DMA +"\n"+ treeNodeconsultation.toString();
         treeNodeLocalisation.add(treeNodeservice);
+             // DMA = DMA +"\n"+ treeNodeservice.toString();
         }
        else{
            
@@ -160,32 +181,26 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
         javax.swing.tree.DefaultMutableTreeNode treeNode23 = new javax.swing.tree.DefaultMutableTreeNode("Etage : " + localisation[5]);
         javax.swing.tree.DefaultMutableTreeNode treeNode24 = new javax.swing.tree.DefaultMutableTreeNode("Lit : " + localisation[6]);
         treeNodeLocalisation.add(treeNode20);
+           //DMA = DMA +"\n"+ treeNode20.toString();
         treeNodeLocalisation.add(treeNode21);
+           // DMA = DMA +"\n"+ treeNode21.toString();
         treeNodeLocalisation.add(treeNode22);
+            //DMA = DMA +"\n"+ treeNode22.toString();
         treeNodeLocalisation.add(treeNode23);
-        treeNodeLocalisation.add(treeNode24);}
+            //DMA = DMA +"\n"+ treeNode23.toString();
+        treeNodeLocalisation.add(treeNode24);
+          // DMA = DMA +"\n"+ treeNode24.toString();
+       }
 //        treeNode8.add(treeNode13);
 //        treeNode8.add(treeNode14);
         treeNode1.add(treeNodeLocalisation);
-//
-//        String[] adm = affichageDma.split("\\s");
-//        javax.swing.tree.DefaultMutableTreeNode treeNode15 = new javax.swing.tree.DefaultMutableTreeNode("Information complémentaire");
-//        javax.swing.tree.DefaultMutableTreeNode treeNode16 = new javax.swing.tree.DefaultMutableTreeNode("IDPH : " + adm[0]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode17 = new javax.swing.tree.DefaultMutableTreeNode("ID Sejour : " + adm[1]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode18 = new javax.swing.tree.DefaultMutableTreeNode("Date de Saisie : " + adm[2]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode21 = new javax.swing.tree.DefaultMutableTreeNode("heure:de saise " + adm[3]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode19 = new javax.swing.tree.DefaultMutableTreeNode("Lettre de Sortie : " + adm[4]);
-//        javax.swing.tree.DefaultMutableTreeNode treeNode20 = new javax.swing.tree.DefaultMutableTreeNode("Titre Operation : " + adm[5]);
-//        treeNode15.add(treeNode16);
-//        treeNode15.add(treeNode17);
-//        treeNode15.add(treeNode18);
-//        treeNode15.add(treeNode21);
-//        treeNode15.add(treeNode19);
-//        treeNode15.add(treeNode20);
-//        treeNode1.add(treeNode15);
+                 DMA = DMA + treeNode1.toString();
+
         }
         jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         jTree1.setCellRenderer(this.tCellRenderer);
+       
+      
     }
 
     /**
@@ -217,6 +232,7 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -388,6 +404,13 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
             }
         });
 
+        jButton6.setText("Nouveau personnel");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -421,7 +444,8 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(39, 39, 39))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton5)
@@ -454,13 +478,14 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
                                 .addComponent(jTextField5)
                                 .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                        .addComponent(jButton2))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton3)
-                        .addGap(57, 57, 57)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton6)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1)
                     .addComponent(jScrollPane3))
@@ -486,7 +511,7 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 607, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 607, Short.MAX_VALUE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -608,6 +633,11 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+         new nouveauPersonnel().setVisible(true);
+    }//GEN-LAST:event_jButton6ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -649,6 +679,7 @@ public class SecretaireAdministrative extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

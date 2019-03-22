@@ -30,15 +30,17 @@ public class nouveauSejour extends javax.swing.JFrame {
     nf.PH PHSelectionne;
     nf.SecretaireAdministrative secrAdm = new nf.SecretaireAdministrative("null", "null", "null", "null", "null", Specialite.ACCUEIL, Service.ACCUEIL);
     nf.PersonnelMedical pm;
+    
     /**
      * Creates new form nouveauSejour
      * @param perso
      */
     public nouveauSejour(nf.PersonnelMedical perso) {
         initComponents();
-        setSize(700, 600);
+        setSize(900, 800);
         //System.out.println(listePatient.getSelectedValue().toString());
        this.pm =perso;
+       
 
         listeMed = secretaireMedicaleCourante.afficherListeMedecinParService(pm.getSpecialite());
         System.out.println(perso.getSpecialite().toString());

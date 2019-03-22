@@ -53,7 +53,7 @@ public class PH_MT extends javax.swing.JFrame {
     public PH_MT(nf.PersonnelMedical p) {
 
         initComponents();
-        setSize(700, 600);
+     setSize(900, 800);
 
         this.perso = p;
         String s = "Mme/M. " + p.getNom() + " " + p.getPrenom();
@@ -69,7 +69,7 @@ public class PH_MT extends javax.swing.JFrame {
             //Verifier que le dernier sejour du patient soit en cours avant de lafficher
             nf.Localisation lbluff = new nf.Localisation(Specialite.ACCUEIL, Orientation.OUEST, 1, 12, Lit.PORTE);
             nf.Sejour sejourBluff = new nf.Sejour("", "", "", lbluff);
-            nf.PH ph = new nf.PH("", "", "", "", "", Specialite.ACCUEIL, Service.URGENCE);
+            nf.PH ph = new nf.PH("", "", "", "", "", Specialite.ACCUEIL, Service.CLINIQUE);
             String idDernierSejour = ph.idSejourPatientSelection(ipp);
             listePrestation = perso.afficherDatePrestation(perso.getIdMed(), idDernierSejour);
             for (int j = 0; j < listePrestation.size(); j++) {
@@ -361,7 +361,7 @@ public class PH_MT extends javax.swing.JFrame {
         PH_MT = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<String>();
+        jList1 = new javax.swing.JList<>();
         jLabel3 = new javax.swing.JLabel();
         nomMed = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
@@ -705,7 +705,7 @@ public class PH_MT extends javax.swing.JFrame {
             //Verifier que le dernier sejour du patient soit en cours avant de lafficher
             nf.Localisation lbluff = new nf.Localisation(Specialite.ACCUEIL, Orientation.OUEST, 1, 12, Lit.PORTE);
             nf.Sejour sejourBluff = new nf.Sejour("", "", "", lbluff);
-            nf.PH ph = new nf.PH("", "", "", "", "", Specialite.ACCUEIL, Service.URGENCE);
+            nf.PH ph = new nf.PH("", "", "", "", "", Specialite.ACCUEIL, Service.CLINIQUE);
             String idDernierSejour = ph.idSejourPatientSelection(ipp);
             listePrestation = perso.afficherDatePrestation(perso.getIdMed(), idDernierSejour);
             for (int j = 0; j < listePrestation.size(); j++) {

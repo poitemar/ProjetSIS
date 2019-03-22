@@ -45,7 +45,7 @@ public class SecretaireMedicaleUrgence extends PersonnelMedical {
      */
     public SecretaireMedicaleUrgence(String idMed, String nom, String prenom, String login, String password, Specialite spe, Service service) {
         super(idMed, nom, prenom, login, password, spe, service);
-        service = service.URGENCE;
+        service = service.CLINIQUE;
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bd", "root", "");

@@ -5,7 +5,11 @@
  */
 package ui;
 
+import nf.Lit;
+import nf.Orientation;
+import nf.Patient;
 import nf.Service;
+import nf.Sexe;
 import nf.Specialite;
 
 /**
@@ -14,13 +18,25 @@ import nf.Specialite;
  */
 public class nouveauPatientArchive extends javax.swing.JFrame {
 
-    ui.PH ph = new ui.PH();
+    //  ui.PH ph = new ui.PH();
     nf.Archivage archivage = new nf.Archivage();
+    nf.SecretaireMedicale secretaireMedicaleCourante = new nf.SecretaireMedicale("null", "null", "null", "null", "null", Specialite.ONCOLOGIE, Service.CLINIQUE);
+    nf.Patient patient = new Patient("null", "null", "null", Sexe.FEMME, "null", "null", "null","","","","");
+    String idSejour="";
+    nf.Localisation ancienneLoc= new nf.Localisation(Specialite.ACCUEIL,Orientation.CENTRE,3,3,Lit.FENETRE);
+    
     /**
      * Creates new form nouveauPatientArchive
      */
-    public nouveauPatientArchive() {
+    public nouveauPatientArchive(Patient p) {
         initComponents();
+        initComponents();
+        setSize(900, 800);
+        this.patient = p;
+        this.idSejour = secretaireMedicaleCourante.idSejourPatientSelection(patient.getipp());
+        String[] loc = patient.getLocalisation(patient.getipp(),idSejour).split("\\s");
+        this.ancienneLoc = new nf.Localisation(Specialite.valueOf(loc[0]),Orientation.valueOf(loc[1]),Integer.parseInt(loc[2]),Integer.parseInt(loc[3]),Lit.valueOf(loc[4]));
+       
     }
 
     /**
@@ -35,10 +51,11 @@ public class nouveauPatientArchive extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        causeDeces = new javax.swing.JTextArea();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
+        dateDeces = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -49,9 +66,9 @@ public class nouveauPatientArchive extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(0, 153, 153));
         jLabel1.setText("Cause du décès");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        causeDeces.setColumns(20);
+        causeDeces.setRows(5);
+        jScrollPane1.setViewportView(causeDeces);
 
         jButton2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButton2.setText("Annuler");
@@ -71,6 +88,8 @@ public class nouveauPatientArchive extends javax.swing.JFrame {
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dossMed_logo_1.PNG"))); // NOI18N
 
+        dateDeces.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -81,19 +100,19 @@ public class nouveauPatientArchive extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jScrollPane1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(166, 166, 166)
-                                .addComponent(jLabel1))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(110, 110, 110)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(30, 30, 30)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 121, Short.MAX_VALUE)))
+                        .addGap(166, 166, 166)
+                        .addComponent(jLabel1)
+                        .addGap(0, 155, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(dateDeces)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel8))
         );
 
@@ -106,12 +125,14 @@ public class nouveauPatientArchive extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19)
+                .addComponent(dateDeces, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton2)
+                        .addComponent(jButton1))))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton1, jButton2});
@@ -134,13 +155,12 @@ public class nouveauPatientArchive extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        System.out.println(jTextArea1.getText());
-        System.out.println(ph.getNom());
-        System.out.println(ph.getPrenom());
-        System.out.println(ph.getDateNaissance(ph.getNom(), ph.getPrenom()));
-        if (!jTextArea1.getText().isEmpty()){
-        archivage.ajouterPatient(ph.getNom(), ph.getPrenom(), ph.getDateNaissance(ph.getNom(),ph.getPrenom()), jTextArea1.getText());
-        }
+
+  
+            
+        archivage.archiverPatient(patient.getipp(), patient.getNom(), patient.getPrenom(), patient.getDateDeNaissance(),dateDeces.getText(), causeDeces.getText());
+        secretaireMedicaleCourante.enregistrerLocalisation(idSejour, this.ancienneLoc);
+        secretaireMedicaleCourante.supprimerLocalisation(idSejour);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -179,18 +199,19 @@ public class nouveauPatientArchive extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new nouveauPatientArchive().setVisible(true);
+                //new nouveauPatientArchive().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea causeDeces;
+    private javax.swing.JFormattedTextField dateDeces;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }

@@ -19,66 +19,56 @@ public enum Specialite {
      *
      */
     Sélectionner,
-
     /**
      *
      */
     ACCUEIL,
-
     /**
      *
      */
     CARDIOLOGIE,
-
     /**
      *
      */
     ANESTHESIE,
-
     /**
      *
      */
     RADIOLOGIE,
-
     /**
      *
      */
     GYNECOLOGIE,
-
     /**
      *
      */
     PEDIATRIE,
-
     /**
      *
      */
     PNEUMOLOGIE,
-
     /**
      *
      */
     HEMATOLOGIE,
-
     /**
      *
      */
     OPHTALMOLOGIE,
-
     /**
      *
      */
     ANAPATHOLOGIE,
-
     /**
      *
      */
     LABORATOIRE_ANALYSE,
-
     /**
      *
      */
-    ONCOLOGIE;
-
+    ONCOLOGIE,
+    /**
+     *
+     */
+    URGENCE;
 }
-

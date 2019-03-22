@@ -293,6 +293,41 @@ public class Patient {
     }
     //Cette methode genere un ipp pour l'ajout d'un nouveau patient
 
+    public String ippPatientListearchive(String lecture) {
+        /**
+         * on prend en entrée le nom et le prénom d'un patient, séparés par un
+         * espace et concaténés dans un String et on renvoie son IPP associé
+         */
+        String p = "";
+        try {
+            String nomLu = "";
+            String prenomLu = "";
+            String dateLue = "";
+            String[] result = lecture.split("\\s\\s\\s\\s\\s\\s\\s\\s\\s");
+
+            for (int x = 0; x < result.length; x++) {
+                nomLu = result[0];
+                System.out.println(nomLu);
+                prenomLu = result[1];
+                System.out.println(prenomLu);
+                dateLue = result[2];
+                System.out.println(dateLue);
+
+            }
+            String query = "select * from patient_archive where NOM_ARCHIVE='" + nomLu + "' and PRENOM_ARCHIVE='" + prenomLu + "'and DATENAISSANCE_ARCHIVE='" + dateLue + "'"; // la query à entrer pour accéder aux données de nos tables 
+            System.out.println(query);
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                p = rs.getString("IPP");
+
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+        return p;
+    }
+
     /**
      *
      * @return
@@ -325,7 +360,7 @@ public class Patient {
      * @return
      */
     public String getipp() { //fonction utile pour hl7
-        return this.ipp; 
+        return this.ipp;
     }
 
     // getters et setters

@@ -27,7 +27,7 @@ public class ModifierPatient extends javax.swing.JFrame {
      */
     public ModifierPatient(Patient p) {
         initComponents();
-        setSize(700, 600);
+        setSize(900, 800);
         this.patient = p;
         
         jTextField1.setText(patient.getNom());
