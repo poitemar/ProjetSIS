@@ -37,7 +37,11 @@ public class nouveauSejour extends javax.swing.JFrame {
      */
     public nouveauSejour(nf.PersonnelMedical perso) {
         initComponents();
-        setSize(900, 800);
+        this.pack();
+        nouveauSejour.setDefaultLookAndFeelDecorated(true);
+        this.setExtendedState(nouveauSejour.MAXIMIZED_BOTH);
+        setDefaultCloseOperation(nouveauSejour.DISPOSE_ON_CLOSE);
+        
         //System.out.println(listePatient.getSelectedValue().toString());
        this.pm =perso;
        

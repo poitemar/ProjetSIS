@@ -43,7 +43,11 @@ public class SecretaireMedicale extends javax.swing.JFrame {
     public SecretaireMedicale(nf.PersonnelMedical p) {
 
         initComponents();
-       setSize(900, 800);
+       this.pack();
+        SecretaireMedicale.setDefaultLookAndFeelDecorated(true);
+        this.setExtendedState(SecretaireMedicale.MAXIMIZED_BOTH);
+        setDefaultCloseOperation(SecretaireMedicale.DISPOSE_ON_CLOSE);
+        
         this.perso = p;
         System.out.println(perso.getService() + "HEEEEEEE");
         if (perso.getService().toString().equals("MEDICO_TECHNIQUE")) {
@@ -494,13 +498,13 @@ public class SecretaireMedicale extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 707, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 707, Short.MAX_VALUE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 620, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 

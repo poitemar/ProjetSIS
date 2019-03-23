@@ -28,7 +28,11 @@ public class nouveauPatient extends javax.swing.JFrame {
      */
     public nouveauPatient() {
         initComponents();
-        setSize(900,800);
+        this.pack();
+        nouveauPatient.setDefaultLookAndFeelDecorated(true);
+        this.setExtendedState(nouveauPatient.MAXIMIZED_BOTH);
+        setDefaultCloseOperation(nouveauPatient.DISPOSE_ON_CLOSE);
+        
     }
 
     /**
@@ -263,7 +267,7 @@ public class nouveauPatient extends javax.swing.JFrame {
                     .addComponent(telCONF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel13)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -281,7 +285,7 @@ public class nouveauPatient extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, 628, 628, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();

@@ -18,11 +18,12 @@ public class ApercuImpression extends javax.swing.JFrame {
      */
     public ApercuImpression(String s) {
         initComponents();
-        this.stringImpression = s;
+        this.stringImpression = s+"Hôpital Princeton-Plainsboro \n\n\n Dossier Médical \n\n\n";
         jTextArea1.setText(s);
         jTextArea1.setEditable(false);
-        this.setSize(900, 650); 
-        
+        this.pack();
+        ApercuImpression.setDefaultLookAndFeelDecorated(true);
+        this.setExtendedState(ApercuImpression.MAXIMIZED_BOTH);
         setDefaultCloseOperation(ApercuImpression.DISPOSE_ON_CLOSE);
     }
 

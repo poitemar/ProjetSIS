@@ -87,10 +87,10 @@ public class PH extends JFrame implements ActionListener {
     public PH(nf.PersonnelMedical p) {
 
         initComponents();
-        setSize(900, 800);
-//        this.pack();
-//        PH.setDefaultLookAndFeelDecorated(true);
-//        this.setExtendedState(PH.MAXIMIZED_BOTH);
+        this.pack();
+        PH.setDefaultLookAndFeelDecorated(true);
+        this.setExtendedState(PH.MAXIMIZED_BOTH);
+        setDefaultCloseOperation(PH.DISPOSE_ON_CLOSE);
 
         this.perso = p;
         String s = "Mme/M. " + p.getNom() + " " + p.getPrenom();
@@ -644,7 +644,7 @@ public class PH extends JFrame implements ActionListener {
         medPres = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox();
         jScrollPane9 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
+        jList2 = new javax.swing.JList<String>();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         panelSortie = new javax.swing.JPanel();
@@ -830,7 +830,7 @@ public class PH extends JFrame implements ActionListener {
                                         .addGap(18, 18, 18)
                                         .addComponent(jButton1))
                                     .addComponent(jButton9))
-                                .addGap(0, 36, Short.MAX_VALUE)))))
+                                .addGap(0, 472, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         panelAccueilLayout.setVerticalGroup(
@@ -937,7 +937,7 @@ public class PH extends JFrame implements ActionListener {
                     .addGroup(panelInformationsPatientLayout.createSequentialGroup()
                         .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 723, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelInformationsPatientLayout.setVerticalGroup(
@@ -951,7 +951,7 @@ public class PH extends JFrame implements ActionListener {
                     .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addComponent(jButton8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
                 .addComponent(jLabel24))
         );
 
@@ -1047,7 +1047,7 @@ public class PH extends JFrame implements ActionListener {
                             .addComponent(jLabel13))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCompleterLayout.createSequentialGroup()
-                        .addGap(0, 42, Short.MAX_VALUE)
+                        .addGap(0, 478, Short.MAX_VALUE)
                         .addGroup(panelCompleterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCompleterLayout.createSequentialGroup()
                                 .addGroup(panelCompleterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -1185,7 +1185,7 @@ public class PH extends JFrame implements ActionListener {
                 .addComponent(textPrestation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 139, Short.MAX_VALUE)
                 .addGroup(panelDemandeDePrestationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelDemandeDePrestationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(medPres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1229,7 +1229,7 @@ public class PH extends JFrame implements ActionListener {
                     .addGroup(panelSortieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 637, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel17)))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(473, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelSortieLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel25))
@@ -1243,7 +1243,7 @@ public class PH extends JFrame implements ActionListener {
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 166, Short.MAX_VALUE)
                 .addComponent(jLabel25))
         );
 
@@ -1255,11 +1255,11 @@ public class PH extends JFrame implements ActionListener {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(1, 1, 1)
-                .addComponent(interfacePH, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(interfacePH, javax.swing.GroupLayout.DEFAULT_SIZE, 1144, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(interfacePH, javax.swing.GroupLayout.PREFERRED_SIZE, 601, Short.MAX_VALUE)
+            .addComponent(interfacePH, javax.swing.GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE)
         );
 
         pack();
@@ -1636,7 +1636,7 @@ public class PH extends JFrame implements ActionListener {
             System.out.println("IPP MEDECIN EST : " + idp);
 
             sejourCourant.ajouterPrestation(ph.idSejourPatientSelection(patient.ippPatientListe(PatientSelection)), perso.getIdMed(), idp, textPrestation.getText());
-            nf.HL7 hl7 = new nf.HL7();
+//            nf.HL7 hl7 = new nf.HL7();
             if (ph.speIDPH(idp) == Specialite.RADIOLOGIE) {
                 Patient p = patient.getPatient(patient.ippPatientListe(PatientSelection));
                 System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA+" + p.getipp());

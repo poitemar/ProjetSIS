@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import nf.DMA;
-import nf.HL7;
+//import nf.HL7;
 import nf.Lit;
 import nf.Localisation;
 import nf.Orientation;
@@ -54,7 +54,7 @@ public class Radiologue extends javax.swing.JFrame {
     public Radiologue(nf.PersonnelMedical p) {
         initComponents();
         setSize(900, 800);
-        HL7 hl7 = new HL7();
+//        HL7 hl7 = new HL7();
         this.perso = p;
         String s = "Dr. " + p.getNom() + " " + p.getPrenom();
         System.out.println(s);
