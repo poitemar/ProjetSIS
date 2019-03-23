@@ -130,7 +130,7 @@ public class Connexion {
          
         
         
-        return "";
+        return "ERREUR";
         
     }
 

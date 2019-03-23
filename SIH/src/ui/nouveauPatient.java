@@ -107,11 +107,6 @@ public class nouveauPatient extends javax.swing.JFrame {
         Sexe labels[] = Sexe.values();
         DefaultComboBoxModel model = new DefaultComboBoxModel(labels);
         sexe.setModel(model);
-        sexe.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sexeActionPerformed(evt);
-            }
-        });
 
         jButton1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButton1.setText("Annuler");
@@ -139,12 +134,6 @@ public class nouveauPatient extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 153, 153));
         jLabel9.setText("Personne de confiance");
-
-        nomCONF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nomCONFActionPerformed(evt);
-            }
-        });
 
         jLabel10.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel10.setText("Nom :");
@@ -265,9 +254,9 @@ public class nouveauPatient extends javax.swing.JFrame {
                     .addComponent(nomCONF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(prenomCONF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(telCONF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel13)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -292,7 +281,13 @@ public class nouveauPatient extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-          nf.Patient p = new nf.Patient("bluff","bluff") ;
+        
+        if(nom.getText().equals(" ")||prenom.getText().equals("")|dateN.getText().equals("")||adresse.getText().equals("")||nTel.getText().equals("")||nomCONF.getText().equals("")||prenomCONF.getText().equals("")||adresseCONF.getText().equals("")||telCONF.getText().equals("")){
+         JOptionPane.showMessageDialog(this, "Veuillez renseigner tous les champs", "ATTENTION", JOptionPane.ERROR_MESSAGE);
+
+    }  
+        else{
+        nf.Patient p = new nf.Patient("bluff","bluff") ;
           String ipp = p.creationIPP_pour_ajout_patient();
         String idmdp=  secretaireAdministrativeCourante.ajouterNouveauPatient(ipp, nom.getText(), prenom.getText(),(nf.Sexe) sexe.getSelectedItem(), dateN.getText(), adresse.getText(), nTel.getText(),nomCONF.getText(),prenomCONF.getText(),adresseCONF.getText(),telCONF.getText());
         System.out.println(ipp);
@@ -306,7 +301,7 @@ public class nouveauPatient extends javax.swing.JFrame {
          JOptionPane.showMessageDialog(this, info, "OK", JOptionPane.INFORMATION_MESSAGE);
          
     this.dispose();
-    
+        }
       
         
         
@@ -316,14 +311,6 @@ public class nouveauPatient extends javax.swing.JFrame {
         
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void sexeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sexeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sexeActionPerformed
-
-    private void nomCONFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomCONFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nomCONFActionPerformed
 
     /**
      * @param args the command line arguments
