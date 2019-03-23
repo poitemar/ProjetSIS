@@ -210,20 +210,28 @@ public class nouveauPersonnel extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        SecretaireAdministrative secr = new SecretaireAdministrative("","","","","",Specialite.ACCUEIL,Service.ACCUEIL);
-        String nom = nom1.getText();
+
+        SecretaireAdministrative secr = new SecretaireAdministrative("", "", "", "", "", Specialite.ACCUEIL, Service.ACCUEIL);
+        
+        if (nom1.getText().equals("") || prenom1.getText().equals("") || jComboBox1.getSelectedItem().equals("Sélectionner") || jComboBox2.getSelectedItem().equals("Sélectionner")) {
+
+            JOptionPane.showMessageDialog(this, "Veuillez renseigner tous les champs", "ATTENTION", JOptionPane.ERROR_MESSAGE);
+        } else {
+            String nom = nom1.getText();
         String prenom = prenom1.getText();
         String id = secr.creationLogin(nom, prenom);
         String mdp = secr.generateMdp(10);
-        secr.ajouterPersonnel((String)jComboBox1.getSelectedItem(), nom, prenom, (Service)jComboBox3.getSelectedItem(), id, mdp, (Specialite)jComboBox2.getSelectedItem());
-       
-        String info ="Le personnel a bien été ajouté, retenez vos identifiants :\n";
-        info += "Identifiant : "+id + " \n";
-            info += "Mot de passe : "+mdp + " \n";
-                info += "Pensez à changer votre mot de passe";
-        
-         JOptionPane.showMessageDialog(this, info, "ATTENTION", JOptionPane.INFORMATION_MESSAGE);
- this.dispose();
+            secr.ajouterPersonnel((String) jComboBox1.getSelectedItem(), nom, prenom, (Service) jComboBox3.getSelectedItem(), id, mdp, (Specialite) jComboBox2.getSelectedItem());
+
+            String info = "Le personnel a bien été ajouté, retenez vos identifiants :\n";
+            info += "Identifiant : " + id + " \n";
+            info += "Mot de passe : " + mdp + " \n";
+            info += "Pensez à changer votre mot de passe";
+
+            JOptionPane.showMessageDialog(this, info, "ATTENTION", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+        }
+
 
     }//GEN-LAST:event_jButton2ActionPerformed
 

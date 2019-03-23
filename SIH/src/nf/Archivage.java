@@ -108,6 +108,25 @@ public class Archivage {
 
     }
     
+    public String infoMort(String ipp){
+        String info="";
+         try {
+            String query = "select * from patient_archive where IPP='"+ipp+"'"; // la query à entrer pour accéder aux données de nos tables 
+            System.out.println(query);
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                String cause = rs.getString("CAUSE_DECES");
+                
+                String dateD = rs.getString("DATE_DECES");
+               info = "Décédé le : "+ dateD +". Cause du décès : "+cause+".";
+                
+    }}
+     catch (Exception ex) {
+            System.out.println(ex);
+
+        }
+    return info;}
+    
     public ArrayList<Patient> afficherListePatientMort() {
         ArrayList<Patient> listePatient = new ArrayList<Patient>();
 
@@ -116,20 +135,23 @@ public class Archivage {
             System.out.println(query);
             rs = st.executeQuery(query);
             while (rs.next()) {
+                String ipp = rs.getString("IPP");
+                
                 String nom = rs.getString("NOM_ARCHIVE");
                 System.out.println(nom);
                 String prenom = rs.getString("PRENOM_ARCHIVE");
                 System.out.println(prenom);
                 String date = rs.getString("DATENAISSANCE_ARCHIVE");
                 System.out.println(prenom);
-                Patient patient = new Patient(nom,prenom,date);
+                Patient patient = new Patient(ipp, nom, prenom,date,Sexe.AUTRE);
+
                 listePatient.add(patient);
               
 
                 int i = 0;
                 Boolean rep = false;
                 while (i < listePatient.size() && rep == false) {
-                    if (listePatient.get(i).getIpp().equals(patient.getIpp())) {
+                    if (listePatient.get(i).getipp().equals(patient.getipp())) {
                         rep = true;
                         i++;
                     } else {

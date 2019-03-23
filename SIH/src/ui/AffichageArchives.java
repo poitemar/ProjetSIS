@@ -54,9 +54,7 @@ public class AffichageArchives extends javax.swing.JFrame {
             nf.Localisation lbluff = new nf.Localisation(Specialite.ACCUEIL, Orientation.OUEST, ERROR, ABORT, Lit.PORTE);
             nf.Sejour sejourBluff = new nf.Sejour("", "", "", lbluff);
             nf.PH ph = new nf.PH("", "", "", "", "", Specialite.ACCUEIL, Service.CLINIQUE);
-            String ipp = patient.ippPatientListe(element);
-            String idDernierSejour = ph.idSejourPatientSelection(ipp);
-
+           
             
                 DLM.addElement(element);
                 
@@ -98,7 +96,8 @@ public class AffichageArchives extends javax.swing.JFrame {
         java.util.Date date2 = new java.util.Date();
         String dateS2 = "";
         javax.swing.tree.DefaultMutableTreeNode racine = new javax.swing.tree.DefaultMutableTreeNode("Mme/M." + patient.patientListe(PatientSelection));
-
+         javax.swing.tree.DefaultMutableTreeNode mort = new javax.swing.tree.DefaultMutableTreeNode(archive.infoMort(patient.ippPatientListearchive(PatientSelection)));
+       racine.add(mort);
         for (int i = 0; i < listeIdSejours.size(); i++) {
             listedateSaisiearchive = sejourFini.listedateSaisiearchive(listeIdSejours.get(i));
             listeDateLoc = sejourFini.listeLoc(listeIdSejours.get(i));
@@ -222,9 +221,9 @@ public class AffichageArchives extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(39, 39, 39)
                 .addComponent(jList1, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                .addComponent(DM, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(DM, javax.swing.GroupLayout.PREFERRED_SIZE, 549, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

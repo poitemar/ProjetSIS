@@ -87,9 +87,10 @@ public class PH extends JFrame implements ActionListener {
     public PH(nf.PersonnelMedical p) {
 
         initComponents();
-        this.pack();
-        PH.setDefaultLookAndFeelDecorated(true);
-        this.setExtendedState(PH.MAXIMIZED_BOTH);
+        this.setSize(1300,800);
+//        this.pack();
+//        PH.setDefaultLookAndFeelDecorated(true);
+//        this.setExtendedState(PH.MAXIMIZED_BOTH);
         setDefaultCloseOperation(PH.DISPOSE_ON_CLOSE);
 
         this.perso = p;
@@ -399,16 +400,7 @@ public class PH extends JFrame implements ActionListener {
                         treeNode9.add(treeNode10);
                         treeNode1.add(treeNode9);
                     }
-                }
-                //   Lettre de sortie
-                ArrayList<String> lettre = sej.afficherLettreSortie(pat.ippPatientListe(jList1.getSelectedValue().toString()));
-                javax.swing.tree.DefaultMutableTreeNode treeNode11 = new javax.swing.tree.DefaultMutableTreeNode("Lettre De Sortie");
-                for (int i = 0; i < lettre.size(); i++) {
-                    String letter = lettre.get(i);
-                    System.out.println(lettre.get(i));
-                    javax.swing.tree.DefaultMutableTreeNode treeNode12 = new javax.swing.tree.DefaultMutableTreeNode(letter);
-                    treeNode11.add(treeNode12);
-                    treeNode1.add(treeNode11);
+              
                 }
 
                 // Afficher personne de confiance: 
@@ -644,7 +636,7 @@ public class PH extends JFrame implements ActionListener {
         medPres = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox();
         jScrollPane9 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<String>();
+        jList2 = new javax.swing.JList<>();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         panelSortie = new javax.swing.JPanel();
@@ -910,7 +902,7 @@ public class PH extends JFrame implements ActionListener {
 
         jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dossMed_logo_1.PNG"))); // NOI18N
 
-        jButton8.setText("jButton8");
+        jButton8.setText("Exporter en pdf");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton8ActionPerformed(evt);
