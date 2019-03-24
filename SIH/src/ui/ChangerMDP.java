@@ -6,6 +6,7 @@
 
 package ui;
 
+import javax.swing.JOptionPane;
 import nf.PersonnelMedical;
 
 /**
@@ -183,13 +184,24 @@ PersonnelMedical perso;
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //Change le mot de passe de la personne connectee si l'id et le mdp coincident
+       if(saisieId.getText().equals("")||saisieAncienMdp.getText().equals("")||saisieNewMdp1.getText().equals("")||saisieNewMdp2.getText().equals("")){
+             JOptionPane.showMessageDialog(this, "Veuillez renseigner tous les champs", "ATTENTION", JOptionPane.ERROR_MESSAGE);
+
+       }
+       else{
         if(saisieNewMdp1.getText().equals(saisieNewMdp2.getText())){
             perso.changerMotDePasse(saisieId.getText(), saisieAncienMdp.getText(), saisieNewMdp1.getText());
+              JOptionPane.showMessageDialog(this, "Le mot de passe a bien été changé", "OK", JOptionPane.INFORMATION_MESSAGE);
+
             this.dispose();
         }
-        else System.out.println("Les mots de passe sont différents");
+        else 
+        {
+              JOptionPane.showMessageDialog(this, "Les mots de passe saisis ne correspondent pas", "ATTENTION", JOptionPane.ERROR_MESSAGE);
+
+        }
         
-        
+       }
         
         
     }//GEN-LAST:event_jButton1ActionPerformed
