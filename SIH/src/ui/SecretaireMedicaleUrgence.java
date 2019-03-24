@@ -67,6 +67,10 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
     }
 
     //Affiche la liste des patients des urgences
+
+    /**
+     *
+     */
     public void affichageListePatient(){
         for (int i = 0; i < listePatient.size(); i++) {
 
@@ -95,7 +99,10 @@ public class SecretaireMedicaleUrgence extends javax.swing.JFrame {
         this.tCellRenderer.setLeafIcon(null);
     }
     
-  public void buildTree() {
+    /**
+     *
+     */
+    public void buildTree() {
         DM.setCellRenderer(this.tCellRenderer);
         if (!jList3.isSelectionEmpty()) {
             PatientSelection = jList3.getSelectedValue().toString();

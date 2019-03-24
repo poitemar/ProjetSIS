@@ -39,8 +39,9 @@ public class AffichageArchives extends javax.swing.JFrame {
        DefaultListModel DLM = new DefaultListModel();
     ArrayList<nf.Patient> listePatient = new ArrayList<nf.Patient>();
     
-    
-    
+    /**
+     *
+     */
     public AffichageArchives(){
         initComponents();
         this.setSize(700, 600);

@@ -31,6 +31,7 @@ public class AssignerPatient extends javax.swing.JFrame {
     nf.Localisation ancienneLoc= new nf.Localisation(Specialite.ACCUEIL,Orientation.CENTRE,3,3,Lit.FENETRE);
     /**
      * Creates new form NewJFrame
+     * @param ipp
      */
     public AssignerPatient(String ipp) {
       

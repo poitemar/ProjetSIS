@@ -39,6 +39,7 @@ public class Patient extends javax.swing.JFrame {
 
     /**
      * Creates new form Patients
+     * @param p
      */
     public Patient(nf.Patient p) {
         initComponents();
