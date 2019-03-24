@@ -192,6 +192,11 @@ public class SecretaireMedicale extends PersonnelMedical {
             System.out.println(ex);
         }
     }
+
+    /**
+     *
+     * @param idSejour
+     */
     public void supprimerLocalisation(String idSejour) {
         /* On ajoute dans la bd les locations afin de garder un historique des localisations d'un patient **/
         String sql1 = "delete from localisation where ID_SEJOUR='"+idSejour+"'";
@@ -496,6 +501,14 @@ public class SecretaireMedicale extends PersonnelMedical {
     }
     
     // Fonction qui permet de chercher si un patient existe dans la base de données et d'en donner l'identifiant si c'est le cas
+
+    /**
+     *
+     * @param nom
+     * @param prenom
+     * @param dateNaissance
+     * @return
+     */
      public String identitePatient(String nom,String prenom, String dateNaissance){
         String ipp="";
         Boolean rep =false;

@@ -48,6 +48,7 @@ nf.PersonnelMedical perso;
     private DefaultMutableTreeNode racine;
     /**
      * Creates new form Infirmiere
+     * @param p
      */
     public Infirmiere(nf.PersonnelMedical p) {
        initComponents();
@@ -341,6 +342,10 @@ nf.PersonnelMedical perso;
     }
 
     //Affichage du DMA pour le patient des urgences
+
+    /**
+     *
+     */
     public void buildTree2() {
         this.tCellRenderer.setClosedIcon(null);
         this.tCellRenderer.setOpenIcon(null);

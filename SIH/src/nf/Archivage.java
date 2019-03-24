@@ -42,10 +42,12 @@ public class Archivage {
 
     /**
      *
+     * @param ipp
      * @param nom
      * @param prenom
      * @param dateNaissance
      * @param causeDeces
+     * @param dateDeces
      */
     //  public void archiverPatient(String nom,String prenom,String dateNaissance,String causeDeces){
     public void archiverPatient(String ipp, String nom, String prenom, String dateNaissance, String dateDeces, String causeDeces) {
@@ -108,6 +110,11 @@ public class Archivage {
 
     }
     
+    /**
+     *
+     * @param ipp
+     * @return
+     */
     public String infoMort(String ipp){
         String info="";
          try {
@@ -127,6 +134,10 @@ public class Archivage {
         }
     return info;}
     
+    /**
+     *
+     * @return
+     */
     public ArrayList<Patient> afficherListePatientMort() {
         ArrayList<Patient> listePatient = new ArrayList<Patient>();
 

@@ -28,6 +28,7 @@ public class nouveauPatientArchive extends javax.swing.JFrame {
     
     /**
      * Creates new form nouveauPatientArchive
+     * @param p
      */
     public nouveauPatientArchive(Patient p) {
      

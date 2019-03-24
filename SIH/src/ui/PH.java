@@ -446,6 +446,10 @@ public class PH extends JFrame implements ActionListener {
     }
 
     //Affichage du DMA pour le patient des urgences
+
+    /**
+     *
+     */
     public void buildTree2() {
         this.tCellRenderer.setClosedIcon(null);
         this.tCellRenderer.setOpenIcon(null);

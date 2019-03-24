@@ -293,6 +293,11 @@ public class Patient {
     }
     //Cette methode genere un ipp pour l'ajout d'un nouveau patient
 
+    /**
+     *
+     * @param lecture
+     * @return
+     */
     public String ippPatientListearchive(String lecture) {
         /**
          * on prend en entrée le nom et le prénom d'un patient, séparés par un
