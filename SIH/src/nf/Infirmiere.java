@@ -11,6 +11,16 @@ package nf;
  */
 public class Infirmiere extends PersonnelMedical {
     
+    /**
+     *
+     * @param idMed
+     * @param nom
+     * @param prenom
+     * @param login
+     * @param password
+     * @param spe
+     * @param service
+     */
     public Infirmiere(String idMed, String nom, String prenom, String login, String password, Specialite spe, Service service) {
         super(idMed, nom, prenom, login, password, spe, service);
     }

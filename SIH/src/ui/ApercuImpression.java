@@ -15,6 +15,7 @@ public class ApercuImpression extends javax.swing.JFrame {
      String stringImpression;
     /**
      * Creates new form ApercuImpression
+     * @param s
      */
     public ApercuImpression(String s) {
         initComponents();

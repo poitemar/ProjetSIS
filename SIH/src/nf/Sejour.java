@@ -210,6 +210,11 @@ public class Sejour {
 
     }
 
+    /**
+     *
+     * @param idSejour
+     * @return
+     */
     public String listeSejourArchivetoString(String idSejour) {
         /* On renvoie la liste des séjours regroupée dans un seul String grâce à l'id séjour en entrée **/
         String format = "";
@@ -482,7 +487,13 @@ public class Sejour {
 
     }
     
-     public String listeSaisieArchivetoString(String dateSaisie, String idSejour) {
+    /**
+     *
+     * @param dateSaisie
+     * @param idSejour
+     * @return
+     */
+    public String listeSaisieArchivetoString(String dateSaisie, String idSejour) {
         /* On converti le résultat de la fonction précédente en un String **/
         String format = "";
         Boolean rep = sejourEnCours(idSejour);
@@ -680,6 +691,12 @@ public class Sejour {
         return liste;
     }
 
+    /**
+     *
+     * @param dateSaisie
+     * @param idSejour
+     * @return
+     */
     public TreeMap<String, String> listeInfosarchive(String dateSaisie, String idSejour) {
 
         TreeMap<String, String> liste = new TreeMap<String, String>(new Comparator<String>() {
@@ -735,6 +752,11 @@ public class Sejour {
         return liste;
     }
 
+    /**
+     *
+     * @param idSejour
+     * @return
+     */
     public List<String> listedateSaisiearchive(String idSejour) {
         List<String> liste = new ArrayList<String>();
         List<String> listeDate = new ArrayList<String>();

@@ -20,6 +20,8 @@ public class SIH {
 
     /**
      * @param args the command line arguments
+     * @throws java.sql.SQLException
+     * @throws java.lang.ClassNotFoundException
      */
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 //        String idSejour = "190221999";
@@ -42,8 +44,10 @@ public class SIH {
 //      bd.getData2();
 //      Connexion cx = new Connexion();
 //      cx.seConnecter("HYVES","YHEGEY");
-        SecretaireAdministrative sm = new SecretaireAdministrative("MAURIOL", "Marine","087567"," ","pomme",Specialite.ACCUEIL,Service.ACCUEIL);
-        System.out.println(sm.creationLogin("poitevin", "margaux"));
+Archivage archivage = new Archivage();
+        System.out.println(archivage.afficherListePatientMort());
+//        SecretaireAdministrative sm = new SecretaireAdministrative("MAURIOL", "Marine","087567"," ","pomme",Specialite.ACCUEIL,Service.ACCUEIL);
+//        System.out.println(sm.creationLogin("poitevin", "margaux"));
 //        Date d1 = new Date((1997-1900),(8-1),11);
 //        sm.ajouterNouveauPatient("1212122","HELLE","margaux",Sexe.FEMME,d1,"2 impasse","060504");
 //    Patient p = new Patient("21","Longchamp","Juliette",Sexe.FEMME,new Date(15,01,1996),"78 boulevard","46000");

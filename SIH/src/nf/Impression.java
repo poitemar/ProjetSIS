@@ -35,9 +35,21 @@ public class Impression implements Printable {
     private PrinterJob printJob;
     private List taillePage;
     private String documentTitre;
+
+    /**
+     *
+     */
     public static final int PORTRAIT = 1;
+
+    /**
+     *
+     */
     public static final int LANDSCAPE = 0;
 
+    /**
+     *
+     * @param ta
+     */
     public Impression(JTextArea ta) {
 
         documentTitre = "";
@@ -45,6 +57,9 @@ public class Impression implements Printable {
         initPrintablePanel();
     }
 
+    /**
+     *
+     */
     public void initPrintablePanel() {
 
         zoneAImprimer = false;
@@ -57,24 +72,48 @@ public class Impression implements Printable {
 
     /*Permet d'orienter la page a imprimer
      * @param orientation prend un int */
+
+    /**
+     *
+     * @param orientation
+     */
+
     public void setOrientation(int orientation) {
         pageFormat.setOrientation(orientation);
     }
 
+    /**
+     *
+     * @param status
+     */
     public void setPrintZoneVisible(boolean status) {
         zoneAImprimer = status;
     }
 
+    /**
+     *
+     * @param status
+     */
     public void setWrapComponent(boolean status) {
         wrapComponent = status;
     }
 
+    /**
+     *
+     * @param status
+     */
     public void setFitIntoPage(boolean status) {
         fitIntoPage = status;
     }
 
     /*Permet d'obtenir la largeur de la page
      * @return un int, la largeur */
+
+    /**
+     *
+     * @return
+     */
+
     public int getPageWidth() {
         return (int) pageFormat.getImageableWidth();
     }
@@ -87,6 +126,12 @@ public class Impression implements Printable {
 
     /*Permet d'obtenir la taille de la marge gauche
      * @return un double, la taille */
+
+    /**
+     *
+     * @return
+     */
+
     public double getMarginLeft() {
         return pageFormat.getImageableX();
     }
@@ -101,6 +146,12 @@ public class Impression implements Printable {
 
     /*Permet de definir la taille des marges du document, en haut et en bas
      * @param margin prend un int, la taille des marges */
+
+    /**
+     *
+     * @param margin
+     */
+
     public void setTBMargins(int margin) {
         Paper paper = pageFormat.getPaper();
         paper.setImageableArea(paper.getImageableX(), paper.getImageableY() - (double) (margin / 2), paper.getImageableWidth(), paper.getImageableHeight() + (double) (margin / 2));
@@ -114,6 +165,7 @@ public class Impression implements Printable {
     }
 
     /** Methode permettant d'imprimer
+     * @param graph
      * @param g prend des Graphics
      * @param pf prend un PageFormat
      * @param pageIndex prend un int
@@ -173,6 +225,7 @@ public class Impression implements Printable {
 
     /**
      * Methode lancant l'impression
+     * @return 
      */
     public boolean print() {
 

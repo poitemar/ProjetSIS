@@ -152,13 +152,14 @@ public class ModifierLocalisation extends javax.swing.JFrame {
                                 .addContainerGap()
                                 .addComponent(jButton2)
                                 .addGap(18, 18, 18)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jComboBox1, 0, 131, Short.MAX_VALUE)
+                            .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -166,9 +167,6 @@ public class ModifierLocalisation extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(183, 183, 183))
         );
-
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jComboBox1, jComboBox2, jComboBox3, jTextField1, jTextField2});
-
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -199,7 +197,7 @@ public class ModifierLocalisation extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addGap(55, 55, 55))
         );
@@ -222,6 +220,12 @@ public class ModifierLocalisation extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         System.out.println("TEST LOCALISATIONNNNNNNNNNNNNNN");
+        
+        if(jComboBox2.getSelectedItem().equals("Sélectionner")|| jTextField1.getText().equals("")||jTextField2.getText().equals("")){
+         JOptionPane.showMessageDialog(this, "Veuillez renseigner tous les champs", "ATTENTION", JOptionPane.ERROR_MESSAGE);
+        
+    }
+        else{
         Localisation loc = new Localisation ((Specialite) jComboBox1.getSelectedItem(), (Orientation) jComboBox2.getSelectedItem(), Integer.parseInt(jTextField1.getText()), Integer.parseInt(jTextField2.getText()), (Lit) jComboBox3.getSelectedItem());
         
         nf.Sejour sejour =  new nf.Sejour("","","",loc);
@@ -232,7 +236,7 @@ public class ModifierLocalisation extends javax.swing.JFrame {
      
         
           JOptionPane.showMessageDialog(this, "Le patient a bien été déplacé", "", JOptionPane.INFORMATION_MESSAGE);
-        this.dispose();}
+        this.dispose();}}
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -269,8 +273,8 @@ public class ModifierLocalisation extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Patient patient = new Patient("null", "null"); 
-//                new ModifierLocalisation(patient).setVisible(true);
+//                Patient patient = new Patient("null", "null"); 
+               // new ModifierLocalisation(patient.getipp()).setVisible(true);
             }
         });
     }

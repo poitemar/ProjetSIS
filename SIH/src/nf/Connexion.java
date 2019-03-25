@@ -46,6 +46,7 @@ public class Connexion {
      *
      * @param idLogin
      * @param passwordLogin
+     * @param rep
      * @return
      */
     public String seConnecter(String idLogin, String passwordLogin,Boolean rep) {
@@ -130,7 +131,7 @@ public class Connexion {
          
         
         
-        return "";
+        return "ERREUR";
         
     }
 
@@ -258,7 +259,13 @@ public class Connexion {
 
     }
     
-     public String choixPatient(String login, String mdp) {
+    /**
+     *
+     * @param login
+     * @param mdp
+     * @return
+     */
+    public String choixPatient(String login, String mdp) {
         /** on prend en entrée le login et le mdp du patient pour le comparer à ceux dans la table "personnel_medical"
            dans la base de données, et on renvoie l'id associé au login et au mdp */
         List<String> listLogin = new ArrayList<String>();

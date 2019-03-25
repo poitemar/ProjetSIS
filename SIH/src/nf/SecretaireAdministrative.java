@@ -64,6 +64,7 @@ public class SecretaireAdministrative extends PersonnelMedical {
      * @param prenomCONF
      * @param adresseCONF
      * @param telCONF
+     * @return 
      */
     public String ajouterNouveauPatient(String ipp, String nom, String prenom, Sexe sexe, String dateDeNaissance, String adresse, String telephone, String nomCONF, String prenomCONF, String adresseCONF, String telCONF) {
         /* On ajoute un nouveau patient avec un ipp, un nom, un prénom, un sexe, une date de naissance, une adresse, un numéro de téléphone, le nom de la personne de confiance, son prénom, son adresse et son numéro de téléphone dans la bd **/
@@ -106,6 +107,16 @@ public class SecretaireAdministrative extends PersonnelMedical {
         return ""+login+" "+mdp;
     }
 
+    /**
+     *
+     * @param type
+     * @param nom
+     * @param prenom
+     * @param service
+     * @param login
+     * @param mdp
+     * @param spe
+     */
     public void ajouterPersonnel(String type, String nom, String prenom, Service service, String login, String mdp, Specialite spe) {
         String sql = "insert into personnel_medical(ID_P,TYPE_P,NOM,PRENOM,SERVICE,LOGIN,MDP,SPE) values (?,?,?,?,?,?,?,?)";
         // String id = creationID_pour_ajout_personnel();
@@ -181,6 +192,12 @@ public class SecretaireAdministrative extends PersonnelMedical {
     }
 
     //genere un mot de passe aléatoire
+
+    /**
+     *
+     * @param length
+     * @return
+     */
     public String generateMdp(int length) {
       		String chars = "abcdefgijklmopqrstuvwxyz1234567890ABCDEFGHIJKLMOPQRSTUVWXYZ";
 		StringBuilder pass = new StringBuilder(length);
@@ -242,6 +259,12 @@ public class SecretaireAdministrative extends PersonnelMedical {
 
     }
 
+    /**
+     *
+     * @param nom
+     * @param prenom
+     * @return
+     */
     public String creationLogin(String nom, String prenom) {
 
         String newNom = nom.substring(0, 4);
@@ -259,6 +282,11 @@ public class SecretaireAdministrative extends PersonnelMedical {
         //System.out.println(IPP);
         return ID;
     }
+
+    /**
+     *
+     * @return
+     */
     public String creationID() {
         String ID="";
         int num1 = (int) Math.round(Math.random() * 10);
