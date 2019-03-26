@@ -23,27 +23,32 @@ import nf.Specialite;
  * @author racam
  */
 public class AssignerPatient extends javax.swing.JFrame {
+
     private Connection con;
     private Statement st;
     nf.SecretaireMedicale secretaireMedicaleCourante = new nf.SecretaireMedicale("null", "null", "null", "null", "null", Specialite.ONCOLOGIE, Service.CLINIQUE);
-    nf.Patient patient ;
- String idSejour ="";
-    nf.Localisation ancienneLoc= new nf.Localisation(Specialite.ACCUEIL,Orientation.CENTRE,3,3,Lit.FENETRE);
+    nf.Patient patient;
+    String idSejour = "";
+    nf.Localisation ancienneLoc = new nf.Localisation(Specialite.ACCUEIL, Orientation.CENTRE, 3, 3, Lit.FENETRE);
+
     /**
      * Creates new form NewJFrame
+     *
      * @param ipp
      */
     public AssignerPatient(String ipp) {
-      
         initComponents();
-         this.setSize(700, 600);
+        this.setSize(1000, 900);
+        this.setResizable(false);
+        AssignerPatient.setDefaultLookAndFeelDecorated(true);
+        setDefaultCloseOperation(AssignerPatient.DISPOSE_ON_CLOSE);
+
         this.patient = secretaireMedicaleCourante.recuperationPatient(ipp);
-         this.idSejour = secretaireMedicaleCourante.idSejourPatientSelection(ipp);
-        
-         String[] loc = patient.getLocalisation(ipp,idSejour).split("\\s");
-        this.ancienneLoc = new nf.Localisation(Specialite.valueOf(loc[0]),Orientation.valueOf(loc[1]),Integer.parseInt(loc[2]),Integer.parseInt(loc[3]),Lit.valueOf(loc[4]));
-       
-        
+        this.idSejour = secretaireMedicaleCourante.idSejourPatientSelection(ipp);
+
+        String[] loc = patient.getLocalisation(ipp, idSejour).split("\\s");
+        this.ancienneLoc = new nf.Localisation(Specialite.valueOf(loc[0]), Orientation.valueOf(loc[1]), Integer.parseInt(loc[2]), Integer.parseInt(loc[3]), Lit.valueOf(loc[4]));
+
     }
 
     /**
@@ -61,7 +66,7 @@ public class AssignerPatient extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         tel1 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        service = new javax.swing.JComboBox<String>();
+        service = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
@@ -72,23 +77,24 @@ public class AssignerPatient extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         tel2 = new javax.swing.JTextField();
-        orientation = new javax.swing.JComboBox<String>();
+        orientation = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
         etage = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         chambre = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        lit = new javax.swing.JComboBox<String>();
+        lit = new javax.swing.JComboBox<>();
         jLabel14 = new javax.swing.JLabel();
         adresse1 = new javax.swing.JTextArea();
         adresseConf = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(900, 800));
+        setPreferredSize(new java.awt.Dimension(1000, 900));
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setPreferredSize(new java.awt.Dimension(900, 800));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1000, 900));
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 28)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 153, 153));
@@ -190,12 +196,40 @@ public class AssignerPatient extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(259, 259, 259))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(75, Short.MAX_VALUE)
+                .addContainerGap(175, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(18, 18, 18)
+                                .addComponent(tel1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel11)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(etage, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel12))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addGap(38, 38, 38)
+                                        .addComponent(service, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel10)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(chambre, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(82, 82, 82)
+                                        .addComponent(jLabel13)))
+                                .addGap(23, 23, 23)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lit, 0, 132, Short.MAX_VALUE)
+                                    .addComponent(orientation, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                     .addComponent(jLabel14)
@@ -213,45 +247,18 @@ public class AssignerPatient extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(tel2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jLabel9))))
-                            .addComponent(jLabel3)
-                            .addComponent(adresse1, javax.swing.GroupLayout.PREFERRED_SIZE, 680, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(18, 18, 18)
-                                .addComponent(tel1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel11)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(etage, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(121, 121, 121)
-                                    .addComponent(jLabel12)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(chambre, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel13)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(lit, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel5)
-                                    .addGap(38, 38, 38)
-                                    .addComponent(service, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(128, 128, 128)
-                                    .addComponent(jLabel10)
-                                    .addGap(23, 23, 23)
-                                    .addComponent(orientation, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(145, 145, 145))))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(260, 260, 260)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                                .addGap(138, 138, 138)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(32, 32, 32)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(197, 197, 197))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(adresse1, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {nomC, prenomC, tel2});
-
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {orientation, service});
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jButton2});
 
@@ -298,11 +305,11 @@ public class AssignerPatient extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
                     .addComponent(adresseConf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(41, 41, 41)
+                .addGap(43, 43, 43)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
+                .addGap(178, 178, 178)
                 .addComponent(jLabel6))
         );
 
@@ -318,14 +325,14 @@ public class AssignerPatient extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
 
@@ -334,19 +341,19 @@ public class AssignerPatient extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-       Localisation loc = new Localisation ((Specialite) service.getSelectedItem(), (Orientation) orientation.getSelectedItem(), Integer.parseInt(etage.getText()), Integer.parseInt(chambre.getText()), (Lit) lit.getSelectedItem());
-        
-        nf.Sejour sejour =  new nf.Sejour("","","",loc);
-        if(sejour.sejourEnCours(idSejour)){
-        secretaireMedicaleCourante.enregistrerLocalisation(idSejour, this.ancienneLoc);
-        secretaireMedicaleCourante.modifierLocalisation(idSejour,loc);
-        patient.setLocalisation(loc);
-        secretaireMedicaleCourante.modifierPatient(patient.getIpp(), patient.getNom(), patient.getPrenom(), (nf.Sexe) patient.getSexe(), patient.getDateDeNaissance(), adresse1.getText(), tel2.getText(),nomC.getText(),prenomC.getText(),adresseConf.getText(),tel2.getText());
-         
-        
-        JOptionPane.showMessageDialog(this, "Le patient a bien été assigné à un autre service", "", JOptionPane.INFORMATION_MESSAGE);
-        this.dispose();}
-        
+        Localisation loc = new Localisation((Specialite) service.getSelectedItem(), (Orientation) orientation.getSelectedItem(), Integer.parseInt(etage.getText()), Integer.parseInt(chambre.getText()), (Lit) lit.getSelectedItem());
+
+        nf.Sejour sejour = new nf.Sejour("", "", "", loc);
+        if (sejour.sejourEnCours(idSejour)) {
+            secretaireMedicaleCourante.enregistrerLocalisation(idSejour, this.ancienneLoc);
+            secretaireMedicaleCourante.modifierLocalisation(idSejour, loc);
+            patient.setLocalisation(loc);
+            secretaireMedicaleCourante.modifierPatient(patient.getIpp(), patient.getNom(), patient.getPrenom(), (nf.Sexe) patient.getSexe(), patient.getDateDeNaissance(), adresse1.getText(), tel2.getText(), nomC.getText(), prenomC.getText(), adresseConf.getText(), tel2.getText());
+
+            JOptionPane.showMessageDialog(this, "Le patient a bien été assigné à un autre service", "", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+        }
+
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -385,7 +392,7 @@ public class AssignerPatient extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-            //    new AssignerPatient().setVisible(true);
+                //    new AssignerPatient().setVisible(true);
             }
         });
     }

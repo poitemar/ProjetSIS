@@ -165,9 +165,8 @@ public class Impression implements Printable {
     }
 
     /** Methode permettant d'imprimer
-     * @param graph
-     * @param g prend des Graphics
-     * @param pf prend un PageFormat
+     * @param graph prend des Graphics
+     * @param pageFormat prend un PageFormat
      * @param pageIndex prend un int
      * @return un int, 0
      * @throws PrinterException ?? */

@@ -43,7 +43,11 @@ public class Patient extends javax.swing.JFrame {
      */
     public Patient(nf.Patient p) {
         initComponents();
-        setSize(900, 800);
+        this.pack();
+        Patient.setDefaultLookAndFeelDecorated(true);
+        this.setExtendedState(Patient.MAXIMIZED_BOTH);
+        setDefaultCloseOperation(Patient.DO_NOTHING_ON_CLOSE);
+        
         this.pat = p;
         initRenderer();
         buildTree();
